@@ -1,5 +1,6 @@
-package com.android.playground
+package app.playground
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.android.playground.databinding.ActivityMainBinding
+import app.playground.databinding.ActivityMainBinding
+import app.playground.deviantart.deviants.DeviantsSearchActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 
@@ -31,7 +33,16 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
+        val navView: NavigationView = binding.navView.apply {
+            menu.findItem(R.id.nav_deviants_search).isCheckable = false
+            menu.findItem(R.id.nav_deviants_search).setOnMenuItemClickListener {
+                Intent(this@MainActivity, DeviantsSearchActivity::class.java).also {
+                    startActivity(it)
+                }
+                true
+            }
+        }
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -41,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             ),
             drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

@@ -1,4 +1,4 @@
-package com.android.playground.ui.slideshow
+package app.playground.ui.slideshow
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

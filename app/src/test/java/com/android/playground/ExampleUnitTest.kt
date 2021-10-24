@@ -1,4 +1,4 @@
-package com.android.playground
+package app.playground
 
 import org.junit.Test
 

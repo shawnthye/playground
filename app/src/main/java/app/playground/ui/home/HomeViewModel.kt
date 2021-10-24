@@ -1,4 +1,4 @@
-package com.android.playground.ui.home
+package app.playground.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

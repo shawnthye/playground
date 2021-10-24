@@ -1,4 +1,4 @@
-package com.android.playground.buildsrc
+package app.playground.buildsrc
 
 object Versions {
     const val COMPOSE = "1.0.4"

@@ -1,4 +1,4 @@
-package com.android.playground.ui.gallery
+package app.playground.ui.gallery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
