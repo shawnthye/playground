@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import app.playground.databinding.ActivityDeviantsSearchBinding
+import app.playground.ui.imageUrl
 
 class DeviantsSearchActivity : AppCompatActivity() {
 

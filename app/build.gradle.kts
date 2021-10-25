@@ -2,7 +2,7 @@ import app.playground.buildsrc.Versions
 
 plugins {
     id("com.android.application")
-    // id("dagger.hilt.android.plugin")
+    id("dagger.hilt.android.plugin")
     // id("com.google.gms.google-services")
     id("kotlin-android")
     id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
@@ -36,6 +36,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
+        debug {
+            versionNameSuffix = "-debug"
+        }
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -57,6 +60,11 @@ android {
     }
 }
 
+
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
@@ -69,6 +77,10 @@ dependencies {
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+
+    // Dagger
+    implementation("com.google.dagger:hilt-android:${Versions.HILT}")
+    kapt("com.google.dagger:hilt-android-compiler:${Versions.HILT}")
 
     // Jetpack compose
     implementation("androidx.compose.ui:ui:${Versions.COMPOSE}")
@@ -95,6 +107,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // Image loading
+    implementation("io.coil-kt:coil:1.4.0")
 
 
     testImplementation("junit:junit:4.13.2")
