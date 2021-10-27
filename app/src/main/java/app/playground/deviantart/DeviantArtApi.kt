@@ -14,10 +14,11 @@ import retrofit2.http.Query
 
 var token: String? = null
 val okhttp = OkHttpClient().newBuilder()
-    .addNetworkInterceptor(HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    })
-    .build()
+    .addNetworkInterceptor(
+        HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+    ).build()
 val gson = Gson()
 
 data class TokenResult(val access_token: String, val token_type: String, val expires_in: Int)
@@ -34,7 +35,7 @@ interface DeviantArtApi {
         fun get(): DeviantArtApi {
 
             val authenticator = Interceptor { chain ->
-                
+
                 if (token == null) {
                     val form = FormBody.Builder()
                         .add("grant_type", "client_credentials")
