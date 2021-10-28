@@ -21,6 +21,7 @@ buildscript {
 
 plugins {
     id("com.diffplug.spotless") version "5.17.0"
+    // id("com.osacky.doctor") version "0.7.3" // enable to check performance
 }
 
 subprojects {
@@ -32,7 +33,18 @@ subprojects {
             targetExclude("$buildDir/**/*.kt")
             targetExclude("bin/**/*.kt")
 
-            ktlint("0.42.1")
+            ktlint("0.42.1").userData(
+                mapOf(
+                    "charset" to "utf-8",
+                    "end_of_line" to "lf",
+                    "indent_size" to "4",
+                    "indent_style" to "space",
+                    "insert_final_newline" to "true",
+                    "max_line_length" to "100",
+                    "ij_kotlin_allow_trailing_comma" to "true",
+                    "ij_kotlin_allow_trailing_comma_on_call_site" to "true",
+                ),
+            )
         }
     }
 

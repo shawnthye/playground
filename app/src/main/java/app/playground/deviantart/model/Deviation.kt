@@ -11,6 +11,8 @@ data class DeviationImage(
     val src: String,
     val height: Int,
     val width: Int,
+    val width1: Int,
+    val width2: Int,
 )
 
 data class DeviationResult(

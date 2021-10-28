@@ -15,6 +15,7 @@ tab_width = 4
 # kotlin specific EditorConfig properties https://github.com/pinterest/ktlint#custom-ktlint-specific-editorconfig-properties
 [*.{kt,kts}]
 ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
 
 [*.md]
 trim_trailing_whitespace = false

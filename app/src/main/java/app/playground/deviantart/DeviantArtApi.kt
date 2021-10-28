@@ -17,7 +17,7 @@ val okhttp = OkHttpClient().newBuilder()
     .addNetworkInterceptor(
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }
+        },
     ).build()
 val gson = Gson()
 
@@ -40,11 +40,16 @@ interface DeviantArtApi {
                     val form = FormBody.Builder()
                         .add("grant_type", "client_credentials")
                         .add("client_id", "17390")
-                        .add("client_secret", "d88b3cc2995f26b4f5cc76da3166e465")
+                        .add(
+                            "client_secret",
+                            "d88b3cc2995f26b4f5cc76da3166e465",
+                        )
                         .build()
 
                     val tokenRequest = Request.Builder()
-                        .url("https://www.deviantart.com/oauth2/token")
+                        .url(
+                            "https://www.deviantart.com/oauth2/token",
+                        )
                         .post(form)
                         .build()
 
