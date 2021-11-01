@@ -1,7 +1,7 @@
-package app.playground
+package app.playground.module.deviant
 
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
+import org.hamcrest.MatcherAssert
+import org.hamcrest.Matchers
 import org.junit.Test
 
 /**
@@ -12,6 +12,6 @@ import org.junit.Test
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertThat(4, `is`(2 + 2))
+        MatcherAssert.assertThat(4, Matchers.`is`(2 + 2))
     }
 }

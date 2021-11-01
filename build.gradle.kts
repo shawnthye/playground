@@ -20,7 +20,7 @@ buildscript {
 }
 
 plugins {
-    id("com.diffplug.spotless") version "5.17.0"
+    id("com.diffplug.spotless") version "5.17.1"
     // id("com.osacky.doctor") version "0.7.3" // enable to check performance
 }
 
@@ -48,10 +48,41 @@ subprojects {
         }
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    pluginManager.withPlugin("com.android.application") {
+        configure<com.android.build.gradle.AppExtension> {
+            compileOptions {
+                isCoreLibraryDesugaringEnabled = true
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
+        }
+    }
+
+    pluginManager.withPlugin("com.android.library") {
+        configure<com.android.build.gradle.LibraryExtension> {
+            compileOptions {
+                isCoreLibraryDesugaringEnabled = true
+                sourceCompatibility = JavaVersion.VERSION_1_8
+                targetCompatibility = JavaVersion.VERSION_1_8
+            }
+        }
+    }
+
+    pluginManager.withPlugin("kotlin-kapt") {
+        configure<org.jetbrains.kotlin.gradle.plugin.KaptExtension> {
+            correctErrorTypes = true
+            useBuildCache = true
+        }
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             // Treat all Kotlin warnings as errors
             allWarningsAsErrors = true
+
+            freeCompilerArgs = (
+                freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+                )
 
             jvmTarget = "1.8"
         }

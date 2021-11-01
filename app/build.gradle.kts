@@ -12,7 +12,6 @@ plugins {
 }
 
 android {
-
     compileSdk = 31
 
     defaultConfig {
@@ -33,46 +32,60 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro",
             )
         }
         debug {
             versionNameSuffix = "-debug"
         }
     }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+
+    lint {
+        // Disable lintVital. Not needed since lint is run on CI
+        isCheckReleaseBuilds = false
+        // Ignore any tests
+        isIgnoreTestSources = true
+        // Make the build fail on any lint errors
+        isAbortOnError = true
+        // Allow lint to check dependencies
+        isCheckDependencies = true
     }
+
     buildFeatures {
         compose = true
         viewBinding = true
         dataBinding = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
+
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            // Exclude AndroidX version files
+            excludes += "META-INF/*.version"
+            // Exclude consumer proguard files
+            excludes += "META-INF/proguard/*"
+            // Exclude the Firebase/Fabric/other random properties files
+            excludes += "/*.properties"
+            excludes += "fabric/*.properties"
+            excludes += "META-INF/*.properties"
         }
     }
 }
 
-
-kapt {
-    correctErrorTypes = true
-}
-
 dependencies {
+    implementation(project(":app-module-deviant"))
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLIN}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.KOTLIN}")
 
-    implementation("androidx.core:core-ktx:1.6.0")
+    implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
@@ -87,7 +100,7 @@ dependencies {
     implementation("androidx.compose.material:material:${Versions.COMPOSE}")
     implementation("androidx.compose.material:material:${Versions.COMPOSE}")
     implementation("androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}")
-    implementation("androidx.activity:activity-compose:1.3.1")
+    implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     debugImplementation("androidx.compose.ui:ui-tooling:${Versions.COMPOSE}")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}")
@@ -113,6 +126,8 @@ dependencies {
 
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.hamcrest:hamcrest-library:+")
+    testImplementation("io.mockk:mockk:+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
