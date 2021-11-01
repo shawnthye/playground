@@ -1,1 +1,0 @@
-package app.playground.domain

@@ -4,6 +4,6 @@ plugins {
 }
 
 dependencies {
-    // no usage just for KotlinCompile
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.KOTLIN}")
+    implementation("com.google.dagger:dagger:${app.playground.buildsrc.Versions.HILT}")
 }

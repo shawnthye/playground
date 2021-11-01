@@ -1,5 +1,5 @@
+import app.playground.buildsrc.ApplicationOptions
 import app.playground.buildsrc.Versions
-import com.android.playground.buildsrc.ApplicationOptions
 
 plugins {
     id("com.android.application")
@@ -7,6 +7,7 @@ plugins {
     // id("com.google.gms.google-services")
     id("kotlin-android")
     id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
+    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
 
     // id("androidx.navigation.safeargs.kotlin")
     // id("com.google.firebase.crashlytics")
@@ -26,6 +27,15 @@ android {
 
         vectorDrawables {
             useSupportLibrary = true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true",
+                )
+            }
         }
     }
 
@@ -80,7 +90,11 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
+    implementation(project(":app-entities"))
     implementation(project(":app-module-deviant"))
+
+    @Suppress("SpellCheckingInspection")
+    implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLIN}")
@@ -93,8 +107,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
 
     // Dagger
+    implementation("com.google.dagger:dagger:${Versions.HILT}")
     implementation("com.google.dagger:hilt-android:${Versions.HILT}")
     kapt("com.google.dagger:hilt-android-compiler:${Versions.HILT}")
+
+    ksp("androidx.room:room-compiler:2.3.0")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.3.0")
 
     // Jetpack compose
     implementation("androidx.compose.ui:ui:${Versions.COMPOSE}")

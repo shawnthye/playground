@@ -75,6 +75,13 @@ subprojects {
         }
     }
 
+    pluginManager.withPlugin("kotlin") {
+        configure<JavaPluginExtension> {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+    }
+
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             // Treat all Kotlin warnings as errors

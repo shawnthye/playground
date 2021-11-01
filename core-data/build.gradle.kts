@@ -4,6 +4,6 @@ plugins {
 }
 
 dependencies {
-    // no usage just for KotlinCompile
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.KOTLIN}")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 }

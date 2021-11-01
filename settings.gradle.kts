@@ -10,8 +10,18 @@ dependencyResolutionManagement {
     }
 }
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+
 include(":app")
+include(":app-entities")
 include(":app-module-deviant")
-include(":app-domain")
+include(":core")
+include(":core-data")
 include(":core-domain")
+include(":core-ui")
 include(":model")

@@ -1,1 +1,0 @@
-package core.playground.domain
