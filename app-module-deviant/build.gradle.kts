@@ -37,10 +37,12 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    implementation(project(":core"))
-    implementation(project(":core-data"))
-    implementation(project(":core-domain"))
-    implementation(project(":core-ui"))
+    implementation(project(mapOf("path" to ":deviantart-api")))
+
+    implementation(project(mapOf("path" to ":core")))
+    implementation(project(mapOf("path" to ":core-data")))
+    implementation(project(mapOf("path" to ":core-domain")))
+    implementation(project(mapOf("path" to ":core-ui")))
 
     implementation(project(":app-entities"))
 

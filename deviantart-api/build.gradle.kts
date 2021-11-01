@@ -4,7 +4,8 @@ plugins {
 }
 
 dependencies {
-    // no usage just for KotlinCompile
+    implementation(project(mapOf("path" to ":deviantart-api-model")))
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.KOTLIN}")
-    implementation("javax.inject:inject:javax.inject:1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 }

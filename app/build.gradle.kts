@@ -91,7 +91,8 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     implementation(project(":app-entities"))
-    implementation(project(":app-module-deviant"))
+    implementation(project(mapOf("path" to ":app-entities")))
+    implementation(project(mapOf("path" to ":app-module-deviant")))
 
     @Suppress("SpellCheckingInspection")
     implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")

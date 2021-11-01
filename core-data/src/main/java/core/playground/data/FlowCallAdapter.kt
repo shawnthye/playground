@@ -41,12 +41,12 @@ class FlowCallAdapter<R>(private val responseType: Type) :
             emit(suspendCancellableCoroutine { continuation ->
                 call.enqueue(object : Callback<R> {
                     override fun onResponse(call: Call<R>, response: Response<R>) {
-                        continuation.resumeWith(kotlin.Result.success(ApiResponse.create(
+                        continuation.resumeWith(Result.success(ApiResponse.create(
                             response)))
                     }
 
                     override fun onFailure(call: Call<R>, throwable: Throwable) {
-                        continuation.resumeWith(kotlin.Result.success(ApiResponse.create(throwable)))
+                        continuation.resumeWith(Result.success(ApiResponse.create(throwable)))
                         // cancellableContinuation.resume(ApiResponse.create(throwable))
                     }
                 })

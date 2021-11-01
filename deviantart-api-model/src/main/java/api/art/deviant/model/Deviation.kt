@@ -1,4 +1,4 @@
-package app.playground.model
+package api.art.deviant.model
 
 data class Deviation(
     val id: String,

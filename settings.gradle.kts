@@ -20,6 +20,8 @@ pluginManagement {
 include(":app")
 include(":app-entities")
 include(":app-module-deviant")
+include(":deviantart-api")
+include(":deviantart-api-model")
 include(":core")
 include(":core-data")
 include(":core-domain")
