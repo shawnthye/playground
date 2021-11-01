@@ -1,4 +1,5 @@
 import app.playground.buildsrc.Versions
+import com.android.playground.buildsrc.ApplicationOptions
 
 plugins {
     id("com.android.application")
@@ -12,12 +13,12 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = ApplicationOptions.COMPILE_SDK
 
     defaultConfig {
         applicationId = "app.playground"
-        minSdk = 21
-        targetSdk = 31
+        minSdk = ApplicationOptions.MIN_SDK
+        targetSdk = ApplicationOptions.COMPILE_SDK
         versionCode = 1
         versionName = "1.0"
 
@@ -77,9 +78,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":app-module-deviant"))
-
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+
+    implementation(project(":app-module-deviant"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KOTLIN}")
@@ -126,8 +127,8 @@ dependencies {
 
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.hamcrest:hamcrest-library:+")
-    testImplementation("io.mockk:mockk:+")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    testImplementation("io.mockk:mockk:1.12.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
