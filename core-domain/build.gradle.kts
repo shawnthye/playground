@@ -35,6 +35,5 @@ dependencies {
     implementation(project(":core-data"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
-    implementation("com.google.dagger:dagger:${Versions.HILT}")
     implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
 }
