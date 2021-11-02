@@ -16,7 +16,6 @@
 
 package core.playground.data
 
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -38,23 +37,30 @@ class FlowCallAdapter<R>(private val responseType: Type) :
     override fun adapt(call: Call<R>): Flow<ApiResponse<R>> {
 
         return flow {
-            emit(suspendCancellableCoroutine { continuation ->
-                call.enqueue(object : Callback<R> {
-                    override fun onResponse(call: Call<R>, response: Response<R>) {
-                        continuation.resumeWith(Result.success(ApiResponse.create(
-                            response)))
-                    }
+            emit(
+                suspendCancellableCoroutine { continuation ->
+                    call.enqueue(object : Callback<R> {
+                        override fun onResponse(call: Call<R>, response: Response<R>) {
+                            continuation.resumeWith(
+                                Result.success(
+                                    ApiResponse.create(
+                                        response
+                                    )
+                                )
+                            )
+                        }
 
-                    override fun onFailure(call: Call<R>, throwable: Throwable) {
-                        continuation.resumeWith(Result.success(ApiResponse.create(throwable)))
-                        // cancellableContinuation.resume(ApiResponse.create(throwable))
-                    }
-                })
+                        override fun onFailure(call: Call<R>, throwable: Throwable) {
+                            continuation.resumeWith(Result.success(ApiResponse.create(throwable)))
+                            // cancellableContinuation.resume(ApiResponse.create(throwable))
+                        }
+                    })
 
-                continuation.invokeOnCancellation {
-                    call.cancel()
+                    continuation.invokeOnCancellation {
+                        call.cancel()
+                    }
                 }
-            })
+            )
         }
 
         // return object : LiveData<ApiResponse<R>>() {

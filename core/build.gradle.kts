@@ -8,3 +8,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.KOTLIN}")
     implementation("javax.inject:javax.inject:1")
 }
+
+kotlin{
+
+}

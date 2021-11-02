@@ -4,13 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.entities.Deviation
-
 import app.playground.module.deviant.domain.GetDeviantUseCase
 import core.playground.domain.Result
 import core.playground.domain.data
-
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -21,12 +20,11 @@ import javax.inject.Inject
 class DeviationViewModel @Inject constructor(
     getDeviantUseCase: GetDeviantUseCase,
     savedStateHandle: SavedStateHandle,
-) : ViewModel(
-) {
+) : ViewModel() {
 
-    private val deviantId = savedStateHandle.get<String>("id")
+    private val deviantId: String = savedStateHandle.get<String>("id")!!
 
-    private val deviantResult: Flow<Result<Deviation>> = getDeviantUseCase(deviantId!!)
+    private val deviantResult: Flow<Result<Deviation>> = getDeviantUseCase(deviantId)
 
     // val deviant = deviantResult.flatMapLatest {
     //     flow {

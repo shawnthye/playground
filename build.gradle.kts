@@ -49,11 +49,25 @@ subprojects {
     }
 
     pluginManager.withPlugin("com.android.application") {
-        configure<com.android.build.gradle.AppExtension> {
+        configure<com.android.build.gradle.internal.dsl.BaseAppModuleExtension> {
             compileOptions {
                 isCoreLibraryDesugaringEnabled = true
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
+            }
+
+            lint {
+                // Disable lintVital. Not needed since lint is run on CI
+                isCheckReleaseBuilds = false
+                // Ignore any tests
+                isIgnoreTestSources = false
+                // Make the build fail on any lint errors
+                isAbortOnError = true
+                // Allow lint to check dependencies
+                isCheckDependencies = true
+                // We don't want any warning
+                isWarningsAsErrors = true
+                xmlReport = false
             }
         }
     }
@@ -64,6 +78,20 @@ subprojects {
                 isCoreLibraryDesugaringEnabled = true
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
+            }
+
+            lint {
+                // Disable lintVital. Not needed since lint is run on CI
+                isCheckReleaseBuilds = false
+                // Ignore any tests
+                isIgnoreTestSources = false
+                // Make the build fail on any lint errors
+                isAbortOnError = true
+                // Allow lint to check dependencies
+                isCheckDependencies = true
+                // We don't want any warning
+                isWarningsAsErrors = true
+                xmlReport = false
             }
         }
     }

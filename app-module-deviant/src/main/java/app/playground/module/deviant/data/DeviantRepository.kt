@@ -8,5 +8,4 @@ import javax.inject.Singleton
 class DeviantRepository @Inject constructor(
     val deviantArt: DeviantArt,
     val deviationDao: DeviationDao,
-) {
-}
+)

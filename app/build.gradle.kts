@@ -8,6 +8,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
     id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+    // id("idea")
 
     // id("androidx.navigation.safeargs.kotlin")
     // id("com.google.firebase.crashlytics")
@@ -60,6 +61,10 @@ android {
         isAbortOnError = true
         // Allow lint to check dependencies
         isCheckDependencies = true
+        // We don't want any warning
+        isWarningsAsErrors = true
+        // we doesn't want xml
+        xmlReport = false
     }
 
     buildFeatures {
@@ -104,8 +109,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
 
     // Dagger
     implementation("com.google.dagger:dagger:${Versions.HILT}")

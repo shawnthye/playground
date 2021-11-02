@@ -27,8 +27,8 @@ sealed class ApiResponse<T> {
                 } else {
                     msg
                 }
-                ///TODO: better error handling
-                ApiErrorResponse(Exception(errorMsg ?: "unknown error"))
+                // /TODO: better error handling
+                ApiErrorResponse(Exception(errorMsg))
             }
         }
     }

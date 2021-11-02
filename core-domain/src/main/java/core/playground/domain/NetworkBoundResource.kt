@@ -40,7 +40,6 @@ inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBou
         }
     }
 
-
     return flow {
         emit(Result.Empty)
         // emit(Result.Loading(null))
