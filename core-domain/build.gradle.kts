@@ -32,6 +32,6 @@ dependencies {
 
     implementation(project(":core-data"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
     implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
 }

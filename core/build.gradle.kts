@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     // no usage just for KotlinCompile
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.KOTLIN}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.COROUTINES}")
     implementation("javax.inject:javax.inject:1")
 }
 
