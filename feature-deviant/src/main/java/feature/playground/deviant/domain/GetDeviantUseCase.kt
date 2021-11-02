@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetDeviantUseCase @Inject constructor(
-    @IoDispatcher coroutineDispatcher: CoroutineDispatcher) : FlowUseCase<String, Deviation>(coroutineDispatcher) {
+    @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
+) : FlowUseCase<String, Deviation>(coroutineDispatcher) {
+
     override fun execute(parameters: String): Flow<Result<Deviation>> = flow {
     }
 }
