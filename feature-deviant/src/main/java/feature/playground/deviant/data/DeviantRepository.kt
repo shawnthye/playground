@@ -1,4 +1,4 @@
-package app.playground.module.deviant.data
+package feature.playground.deviant.data
 
 import api.art.deviant.DeviantArt
 import javax.inject.Inject

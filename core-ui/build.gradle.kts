@@ -6,8 +6,6 @@ plugins {
 }
 
 android {
-    namespace = "core.playground.ui"
-
     compileSdk = ApplicationOptions.COMPILE_SDK
 
     defaultConfig {

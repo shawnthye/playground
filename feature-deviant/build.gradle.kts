@@ -8,8 +8,6 @@ plugins {
 }
 
 android {
-    namespace = "app.playground.module.deviant"
-
     compileSdk = ApplicationOptions.COMPILE_SDK
 
     defaultConfig {
@@ -69,10 +67,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.0")
 
-
-
-
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.hamcrest:hamcrest-library:2.2")
+    testImplementation("io.mockk:mockk:1.12.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }

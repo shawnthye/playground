@@ -103,6 +103,7 @@ subprojects {
         }
     }
 
+    // for pure java module
     pluginManager.withPlugin("kotlin") {
         configure<JavaPluginExtension> {
             sourceCompatibility = JavaVersion.VERSION_1_8

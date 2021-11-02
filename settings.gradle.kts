@@ -19,7 +19,7 @@ pluginManagement {
 
 include(":app")
 include(":app-entities")
-include(":app-module-deviant")
+include(":feature-deviant")
 include(":deviantart-api")
 include(":deviantart-api-model")
 include(":core")
@@ -27,3 +27,6 @@ include(":core-data")
 include(":core-domain")
 include(":core-ui")
 include(":model")
+
+// for testing purpose
+include(":gradle-android-library-configuration-assert")

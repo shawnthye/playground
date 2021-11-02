@@ -10,11 +10,11 @@
 
     <import type="core.playground.domain.Result" />
 
-    <import type="app.playground.module.deviant.ui.DeviationViewModel" />
+    <import type="feature.playground.deviant.ui.DeviationViewModel" />
 
     <variable
       name="viewModel"
-      type="app.playground.module.deviant.ui.DeviationViewModel"
+      type="feature.playground.deviant.ui.DeviationViewModel"
       />
   </data>
 

@@ -10,14 +10,28 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value=":app:cleanTest" />
-          <option value=":app:test" />
+          <option value="cleanTestDebugUnitTest" />
+          <option value="testDebugUnitTest" />
         </list>
       </option>
       <option name="vmOptions" value="" />
     </ExternalSystemSettings>
     <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="app.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="core.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="api.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
     <DebugAllEnabled>false</DebugAllEnabled>
     <method v="2" />
   </configuration>

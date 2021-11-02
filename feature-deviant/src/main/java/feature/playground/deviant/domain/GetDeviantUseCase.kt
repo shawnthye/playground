@@ -1,4 +1,4 @@
-package app.playground.module.deviant.domain
+package feature.playground.deviant.domain
 
 import app.playground.entities.Deviation
 import core.playground.IoDispatcher

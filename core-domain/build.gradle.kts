@@ -7,8 +7,6 @@ plugins {
 }
 
 android {
-    namespace = "core.playground.domain"
-
     compileSdk = ApplicationOptions.COMPILE_SDK
 
     defaultConfig {

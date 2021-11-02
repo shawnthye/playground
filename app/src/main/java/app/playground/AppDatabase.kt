@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import app.playground.entities.Deviation
 import app.playground.entities.PopularDeviation
-import app.playground.module.deviant.data.DeviationDao
+import feature.playground.deviant.data.DeviationDao
 
 @Database(
     version = 1,

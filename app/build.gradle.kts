@@ -97,7 +97,7 @@ dependencies {
 
     implementation(project(":app-entities"))
     implementation(project(mapOf("path" to ":app-entities")))
-    implementation(project(mapOf("path" to ":app-module-deviant")))
+    implementation(project(mapOf("path" to ":feature-deviant")))
 
     @Suppress("SpellCheckingInspection")
     implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
