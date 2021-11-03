@@ -3,9 +3,9 @@ plugins {
     id("com.android.lint")
 }
 
-dependencies {
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()
 
-    // no usage just for KotlinCompile
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.COROUTINES}")
+dependencies {
     implementation("androidx.room:room-common:2.3.0")
 }

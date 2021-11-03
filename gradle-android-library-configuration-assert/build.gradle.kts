@@ -14,6 +14,10 @@ android {
         minSdk = ApplicationOptions.MIN_SDK
         targetSdk = ApplicationOptions.COMPILE_SDK
     }
+
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = false
+    }
 }
 
 fun assert(name: String, actual: Any, expect: Any) {

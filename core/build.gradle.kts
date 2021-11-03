@@ -3,12 +3,10 @@ plugins {
     id("com.android.lint")
 }
 
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()
+
+
 dependencies {
-    // no usage just for KotlinCompile
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.COROUTINES}")
     implementation("javax.inject:javax.inject:1")
-}
-
-kotlin{
-
 }
