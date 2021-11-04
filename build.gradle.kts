@@ -1,3 +1,5 @@
+import app.playground.buildsrc.TestOptions
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     // keep below 1 line for reference only :)
@@ -121,6 +123,14 @@ subprojects {
                 )
 
             jvmTarget = "1.8"
+        }
+    }
+
+    tasks.withType<Test> {
+        maxParallelForks = if (TestOptions.HALF_AVAILABLE_PROCESSORS >= 1) {
+            TestOptions.HALF_AVAILABLE_PROCESSORS
+        } else {
+            1
         }
     }
 }
