@@ -1,5 +1,5 @@
 import app.playground.buildsrc.ApplicationOptions
-import app.playground.buildsrc.Versions
+import app.playground.buildsrc.Libs
 
 plugins {
     id("com.android.library")
@@ -34,43 +34,44 @@ android {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
-    // kapt("com.android.databinding:compiler:3.2.1")
-    implementation(project(mapOf("path" to ":deviantart-api")))
 
+    api(platform(project(":dep-constraints")))
+    kapt(platform(project(":dep-constraints")))
+    testImplementation(platform(project(":dep-constraints")))
+    androidTestImplementation(platform(project(":dep-constraints")))
+
+    implementation(project(mapOf("path" to ":app-entities")))
     implementation(project(mapOf("path" to ":core")))
     implementation(project(mapOf("path" to ":core-data")))
     implementation(project(mapOf("path" to ":core-domain")))
     implementation(project(mapOf("path" to ":core-ui")))
+    implementation(project(mapOf("path" to ":deviantart-api")))
 
-    implementation(project(":app-entities"))
-
-    implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.COROUTINES}")
-
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.activity:activity-ktx:1.4.0")
-    implementation("androidx.fragment:fragment-ktx:1.3.6")
-    implementation("com.google.android.material:material:1.4.0")
-
-    implementation("androidx.room:room-common:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
-
-    // Dagger
-    implementation("com.google.dagger:hilt-android:${Versions.HILT}")
-
-
-
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.0")
-
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
-    testImplementation("io.mockk:mockk:1.12.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    // implementation(Libs.timber)
+    //
+    // implementation(Libs.Dagger.hilt)
+    //
+    // implementation(Libs.Coroutines.core)
+    // implementation(Libs.Coroutines.android)
+    // implementation(Libs.Coroutines.play)
+    //
+    // implementation(Libs.AndroidX.core)
+    // implementation(Libs.AndroidX.appcompat)
+    // implementation(Libs.AndroidX.activity)
+    // implementation(Libs.AndroidX.fragment)
+    //
+    // implementation(Libs.AndroidX.Room.common)
+    // kapt(Libs.AndroidX.Room.compiler)
+    //
+    // implementation(Libs.AndroidX.Lifecycle.runtime)
+    // implementation(Libs.AndroidX.Lifecycle.viewModel)
+    // implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
+    //
+    // testImplementation(Libs.Test.junit)
+    // testImplementation(Libs.Test.hamcrest)
+    // testImplementation(Libs.Test.mockk)
+    //
+    // androidTestImplementation(Libs.AndroidX.Test.junit)
+    // androidTestImplementation(Libs.AndroidX.Test.core)
+    // androidTestImplementation(Libs.AndroidX.Test.espresso)
 }

@@ -1,4 +1,5 @@
 import app.playground.buildsrc.ApplicationOptions
+import app.playground.buildsrc.Libs
 import app.playground.buildsrc.Versions
 
 plugins {
@@ -80,65 +81,67 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
+    api(platform(project(":dep-constraints")))
+    kapt(platform(project(":dep-constraints")))
+    testImplementation(platform(project(":dep-constraints")))
+    androidTestImplementation(platform(project(":dep-constraints")))
+
     implementation(project(":app-entities"))
     implementation(project(mapOf("path" to ":app-entities")))
     implementation(project(mapOf("path" to ":feature-deviant")))
 
-    @Suppress("SpellCheckingInspection")
-    implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
+    implementation(Libs.timber)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.COROUTINES}")
+    implementation(Libs.Coroutines.core)
+    implementation(Libs.Coroutines.android)
+    implementation(Libs.Coroutines.play)
 
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation(Libs.AndroidX.core)
+    implementation(Libs.AndroidX.appcompat)
+    implementation(Libs.AndroidX.activity)
+    implementation(Libs.AndroidX.fragment)
+    implementation(Libs.AndroidX.constraintLayout)
+    implementation(Libs.AndroidX.activityCompose)
+    implementation(Libs.material)
 
-    // Dagger
-    implementation("com.google.dagger:dagger:${Versions.HILT}")
-    implementation("com.google.dagger:hilt-android:${Versions.HILT}")
-    kapt("com.google.dagger:hilt-android-compiler:${Versions.HILT}")
+    implementation(Libs.AndroidX.Lifecycle.runtime)
+    implementation(Libs.AndroidX.Lifecycle.viewModel)
 
-    kapt("androidx.room:room-compiler:2.3.0")
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.3.0")
+    implementation(Libs.Dagger.dagger)
+    implementation(Libs.Dagger.hilt)
+    kapt(Libs.Dagger.hiltCompiler)
 
-    // Jetpack compose
-    implementation("androidx.compose.ui:ui:${Versions.COMPOSE}")
-    implementation("androidx.compose.material:material:${Versions.COMPOSE}")
-    implementation("androidx.compose.material:material:${Versions.COMPOSE}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}")
-    implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
-    debugImplementation("androidx.compose.ui:ui-tooling:${Versions.COMPOSE}")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}")
+    implementation(Libs.AndroidX.Room.ktx)
+    kapt(Libs.AndroidX.Room.compiler)
 
-    // Jetpack navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+    implementation(Libs.AndroidX.Compose.ui)
+    implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.uiTooling)
+    implementation(Libs.AndroidX.Compose.uiToolingPreview)
+    implementation(Libs.AndroidX.Compose.uiTestJunit4)
 
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:28.4.2"))
-    implementation("com.google.firebase:firebase-config-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation(Libs.AndroidX.Navigation.fragment)
+    implementation(Libs.AndroidX.Navigation.ui)
 
-    // Network
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(platform(Libs.Firebase.bom))
+    implementation(Libs.Firebase.analytics)
+    implementation(Libs.Firebase.config)
 
-    // Image loading
-    implementation("io.coil-kt:coil:1.4.0")
+    implementation(platform(Libs.OkHttp3.bom))
+    implementation(Libs.OkHttp3.okhttp)
+    implementation(Libs.OkHttp3.logging)
+
+    implementation(Libs.Retrofit2.retrofit)
+    implementation(Libs.Retrofit2.retrofitConverterGson)
+
+    implementation(Libs.coil)
 
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.hamcrest:hamcrest-library:2.2")
-    testImplementation("io.mockk:mockk:1.12.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(Libs.Test.junit)
+    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.mockk)
+
+    androidTestImplementation(Libs.AndroidX.Test.junit)
+    androidTestImplementation(Libs.AndroidX.Test.core)
+    androidTestImplementation(Libs.AndroidX.Test.espresso)
 }

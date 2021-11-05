@@ -1,4 +1,6 @@
 import app.playground.buildsrc.ApplicationOptions
+import app.playground.buildsrc.DependencyUpdates
+import app.playground.buildsrc.ReleaseType
 import app.playground.buildsrc.TestOptions
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -25,7 +27,7 @@ buildscript {
 plugins {
     id("com.diffplug.spotless") version "5.17.1"
     id("com.github.ben-manes.versions") version "0.39.0"
-    // id("com.osacky.doctor") version "0.7.3" // enable to check performance
+    id("com.osacky.doctor") version "0.7.3" // enable to check performance
 }
 
 subprojects {
@@ -138,4 +140,18 @@ subprojects {
 }
 
 
-// tasks.named()
+tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
+    gradleReleaseChannel = "current"
+    // checkConstraints = true
+
+    rejectVersionIf {
+        val current = DependencyUpdates.versionToRelease(currentVersion)
+
+        // If we're using a NON RELEASE, ignore since we must be doing so for a reason.
+        if (current != ReleaseType.RELEASE) return@rejectVersionIf true
+
+        // Otherwise we reject if the candidate is more 'unstable' than our version
+        val candidate = DependencyUpdates.versionToRelease(candidate.version)
+        candidate.isLessStableThan(current)
+    }
+}

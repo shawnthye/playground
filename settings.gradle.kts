@@ -30,3 +30,6 @@ include(":model")
 
 // for testing purpose
 include(":gradle-android-library-configuration-assert")
+
+// dependency constraint
+include("dep-constraints")
