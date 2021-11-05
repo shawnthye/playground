@@ -1,5 +1,6 @@
 plugins {
     id("kotlin")
+    id("kotlin-kapt")
     id("com.android.lint")
 }
 
@@ -8,4 +9,5 @@ compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()
 
 dependencies {
     implementation("androidx.room:room-common:2.3.0")
+    kapt("androidx.room:room-compiler:2.3.0")
 }

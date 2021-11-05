@@ -1,3 +1,4 @@
+import app.playground.buildsrc.ApplicationOptions
 import app.playground.buildsrc.TestOptions
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -23,6 +24,7 @@ buildscript {
 
 plugins {
     id("com.diffplug.spotless") version "5.17.1"
+    id("com.github.ben-manes.versions") version "0.39.0"
     // id("com.osacky.doctor") version "0.7.3" // enable to check performance
 }
 
@@ -108,8 +110,8 @@ subprojects {
     // for pure java module
     pluginManager.withPlugin("kotlin") {
         configure<JavaPluginExtension> {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = ApplicationOptions.JAVA_VERSION
+            targetCompatibility = ApplicationOptions.JAVA_VERSION
         }
     }
 
@@ -122,7 +124,7 @@ subprojects {
                 freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
                 )
 
-            jvmTarget = "1.8"
+            jvmTarget = ApplicationOptions.JAVA_VERSION.toString()
         }
     }
 
@@ -134,3 +136,6 @@ subprojects {
         }
     }
 }
+
+
+// tasks.named()

@@ -7,7 +7,7 @@ plugins {
     // id("com.google.gms.google-services")
     id("kotlin-android")
     id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
-    id("com.google.devtools.ksp") version "1.5.31-1.0.0"
+    // id("com.google.devtools.ksp") version "1.5.31-1.0.0"
     // id("idea")
 
     // id("androidx.navigation.safeargs.kotlin")
@@ -50,21 +50,6 @@ android {
         debug {
             versionNameSuffix = "-debug"
         }
-    }
-
-    lint {
-        // Disable lintVital. Not needed since lint is run on CI
-        isCheckReleaseBuilds = false
-        // Ignore any tests
-        isIgnoreTestSources = true
-        // Make the build fail on any lint errors
-        isAbortOnError = true
-        // Allow lint to check dependencies
-        isCheckDependencies = true
-        // We don't want any warning
-        isWarningsAsErrors = true
-        // we doesn't want xml
-        xmlReport = false
     }
 
     buildFeatures {
@@ -117,7 +102,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:${Versions.HILT}")
     kapt("com.google.dagger:hilt-android-compiler:${Versions.HILT}")
 
-    ksp("androidx.room:room-compiler:2.3.0")
+    kapt("androidx.room:room-compiler:2.3.0")
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.3.0")
 
