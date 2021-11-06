@@ -8,7 +8,7 @@ compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()
 
 
 dependencies {
-    implementation(platform(project(":dep-constraints")))
+    api(platform(project(":dep-constraints")))
 
     implementation(Libs.Dagger.javaxInject)
 }

@@ -4,6 +4,7 @@ object Versions {
     const val ANDROID_TEST_CORE = "+"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
+    const val ANNOTATION = "1.2.0"
     const val APPCOMPAT = "1.3.1"
     const val COIL = "1.4.0"
     const val COMPOSE = "1.0.4"
@@ -43,7 +44,9 @@ object Libs {
     }
 
     object AndroidX {
-        const val activity = "androidx.activity:activity-ktx"
+        const val annotation = "androidx.annotation:annotation"
+        const val activity = "androidx.activity:activity"
+        const val activityKtx = "androidx.activity:activity-ktx"
         const val activityCompose = "androidx.activity:activity-compose"
         const val appcompat = "androidx.appcompat:appcompat"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout"

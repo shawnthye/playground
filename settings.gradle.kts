@@ -26,7 +26,6 @@ include(":core")
 include(":core-data")
 include(":core-domain")
 include(":core-ui")
-include(":model")
 
 // for testing purpose
 include(":gradle-android-library-configuration-assert")

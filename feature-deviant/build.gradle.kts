@@ -35,8 +35,6 @@ dependencies {
 
     api(platform(project(":dep-constraints")))
     kapt(platform(project(":dep-constraints")))
-    testImplementation(platform(project(":dep-constraints")))
-    androidTestImplementation(platform(project(":dep-constraints")))
 
     implementation(project(":app-entities"))
     implementation(project(":core"))

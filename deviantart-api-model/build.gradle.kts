@@ -3,7 +3,5 @@ plugins {
     id("com.android.lint")
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-}
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()

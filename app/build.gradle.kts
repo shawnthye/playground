@@ -80,12 +80,10 @@ dependencies {
 
     api(platform(project(":dep-constraints")))
     kapt(platform(project(":dep-constraints")))
-    testImplementation(platform(project(":dep-constraints")))
-    androidTestImplementation(platform(project(":dep-constraints")))
 
-    implementation(project(mapOf("path" to ":core")))
-    implementation(project(mapOf("path" to ":app-entities")))
-    implementation(project(mapOf("path" to ":feature-deviant")))
+    implementation(project(":core"))
+    implementation(project(":app-entities"))
+    implementation(project(":feature-deviant"))
 
     implementation(Libs.timber)
 

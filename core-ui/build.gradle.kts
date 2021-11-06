@@ -34,7 +34,7 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    implementation(platform(project(":dep-constraints")))
+    api(platform(project(":dep-constraints")))
 
     implementation(Libs.Coroutines.core)
 

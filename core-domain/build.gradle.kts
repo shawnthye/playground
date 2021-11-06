@@ -27,8 +27,11 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
+    api(platform(project(":dep-constraints")))
+
     implementation(project(":core-data"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}")
-    implementation("com.jakewharton.timber:timber:${Versions.TIMBER}")
+    implementation(Libs.timber)
+
+    implementation(Libs.Coroutines.core)
 }
