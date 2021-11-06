@@ -1,5 +1,3 @@
-package app.playground.buildsrc
-
 import org.gradle.api.JavaVersion
 
 object ApplicationOptions {

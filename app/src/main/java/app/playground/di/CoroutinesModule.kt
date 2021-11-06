@@ -1,5 +1,9 @@
 package app.playground.di
 
+import core.playground.DefaultDispatcher
+import core.playground.IoDispatcher
+import core.playground.MainDispatcher
+import core.playground.MainImmediateDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

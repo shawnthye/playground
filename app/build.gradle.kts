@@ -1,13 +1,10 @@
-import app.playground.buildsrc.ApplicationOptions
-import app.playground.buildsrc.Libs
-import app.playground.buildsrc.Versions
-
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     // id("com.google.gms.google-services")
     id("kotlin-android")
     id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
+
     // id("com.google.devtools.ksp") version "1.5.31-1.0.0"
     // id("idea")
 
@@ -86,7 +83,7 @@ dependencies {
     testImplementation(platform(project(":dep-constraints")))
     androidTestImplementation(platform(project(":dep-constraints")))
 
-    implementation(project(":app-entities"))
+    implementation(project(mapOf("path" to ":core")))
     implementation(project(mapOf("path" to ":app-entities")))
     implementation(project(mapOf("path" to ":feature-deviant")))
 
@@ -135,7 +132,6 @@ dependencies {
     implementation(Libs.Retrofit2.retrofitConverterGson)
 
     implementation(Libs.coil)
-
 
     testImplementation(Libs.Test.junit)
     testImplementation(Libs.Test.hamcrest)

@@ -1,11 +1,26 @@
 plugins {
     id("kotlin")
+    // id("kotlin-kapt")
     id("com.android.lint")
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":deviantart-api-model")))
+    api(platform(project(":dep-constraints")))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.COROUTINES}")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(project(mapOf("path" to ":deviantart-api-model")))
+    implementation(project(":core-data"))
+
+    implementation(Libs.Coroutines.core)
+
+    implementation(Libs.Dagger.javaxInject)
+    // implementation(Libs.Dagger.dagger)
+    // kapt(Libs.Dagger.daggerCompiler)
+
+    implementation(platform(Libs.OkHttp3.bom))
+    implementation(Libs.OkHttp3.okhttp)
+
+    implementation(Libs.Retrofit2.retrofit)
+    implementation(Libs.Retrofit2.retrofitConverterGson)
+
+    implementation(Libs.Dagger.dagger)
 }

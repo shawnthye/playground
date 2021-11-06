@@ -1,6 +1,3 @@
-import app.playground.buildsrc.Libs
-import app.playground.buildsrc.Versions
-
 plugins {
     id("java-platform")
 }
@@ -37,10 +34,11 @@ dependencies {
         api("${Libs.Coroutines.android}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.core}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.play}:${Versions.COROUTINES}")
+        api("${Libs.Dagger.daggerCompiler}:${Versions.DAGGER}")
         api("${Libs.Dagger.dagger}:${Versions.DAGGER}")
         api("${Libs.Dagger.hiltCompiler}:${Versions.DAGGER}")
         api("${Libs.Dagger.hilt}:${Versions.DAGGER}")
-        api("${Libs.Dagger.hilt}:${Versions.DAGGER}")
+        api("${Libs.Dagger.javaxInject}:${Versions.DAGGER_INJECT}")
         api("${Libs.Firebase.bom}:${Versions.FIREBASE}")
         api("${Libs.OkHttp3.bom}:${Versions.OK_HTTP}")
         api("${Libs.Retrofit2.retrofitConverterGson}:${Versions.RETROFIT}")
@@ -49,6 +47,7 @@ dependencies {
         api("${Libs.Test.junit}:${Versions.JUNIT}")
         api("${Libs.Test.mockk}:${Versions.MOCKK}")
         api("${Libs.coil}:${Versions.COIL}")
+        api("${Libs.material}:${Versions.MATERIAL}")
         api("${Libs.timber}:${Versions.TIMBER}")
     }
 }

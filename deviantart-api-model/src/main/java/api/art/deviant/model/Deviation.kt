@@ -1,7 +1,8 @@
 package api.art.deviant.model
 
 data class Deviation(
-    val id: String,
+    @Suppress("SpellCheckingInspection")
+    val deviationid: String,
     val url: String,
     val title: String,
     val content: DeviationImage,

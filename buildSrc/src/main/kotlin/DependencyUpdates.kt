@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package app.playground.buildsrc
-
 import java.util.Locale
 
 enum class ReleaseType(private val level: Int) {

@@ -1,8 +1,3 @@
-import app.playground.buildsrc.ApplicationOptions
-import app.playground.buildsrc.DependencyUpdates
-import app.playground.buildsrc.ReleaseType
-import app.playground.buildsrc.TestOptions
-
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     // keep below 1 line for reference only :)
@@ -14,9 +9,10 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath(Libs.Android.pluginGradle)
+        classpath(Libs.Kotlin.pluginGradle)
+        classpath(Libs.Dagger.hiltPluginGradle)
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${app.playground.buildsrc.Versions.HILT}")
         // classpath("com.google.gms:google-services:4.3.10")
 
         // NOTE: Do not place your application dependencies here; they belong

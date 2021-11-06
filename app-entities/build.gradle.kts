@@ -8,6 +8,9 @@ val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()
 
 dependencies {
-    implementation("androidx.room:room-common:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
+    api(platform(project(":dep-constraints")))
+    kapt(platform(project(":dep-constraints")))
+
+    implementation(Libs.AndroidX.Room.common)
+    kapt(Libs.AndroidX.Room.compiler)
 }

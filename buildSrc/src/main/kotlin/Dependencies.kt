@@ -1,31 +1,30 @@
-package app.playground.buildsrc
-
 object Versions {
-    const val COIL = "1.4.0"
-    const val RETROFIT = "2.9.0"
-    const val OK_HTTP = "4.9.0"
-    const val FIREBASE = "28.4.2"
     const val ACTIVITY = "1.4.0"
+    const val ANDROID_PLUGIN = "7.0.3"
+    const val ANDROID_TEST_CORE = "+"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
-    const val ANDROID_TEST_CORE = "+"
     const val APPCOMPAT = "1.3.1"
+    const val COIL = "1.4.0"
     const val COMPOSE = "1.0.4"
+    const val CONSTRAINT_LAYOUT = "2.1.1"
     const val CORE = "1.7.0"
     const val COROUTINES = "1.5.2"
     const val DAGGER = "2.40"
+    const val DAGGER_INJECT = "1"
+    const val FIREBASE = "28.4.2"
     const val FRAGMENT = "1.3.6"
     const val HAMCREST = "2.2"
-    const val HILT = "2.40"
     const val JUNIT = "4.13.2"
-    const val KOTLIN = "1.5.2"
+    const val KOTLIN = "1.5.31"
     const val LIFECYCLE = "2.4.0"
     const val MATERIAL = "1.4.0"
     const val MOCKK = "1.12.0"
+    const val NAVIGATION = "2.3.5"
+    const val OK_HTTP = "4.9.0"
+    const val RETROFIT = "2.9.0"
     const val ROOM = "2.3.0"
     const val TIMBER = "5.0.1"
-    const val CONSTRAINT_LAYOUT = "2.1.1"
-    const val NAVIGATION = "2.3.5"
 }
 
 object Libs {
@@ -34,6 +33,14 @@ object Libs {
 
     @Suppress("SpellCheckingInspection")
     const val timber = "com.jakewharton.timber:timber"
+
+    object Android {
+        const val pluginGradle = "com.android.tools.build:gradle:${Versions.ANDROID_PLUGIN}"
+    }
+
+    object Kotlin {
+        const val pluginGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
+    }
 
     object AndroidX {
         const val activity = "androidx.activity:activity-ktx"
@@ -82,9 +89,14 @@ object Libs {
     }
 
     object Dagger {
+        const val javaxInject = "javax.inject:javax.inject"
         const val dagger = "com.google.dagger:dagger"
+        const val daggerCompiler = "com.google.dagger:dagger-compiler"
+
         const val hilt = "com.google.dagger:hilt-android"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler"
+        const val hiltPluginGradle =
+            "com.google.dagger:hilt-android-gradle-plugin:${Versions.DAGGER}"
     }
 
     object Firebase {

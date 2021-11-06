@@ -3,24 +3,37 @@ package core.playground.domain
 import core.playground.domain.Result.Success
 import kotlinx.coroutines.flow.MutableStateFlow
 
+
+enum class Status {
+    SUCCESS,
+    ERROR,
+    LOADING
+}
+
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
  */
-sealed class Result<out R> {
+sealed class Result<out R>(open val data: R?) {
 
-    data class Success<out T>(val data: T) : Result<T>()
-    data class Error<out T>(val exception: Throwable, val data: T? = null) : Result<T>()
-    data class Loading<out T>(val data: T) : Result<T>()
-    object Empty : Result<Nothing>()
+    data class Success<out T>(override val data: T) : Result<T>(data)
+
+    data class Loading<out T>(override val data: T?) : Result<T>(data)
+
+    data class Error<out T>(
+        val throwable: Throwable,
+        override val data: T?,
+    ) : Result<T>(data)
 
     override fun toString(): String {
         return when (this) {
             is Success<*> -> "Success[data=$data]"
-            is Error -> "Error[exception=$exception][message=${exception.message}]"
+            is Error -> "Error[exception=$throwable][message=${throwable.message}][data=${data}]"
             is Loading -> "Loading[data=$data]"
-            Empty -> "Empty"
         }
+    }
+
+    companion object {
     }
 }
 
@@ -34,8 +47,8 @@ fun <T> Result<T>.successOr(fallback: T): T {
     return (this as? Success<T>)?.data ?: fallback
 }
 
-val <T> Result<T>.data: T?
-    get() = (this as? Success)?.data
+// val <T> Result<T>.data: T?
+//     get() = (this as? Success)?.data
 
 /**
  * Updates value of [MutableStateFlow] if [Result] is of type [Success]

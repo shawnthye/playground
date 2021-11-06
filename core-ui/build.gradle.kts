@@ -1,4 +1,4 @@
-import app.playground.buildsrc.ApplicationOptions
+import android.annotation.SuppressLint
 
 plugins {
     id("com.android.library")
@@ -24,10 +24,19 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        @SuppressLint("DataBindingWithoutKapt")
+        dataBinding = true
+    }
 }
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${app.playground.buildsrc.Versions.COROUTINES}")
+    implementation(platform(project(":dep-constraints")))
+
+    implementation(Libs.Coroutines.core)
+
+    implementation(Libs.AndroidX.core)
 }

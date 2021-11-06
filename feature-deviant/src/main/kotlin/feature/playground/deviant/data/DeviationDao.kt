@@ -15,8 +15,14 @@ interface DeviationDao {
     suspend fun insert(deviation: Deviation)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(populars: List<PopularDeviation>, deviations: List<Deviation>)
+    suspend fun insertPopular(populars: List<PopularDeviation>, deviations: List<Deviation>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(deviations: List<Deviation>)
 
     @Query("SELECT deviations.* FROM popular_deviations INNER JOIN deviations")
     fun getPopular(): Flow<Deviation>
+
+    @Query("SELECT * FROM  deviations")
+    fun observeAll(): Flow<List<Deviation>>
 }

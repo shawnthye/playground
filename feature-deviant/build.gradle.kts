@@ -1,10 +1,8 @@
-import app.playground.buildsrc.ApplicationOptions
-import app.playground.buildsrc.Libs
-
 plugins {
     id("com.android.library")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -40,38 +38,40 @@ dependencies {
     testImplementation(platform(project(":dep-constraints")))
     androidTestImplementation(platform(project(":dep-constraints")))
 
-    implementation(project(mapOf("path" to ":app-entities")))
-    implementation(project(mapOf("path" to ":core")))
-    implementation(project(mapOf("path" to ":core-data")))
-    implementation(project(mapOf("path" to ":core-domain")))
-    implementation(project(mapOf("path" to ":core-ui")))
-    implementation(project(mapOf("path" to ":deviantart-api")))
+    implementation(project(":app-entities"))
+    implementation(project(":core"))
+    implementation(project(":core-data"))
+    implementation(project(":core-domain"))
+    implementation(project(":core-ui"))
+    implementation(project(":deviantart-api-model"))
+    implementation(project(":deviantart-api"))
 
-    // implementation(Libs.timber)
-    //
-    // implementation(Libs.Dagger.hilt)
-    //
-    // implementation(Libs.Coroutines.core)
-    // implementation(Libs.Coroutines.android)
-    // implementation(Libs.Coroutines.play)
-    //
-    // implementation(Libs.AndroidX.core)
-    // implementation(Libs.AndroidX.appcompat)
-    // implementation(Libs.AndroidX.activity)
-    // implementation(Libs.AndroidX.fragment)
-    //
-    // implementation(Libs.AndroidX.Room.common)
-    // kapt(Libs.AndroidX.Room.compiler)
-    //
-    // implementation(Libs.AndroidX.Lifecycle.runtime)
-    // implementation(Libs.AndroidX.Lifecycle.viewModel)
-    // implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
-    //
-    // testImplementation(Libs.Test.junit)
-    // testImplementation(Libs.Test.hamcrest)
-    // testImplementation(Libs.Test.mockk)
-    //
-    // androidTestImplementation(Libs.AndroidX.Test.junit)
-    // androidTestImplementation(Libs.AndroidX.Test.core)
-    // androidTestImplementation(Libs.AndroidX.Test.espresso)
+    implementation(Libs.timber)
+
+    implementation(Libs.Coroutines.core)
+    implementation(Libs.Coroutines.android)
+
+    implementation(Libs.AndroidX.core)
+    implementation(Libs.AndroidX.appcompat)
+    implementation(Libs.AndroidX.activity)
+    implementation(Libs.AndroidX.fragment)
+    implementation(Libs.AndroidX.constraintLayout)
+
+    implementation(Libs.AndroidX.Lifecycle.runtime)
+    implementation(Libs.AndroidX.Lifecycle.viewModel)
+    implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
+
+    implementation(Libs.Dagger.hilt)
+    kapt(Libs.Dagger.hiltCompiler)
+
+    implementation(Libs.AndroidX.Room.common)
+    kapt(Libs.AndroidX.Room.compiler)
+
+    testImplementation(Libs.Test.junit)
+    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.mockk)
+
+    androidTestImplementation(Libs.AndroidX.Test.junit)
+    androidTestImplementation(Libs.AndroidX.Test.core)
+    androidTestImplementation(Libs.AndroidX.Test.espresso)
 }

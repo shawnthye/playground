@@ -16,8 +16,8 @@ abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDi
     operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
         .flowOn(coroutineDispatcher)
         .catch { e ->
-            Timber.e(e)
-            emit(Result.Error(e))
+            Timber.tag("FlowUseCase").e(e)
+            emit(Result.Error(e, null))
         }
 
     protected abstract fun execute(parameters: P): Flow<Result<R>>

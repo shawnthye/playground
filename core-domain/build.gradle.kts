@@ -1,6 +1,3 @@
-import app.playground.buildsrc.ApplicationOptions
-import app.playground.buildsrc.Versions
-
 plugins {
     id("com.android.library")
     id("kotlin-android")

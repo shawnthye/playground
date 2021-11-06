@@ -39,27 +39,29 @@ class FlowCallAdapter<R>(private val responseType: Type) :
         return flow {
             emit(
                 suspendCancellableCoroutine { continuation ->
-                    call.enqueue(object : Callback<R> {
-                        override fun onResponse(call: Call<R>, response: Response<R>) {
-                            continuation.resumeWith(
-                                Result.success(
-                                    ApiResponse.create(
-                                        response
-                                    )
+                    call.enqueue(
+                        object : Callback<R> {
+                            override fun onResponse(call: Call<R>, response: Response<R>) {
+                                continuation.resumeWith(
+                                    Result.success(
+                                        ApiResponse.create(
+                                            response,
+                                        ),
+                                    ),
                                 )
-                            )
-                        }
+                            }
 
-                        override fun onFailure(call: Call<R>, throwable: Throwable) {
-                            continuation.resumeWith(Result.success(ApiResponse.create(throwable)))
-                            // cancellableContinuation.resume(ApiResponse.create(throwable))
-                        }
-                    })
+                            override fun onFailure(call: Call<R>, throwable: Throwable) {
+                                continuation.resumeWith(Result.success(ApiResponse.create(throwable)))
+                                // cancellableContinuation.resume(ApiResponse.create(throwable))
+                            }
+                        },
+                    )
 
                     continuation.invokeOnCancellation {
                         call.cancel()
                     }
-                }
+                },
             )
         }
 
