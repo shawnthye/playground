@@ -30,8 +30,12 @@ dependencies {
         api("${Libs.AndroidX.activity}:${Versions.ACTIVITY}")
         api("${Libs.AndroidX.annotation}:${Versions.ANNOTATION}")
         api("${Libs.AndroidX.appcompat}:${Versions.APPCOMPAT}")
+        api("${Libs.AndroidX.concurrent}:${Versions.CONCURRENT}")
         api("${Libs.AndroidX.constraintLayout}:${Versions.CONSTRAINT_LAYOUT}")
         api("${Libs.AndroidX.core}:${Versions.CORE}")
+        api("${Libs.AndroidX.customView}:${Versions.CUSTOM_VIEW}")
+        api("${Libs.AndroidX.drawerLayout}:${Versions.DRAWER_LAYOUT}")
+        api("${Libs.AndroidX.fragmentKtx}:${Versions.FRAGMENT}")
         api("${Libs.AndroidX.fragment}:${Versions.FRAGMENT}")
         api("${Libs.Coroutines.android}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.core}:${Versions.COROUTINES}")
@@ -43,6 +47,7 @@ dependencies {
         api("${Libs.Dagger.javaxInject}:${Versions.DAGGER_INJECT}")
         api("${Libs.Firebase.bom}:${Versions.FIREBASE}")
         api("${Libs.OkHttp3.bom}:${Versions.OK_HTTP}")
+        api("${Libs.OkHttp3.okhttp}:${Versions.OK_HTTP}")
         api("${Libs.Retrofit2.retrofitConverterGson}:${Versions.RETROFIT}")
         api("${Libs.Retrofit2.retrofit}:${Versions.RETROFIT}")
         api("${Libs.Test.hamcrest}:${Versions.HAMCREST}")
@@ -50,6 +55,7 @@ dependencies {
         api("${Libs.Test.mockk}:${Versions.MOCKK}")
         api("${Libs.coil}:${Versions.COIL}")
         api("${Libs.material}:${Versions.MATERIAL}")
+        api("${Libs.okio}:${Versions.OKIO}")
         api("${Libs.timber}:${Versions.TIMBER}")
     }
 }

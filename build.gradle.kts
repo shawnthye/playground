@@ -24,6 +24,11 @@ plugins {
     id("com.diffplug.spotless") version "5.17.1"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.osacky.doctor") version "0.7.3" // enable to check performance
+    jacoco
+}
+
+jacoco {
+    toolVersion = "0.8.7"
 }
 
 subprojects {
@@ -138,7 +143,7 @@ subprojects {
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
-    // checkConstraints = true
+    checkConstraints = true
 
     rejectVersionIf {
         val current = DependencyUpdates.versionToRelease(currentVersion)
