@@ -1,4 +1,4 @@
-// package feature.playground.deviant.ui
+package feature.playground.deviant.ui
 //
 // import androidx.lifecycle.SavedStateHandle
 // import androidx.lifecycle.ViewModel

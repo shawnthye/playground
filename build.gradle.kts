@@ -13,6 +13,7 @@ buildscript {
         classpath(Libs.Kotlin.pluginGradle)
         classpath(Libs.Dagger.hiltPluginGradle)
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
+        // classpath("org.jacoco:org.jacoco.core:0.8.7")
         // classpath("com.google.gms:google-services:4.3.10")
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -24,11 +25,10 @@ plugins {
     id("com.diffplug.spotless") version "5.17.1"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.osacky.doctor") version "0.7.3" // enable to check performance
-    jacoco
 }
 
-jacoco {
-    toolVersion = "0.8.7"
+allprojects {
+    apply<JacocoPlugin>()
 }
 
 subprojects {
@@ -136,6 +136,12 @@ subprojects {
             TestOptions.HALF_AVAILABLE_PROCESSORS
         } else {
             1
+        }
+    }
+
+    pluginManager.withPlugin("org.gradle.jacoco") {
+        configure<JacocoPluginExtension> {
+            toolVersion = "0.8.7"
         }
     }
 }

@@ -1,6 +1,7 @@
 plugins {
     id("kotlin")
     id("com.android.lint")
+    jacoco
 }
 
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks

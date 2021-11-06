@@ -3,6 +3,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    jacoco
 }
 
 android {
@@ -17,6 +18,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isTestCoverageEnabled = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -51,8 +55,8 @@ dependencies {
 
     implementation(Libs.AndroidX.core)
     implementation(Libs.AndroidX.appcompat)
-    implementation(Libs.AndroidX.activity)
-    implementation(Libs.AndroidX.fragment)
+    implementation(Libs.AndroidX.activityKtx)
+    implementation(Libs.AndroidX.fragmentKtx)
     implementation(Libs.AndroidX.constraintLayout)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
@@ -72,4 +76,5 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.core)
     androidTestImplementation(Libs.AndroidX.Test.espresso)
+    androidTestImplementation(Libs.Test.hamcrest)
 }
