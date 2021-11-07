@@ -1,10 +1,10 @@
 plugins {
     id("com.android.application")
-    id("dagger.hilt.android.plugin")
     // id("com.google.gms.google-services")
     id("kotlin-android")
     id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
-
+    id("dagger.hilt.android.plugin")
+    jacoco
     // id("com.google.devtools.ksp") version "1.5.31-1.0.0"
     // id("idea")
 
@@ -38,6 +38,13 @@ android {
         }
     }
 
+    flavorDimensions += "default"
+
+    productFlavors {
+        maybeCreate("internal")
+        maybeCreate("production")
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -46,6 +53,7 @@ android {
             )
         }
         debug {
+            isTestCoverageEnabled = true
             versionNameSuffix = "-debug"
         }
     }
@@ -73,6 +81,11 @@ android {
             excludes += "META-INF/*.properties"
         }
     }
+}
+
+androidComponents {
+    // beforeVariants {
+    // }
 }
 
 dependencies {

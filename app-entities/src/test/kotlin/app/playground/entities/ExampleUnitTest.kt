@@ -1,4 +1,4 @@
-package feature.playground.deviant
+package app.playground.entities
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert

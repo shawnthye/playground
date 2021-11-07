@@ -3,12 +3,12 @@ plugins {
     id("com.android.lint")
 }
 
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
-compileKotlin.kotlinOptions.freeCompilerArgs = emptyList()
-
-
 dependencies {
     api(platform(project(":dep-constraints")))
 
     implementation(Libs.Dagger.javaxInject)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions { freeCompilerArgs = emptyList() }
 }

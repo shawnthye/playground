@@ -1,6 +1,7 @@
 plugins {
     id("kotlin")
     id("com.android.lint")
+    jacoco
 }
 
 dependencies {
@@ -19,4 +20,8 @@ dependencies {
 
     implementation(Libs.Dagger.javaxInject)
     implementation(Libs.Dagger.dagger)
+
+    testImplementation(Libs.Test.junit)
+    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.mockk)
 }

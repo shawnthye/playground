@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import java.nio.file.Path
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
@@ -28,9 +27,24 @@ plugins {
     id("com.diffplug.spotless") version "5.17.1"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.osacky.doctor") version "0.7.3" // enable to check performance
+    jacoco
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+tasks.withType<Test> {
+    configure<JacocoTaskExtension> {
+        isEnabled = true
+        isIncludeNoLocationClasses = true
+        excludes = listOf("jdk.internal.*")
+    }
 }
 
 subprojects {
+
+    val subprojectScoped = this
+
     apply(plugin = "com.diffplug.spotless")
     spotless {
         encoding("UTF-8")
@@ -82,7 +96,7 @@ subprojects {
 
             testOptions {
                 animationsDisabled = true
-                // execution = "ANDROID_TEST_ORCHESTRATOR"
+                execution = "ANDROID_TEST_ORCHESTRATOR"
                 unitTests {
                     isIncludeAndroidResources = true
                     isReturnDefaultValues = true
@@ -119,7 +133,7 @@ subprojects {
 
             testOptions {
                 animationsDisabled = true
-                // execution = "ANDROID_TEST_ORCHESTRATOR"
+                execution = "ANDROID_TEST_ORCHESTRATOR"
                 unitTests {
                     isIncludeAndroidResources = true
                     isReturnDefaultValues = true
@@ -155,75 +169,18 @@ subprojects {
             jvmTarget = ApplicationOptions.JAVA_VERSION.toString()
         }
     }
-}
 
-subprojects {
-    val projectScoped = this
+    tasks.withType<Test> {
+        maxParallelForks = if (TestOptions.HALF_AVAILABLE_PROCESSORS >= 1) {
+            TestOptions.HALF_AVAILABLE_PROCESSORS
+        } else {
+            1
+        }
+    }
 
     pluginManager.withPlugin("jacoco") {
-        val isApplication = pluginManager.hasPlugin("com.android.application")
-        val isLibrary = pluginManager.hasPlugin("com.android.library")
-        if (!isApplication && !isLibrary) {
-            projectScoped.tasks.withType<JacocoReport> {
-                dependsOn(projectScoped.tasks.withType(Test::class))
-            }
-        } else {
-            val sourceTrees = listOfNotNull(
-                Path.of("$projectDir", "src", "main"),
-                if (isApplication) {
-                    Path.of("$projectDir", "src", "production")
-                } else {
-                    null
-                },
-            ).map {
-                fileTree(it)
-            }
-
-            val kotlinClassesDir = Path.of(
-                "$buildDir",
-                "tmp",
-                "kotlin-classes",
-                if (isApplication) "productionDebug" else "debug",
-            )
-
-            val executionDataTree = fileTree(Path.of("$buildDir", "outputs")) {
-                include(
-                    "unit_test_code_coverage/**/*.exec",
-                    "code_coverage/**/*.ec",
-                )
-            }
-
-            projectScoped.task("jacocoTestReport", JacocoReport::class) {
-                group = "Verification"
-                description = "Custom Generates code coverage report for the test task."
-                dependsOn(
-                    if (isApplication) {
-                        "testProductionDebugUnitTest"
-                    } else {
-                        "testDebugUnitTest"
-                    },
-                    if (isApplication) {
-                        "connectedProductionDebugAndroidTest"
-                    } else {
-                        "connectedDebugAndroidTest"
-                    },
-                )
-
-                sourceDirectories.setFrom(files(sourceTrees))
-                classDirectories.setFrom(files(kotlinClassesDir))
-                executionData(files(executionDataTree))
-            }
-        }
-
         configure<JacocoPluginExtension> {
             toolVersion = "0.8.7"
-        }
-
-        tasks.withType<JacocoReport> {
-            reports {
-                html.required.set(true)
-                xml.required.set(false)
-            }
         }
 
         tasks.withType<Test> {
@@ -231,12 +188,6 @@ subprojects {
                 isEnabled = true
                 isIncludeNoLocationClasses = true
                 excludes = listOf("jdk.internal.*")
-            }
-
-            maxParallelForks = if (TestOptions.HALF_AVAILABLE_PROCESSORS >= 1) {
-                TestOptions.HALF_AVAILABLE_PROCESSORS
-            } else {
-                1
             }
 
             // testLogging {
@@ -256,6 +207,23 @@ subprojects {
             // }
         }
     }
+
+}
+
+subprojects {
+    pluginManager.withPlugin("jacoco") {
+        val hasApplication = pluginManager.hasPlugin("com.android.application")
+        val hasLibrary = pluginManager.hasPlugin("com.android.library")
+        if (!hasApplication && !hasLibrary) {
+            return@withPlugin
+        }
+
+        task("jacocoTestReport", JacocoReport::class) {
+            group = "Verification"
+            description = "Generates code coverage report for the test task."
+            dependsOn(if (hasApplication) "testProductionDebugUnitTest" else "testDebugUnitTest")
+        }
+    }
 }
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
@@ -273,3 +241,108 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
         candidate.isLessStableThan(current)
     }
 }
+
+val codeCoverageReport by tasks.registering(JacocoReport::class) {
+    group = "Reporting"
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
+
+    val jacocoProjects = subprojects.filter {
+        it.pluginManager.hasPlugin("jacoco")
+    }
+
+    println()
+    println("codeCoverageReport")
+
+    val applicationSourceSet = jacocoProjects.filter {
+        it.pluginManager.hasPlugin("com.android.application")
+    }
+        .map { it.extensions.getByType(BaseAppModuleExtension::class).sourceSets }
+
+    jacocoProjects.flatMap {
+        it.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class)
+    }.forEach {
+        // println("destinationDirectory \n${it.destinationDirectory.asFile.orNull}")
+    }
+
+    val reportTasks = jacocoProjects.flatMap { it.tasks.withType(JacocoReport::class) }
+
+    // jacocoProjects.forEach { p ->
+    //     p.tasks.matching { it.extensions.findByType(JacocoTaskExtension::class) != null }.forEach {
+    //
+    //     }
+    // }
+
+    executionData(*jacocoProjects.flatMap { it.tasks }.toTypedArray())
+
+    val classes = jacocoProjects.map { p ->
+        if (p.pluginManager.hasPlugin("com.android.application") ||
+            p.pluginManager.hasPlugin("com.android.library")
+        ) {
+            p.extensions.getByType(com.android.build.gradle.BaseExtension::class).sourceSets.names
+                .filterNot {
+                    it.startsWith("androidTest") || it.startsWith("test")
+                }.map {
+                    file(java.nio.file.Paths.get(p.buildDir.path, "tmp", "kotlin-classes", it))
+                }
+        } else {
+            p.tasks.withType(JacocoReport::class).flatMap {
+                it.classDirectories
+            }
+        }
+
+    }.flatten()
+
+
+
+    sourceDirectories.setFrom(reportTasks.flatMap { it.sourceDirectories })
+    classDirectories.setFrom(classes)
+
+
+    doLast {
+        println("executionData:\n ${executionData.files}")
+        println("sourceDirectories:\n ${sourceDirectories.files}")
+        println("classDirectories:\n ${classDirectories.files}")
+
+        // println(jacocoProjects.map { it..the<SourceSetContainer>().names})
+    }
+}
+
+subprojects {
+    // afterEvaluate {
+    //     if (pluginManager.hasPlugin("com.android.application") ||
+    //                 pluginManager.hasPlugin("com.android.library")){
+    //     println(the<SourceSetContainer>().names)
+    //
+    //     }
+    //     // this.filter {
+    //     //     it.pluginManager.hasPlugin("com.android.application") ||
+    //     //         it.pluginManager.hasPlugin("com.android.library")
+    //     // }.forEach {
+    //     //
+    //     //
+    //     //
+    //     //
+    //     // }
+    // }
+}
+
+// tasks.register<JacocoReport>("jacocoRootReport") {
+//     subprojects {
+//         this@subprojects.plugins.withType<JacocoPlugin>().configureEach {
+//             this@subprojects.tasks.matching {
+//                 it.extensions.findByType<JacocoTaskExtension>() != null }
+//                 .configureEach {
+//                     sourceSets(this@subprojects.the<SourceSetContainer>().named("main").get())
+//                     executionData(this)
+//                 }
+//         }
+//     }
+//
+//     reports {
+//         xml.isEnabled = true
+//         html.isEnabled = true
+//     }
+// }
