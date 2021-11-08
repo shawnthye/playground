@@ -50,7 +50,9 @@ tasks.withType<Test> {
     }
 }
 
-subprojects {
+val modules = subprojects
+
+configure(modules) {
     apply(plugin = "com.diffplug.spotless")
     spotless {
         encoding("UTF-8")
@@ -187,7 +189,7 @@ val coverage by rootProject.tasks.registering(JacocoReport::class) {
     }
 }
 
-subprojects {
+configure(modules) {
     val projectScoped = this
     pluginManager.withPlugin("jacoco") {
         val isApplication = pluginManager.hasPlugin("com.android.application")
@@ -200,6 +202,12 @@ subprojects {
             val jacocoTasks = projectScoped.tasks.withType(JacocoReport::class).map { it }
             coverage.configure {
                 this.dependsOn(jacocoTasks)
+                additionalSourceDirs.setFrom(
+                    files(
+                        jacocoTasks.map { it.sourceDirectories.files },
+                        sourceDirectories.files,
+                    ),
+                )
                 sourceDirectories.setFrom(
                     files(
                         jacocoTasks.map { it.sourceDirectories.files },
@@ -221,21 +229,138 @@ subprojects {
 
             }
         } else {
-            val sourceTrees = listOfNotNull(
-                Path.of("$projectDir", "src", "main"),
+
+            val excludes = listOf(
+                // data binding
+                "android/databinding/**/*.class",
+                "**/android/databinding/*Binding.class",
+                "**/android/databinding/*",
+                "**/androidx/databinding/*",
+                "**/BR.*",
+                // android
+                "**/R.class",
+                "**/R$*.class",
+                "**/BuildConfig.*",
+                "**/Manifest*.*",
+                "**/*Test*.*",
+                "android/**/*.*",
+                // dagger
+                "**/*_MembersInjector.class",
+                "**/Dagger*Component.class",
+                // "**/Dagger*Component$Builder.class",
+                "**/*Module_*Factory.class",
+                "**/di/module/*",
+                "**/*_Factory*.*",
+                "**/*Module*.*",
+                "**/*Dagger*.*",
+                "**/*Hilt*.*",
+                // kotlin
+                "**/*MapperImpl*.*",
+                // "**/*$ViewInjector*.*",
+                // "**/*$ViewBinder*.*",
+                "**/BuildConfig.*",
+                "**/*Component*.*",
+                "**/*BR*.*",
+                "**/Manifest*.*",
+                // "**/*$Lambda$*.*",
+                "**/*Companion*.*",
+                "**/*Module*.*",
+                "**/*Dagger*.*",
+                "**/*Hilt*.*",
+                "**/*MembersInjector*.*",
+                "**/*_MembersInjector.class",
+                "**/*_Factory*.*",
+                "**/*_Provide*Factory*.*",
+                "**/*Extensions*.*",
+                // sealed and data classes
+                // "**/*$Result.*",
+                // "**/*$Result$*.*",
+            )
+
+            val fileTreeConfig: (ConfigurableFileTree) -> Unit = {
+                it.exclude(
+                    "**/R.class",
+                    "**/R$*.class",
+                    "**/BuildConfig.*",
+                    "**/Manifest*.*",
+                    "android/**/*.*",
+                    "**/*BR*.*",
+                )
+
+                // it.exclude(
+                //     // data binding
+                //     "android/databinding/**/*.class",
+                //     "**/android/databinding/*Binding.class",
+                //     "**/android/databinding/*",
+                //     "**/androidx/databinding/*",
+                //     "**/BR.*",
+                //     // android
+                //     "**/R.class",
+                //     "**/R$*.class",
+                //     "**/BuildConfig.*",
+                //     "**/Manifest*.*",
+                //     "**/*Test*.*",
+                //     "android/**/*.*",
+                //     // dagger
+                //     "**/*_MembersInjector.class",
+                //     "**/Dagger*Component.class",
+                //     // "**/Dagger*Component$Builder.class",
+                //     "**/*Module_*Factory.class",
+                //     "**/di/module/*",
+                //     "**/*_Factory*.*",
+                //     "**/*Module*.*",
+                //     "**/*Dagger*.*",
+                //     "**/*Hilt*.*",
+                //     // kotlin
+                //     "**/*MapperImpl*.*",
+                //     // "**/*$ViewInjector*.*",
+                //     // "**/*$ViewBinder*.*",
+                //     "**/BuildConfig.*",
+                //     "**/*Component*.*",
+                //     "**/*BR*.*",
+                //     "**/Manifest*.*",
+                //     // "**/*$Lambda$*.*",
+                //     "**/*Companion*.*",
+                //     "**/*Module*.*",
+                //     "**/*Dagger*.*",
+                //     "**/*Hilt*.*",
+                //     "**/*MembersInjector*.*",
+                //     "**/*_MembersInjector.class",
+                //     "**/*_Factory*.*",
+                //     "**/*_Provide*Factory*.*",
+                //     "**/*Extensions*.*",
+                //     // sealed and data classes
+                //     // "**/*$Result.*",
+                //     // "**/*$Result$*.*",
+                // )
+            }
+
+            val flavorCandidates = listOfNotNull(
+                "main",
                 if (isApplication) {
-                    Path.of("$projectDir", "src", "production")
+                    "production"
                 } else {
                     null
                 },
-            ).map {
-                fileTree(it)
+            )
+
+            val sourceCandidates = listOf("kotlin", "java").flatMap { lang ->
+                flavorCandidates.map { "${Path.of("$projectDir", "src", it, lang)}" }
             }
+
+            println(sourceCandidates.map { "\n$it\n" })
 
             val kotlinClassesDir = Path.of(
                 "$buildDir",
                 "tmp",
                 "kotlin-classes",
+                if (isApplication) "productionDebug" else "debug",
+            )
+
+            val javaClassesDir = Path.of(
+                "$buildDir",
+                "intermediates",
+                "javac",
                 if (isApplication) "productionDebug" else "debug",
             )
 
@@ -245,6 +370,11 @@ subprojects {
                     "code_coverage/**/*.ec",
                 )
             }
+
+            val classesFile = files(
+                fileTree(kotlinClassesDir, fileTreeConfig),
+                fileTree(javaClassesDir, fileTreeConfig),
+            )
 
             val jacocoTask = projectScoped.task("jacocoTestReport", JacocoReport::class) {
                 group = "Verification"
@@ -262,15 +392,19 @@ subprojects {
                     },
                 )
 
-                sourceDirectories.setFrom(files(sourceTrees))
-                classDirectories.setFrom(files(kotlinClassesDir))
+                additionalSourceDirs.setFrom(files("${projectDir}/src/main/res"))
+                sourceDirectories.setFrom(
+                    files(sourceCandidates),
+                )
+                classDirectories.setFrom(classesFile)
                 executionData(files(executionDataTree))
             }
 
             coverage.configure {
                 dependsOn(jacocoTask)
-                sourceDirectories.setFrom(files(sourceTrees, sourceDirectories.files))
-                classDirectories.setFrom(files(kotlinClassesDir, classDirectories.files))
+                additionalSourceDirs.setFrom(files(sourceCandidates, sourceDirectories.files))
+                sourceDirectories.setFrom(files(sourceCandidates, sourceDirectories.files))
+                classDirectories.setFrom(files(classesFile, classDirectories.files))
                 executionData(files(executionDataTree, executionData.files))
             }
         }
@@ -318,6 +452,7 @@ subprojects {
     }
 }
 
+// println(modules.map { it.tasks.withType(JacocoReport::class) })
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
     gradleReleaseChannel = "current"
