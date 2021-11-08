@@ -80,3 +80,6 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.espresso)
     androidTestImplementation(Libs.Test.hamcrest)
 }
+
+
+// println(rootProject.subprojects.filter { it.pluginManager.hasPlugin("jacoco") }.map { it.name })

@@ -28,6 +28,26 @@ plugins {
     id("com.diffplug.spotless") version "5.17.1"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.osacky.doctor") version "0.7.3" // enable to check performance
+    jacoco
+}
+
+jacoco {
+    toolVersion = Versions.JACOCO
+}
+
+tasks.withType<JacocoReport> {
+    reports {
+        html.required.set(true)
+        xml.required.set(false)
+    }
+}
+
+tasks.withType<Test> {
+    configure<JacocoTaskExtension> {
+        isEnabled = true
+        isIncludeNoLocationClasses = true
+        excludes = listOf("jdk.internal.*")
+    }
 }
 
 subprojects {
@@ -77,7 +97,7 @@ subprojects {
             }
 
             testCoverage {
-                jacocoVersion = "0.8.7"
+                jacocoVersion = Versions.JACOCO
             }
 
             testOptions {
@@ -114,7 +134,7 @@ subprojects {
             }
 
             testCoverage {
-                jacocoVersion = "0.8.7"
+                jacocoVersion = Versions.JACOCO
             }
 
             testOptions {
@@ -157,15 +177,48 @@ subprojects {
     }
 }
 
+val coverage by rootProject.tasks.registering(JacocoReport::class) {
+    group = "Verification"
+    description = "Generate and merge all report in to one"
+    setOnlyIf { true }
+
+    doLast {
+        println("Report generated in ${Path.of(outputs.files.asPath, "index.html")}")
+    }
+}
+
 subprojects {
     val projectScoped = this
-
     pluginManager.withPlugin("jacoco") {
         val isApplication = pluginManager.hasPlugin("com.android.application")
         val isLibrary = pluginManager.hasPlugin("com.android.library")
         if (!isApplication && !isLibrary) {
             projectScoped.tasks.withType<JacocoReport> {
                 dependsOn(projectScoped.tasks.withType(Test::class))
+            }
+
+            val jacocoTasks = projectScoped.tasks.withType(JacocoReport::class).map { it }
+            coverage.configure {
+                this.dependsOn(jacocoTasks)
+                sourceDirectories.setFrom(
+                    files(
+                        jacocoTasks.map { it.sourceDirectories.files },
+                        sourceDirectories.files,
+                    ),
+                )
+                classDirectories.setFrom(
+                    files(
+                        jacocoTasks.map { it.classDirectories.files },
+                        classDirectories.files,
+                    ),
+                )
+                executionData(
+                    files(
+                        jacocoTasks.map { it.executionData.files },
+                        executionData.files,
+                    ),
+                )
+
             }
         } else {
             val sourceTrees = listOfNotNull(
@@ -193,7 +246,7 @@ subprojects {
                 )
             }
 
-            projectScoped.task("jacocoTestReport", JacocoReport::class) {
+            val jacocoTask = projectScoped.task("jacocoTestReport", JacocoReport::class) {
                 group = "Verification"
                 description = "Custom Generates code coverage report for the test task."
                 dependsOn(
@@ -213,16 +266,23 @@ subprojects {
                 classDirectories.setFrom(files(kotlinClassesDir))
                 executionData(files(executionDataTree))
             }
+
+            coverage.configure {
+                dependsOn(jacocoTask)
+                sourceDirectories.setFrom(files(sourceTrees, sourceDirectories.files))
+                classDirectories.setFrom(files(kotlinClassesDir, classDirectories.files))
+                executionData(files(executionDataTree, executionData.files))
+            }
         }
 
         configure<JacocoPluginExtension> {
-            toolVersion = "0.8.7"
+            toolVersion = Versions.JACOCO
         }
 
         tasks.withType<JacocoReport> {
             reports {
                 html.required.set(true)
-                xml.required.set(false)
+                xml.required.set(true)
             }
         }
 
@@ -257,6 +317,7 @@ subprojects {
         }
     }
 }
+
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
     gradleReleaseChannel = "current"

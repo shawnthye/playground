@@ -1,5 +1,6 @@
 object Versions {
     const val ACTIVITY = "1.4.0"
+    const val JACOCO = "0.8.7"
     const val ANDROID_PLUGIN = "7.0.3"
     const val ANDROID_TEST_CORE = "+"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
