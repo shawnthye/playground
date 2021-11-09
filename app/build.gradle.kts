@@ -23,6 +23,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments += mapOf("clearPackageData" to "true")
 
         vectorDrawables {
             useSupportLibrary = true
@@ -93,6 +94,10 @@ dependencies {
 
     api(platform(project(":dep-constraints")))
     kapt(platform(project(":dep-constraints")))
+    testImplementation(platform(project(":dep-constraints")))
+    androidTestImplementation(platform(project(":dep-constraints")))
+    androidTestRuntimeOnly(platform(project(":dep-constraints")))
+    androidTestUtil(platform(project(":dep-constraints")))
 
     implementation(project(":core"))
     implementation(project(":app-entities"))
@@ -144,11 +149,13 @@ dependencies {
 
     implementation(Libs.coil)
 
-    testImplementation(Libs.Test.junit)
-    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
 
+    androidTestImplementation(Libs.Test.junit)
+    androidTestImplementation(Libs.Test.hamcrestLibrary)
     androidTestImplementation(Libs.AndroidX.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.core)
     androidTestImplementation(Libs.AndroidX.Test.espresso)
+    androidTestUtil(Libs.AndroidX.Test.orchestrator)
 }

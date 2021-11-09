@@ -1,11 +1,12 @@
 object Versions {
-    const val KTLINT = "0.43.0"
     const val ACTIVITY = "1.4.0"
-    const val JACOCO = "0.8.7"
     const val ANDROID_PLUGIN = "7.0.3"
-    const val ANDROID_TEST_CORE = "+"
+    const val ANDROID_TEST_CORE = "1.4.0"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
+    const val ANDROID_TEST_ORCHESTRATOR = "1.4.0"
+    const val ANDROID_TEST_RULES = "1.4.0"
+    const val ANDROID_TEST_RUNNER = "1.4.0"
     const val ANNOTATION = "1.3.0"
     const val APPCOMPAT = "1.3.1"
     const val COIL = "1.4.0"
@@ -21,8 +22,10 @@ object Versions {
     const val FIREBASE = "29.0.0"
     const val FRAGMENT = "1.3.6"
     const val HAMCREST = "2.2"
+    const val JACOCO = "0.8.7"
     const val JUNIT = "4.13.2"
     const val KOTLIN = "1.5.31"
+    const val KTLINT = "0.43.0"
     const val LIFECYCLE = "2.4.0"
     const val MATERIAL = "1.4.0"
     const val MOCKK = "1.12.0"
@@ -91,8 +94,13 @@ object Libs {
 
         object Test {
             const val core = "androidx.test:core"
+            const val coreKtx = "androidx.test:core-ktx"
             const val espresso = "androidx.test.espresso:espresso-core"
             const val junit = "androidx.test.ext:junit"
+            const val junitKtx = "androidx.test.ext:junit-ktx"
+            const val orchestrator = "androidx.test:orchestrator"
+            const val rules = "androidx.test:rules"
+            const val runner = "androidx.test:runner"
         }
     }
 
@@ -100,6 +108,7 @@ object Libs {
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core"
         const val play = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services"
+        const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test"
     }
 
     object Dagger {
@@ -109,8 +118,9 @@ object Libs {
 
         const val hilt = "com.google.dagger:hilt-android"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler"
-        const val hiltPluginGradle =
-            "com.google.dagger:hilt-android-gradle-plugin:${Versions.DAGGER}"
+        const val hiltPluginGradle = "com.google.dagger:hilt-android-gradle-plugin:${
+            Versions.DAGGER
+        }"
     }
 
     object Firebase {
@@ -131,7 +141,8 @@ object Libs {
     }
 
     object Test {
-        const val hamcrest = "org.hamcrest:hamcrest-library"
+        const val hamcrestCore = "org.hamcrest:hamcrest-core"
+        const val hamcrestLibrary = "org.hamcrest:hamcrest-library"
         const val junit = "junit:junit"
         const val mockk = "io.mockk:mockk"
     }

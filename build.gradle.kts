@@ -145,6 +145,11 @@ configure(modules) {
 
             testOptions {
                 animationsDisabled = true
+                /**
+                 * temporary disable, try what mention by google with to grant permission
+                 * or try later with newer plugin
+                 * see this https://issuetracker.google.com/issues/123987001#comment25
+                 */
                 // execution = "ANDROID_TEST_ORCHESTRATOR"
                 unitTests {
                     isIncludeAndroidResources = true
@@ -404,33 +409,40 @@ configure(modules) {
         }
 
         tasks.withType<Test> {
-            configure<JacocoTaskExtension> {
-                isEnabled = true
-                isIncludeNoLocationClasses = true
-                excludes = listOf("jdk.internal.*")
-            }
-
             maxParallelForks = if (TestOptions.HALF_AVAILABLE_PROCESSORS >= 1) {
                 TestOptions.HALF_AVAILABLE_PROCESSORS
             } else {
                 1
             }
 
-            // testLogging {
-            //     // set options for log level LIFECYCLE
-            //     events "failed"
-            //     exceptionFormat "short"
-            //
-            //     // set options for log level DEBUG
-            //     debug {
-            //         events "started", "skipped", "failed"
-            //         exceptionFormat "full"
-            //     }
-            //
-            //     // remove standard output/error logging from --info builds
-            //     // by assigning only 'failed' and 'skipped' events
-            //     info.events = ["failed", "skipped"]
-            // }
+            testLogging {
+                events(
+                    TestLogEvent.STARTED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED,
+                    TestLogEvent.FAILED,
+                )
+
+                // // set options for log level LIFECYCLE
+                // events "failed"
+                // exceptionFormat "short"
+                //
+                // // set options for log level DEBUG
+                // debug {
+                //     events "started", "skipped", "failed"
+                //     exceptionFormat "full"
+                // }
+                //
+                // // remove standard output/error logging from --info builds
+                // // by assigning only 'failed' and 'skipped' events
+                // info.events = ["failed", "skipped"]
+            }
+
+            configure<JacocoTaskExtension> {
+                isEnabled = true
+                isIncludeNoLocationClasses = true
+                excludes = listOf("jdk.internal.*")
+            }
         }
     }
 }

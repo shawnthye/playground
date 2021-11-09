@@ -1,7 +1,7 @@
 package app.playground
 
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
 import org.junit.Test
 
 /**
@@ -10,8 +10,9 @@ import org.junit.Test
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
     @Test
-    fun addition_isCorrect() {
+    fun `addition is correct`() {
         assertThat(4, `is`(2 + 2))
     }
 }

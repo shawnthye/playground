@@ -10,10 +10,6 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)
-
-    testImplementation(Libs.Test.junit)
-    testImplementation(Libs.Test.hamcrest)
-    testImplementation(Libs.Test.mockk)
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

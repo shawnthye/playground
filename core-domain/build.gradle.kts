@@ -37,6 +37,6 @@ dependencies {
     implementation(Libs.Coroutines.core)
 
     testImplementation(Libs.Test.junit)
-    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
 }

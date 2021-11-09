@@ -14,6 +14,7 @@ android {
         targetSdk = ApplicationOptions.COMPILE_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments += mapOf("clearPackageData" to "true")
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -41,6 +42,9 @@ dependencies {
 
     api(platform(project(":dep-constraints")))
     kapt(platform(project(":dep-constraints")))
+    testImplementation(platform(project(":dep-constraints")))
+    androidTestImplementation(platform(project(":dep-constraints")))
+    androidTestUtil(platform(project(":dep-constraints")))
 
     implementation(project(":app-entities"))
     implementation(project(":core"))
@@ -72,11 +76,13 @@ dependencies {
     kapt(Libs.AndroidX.Room.compiler)
 
     testImplementation(Libs.Test.junit)
-    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
 
+    androidTestImplementation(Libs.Test.junit)
+    androidTestImplementation(Libs.Test.hamcrestLibrary)
     androidTestImplementation(Libs.AndroidX.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.core)
     androidTestImplementation(Libs.AndroidX.Test.espresso)
-    androidTestImplementation(Libs.Test.hamcrest)
+    androidTestUtil(Libs.AndroidX.Test.orchestrator)
 }
