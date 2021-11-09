@@ -30,9 +30,12 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+        homeViewModel.text.observe(
+            viewLifecycleOwner,
+            {
+                textView.text = it
+            },
+        )
         return root
     }
 

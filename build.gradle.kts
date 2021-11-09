@@ -1,6 +1,4 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import com.diffplug.spotless.FormatExceptionPolicy
-import com.diffplug.spotless.FormatterStep
 import java.nio.file.Path
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.

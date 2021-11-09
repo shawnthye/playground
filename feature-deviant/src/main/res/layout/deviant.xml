@@ -32,8 +32,8 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:text="@tools:sample/full_names"
       tools:ignore="HardcodedText"
+      tools:text="@tools:sample/full_names"
       />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
