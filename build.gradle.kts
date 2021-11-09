@@ -229,62 +229,44 @@ configure(modules) {
 
             }
         } else {
-
-            val excludes = listOf(
-                // data binding
-                "android/databinding/**/*.class",
-                "**/android/databinding/*Binding.class",
-                "**/android/databinding/*",
-                "**/androidx/databinding/*",
-                "**/BR.*",
-                // android
-                "**/R.class",
-                "**/R$*.class",
-                "**/BuildConfig.*",
-                "**/Manifest*.*",
-                "**/*Test*.*",
-                "android/**/*.*",
-                // dagger
-                "**/*_MembersInjector.class",
-                "**/Dagger*Component.class",
-                // "**/Dagger*Component$Builder.class",
-                "**/*Module_*Factory.class",
-                "**/di/module/*",
-                "**/*_Factory*.*",
-                "**/*Module*.*",
-                "**/*Dagger*.*",
-                "**/*Hilt*.*",
-                // kotlin
-                "**/*MapperImpl*.*",
-                // "**/*$ViewInjector*.*",
-                // "**/*$ViewBinder*.*",
-                "**/BuildConfig.*",
-                "**/*Component*.*",
-                "**/*BR*.*",
-                "**/Manifest*.*",
-                // "**/*$Lambda$*.*",
-                "**/*Companion*.*",
-                "**/*Module*.*",
-                "**/*Dagger*.*",
-                "**/*Hilt*.*",
-                "**/*MembersInjector*.*",
-                "**/*_MembersInjector.class",
-                "**/*_Factory*.*",
-                "**/*_Provide*Factory*.*",
-                "**/*Extensions*.*",
-                // sealed and data classes
-                // "**/*$Result.*",
-                // "**/*$Result$*.*",
-            )
-
             val fileTreeConfig: (ConfigurableFileTree) -> Unit = {
                 it.exclude(
                     "**/R.class",
                     "**/R$*.class",
                     "**/BuildConfig.*",
                     "**/Manifest*.*",
-                    "android/**/*.*",
                     "**/*BR*.*",
+                    /*
+                     * AndroidX
+                     */
+                    "androidx/**/*.class",
+                    /*
+                     * Databinding
+                     */
+                    "**/databinding/*Binding.class",
+                    "**/databinding/*BindingImpl.class",
+                    "**/DataBindingTriggerClass.class",
+                    "**/DataBinderMapperImpl*.class",
+                    /*
+                     * Room
+                     */
+                    "**/*_Impl*.class",
+                    // "**/*Impl$*.*",
+                    /*
+                     * Dagger
+                     */
+                    "**/*Provide*Factory*.class",
+                    "**/dagger/hilt/internal/*",
+                    "**/hilt_aggregated_deps/*",
+                    "**/*Hilt*.class",
+                    /*
+                     * kotlin
+                     **/
+                    "**/*\$inlined$*.*",
+                    /*
+                     * java
+                     **/
+                    "**/*\$Lambda$*.*",
                 )
 
                 // it.exclude(
@@ -319,7 +301,6 @@ configure(modules) {
                 //     "**/*Component*.*",
                 //     "**/*BR*.*",
                 //     "**/Manifest*.*",
-                //     // "**/*$Lambda$*.*",
                 //     "**/*Companion*.*",
                 //     "**/*Module*.*",
                 //     "**/*Dagger*.*",
@@ -347,8 +328,6 @@ configure(modules) {
             val sourceCandidates = listOf("kotlin", "java").flatMap { lang ->
                 flavorCandidates.map { "${Path.of("$projectDir", "src", it, lang)}" }
             }
-
-            println(sourceCandidates.map { "\n$it\n" })
 
             val kotlinClassesDir = Path.of(
                 "$buildDir",
@@ -451,8 +430,6 @@ configure(modules) {
         }
     }
 }
-
-// println(modules.map { it.tasks.withType(JacocoReport::class) })
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
     gradleReleaseChannel = "current"

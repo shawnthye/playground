@@ -15,7 +15,7 @@ private data class DeviantArtToken(val access_token: String, val token_type: Str
 
 @Singleton
 class AuthenticatorInterceptor @Inject constructor(
-    private val okHttp: OkHttpClient,
+    private val client: OkHttpClient,
     private val gson: Gson,
 ) : Interceptor {
 
@@ -59,7 +59,7 @@ class AuthenticatorInterceptor @Inject constructor(
             .cacheControl(CacheControl.FORCE_NETWORK)
             .build()
 
-        val response = okHttp.newBuilder().build().newCall(request).execute()
+        val response = client.newBuilder().build().newCall(request).execute()
 
         if (!response.isSuccessful) {
             return null

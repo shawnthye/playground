@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    jacoco
 }
 
 android {
@@ -34,4 +35,8 @@ dependencies {
     implementation(Libs.timber)
 
     implementation(Libs.Coroutines.core)
+
+    testImplementation(Libs.Test.junit)
+    testImplementation(Libs.Test.hamcrest)
+    testImplementation(Libs.Test.mockk)
 }
