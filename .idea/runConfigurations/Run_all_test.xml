@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run all test" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="Run all test" type="GradleRunConfiguration" factoryName="Gradle" singleton="false">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -11,7 +11,9 @@
       <option name="taskNames">
         <list>
           <option value="cleanTestDebugUnitTest" />
+          <option value="cleanTestProductionDebugUnitTest" />
           <option value="testDebugUnitTest" />
+          <option value="testProductionDebugUnitTest" />
         </list>
       </option>
       <option name="vmOptions" value="" />
