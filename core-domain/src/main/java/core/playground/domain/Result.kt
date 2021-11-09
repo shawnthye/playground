@@ -3,13 +3,6 @@ package core.playground.domain
 import core.playground.domain.Result.Success
 import kotlinx.coroutines.flow.MutableStateFlow
 
-
-enum class Status {
-    SUCCESS,
-    ERROR,
-    LOADING
-}
-
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
@@ -28,7 +21,7 @@ sealed class Result<out R>(open val data: R?) {
     override fun toString(): String {
         return when (this) {
             is Success<*> -> "Success[data=$data]"
-            is Error -> "Error[exception=$throwable][message=${throwable.message}][data=${data}]"
+            is Error -> "Error[exception=$throwable][message=${throwable.message}][data=$data]"
             is Loading -> "Loading[data=$data]"
         }
     }

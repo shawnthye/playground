@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.diffplug.spotless.FormatExceptionPolicy
+import com.diffplug.spotless.FormatterStep
 import java.nio.file.Path
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -25,7 +27,7 @@ buildscript {
 }
 
 plugins {
-    id("com.diffplug.spotless") version "5.17.1"
+    id("com.diffplug.spotless") version "6.0.0"
     id("com.github.ben-manes.versions") version "0.39.0"
     id("com.osacky.doctor") version "0.7.3" // enable to check performance
     jacoco
@@ -61,7 +63,7 @@ configure(modules) {
             targetExclude("$buildDir/**/*.kt")
             targetExclude("bin/**/*.kt")
 
-            ktlint("0.42.1").userData(
+            ktlint(Versions.KTLINT).userData(
                 mapOf(
                     "charset" to "utf-8",
                     "end_of_line" to "lf",
@@ -73,6 +75,10 @@ configure(modules) {
                     "ij_kotlin_allow_trailing_comma_on_call_site" to "true",
                 ),
             )
+        }
+        kotlinGradle {
+            target("**/*.gradle.kts")
+            ktlint(Versions.KTLINT)
         }
     }
 

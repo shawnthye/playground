@@ -1,4 +1,5 @@
 object Versions {
+    const val KTLINT = "0.43.0"
     const val ACTIVITY = "1.4.0"
     const val JACOCO = "0.8.7"
     const val ANDROID_PLUGIN = "7.0.3"
