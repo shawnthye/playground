@@ -1,6 +1,6 @@
 # Playground
 
-## Choice of Library
+## Choice of Libraries
 
 - `kotlin("plugin.serialization")` for JSON, Moshi can be future consideration if performance is
   concern.
