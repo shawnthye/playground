@@ -1,6 +1,8 @@
 package api.art.deviant
 
-import com.google.gson.Gson
+import api.art.deviant.model.DeviantArtToken
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import okhttp3.CacheControl
 import okhttp3.FormBody
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -11,12 +13,10 @@ import okhttp3.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private data class DeviantArtToken(val access_token: String, val token_type: String)
-
 @Singleton
 class AuthenticatorInterceptor @Inject constructor(
     private val client: OkHttpClient,
-    private val gson: Gson,
+    private val json: Json,
 ) : Interceptor {
 
     private var tokenCache: DeviantArtToken? = null
@@ -67,7 +67,7 @@ class AuthenticatorInterceptor @Inject constructor(
             return null
         }
 
-        val token = gson.fromJson(response.body!!.string(), DeviantArtToken::class.java)
+        val token = json.decodeFromString<DeviantArtToken>(response.body!!.string())
         response.close()
 
         return token

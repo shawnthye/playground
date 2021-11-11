@@ -1,5 +1,5 @@
 plugins {
-    id("kotlin")
+    kotlin("jvm")
     id("com.android.lint")
     jacoco
 }
@@ -18,7 +18,8 @@ dependencies {
     implementation(Libs.OkHttp3.okhttp)
 
     implementation(Libs.Retrofit2.retrofit)
-    implementation(Libs.Retrofit2.retrofitConverterGson)
+    // we added this for auth token, since we dun use retrofit here, else no usage
+    implementation(Libs.Kotlin.xJson)
 
     implementation(Libs.Dagger.javaxInject)
     implementation(Libs.Dagger.dagger)

@@ -21,13 +21,13 @@ sealed class ApiResponse<T> {
                     ApiSuccessResponse(body)
                 }
             } else {
+                // TODO: 11/12/2021 throw here?, consider error from parser, network
                 val msg = response.errorBody()?.string()
                 val errorMsg = if (msg.isNullOrEmpty()) {
                     response.message()
                 } else {
                     msg
                 }
-                // /TODO: better error handling
                 ApiErrorResponse(Exception(errorMsg))
             }
         }

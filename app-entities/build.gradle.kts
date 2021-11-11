@@ -1,6 +1,6 @@
 plugins {
-    id("kotlin")
-    id("kotlin-kapt")
+    kotlin("jvm")
+    kotlin("kapt")
     id("com.android.lint")
 }
 

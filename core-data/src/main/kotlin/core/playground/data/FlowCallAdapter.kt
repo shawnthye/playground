@@ -47,10 +47,13 @@ class FlowCallAdapter<R>(private val responseType: Type) :
                             }
 
                             override fun onFailure(call: Call<R>, throwable: Throwable) {
+                                // TODO: 11/12/2021 try below for api error handling
+                                // continuation.resumeWith(
+                                //     Result.failure(throwable),
+                                // )
                                 continuation.resumeWith(
                                     Result.success(ApiResponse.create(throwable)),
                                 )
-                                // cancellableContinuation.resume(ApiResponse.create(throwable))
                             }
                         },
                     )

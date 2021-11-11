@@ -33,7 +33,9 @@ class DeviantArtViewModel
     //     }
     // }.stateIn()
 
-    val deviant: StateFlow<Deviation?> = deviantResult.mapLatest { it.data?.firstOrNull() }.stateIn(
+    val deviant: StateFlow<Deviation?> = deviantResult.mapLatest {
+        it.data?.firstOrNull()
+    }.stateIn(
         scope = viewModelScope,
         started = WhileViewSubscribed,
         initialValue = null,

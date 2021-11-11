@@ -2,8 +2,8 @@ package api.art.deviant
 
 import core.playground.data.FlowCallAdapterFactory
 import okhttp3.OkHttpClient
+import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class DeviantArt @Inject constructor(
     private val client: OkHttpClient,
     private val authenticator: AuthenticatorInterceptor,
-    private val converter: GsonConverterFactory,
+    private val converter: Converter.Factory,
 ) {
 
     val api: DeviantArtApi by lazy {

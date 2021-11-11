@@ -2,7 +2,7 @@ import android.annotation.SuppressLint
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
+    kotlin("android")
 }
 
 android {
@@ -26,7 +26,6 @@ android {
     }
 
     buildFeatures {
-        @SuppressLint("DataBindingWithoutKapt")
         dataBinding = true
     }
 }

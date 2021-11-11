@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
+import timber.log.Timber
 
 inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBoundResource(
     query: Flow<ResultType>,
@@ -32,6 +33,8 @@ inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBou
                 emitAll(query.map { Result.Success(it) })
             }
             is ApiErrorResponse -> {
+                // TODO: 11/12/2021 Need to throw this as a special error as network error
+                Timber.e(response.exception)
                 emitAll(query.map { Result.Error(response.exception, it) })
             }
         }
@@ -51,6 +54,4 @@ inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBou
     }
 }
 
-fun <RequestType> defaultProcessResponse(
-    response: ApiSuccessResponse<RequestType>,
-) = response.body
+fun <RequestType> defaultProcessResponse(response: ApiSuccessResponse<RequestType>) = response.body

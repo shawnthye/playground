@@ -1,8 +1,10 @@
+import android.annotation.SuppressLint
+
 plugins {
     id("com.android.application")
     // id("com.google.gms.google-services")
-    id("kotlin-android")
-    id("kotlin-kapt") // kotlin("kapt") will trigger false positive warning on dataBinding = true
+    kotlin("android")
+    kotlin("kapt")
     id("dagger.hilt.android.plugin")
     jacoco
     // id("com.google.devtools.ksp") version "1.5.31-1.0.0"
@@ -66,6 +68,9 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+
+        // false positive, gradle lint only recognize kotlin("kotlin-kapt")
+        @SuppressLint("DataBindingWithoutKapt")
         dataBinding = true
     }
 
@@ -145,10 +150,10 @@ dependencies {
     implementation(Libs.OkHttp3.logging)
 
     implementation(Libs.Retrofit2.retrofit)
-    implementation(Libs.Retrofit2.retrofitConverterGson)
+    implementation(Libs.Retrofit2.converter)
+    implementation(Libs.Kotlin.xJson)
 
     implementation(Libs.coil)
-
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

@@ -1,5 +1,8 @@
 package api.art.deviant.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Deviation(
     @Suppress("SpellCheckingInspection")
     val deviationid: String,
@@ -8,14 +11,14 @@ data class Deviation(
     val content: DeviationImage,
 )
 
+@Serializable
 data class DeviationImage(
     val src: String,
     val height: Int,
     val width: Int,
-    val width1: Int,
-    val width2: Int,
 )
 
+@Serializable
 data class DeviationResult(
     val next_offset: Int? = null,
     val results: List<Deviation>,

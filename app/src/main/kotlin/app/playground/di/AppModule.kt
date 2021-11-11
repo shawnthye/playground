@@ -1,7 +1,7 @@
 package app.playground.di
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import app.playground.BuildConfig
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import core.playground.ApplicationScope
 import core.playground.DefaultDispatcher
 import dagger.Module
@@ -11,10 +11,13 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import okhttp3.Dns
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Converter
 import java.net.InetAddress
 import javax.inject.Singleton
 
@@ -35,7 +38,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.NONE
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
     @Singleton
@@ -71,16 +74,21 @@ object AppModule {
             },
         )
 
+        Json { allowSpecialFloatingPointValues = true }
         addNetworkInterceptor(loggingInterceptor)
     }.build()
 
     @Singleton
     @Provides
-    fun provideGson(): Gson = GsonBuilder().create()
+    fun provideGson(): Json = Json {
+        prettyPrint = BuildConfig.DEBUG
+        ignoreUnknownKeys = true
+    }
 
+    @ExperimentalSerializationApi
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(
-        gson: Gson,
-    ): GsonConverterFactory = GsonConverterFactory.create(gson)
+    fun provideRetrofitConverterFactory(
+        json: Json,
+    ): Converter.Factory = json.asConverterFactory("application/json".toMediaType())
 }

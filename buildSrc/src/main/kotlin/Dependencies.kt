@@ -25,6 +25,7 @@ object Versions {
     const val JACOCO = "0.8.7"
     const val JUNIT = "4.13.2"
     const val KOTLIN = "1.5.31"
+    const val KOTLINX_JSON = "1.3.1"
     const val KTLINT = "0.43.0"
     const val LIFECYCLE = "2.4.0"
     const val MATERIAL = "1.4.0"
@@ -33,6 +34,7 @@ object Versions {
     const val OKIO = "3.0.0"
     const val OK_HTTP = "4.9.2"
     const val RETROFIT = "2.9.0"
+    const val RETROFIT_CONVERTER = "0.8.0"
     const val ROOM = "2.3.0"
     const val TIMBER = "5.0.1"
     const val JUPITER = "5.8.1"
@@ -53,6 +55,7 @@ object Libs {
 
     object Kotlin {
         const val pluginGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
+        const val xJson = "org.jetbrains.kotlinx:kotlinx-serialization-json"
     }
 
     object AndroidX {
@@ -141,8 +144,8 @@ object Libs {
     }
 
     object Retrofit2 {
+        const val converter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter"
         const val retrofit = "com.squareup.retrofit2:retrofit"
-        const val retrofitConverterGson = "com.squareup.retrofit2:converter-gson"
     }
 
     object Test {
