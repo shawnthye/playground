@@ -18,6 +18,6 @@ class DeviationFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View = DeviationDetailBinding.inflate(inflater, container, false).apply {
-        // viewModel = model
+        // artViewModel = model
     }.root
 }

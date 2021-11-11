@@ -131,6 +131,9 @@ object Libs {
 
     object OkHttp3 {
         const val bom = "com.squareup.okhttp3:okhttp-bom"
+
+        @Suppress("SpellCheckingInspection")
+        const val dnsOverHttp = "com.squareup.okhttp3:okhttp-dnsoverhttps"
         const val logging = "com.squareup.okhttp3:logging-interceptor"
         const val okhttp = "com.squareup.okhttp3:okhttp"
     }

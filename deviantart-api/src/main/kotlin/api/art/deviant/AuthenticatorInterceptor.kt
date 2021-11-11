@@ -36,12 +36,14 @@ class AuthenticatorInterceptor @Inject constructor(
             return response
         }
 
+        // we will re-proceed the request one more time, close the original response here
+        response?.close()
+
         val request = chain.request().newBuilder().apply {
             tokenCache?.also {
                 header("Authorization", "${it.token_type} ${it.access_token}")
             }
         }.build()
-
         return chain.proceed(request)
     }
 
@@ -65,6 +67,9 @@ class AuthenticatorInterceptor @Inject constructor(
             return null
         }
 
-        return gson.fromJson(response.body!!.string(), DeviantArtToken::class.java)
+        val token = gson.fromJson(response.body!!.string(), DeviantArtToken::class.java)
+        response.close()
+
+        return token
     }
 }

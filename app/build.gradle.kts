@@ -92,12 +92,12 @@ androidComponents {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    api(platform(project(":dep-constraints")))
-    kapt(platform(project(":dep-constraints")))
-    testImplementation(platform(project(":dep-constraints")))
-    androidTestImplementation(platform(project(":dep-constraints")))
-    androidTestRuntimeOnly(platform(project(":dep-constraints")))
-    androidTestUtil(platform(project(":dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
+    kapt(platform(project(":build-dep-constraints")))
+    testImplementation(platform(project(":build-dep-constraints")))
+    androidTestImplementation(platform(project(":build-dep-constraints")))
+    androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
+    androidTestUtil(platform(project(":build-dep-constraints")))
 
     implementation(project(":core"))
     implementation(project(":app-entities"))

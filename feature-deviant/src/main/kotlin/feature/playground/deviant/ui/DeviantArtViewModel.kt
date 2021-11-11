@@ -7,16 +7,20 @@ import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.GetPopularDeviantsUseCase
+import feature.playground.deviant.domain.TestDNSUseCase
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DeviantViewModel
+class DeviantArtViewModel
 @Inject constructor(
     getPopularDeviantsUseCase: GetPopularDeviantsUseCase,
+    testDNSUseCase: TestDNSUseCase,
 ) : ViewModel() {
+
     private val deviantResult: StateFlow<Result<List<Deviation>>> = getPopularDeviantsUseCase(Unit)
         .stateIn(
             scope = viewModelScope,
@@ -24,17 +28,23 @@ class DeviantViewModel
             initialValue = Result.Loading(null),
         )
 
-    // val deviant = deviantResult.flatMapLatest {
+    // val deviant2 = deviantResult.flatMapLatest {
     //     flow {
     //         if (it is Result.Success) {
     //             emit(it.data)
     //         }
     //     }
-    // }
+    // }.stateIn()
 
-    val deviant: StateFlow<Deviation?> = deviantResult.map { it.data?.firstOrNull() }.stateIn(
+    val deviant: StateFlow<Deviation?> = deviantResult.mapLatest { it.data?.firstOrNull() }.stateIn(
         scope = viewModelScope,
         started = WhileViewSubscribed,
         initialValue = null,
     )
+
+    init {
+        viewModelScope.launch {
+            testDNSUseCase(Unit)
+        }
+    }
 }

@@ -11,9 +11,11 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import okhttp3.Dns
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.InetAddress
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -33,7 +35,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = HttpLoggingInterceptor.Level.NONE
     }
 
     @Singleton
@@ -41,7 +43,35 @@ object AppModule {
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient = OkHttpClient.Builder().apply {
-        addInterceptor(loggingInterceptor)
+        dns(
+            object : Dns {
+                override fun lookup(hostname: String): List<InetAddress> {
+                    val publicDNS = listOf(
+                        // Google
+                        InetAddress.getByName("2001:4860:4860::8888"),
+                        InetAddress.getByName("2001:4860:4860::8844"),
+                        InetAddress.getByName("8.8.8.8"),
+                        InetAddress.getByName("8.8.4.4"),
+
+                        // Quad9
+                        InetAddress.getByName("9.9.9.9"),
+                        InetAddress.getByName("149.112.112.112"),
+                        InetAddress.getByName("2620:fe::fe"),
+                        InetAddress.getByName("2620:fe::9"),
+
+                        // OpenDns
+                        InetAddress.getByName("208.67.222.222"),
+                        InetAddress.getByName("208.67.220.220"),
+                    )
+
+                    val defaultDns = InetAddress.getAllByName(hostname).toList()
+
+                    return defaultDns + publicDNS
+                }
+            },
+        )
+
+        addNetworkInterceptor(loggingInterceptor)
     }.build()
 
     @Singleton

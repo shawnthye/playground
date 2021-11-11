@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  tools:context=".ui.DeviantActivity"
+  tools:context=".ui.DeviantArtActivity"
   >
 
   <data>
@@ -11,11 +11,11 @@
 
     <import type="core.playground.domain.Result" />
 
-    <import type="feature.playground.deviant.ui.DeviantViewModel" />
+    <import type="feature.playground.deviant.ui.DeviantArtViewModel" />
 
     <variable
       name="viewModel"
-      type="DeviantViewModel"
+      type="DeviantArtViewModel"
       />
   </data>
 

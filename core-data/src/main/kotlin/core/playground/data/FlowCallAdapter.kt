@@ -35,7 +35,6 @@ class FlowCallAdapter<R>(private val responseType: Type) :
     override fun responseType() = responseType
 
     override fun adapt(call: Call<R>): Flow<ApiResponse<R>> {
-
         return flow {
             emit(
                 suspendCancellableCoroutine { continuation ->

@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(platform(project(":dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
 
     implementation(Libs.Coroutines.core)
     implementation(Libs.Retrofit2.retrofit)

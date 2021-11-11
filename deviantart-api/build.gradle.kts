@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    api(platform(project(":dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
 
     implementation(project(":deviantart-api-model"))
     implementation(project(":core-data"))

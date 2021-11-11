@@ -33,4 +33,4 @@ include(":testing-core-android")
 include(":gradle-android-library-configuration-assert")
 
 // dependency constraint
-include("dep-constraints")
+include("build-dep-constraints")

@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    api(platform(project(":dep-constraints")))
-    kapt(platform(project(":dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
+    kapt(platform(project(":build-dep-constraints")))
 
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)

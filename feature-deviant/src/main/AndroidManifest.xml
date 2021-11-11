@@ -4,7 +4,7 @@
 
   <application>
     <activity
-      android:name=".ui.DeviantActivity"
+      android:name=".ui.DeviantArtActivity"
       android:exported="false" />
   </application>
 

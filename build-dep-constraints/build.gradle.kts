@@ -53,6 +53,7 @@ dependencies {
         api("${Libs.Dagger.javaxInject}:${Versions.DAGGER_INJECT}")
         api("${Libs.Firebase.bom}:${Versions.FIREBASE}")
         api("${Libs.OkHttp3.bom}:${Versions.OK_HTTP}")
+        api("${Libs.OkHttp3.dnsOverHttp}:${Versions.OK_HTTP}")
         api("${Libs.OkHttp3.okhttp}:${Versions.OK_HTTP}")
         api("${Libs.Retrofit2.retrofitConverterGson}:${Versions.RETROFIT}")
         api("${Libs.Retrofit2.retrofit}:${Versions.RETROFIT}")

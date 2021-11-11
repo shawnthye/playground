@@ -40,11 +40,11 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    api(platform(project(":dep-constraints")))
-    kapt(platform(project(":dep-constraints")))
-    testImplementation(platform(project(":dep-constraints")))
-    androidTestImplementation(platform(project(":dep-constraints")))
-    androidTestUtil(platform(project(":dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
+    kapt(platform(project(":build-dep-constraints")))
+    testImplementation(platform(project(":build-dep-constraints")))
+    androidTestImplementation(platform(project(":build-dep-constraints")))
+    androidTestUtil(platform(project(":build-dep-constraints")))
 
     implementation(project(":app-entities"))
     implementation(project(":core"))
@@ -74,6 +74,12 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)
+
+    //TODO: remove this
+    implementation(platform(Libs.OkHttp3.bom))
+    implementation(Libs.OkHttp3.okhttp)
+    implementation(Libs.OkHttp3.logging)
+    implementation(Libs.OkHttp3.dnsOverHttp)
 
     testImplementation(Libs.Test.junit)
     testImplementation(Libs.Test.hamcrestLibrary)

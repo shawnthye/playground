@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
-import timber.log.Timber
 
 inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBoundResource(
     query: Flow<ResultType>,
@@ -26,7 +25,6 @@ inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBou
     val work: Flow<Result<ResultType>> = transform { response ->
         when (response) {
             is ApiSuccessResponse -> {
-                Timber.i("collect user ${response.body}")
                 saveFetchResult(processResponse(response))
                 emitAll(query.map { Result.Success(it) })
             }
@@ -34,7 +32,6 @@ inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBou
                 emitAll(query.map { Result.Success(it) })
             }
             is ApiErrorResponse -> {
-                Timber.e(response.exception)
                 emitAll(query.map { Result.Error(response.exception, it) })
             }
         }

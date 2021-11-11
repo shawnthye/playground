@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(platform(project(":dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
 
     testImplementation(Libs.Test.junit)
     testImplementation(Libs.Coroutines.core)

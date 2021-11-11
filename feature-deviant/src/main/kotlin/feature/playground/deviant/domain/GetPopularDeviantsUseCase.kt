@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class GetPopularDeviantsUseCase @Inject constructor(
     private val repository: DeviantRepository,
-    @IoDispatcher dispatcher: CoroutineDispatcher,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : FlowUseCase<Unit, List<Deviation>>(dispatcher) {
 
     override fun execute(
