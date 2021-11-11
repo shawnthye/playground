@@ -7,18 +7,15 @@ import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.GetPopularDeviantsUseCase
-import feature.playground.deviant.domain.TestDNSUseCase
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DeviantArtViewModel
 @Inject constructor(
     getPopularDeviantsUseCase: GetPopularDeviantsUseCase,
-    testDNSUseCase: TestDNSUseCase,
 ) : ViewModel() {
 
     private val deviantResult: StateFlow<Result<List<Deviation>>> = getPopularDeviantsUseCase(Unit)
@@ -41,10 +38,4 @@ class DeviantArtViewModel
         started = WhileViewSubscribed,
         initialValue = null,
     )
-
-    init {
-        viewModelScope.launch {
-            testDNSUseCase(Unit)
-        }
-    }
 }

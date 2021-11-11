@@ -18,6 +18,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
         // classpath("org.jacoco:org.jacoco.core:0.8.7")
         // classpath("com.google.gms:google-services:4.3.10")
+        classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -84,8 +85,8 @@ configure(modules) {
         configure<BaseAppModuleExtension> {
             compileOptions {
                 isCoreLibraryDesugaringEnabled = true
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = BuildOptions.JAVA_VERSION
+                targetCompatibility = BuildOptions.JAVA_VERSION
             }
 
             lint {
@@ -121,8 +122,8 @@ configure(modules) {
         configure<com.android.build.gradle.LibraryExtension> {
             compileOptions {
                 isCoreLibraryDesugaringEnabled = true
-                sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+                sourceCompatibility = BuildOptions.JAVA_VERSION
+                targetCompatibility = BuildOptions.JAVA_VERSION
             }
 
             lint {
@@ -169,8 +170,8 @@ configure(modules) {
     // for pure java module
     pluginManager.withPlugin("kotlin") {
         configure<JavaPluginExtension> {
-            sourceCompatibility = ApplicationOptions.JAVA_VERSION
-            targetCompatibility = ApplicationOptions.JAVA_VERSION
+            sourceCompatibility = BuildOptions.JAVA_VERSION
+            targetCompatibility = BuildOptions.JAVA_VERSION
         }
     }
 
@@ -183,7 +184,7 @@ configure(modules) {
                 freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
                 )
 
-            jvmTarget = ApplicationOptions.JAVA_VERSION.toString()
+            jvmTarget = BuildOptions.JAVA_VERSION.toString()
         }
     }
 }
@@ -200,6 +201,36 @@ val coverage by rootProject.tasks.registering(JacocoReport::class) {
 
 configure(modules) {
     val projectScoped = this
+
+    tasks.withType<Test> {
+        maxParallelForks = BuildOptions.AVAILABLE_PROCESSORS
+
+        useJUnitPlatform()
+
+        testLogging {
+            events(
+                // TestLogEvent.STARTED,
+                TestLogEvent.PASSED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.FAILED,
+            )
+
+            // // set options for log level LIFECYCLE
+            // events "failed"
+            // exceptionFormat "short"
+            //
+            // // set options for log level DEBUG
+            // debug {
+            //     events "started", "skipped", "failed"
+            //     exceptionFormat "full"
+            // }
+            //
+            // // remove standard output/error logging from --info builds
+            // // by assigning only 'failed' and 'skipped' events
+            // info.events = ["failed", "skipped"]
+        }
+    }
+
     pluginManager.withPlugin("jacoco") {
         val isApplication = pluginManager.hasPlugin("com.android.application")
         val isLibrary = pluginManager.hasPlugin("com.android.library")
@@ -409,35 +440,6 @@ configure(modules) {
         }
 
         tasks.withType<Test> {
-            maxParallelForks = if (TestOptions.HALF_AVAILABLE_PROCESSORS >= 1) {
-                TestOptions.HALF_AVAILABLE_PROCESSORS
-            } else {
-                1
-            }
-
-            testLogging {
-                events(
-                    TestLogEvent.STARTED,
-                    TestLogEvent.PASSED,
-                    TestLogEvent.SKIPPED,
-                    TestLogEvent.FAILED,
-                )
-
-                // // set options for log level LIFECYCLE
-                // events "failed"
-                // exceptionFormat "short"
-                //
-                // // set options for log level DEBUG
-                // debug {
-                //     events "started", "skipped", "failed"
-                //     exceptionFormat "full"
-                // }
-                //
-                // // remove standard output/error logging from --info builds
-                // // by assigning only 'failed' and 'skipped' events
-                // info.events = ["failed", "skipped"]
-            }
-
             configure<JacocoTaskExtension> {
                 isEnabled = true
                 isIncludeNoLocationClasses = true

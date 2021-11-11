@@ -65,5 +65,8 @@ dependencies {
         api("${Libs.material}:${Versions.MATERIAL}")
         api("${Libs.okio}:${Versions.OKIO}")
         api("${Libs.timber}:${Versions.TIMBER}")
+        api("${Libs.Junit5.bom}:${Versions.JUPITER}")
+        api("${Libs.Junit5.androidCore}:${Versions.JUNIT5_ANDROID_TEST}")
+        api("${Libs.Junit5.androidRunner}:${Versions.JUNIT5_ANDROID_TEST}")
     }
 }

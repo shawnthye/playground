@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "just.android.library.assertion"
-    compileSdk = ApplicationOptions.COMPILE_SDK
+    compileSdk = BuildOptions.COMPILE_SDK
 
     defaultConfig {
-        minSdk = ApplicationOptions.MIN_SDK
-        targetSdk = ApplicationOptions.COMPILE_SDK
+        minSdk = BuildOptions.MIN_SDK
+        targetSdk = BuildOptions.COMPILE_SDK
     }
 
     compileOptions {
@@ -40,7 +40,7 @@ afterEvaluate {
     assert(
         name = "android.compileOptions.sourceCompatibility",
         actual = android.compileOptions.sourceCompatibility,
-        expect = JavaVersion.VERSION_1_8,
+        expect = BuildOptions.JAVA_VERSION,
     )
 
     assert(

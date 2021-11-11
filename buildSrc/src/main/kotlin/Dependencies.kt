@@ -35,6 +35,8 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val ROOM = "2.3.0"
     const val TIMBER = "5.0.1"
+    const val JUPITER = "5.8.1"
+    const val JUNIT5_ANDROID_TEST = "1.3.0"
 }
 
 object Libs {
@@ -148,5 +150,14 @@ object Libs {
         const val hamcrestLibrary = "org.hamcrest:hamcrest-library"
         const val junit = "junit:junit"
         const val mockk = "io.mockk:mockk"
+    }
+
+    object Junit5 {
+        const val androidCore = "de.mannodermaus.junit5:android-test-core"
+        const val androidRunner = "de.mannodermaus.junit5:android-test-runner"
+        const val bom = "org.junit:junit-bom"
+        const val jupiterApi = "org.junit.jupiter:junit-jupiter-api"
+        const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine"
+        const val jupiterParams = "org.junit.jupiter:junit-jupiter-params"
     }
 }

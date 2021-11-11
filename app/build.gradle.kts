@@ -10,20 +10,24 @@ plugins {
 
     // id("androidx.navigation.safeargs.kotlin")
     // id("com.google.firebase.crashlytics")
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
-    compileSdk = ApplicationOptions.COMPILE_SDK
+    compileSdk = BuildOptions.COMPILE_SDK
 
     defaultConfig {
         applicationId = "app.playground"
-        minSdk = ApplicationOptions.MIN_SDK
-        targetSdk = ApplicationOptions.COMPILE_SDK
+        minSdk = BuildOptions.MIN_SDK
+        targetSdk = BuildOptions.COMPILE_SDK
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments += mapOf("clearPackageData" to "true")
+        testInstrumentationRunnerArguments += mapOf(
+            "runnerBuilder" to "de.mannodermaus.junit5.AndroidJUnit5Builder",
+            "clearPackageData" to "true",
+        )
 
         vectorDrawables {
             useSupportLibrary = true
@@ -84,17 +88,13 @@ android {
     }
 }
 
-androidComponents {
-    // beforeVariants {
-    // }
-}
-
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     api(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
     testImplementation(platform(project(":build-dep-constraints")))
+    testRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestImplementation(platform(project(":build-dep-constraints")))
     androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestUtil(platform(project(":build-dep-constraints")))
@@ -149,10 +149,18 @@ dependencies {
 
     implementation(Libs.coil)
 
+
+    testImplementation(platform(Libs.Junit5.bom))
+    testImplementation(Libs.Junit5.jupiterApi)
+    testRuntimeOnly(Libs.Junit5.jupiterEngine)
     testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
 
-    androidTestImplementation(Libs.Test.junit)
+    androidTestImplementation(platform(Libs.Junit5.bom))
+    androidTestImplementation(Libs.Junit5.jupiterApi)
+    androidTestRuntimeOnly(Libs.Junit5.jupiterEngine)
+    androidTestImplementation(Libs.Junit5.androidCore)
+    androidTestRuntimeOnly(Libs.Junit5.androidRunner)
     androidTestImplementation(Libs.Test.hamcrestLibrary)
     androidTestImplementation(Libs.AndroidX.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.core)

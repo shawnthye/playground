@@ -7,26 +7,27 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import org.junit.jupiter.api.extension.AfterEachCallback
+import org.junit.jupiter.api.extension.BeforeEachCallback
+import org.junit.jupiter.api.extension.ExtensionContext
 
-class MainCoroutineRule(
+class MainCoroutineExtension(
     val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher(),
-) : TestWatcher() {
+) : BeforeEachCallback,
+    AfterEachCallback,
+    TestCoroutineScope by TestCoroutineScope(testDispatcher) {
 
-    override fun starting(description: Description?) {
-        super.starting(description)
+    override fun beforeEach(context: ExtensionContext?) {
         Dispatchers.setMain(testDispatcher)
     }
 
-    override fun finished(description: Description?) {
-        super.finished(description)
+    override fun afterEach(context: ExtensionContext?) {
         Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
+        cleanupTestCoroutines()
     }
 }
 
-fun MainCoroutineRule.runBlockingTest(
+fun MainCoroutineExtension.runBlockingTest(
     block: suspend TestCoroutineScope.() -> Unit,
 ) = this.testDispatcher.runBlockingTest {
     block()
@@ -35,4 +36,5 @@ fun MainCoroutineRule.runBlockingTest(
 /**
  * Creates a new [CoroutineScope] with the rule's testDispatcher
  */
-fun MainCoroutineRule.CoroutineScope(): CoroutineScope = CoroutineScope(testDispatcher)
+@Suppress("unused", "TestFunctionName")
+fun MainCoroutineExtension.CoroutineScope(): CoroutineScope = CoroutineScope(testDispatcher)

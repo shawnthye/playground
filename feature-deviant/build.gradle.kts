@@ -4,17 +4,21 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     jacoco
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
-    compileSdk = ApplicationOptions.COMPILE_SDK
+    compileSdk = BuildOptions.COMPILE_SDK
 
     defaultConfig {
-        minSdk = ApplicationOptions.MIN_SDK
-        targetSdk = ApplicationOptions.COMPILE_SDK
+        minSdk = BuildOptions.MIN_SDK
+        targetSdk = BuildOptions.COMPILE_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments += mapOf("clearPackageData" to "true")
+        testInstrumentationRunnerArguments += mapOf(
+            "runnerBuilder" to "de.mannodermaus.junit5.AndroidJUnit5Builder",
+            "clearPackageData" to "true",
+        )
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -43,7 +47,9 @@ dependencies {
     api(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
     testImplementation(platform(project(":build-dep-constraints")))
+    testRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestImplementation(platform(project(":build-dep-constraints")))
+    androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestUtil(platform(project(":build-dep-constraints")))
 
     implementation(project(":app-entities"))
@@ -75,17 +81,17 @@ dependencies {
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)
 
-    //TODO: remove this
-    implementation(platform(Libs.OkHttp3.bom))
-    implementation(Libs.OkHttp3.okhttp)
-    implementation(Libs.OkHttp3.logging)
-    implementation(Libs.OkHttp3.dnsOverHttp)
-
-    testImplementation(Libs.Test.junit)
+    testImplementation(platform(Libs.Junit5.bom))
+    testImplementation(Libs.Junit5.jupiterApi)
+    testRuntimeOnly(Libs.Junit5.jupiterEngine)
     testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
 
-    androidTestImplementation(Libs.Test.junit)
+    androidTestImplementation(platform(Libs.Junit5.bom))
+    androidTestImplementation(Libs.Junit5.jupiterApi)
+    androidTestRuntimeOnly(Libs.Junit5.jupiterEngine)
+    androidTestImplementation(Libs.Junit5.androidCore)
+    androidTestRuntimeOnly(Libs.Junit5.androidRunner)
     androidTestImplementation(Libs.Test.hamcrestLibrary)
     androidTestImplementation(Libs.AndroidX.Test.junit)
     androidTestImplementation(Libs.AndroidX.Test.core)
