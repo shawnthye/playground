@@ -1,6 +1,7 @@
 package api.art.deviant
 
 import core.playground.data.FlowCallAdapterFactory
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -18,6 +19,7 @@ class DeviantArt @Inject constructor(
 
         val artClient = client.newBuilder()
             .addInterceptor(authenticator)
+            // .addInterceptor(cronetInterceptor)
             .build()
 
         Retrofit.Builder()

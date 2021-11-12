@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 
+//TODO delete on first fetch? or ui can hide it? since we do it in transaction, ui won't know until dispatch
+// need something delete before fetch?
 inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBoundResource(
     query: Flow<ResultType>,
     crossinline shouldFetch: (ResultType?) -> Boolean = { true },

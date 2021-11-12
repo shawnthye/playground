@@ -24,27 +24,33 @@ class AuthenticatorInterceptor @Inject constructor(
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val response = if (tokenCache != null) {
-            chain.proceed(chain.request())
+            chain.proceed(buildAuthRequest(chain.request()))
         } else {
+            tokenCache = requestToken()
             null
         }
 
-        if (response == null || response.code == 401) {
-            tokenCache = null
-            tokenCache = requestToken()
-        } else {
-            return response
+        if (response != null) {
+            if (response.code == 401) {
+                tokenCache = requestToken()
+            } else {
+                return response
+            }
         }
 
         // we will re-proceed the request one more time, close the original response here
-        response?.close()
+        // response?.close()
 
-        val request = chain.request().newBuilder().apply {
+        val request = buildAuthRequest(chain.request())
+        return chain.proceed(request)
+    }
+
+    private fun buildAuthRequest(origin: Request): Request {
+        return origin.newBuilder().apply {
             tokenCache?.also {
                 header("Authorization", "${it.token_type} ${it.access_token}")
             }
         }.build()
-        return chain.proceed(request)
     }
 
     private fun requestToken(): DeviantArtToken? {
