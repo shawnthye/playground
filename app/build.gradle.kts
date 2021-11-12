@@ -78,7 +78,6 @@ android {
             }
         }
         release {
-            isDebuggable = true
             isMinifyEnabled = true
             isCrunchPngs = false
             proguardFiles(
