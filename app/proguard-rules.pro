@@ -66,6 +66,16 @@
 #    static <1>$$serializer INSTANCE;
 #}
 
+# okhttp
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.*
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn reactor.blockhound.integration.BlockHoundIntegration
+
 # Retrofit adapter full R8 issue
 # we also use @Keep for core.playground.data.ApiResponse
 -keep interface kotlinx.coroutines.flow.Flow { *; }
