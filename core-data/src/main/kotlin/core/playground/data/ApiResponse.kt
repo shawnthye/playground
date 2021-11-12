@@ -1,11 +1,13 @@
 package core.playground.data
 
+import androidx.annotation.Keep
 import retrofit2.Response
 
 /**
  * Common class used by API responses.
  * @param <T> the type of the response object
 </T> */
+@Keep
 sealed class ApiResponse<T> {
     companion object {
         fun <T> create(error: Throwable): ApiErrorResponse<T> {

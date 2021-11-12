@@ -132,6 +132,7 @@ object Libs {
         const val analytics = "com.google.firebase:firebase-analytics-ktx"
         const val bom = "com.google.firebase:firebase-bom"
         const val config = "com.google.firebase:firebase-config-ktx"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     }
 
     object OkHttp3 {

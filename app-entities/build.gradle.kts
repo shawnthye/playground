@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     kotlin("kapt")
+    `java-library`
     id("com.android.lint")
 }
 

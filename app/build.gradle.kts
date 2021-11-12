@@ -2,7 +2,8 @@ import android.annotation.SuppressLint
 
 plugins {
     id("com.android.application")
-    // id("com.google.gms.google-services")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
@@ -11,7 +12,6 @@ plugins {
     // id("idea")
 
     // id("androidx.navigation.safeargs.kotlin")
-    // id("com.google.firebase.crashlytics")
     id("de.mannodermaus.android-junit5")
 }
 
@@ -45,23 +45,45 @@ android {
         }
     }
 
+    signingConfigs {
+        create("internal") {
+            storeFile = rootDir.resolve(".key-stores/internal.jks")
+            storePassword = "android"
+            keyPassword = "android"
+            keyAlias = "debug"
+        }
+    }
+
     flavorDimensions += "default"
 
     productFlavors {
-        maybeCreate("internal")
-        maybeCreate("production")
+        create("internal") {
+            dimension = "default"
+            signingConfig = signingConfigs.getByName("internal")
+            applicationIdSuffix = ".internal"
+        }
+        create("production") {
+            dimension = "default"
+            signingConfig = signingConfigs.getByName("internal")
+        }
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro",
-            )
-        }
         debug {
             isTestCoverageEnabled = true
             versionNameSuffix = "-debug"
+            configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
+                mappingFileUploadEnabled = false
+                nativeSymbolUploadEnabled = false
+            }
+        }
+        release {
+            isDebuggable = true
+            isMinifyEnabled = true
+            isCrunchPngs = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro",
+            )
         }
     }
 
@@ -84,11 +106,12 @@ android {
             // Exclude AndroidX version files
             excludes += "META-INF/*.version"
             // Exclude consumer proguard files
-            excludes += "META-INF/proguard/*"
+            // excludes += "META-INF/proguard/*"
             // Exclude the Firebase/Fabric/other random properties files
             excludes += "/*.properties"
             excludes += "fabric/*.properties"
             excludes += "META-INF/*.properties"
+            excludes += "DebugProbesKt.bin"
         }
     }
 }
@@ -142,16 +165,17 @@ dependencies {
     implementation(Libs.AndroidX.Navigation.ui)
 
     implementation(platform(Libs.Firebase.bom))
+    implementation(Libs.Firebase.crashlytics)
     implementation(Libs.Firebase.analytics)
     implementation(Libs.Firebase.config)
+
+    implementation(Libs.Kotlin.xJson)
 
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)
     implementation(Libs.OkHttp3.logging)
 
-    implementation(Libs.Retrofit2.retrofit)
     implementation(Libs.Retrofit2.converter)
-    implementation(Libs.Kotlin.xJson)
 
     implementation(Libs.coil)
 

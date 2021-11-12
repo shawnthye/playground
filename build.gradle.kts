@@ -17,8 +17,9 @@ buildscript {
         classpath(Libs.Dagger.hiltPluginGradle)
         classpath(kotlin("gradle-plugin", version = Versions.KOTLIN))
         classpath(kotlin("serialization", version = Versions.KOTLIN))
+        classpath("com.google.gms:google-services:4.3.10")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.0")
         // classpath("org.jacoco:org.jacoco.core:0.8.7")
-        // classpath("com.google.gms:google-services:4.3.10")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
 
         // NOTE: Do not place your application dependencies here; they belong

@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class DeviantArt @Inject constructor(
     private val client: OkHttpClient,
     private val authenticator: AuthenticatorInterceptor,
-    private val converter: Converter.Factory,
+    private val converterFactory: Converter.Factory,
 ) {
 
     val api: DeviantArtApi by lazy {
@@ -24,7 +24,7 @@ class DeviantArt @Inject constructor(
             .baseUrl("https://www.deviantart.com/api/v1/oauth2/")
             .client(artClient)
             .addCallAdapterFactory(FlowCallAdapterFactory())
-            .addConverterFactory(converter)
+            .addConverterFactory(converterFactory)
             .build()
             .create(DeviantArtApi::class.java)
     }
