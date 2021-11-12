@@ -80,7 +80,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGson(): Json = Json {
+    fun provideJson(): Json = Json {
         prettyPrint = BuildConfig.DEBUG
         ignoreUnknownKeys = true
     }
