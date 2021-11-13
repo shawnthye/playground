@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import app.playground.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import feature.playground.deviant.ui.DeviantArtActivity
+import feature.playground.deviant.ui.DeviantExplorerActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = binding.navView.apply {
             menu.findItem(R.id.nav_deviants_search).isCheckable = false
             menu.findItem(R.id.nav_deviants_search).setOnMenuItemClickListener {
-                Intent(this@MainActivity, DeviantArtActivity::class.java).also {
+                Intent(this@MainActivity, DeviantExplorerActivity::class.java).also {
                     startActivity(it)
                 }
                 true

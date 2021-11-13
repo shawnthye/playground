@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <!--Top level DayNight theme to be used in AndroidManifest.xml-->
+  <style name="DeviantArt" parent="Base.DeviantArt">
+    <!--Material color attributes (dark theme) -->
+    <item name="colorPrimary">@color/brand</item>
+    <item name="colorPrimaryVariant">@color/brand_variant</item>
+    <item name="colorSecondary">@color/brand</item>
+    <item name="colorSecondaryVariant">@color/brand_variant</item>
+    <item name="android:colorBackground">@color/brand_night</item>
+    <item name="colorSurface">@color/brand_night</item>
+    <item name="colorError">@color/red_200</item>
+
+    <item name="colorOnPrimary">@color/brand_night</item>
+    <item name="colorOnSecondary">@color/brand_night</item>
+    <item name="colorOnBackground">@color/white_50</item>
+    <item name="colorOnSurface">@color/white_50</item>
+    <item name="colorOnError">@color/brand_night</item>
+
+    <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+    <item name="elevationOverlayEnabled">false</item>
+
+    <item name="dividerVertical">@color/list_divider_night</item>
+  </style>
+</resources>
