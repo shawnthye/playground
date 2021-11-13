@@ -2,7 +2,7 @@ package feature.playground.deviant.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.entities.Deviation
+import app.playground.entities.DeviationEntities
 import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +11,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -21,14 +22,21 @@ class DeviantArtViewModel
     getPopularDeviantsUseCase: GetPopularDeviantsUseCase,
 ) : ViewModel(), DeviantArtsAdapter.OnClickListener {
 
-    private val deviantResult: StateFlow<Result<List<Deviation>>> = getPopularDeviantsUseCase(Unit)
-        .stateIn(
+    private val deviationsState: StateFlow<Result<List<DeviationEntities>>> =
+        getPopularDeviantsUseCase(Unit).stateIn(
             scope = viewModelScope,
             started = WhileViewSubscribed,
             initialValue = Result.Loading(null),
         )
 
-    val deviations = deviantResult.flatMapLatest {
+    val isLoading = deviationsState.mapLatest { it is Result.Loading }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileViewSubscribed,
+            initialValue = true,
+        )
+
+    val deviations = deviationsState.flatMapLatest {
         flow {
             if (it is Result.Success) {
                 emit(it.data)

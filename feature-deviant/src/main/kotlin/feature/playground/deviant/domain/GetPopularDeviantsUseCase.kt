@@ -1,6 +1,6 @@
 package feature.playground.deviant.domain
 
-import app.playground.entities.Deviation
+import app.playground.entities.DeviationEntities
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result
@@ -12,9 +12,9 @@ import javax.inject.Inject
 class GetPopularDeviantsUseCase @Inject constructor(
     private val repository: DeviantRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-) : FlowUseCase<Unit, List<Deviation>>(dispatcher) {
+) : FlowUseCase<Unit, List<DeviationEntities>>(dispatcher) {
 
     override fun execute(
         parameters: Unit,
-    ): Flow<Result<List<Deviation>>> = repository.observePopular()
+    ): Flow<Result<List<DeviationEntities>>> = repository.observePopular()
 }

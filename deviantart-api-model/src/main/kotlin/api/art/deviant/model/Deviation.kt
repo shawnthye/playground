@@ -3,23 +3,27 @@ package api.art.deviant.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DeviationDto(
+data class Deviation(
     @Suppress("SpellCheckingInspection")
     val deviationid: String,
     val url: String,
     val title: String,
-    val content: DeviationImageDto,
+    val content: DeviationImage,
+    val preview: DeviationImage,
+    val thumbs: List<DeviationImage>,
 )
 
 @Serializable
-data class DeviationImageDto(
+data class DeviationImage(
     val src: String,
     val height: Int,
     val width: Int,
+    @Suppress("SpellCheckingInspection")
+    val filesize: Int = 0,
 )
 
 @Serializable
-data class DeviationResultDto(
+data class DeviationResult(
     val next_offset: Int? = null,
-    val results: List<DeviationDto>,
+    val results: List<Deviation>,
 )

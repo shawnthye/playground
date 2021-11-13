@@ -1,6 +1,6 @@
 package feature.playground.deviant.domain
 
-import app.playground.entities.Deviation
+import app.playground.entities.DeviationEntities
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result
@@ -13,12 +13,12 @@ import javax.inject.Inject
 class GetDeviantUseCase @Inject constructor(
     private val repository: DeviantRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher,
-) : FlowUseCase<String, Deviation>(dispatcher) {
+) : FlowUseCase<String, DeviationEntities>(dispatcher) {
 
-    override fun execute(parameters: String): Flow<Result<Deviation>> = flow {
+    override fun execute(parameters: String): Flow<Result<DeviationEntities>> = flow {
         emit(
             Result.Success(
-                Deviation(
+                DeviationEntities(
                     "",
                     "",
                     "aaaa",

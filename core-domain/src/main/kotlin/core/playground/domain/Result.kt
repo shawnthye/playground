@@ -25,9 +25,6 @@ sealed class Result<out R>(open val data: R?) {
             is Loading -> "Loading[data=$data]"
         }
     }
-
-    companion object {
-    }
 }
 
 /**

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import core.playground.ui.setContentView
+
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.databinding.DeviationDetailBinding
 
