@@ -39,6 +39,7 @@ dependencies {
     implementation(Libs.Coroutines.core)
 
     implementation(Libs.AndroidX.core)
+    implementation(Libs.AndroidX.swipeRefresh)
 
     implementation(Libs.coil)
 }

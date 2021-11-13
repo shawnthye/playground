@@ -2,7 +2,7 @@ package feature.playground.deviant.data
 
 // import api.art.deviant.DeviantArt
 import api.art.deviant.DeviantArt
-import app.playground.entities.DeviationEntities
+import app.playground.entities.DeviationEntity
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResource
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,9 @@ class DeviantRepository @Inject constructor(
     private val deviantArt: DeviantArt,
     private val deviationDao: DeviationDao,
 ) {
-    fun observePopular(): Flow<Result<List<DeviationEntities>>> = deviantArt
+    fun observeDeviation(id: String): Flow<DeviationEntity> = deviationDao.observeDeviation(id)
+
+    fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviantArt
         .api
         .popular(null)
         .asNetworkBoundResource(
@@ -23,7 +25,7 @@ class DeviantRepository @Inject constructor(
         ) { response ->
 
             val entities = response.results.map {
-                DeviationEntities(
+                DeviationEntity(
                     id = it.deviationid,
                     url = it.url,
                     title = it.title,

@@ -11,7 +11,7 @@ sealed class Result<out R>(open val data: R?) {
 
     data class Success<out T>(override val data: T) : Result<T>(data)
 
-    data class Loading<out T>(override val data: T?) : Result<T>(data)
+    data class Loading<out T>(override val data: T? = null) : Result<T>(data)
 
     data class Error<out T>(
         val throwable: Throwable,
@@ -24,6 +24,10 @@ sealed class Result<out R>(open val data: R?) {
             is Error -> "Error[exception=$throwable][message=${throwable.message}][data=$data]"
             is Loading -> "Loading[data=$data]"
         }
+    }
+
+    fun isLoading(): Boolean {
+        return this is Loading
     }
 }
 

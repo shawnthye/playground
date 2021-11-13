@@ -22,8 +22,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/deviations"
-      deviations="@{viewModel.deviations}"
-      goneUnless="@{viewModel.deviations.size() != 0}"
+      deviations="@{viewModel.resultState.data}"
+      goneUnless="@{!viewModel.resultState.data.empty}"
       onClickListener="@{viewModel}"
       android:layout_width="0dp"
       android:layout_height="0dp"
@@ -41,7 +41,7 @@
 
     <ProgressBar
       style="?attr/progressBarStyle"
-      goneUnless="@{viewModel.isLoading}"
+      goneUnless="@{viewModel.resultState.loading}"
       android:layout_width="56dp"
       android:layout_height="56dp"
       app:layout_constraintBottom_toBottomOf="parent"

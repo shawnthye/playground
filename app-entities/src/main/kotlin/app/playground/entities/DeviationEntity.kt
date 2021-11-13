@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "deviations")
-data class DeviationEntities(
+data class DeviationEntity(
     @PrimaryKey val id: String,
     val url: String,
     val title: String,

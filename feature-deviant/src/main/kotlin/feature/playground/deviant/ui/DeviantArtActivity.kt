@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.entities.DeviationEntities
+import app.playground.entities.DeviationEntity
 import core.playground.ui.setContentView
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.databinding.DeviantArtBinding
@@ -40,7 +40,7 @@ class DeviantArtActivity : AppCompatActivity() {
 @BindingAdapter(value = ["deviations", "onClickListener"])
 fun deviations(
     recyclerView: RecyclerView,
-    list: List<DeviationEntities>?,
+    list: List<DeviationEntity>?,
     onClickListener: DeviantArtsAdapter.OnClickListener,
 ) {
     list ?: return

@@ -2,7 +2,7 @@ package app.playground
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import app.playground.entities.DeviationEntities
+import app.playground.entities.DeviationEntity
 import app.playground.entities.PopularDeviationEntities
 import feature.playground.deviant.data.DeviationDao
 
@@ -10,7 +10,7 @@ import feature.playground.deviant.data.DeviationDao
     version = 1,
     exportSchema = false,
     entities = [
-        DeviationEntities::class,
+        DeviationEntity::class,
         PopularDeviationEntities::class,
     ],
 )

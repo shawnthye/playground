@@ -43,6 +43,7 @@ dependencies {
         api("${Libs.AndroidX.fragmentKtx}:${Versions.FRAGMENT}")
         api("${Libs.AndroidX.fragment}:${Versions.FRAGMENT}")
         api("${Libs.AndroidX.recyclerView}:${Versions.RECYCLER_VIEW}")
+        api("${Libs.AndroidX.swipeRefresh}:${Versions.SWIPE_REFRESH}")
         api("${Libs.Coroutines.android}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.core}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.play}:${Versions.COROUTINES}")

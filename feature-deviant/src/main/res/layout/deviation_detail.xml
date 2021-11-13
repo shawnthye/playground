@@ -7,19 +7,11 @@
 
   <data>
 
-    <!--<import type="kotlinx.coroutines.flow.StateFlow" />-->
+    <import type="feature.playground.deviant.ui.DeviationViewModel" />
 
-    <!--<import type="core.playground.domain.Result" />-->
-
-    <!--<import type="feature.playground.deviant.ui.DeviationViewModel" />-->
-
-    <!--<variable-->
-    <!--  name="artViewModel"-->
-    <!--  type="feature.playground.deviant.ui.DeviationViewModel"-->
-    <!--  />-->
     <variable
-      name="id"
-      type="String"
+      name="viewModel"
+      type="DeviationViewModel"
       />
   </data>
 
@@ -28,15 +20,59 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@{id}"
+    <core.playground.ui.widget.CoreSwipeRefreshLayout
+      goneUnless="@{viewModel.loadDeviantResult.data != null}"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:text="@tools:sample/full_names"
+      app:onRefreshListener="@{() -> viewModel.onSwipeRefresh()}"
+      app:refreshing="@{viewModel.loadDeviantResult.loading}"
+      >
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@{viewModel.loadDeviantResult.data.id}"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:text="@tools:sample/full_names"
+          />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@{viewModel.loadDeviantResult.data.title}"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:text="@tools:sample/lorem[5]"
+          />
+      </LinearLayout>
+    </core.playground.ui.widget.CoreSwipeRefreshLayout>
+
+
+    <ProgressBar
+      style="?attr/progressBarStyle"
+      goneUnless="@{viewModel.loadDeviantResult.loading}"
+      android:layout_width="56dp"
+      android:layout_height="56dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
       />
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

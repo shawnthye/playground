@@ -40,6 +40,7 @@ object Versions {
     const val RETROFIT_CONVERTER = "0.8.0"
     const val ROOM = "2.3.0"
     const val TIMBER = "5.0.1"
+    const val SWIPE_REFRESH = "1.1.0"
 }
 
 object Libs {
@@ -60,6 +61,7 @@ object Libs {
     }
 
     object AndroidX {
+
         const val activity = "androidx.activity:activity"
         const val activityCompose = "androidx.activity:activity-compose"
         const val activityKtx = "androidx.activity:activity-ktx"
@@ -73,6 +75,9 @@ object Libs {
         const val fragment = "androidx.fragment:fragment"
         const val fragmentKtx = "androidx.fragment:fragment-ktx"
         const val recyclerView = "androidx.recyclerview:recyclerview"
+
+        @Suppress("SpellCheckingInspection")
+        const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout"
 
         object Compose {
             const val material = "androidx.compose.material:material"

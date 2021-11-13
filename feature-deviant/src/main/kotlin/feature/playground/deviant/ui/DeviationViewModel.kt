@@ -1,40 +1,46 @@
 package feature.playground.deviant.ui
-//
-// import androidx.lifecycle.SavedStateHandle
-// import androidx.lifecycle.ViewModel
-// import androidx.lifecycle.viewModelScope
-// import app.playground.entities.DeviationEntities
-// import core.playground.domain.Result
-// import core.playground.ui.WhileViewSubscribed
-// import dagger.hilt.android.lifecycle.HiltViewModel
-// import feature.playground.deviant.domain.GetDeviantUseCase
-// import kotlinx.coroutines.flow.Flow
-// import kotlinx.coroutines.flow.StateFlow
-// import kotlinx.coroutines.flow.map
-// import kotlinx.coroutines.flow.stateIn
-// import javax.inject.Inject
-//
-// @HiltViewModel
-// class DeviationViewModel @Inject constructor(
-//     getDeviantUseCase: GetDeviantUseCase,
-//     savedStateHandle: SavedStateHandle,
-// ) : ViewModel() {
-//
-//     private val deviantId: String = savedStateHandle.get<String>("id")!!
-//
-//     private val deviantResult: Flow<Result<DeviationEntities>> = getDeviantUseCase(deviantId)
-//
-//     // val deviant = deviantResult.flatMapLatest {
-//     //     flow {
-//     //         if (it is Result.Success) {
-//     //             emit(it.data)
-//     //         }
-//     //     }
-//     // }
-//
-//     val deviant: StateFlow<DeviationEntities?> = deviantResult.map { it.data }.stateIn(
-//         scope = viewModelScope,
-//         started = WhileViewSubscribed,
-//         initialValue = null,
-//     )
-// }
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import app.playground.entities.DeviationEntity
+import core.playground.domain.Result
+import core.playground.ui.WhileViewSubscribed
+import dagger.hilt.android.lifecycle.HiltViewModel
+import feature.playground.deviant.domain.LoadDeviantUseCase
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+
+@HiltViewModel
+class DeviationViewModel @Inject constructor(
+    loadDeviantUseCase: LoadDeviantUseCase,
+    savedStateHandle: SavedStateHandle,
+) : ViewModel() {
+
+    private val deviantId: String = savedStateHandle.get<String>(EXTRA_ID)!!
+
+    private val _swipeRefreshing = Channel<Unit>(Channel.CONFLATED).apply {
+        // init start loading
+        trySend(Unit)
+    }
+
+    val loadDeviantResult: StateFlow<Result<DeviationEntity>> = _swipeRefreshing
+        .receiveAsFlow()
+        .flatMapLatest { loadDeviantUseCase(deviantId) }.stateIn(
+            scope = viewModelScope,
+            started = WhileViewSubscribed,
+            initialValue = Result.Loading(),
+        )
+
+    fun onSwipeRefresh() {
+        _swipeRefreshing.trySend(Unit)
+    }
+
+    companion object {
+        const val EXTRA_ID = "extra.id"
+    }
+}
