@@ -11,8 +11,11 @@ import feature.playground.deviant.domain.LoadDeviantUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,20 +24,33 @@ class DeviationViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val deviantId: String = savedStateHandle.get<String>(EXTRA_ID)!!
-
-    private val _swipeRefreshing = Channel<Unit>(Channel.CONFLATED).apply {
-        // init start loading
-        trySend(Unit)
+    private val deviantId: String = savedStateHandle.get<String>(EXTRA_ID)!!.also {
+        Timber.i("deviation $it opened")
     }
 
-    val loadDeviantResult: StateFlow<Result<DeviationEntity>> = _swipeRefreshing
+    private val _swipeRefreshing = Channel<Unit>(Channel.CONFLATED).apply {
+        trySend(Unit) // init loading
+    }
+
+    private val loadDeviantResult: StateFlow<Result<DeviationEntity>> = _swipeRefreshing
         .receiveAsFlow()
         .flatMapLatest { loadDeviantUseCase(deviantId) }.stateIn(
             scope = viewModelScope,
             started = WhileViewSubscribed,
             initialValue = Result.Loading(),
         )
+
+    val deviationState = loadDeviantResult.map { it.data }.stateIn(
+        scope = viewModelScope,
+        started = WhileViewSubscribed,
+        initialValue = null,
+    )
+
+    val isLoading = loadDeviantResult.mapLatest { it is Result.Loading }.stateIn(
+        scope = viewModelScope,
+        started = WhileViewSubscribed,
+        initialValue = true,
+    )
 
     fun onSwipeRefresh() {
         _swipeRefreshing.trySend(Unit)
