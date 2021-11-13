@@ -24,6 +24,8 @@ object Versions {
     const val HAMCREST = "2.2"
     const val JACOCO = "0.8.7"
     const val JUNIT = "4.13.2"
+    const val JUNIT5_ANDROID_TEST = "1.3.0"
+    const val JUPITER = "5.8.1"
     const val KOTLIN = "1.5.31"
     const val KOTLINX_JSON = "1.3.1"
     const val KTLINT = "0.43.0"
@@ -33,12 +35,11 @@ object Versions {
     const val NAVIGATION = "2.3.5"
     const val OKIO = "3.0.0"
     const val OK_HTTP = "4.9.2"
+    const val RECYCLER_VIEW = "1.2.1"
     const val RETROFIT = "2.9.0"
     const val RETROFIT_CONVERTER = "0.8.0"
     const val ROOM = "2.3.0"
     const val TIMBER = "5.0.1"
-    const val JUPITER = "5.8.1"
-    const val JUNIT5_ANDROID_TEST = "1.3.0"
 }
 
 object Libs {
@@ -71,6 +72,7 @@ object Libs {
         const val drawerLayout = "androidx.drawerlayout:drawerlayout"
         const val fragment = "androidx.fragment:fragment"
         const val fragmentKtx = "androidx.fragment:fragment-ktx"
+        const val recyclerView = "androidx.recyclerview:recyclerview"
 
         object Compose {
             const val material = "androidx.compose.material:material"

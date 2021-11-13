@@ -5,6 +5,11 @@
   <application>
     <activity
       android:name=".ui.DeviantArtActivity"
+      android:exported="false"
+      android:label="@string/deviant_art" />
+
+    <activity
+      android:name=".ui.DeviationActivity"
       android:exported="false" />
   </application>
 

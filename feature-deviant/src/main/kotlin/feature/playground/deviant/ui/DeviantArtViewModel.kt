@@ -7,8 +7,11 @@ import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.GetPopularDeviantsUseCase
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -16,7 +19,7 @@ import javax.inject.Inject
 class DeviantArtViewModel
 @Inject constructor(
     getPopularDeviantsUseCase: GetPopularDeviantsUseCase,
-) : ViewModel() {
+) : ViewModel(), DeviantArtsAdapter.OnClickListener {
 
     private val deviantResult: StateFlow<Result<List<Deviation>>> = getPopularDeviantsUseCase(Unit)
         .stateIn(
@@ -25,19 +28,22 @@ class DeviantArtViewModel
             initialValue = Result.Loading(null),
         )
 
-    // val deviant2 = deviantResult.flatMapLatest {
-    //     flow {
-    //         if (it is Result.Success) {
-    //             emit(it.data)
-    //         }
-    //     }
-    // }.stateIn()
-
-    val deviant: StateFlow<Deviation?> = deviantResult.mapLatest {
-        it.data?.firstOrNull()
+    val deviations = deviantResult.flatMapLatest {
+        flow {
+            if (it is Result.Success) {
+                emit(it.data)
+            }
+        }
     }.stateIn(
         scope = viewModelScope,
         started = WhileViewSubscribed,
-        initialValue = null,
+        initialValue = emptyList(),
     )
+
+    private val _idAction = Channel<String>(capacity = Channel.CONFLATED)
+    val idActions = _idAction.receiveAsFlow()
+
+    override fun onClicked(id: String) {
+        _idAction.trySend(id)
+    }
 }

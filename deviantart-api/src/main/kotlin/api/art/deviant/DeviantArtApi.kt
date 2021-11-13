@@ -1,6 +1,6 @@
 package api.art.deviant
 
-import api.art.deviant.model.DeviationResult
+import api.art.deviant.model.DeviationResultDto
 import core.playground.data.ApiResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
@@ -11,5 +11,5 @@ interface DeviantArtApi {
     fun popular(
         @Query("offset") offset: Int?,
         @Query("limit") limit: Int = 10,
-    ): Flow<ApiResponse<DeviationResult>>
+    ): Flow<ApiResponse<DeviationResultDto>>
 }

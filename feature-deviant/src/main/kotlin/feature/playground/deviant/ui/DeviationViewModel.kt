@@ -3,7 +3,7 @@ package feature.playground.deviant.ui
 // import androidx.lifecycle.SavedStateHandle
 // import androidx.lifecycle.ViewModel
 // import androidx.lifecycle.viewModelScope
-// import app.playground.entities.Deviation
+// import app.playground.entities.DeviationDto
 // import core.playground.domain.Result
 // import core.playground.ui.WhileViewSubscribed
 // import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +22,7 @@ package feature.playground.deviant.ui
 //
 //     private val deviantId: String = savedStateHandle.get<String>("id")!!
 //
-//     private val deviantResult: Flow<Result<Deviation>> = getDeviantUseCase(deviantId)
+//     private val deviantResult: Flow<Result<DeviationDto>> = getDeviantUseCase(deviantId)
 //
 //     // val deviant = deviantResult.flatMapLatest {
 //     //     flow {
@@ -32,7 +32,7 @@ package feature.playground.deviant.ui
 //     //     }
 //     // }
 //
-//     val deviant: StateFlow<Deviation?> = deviantResult.map { it.data }.stateIn(
+//     val deviant: StateFlow<DeviationDto?> = deviantResult.map { it.data }.stateIn(
 //         scope = viewModelScope,
 //         started = WhileViewSubscribed,
 //         initialValue = null,

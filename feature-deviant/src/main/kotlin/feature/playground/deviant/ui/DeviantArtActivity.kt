@@ -3,9 +3,17 @@ package feature.playground.deviant.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.RecyclerView
+import app.playground.entities.Deviation
 import core.playground.ui.setContentView
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.databinding.DeviantArtBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DeviantArtActivity : AppCompatActivity() {
@@ -18,5 +26,30 @@ class DeviantArtActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         setContentView(binding)
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.idActions.collect {
+                    startActivity(DeviationActivity.intentFor(this@DeviantArtActivity, it))
+                }
+            }
+        }
+    }
+}
+
+@BindingAdapter(value = ["deviations", "onClickListener"])
+fun deviations(
+    recyclerView: RecyclerView,
+    list: List<Deviation>?,
+    onClickListener: DeviantArtsAdapter.OnClickListener,
+) {
+    list ?: return
+
+    if (recyclerView.adapter == null) {
+        recyclerView.adapter = DeviantArtsAdapter(onClickListener)
+    }
+    recyclerView.setOnClickListener { }
+    (recyclerView.adapter as DeviantArtsAdapter).apply {
+        submitList(list)
     }
 }

@@ -1,8 +1,7 @@
-import android.annotation.SuppressLint
-
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -35,7 +34,11 @@ dependencies {
 
     api(platform(project(":build-dep-constraints")))
 
+    implementation(Libs.timber)
+
     implementation(Libs.Coroutines.core)
 
     implementation(Libs.AndroidX.core)
+
+    implementation(Libs.coil)
 }
