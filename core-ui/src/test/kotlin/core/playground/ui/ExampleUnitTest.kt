@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        //16:9
-        //1280×720
+        // 16:9
+        // 1280×720
 
         val mod = Math.floorMod(1280, 720)
 

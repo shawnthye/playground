@@ -19,7 +19,9 @@ abstract class DeviantArtNavigationFragment : Fragment() {
     private var navigationHost: NavigationHost? = null
 
     abstract override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

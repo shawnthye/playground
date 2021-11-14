@@ -15,5 +15,4 @@ data class MetaData(
     val author: User,
 
     val tags: List<Tag>,
-) {
-}
+)
