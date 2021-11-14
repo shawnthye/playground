@@ -2,9 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@id/deviant_art_nav_popular"
-  app:route="@string/deviant_art_popular"
+  android:id="@id/deviant_art_navigation_popular"
   android:label="@string/deviant_art_popular"
+  app:route="@string/deviant_art_popular"
   app:startDestination="@id/deviant_popular_start">
 
   <fragment
@@ -14,13 +14,15 @@
     tools:layout="@layout/deviant_track">
     <argument
       android:name="track"
-      android:defaultValue="popular" />
+      android:defaultValue="popular"
+      app:argType="string"
+      app:nullable="false" />
   </fragment>
 
   <fragment
-    android:id="@+id/deviant_detail"
+    android:id="@+id/deviation_detail"
     android:name="feature.playground.deviant.ui.deviation.DeviationDetail"
-    android:label="Popular Detail"
+    android:label="Deviation"
     tools:layout="@layout/deviation_detail">
     <argument
       android:name="id"

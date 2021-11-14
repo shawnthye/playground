@@ -24,9 +24,9 @@ class DeviationDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val deviantId: String = savedStateHandle.get<String>(ARGS_DEVIATION_ID)!!.also {
-        Timber.i("deviation $it opened")
-    }
+    private val safeArgs = DeviationDetailArgs.fromSavedStateHandle(savedStateHandle)
+
+    private val deviantId = safeArgs.id.also { Timber.i("deviation $it opened") }
 
     private val _swipeRefreshing = Channel<Unit>(Channel.CONFLATED).apply {
         trySend(Unit) // init loading
@@ -54,9 +54,5 @@ class DeviationDetailViewModel @Inject constructor(
 
     fun onSwipeRefresh() {
         _swipeRefreshing.trySend(Unit)
-    }
-
-    companion object {
-        const val ARGS_DEVIATION_ID = "args.DEVIATION_ID"
     }
 }

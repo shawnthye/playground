@@ -16,7 +16,7 @@
     android:layout_height="0dp"
     android:layout_weight="1"
     app:defaultNavHost="true"
-    app:navGraph="@navigation/deviant_art_navigation_graph"
+    app:navGraph="@navigation/deviant_art_bottom_navigation_graph"
     />
 
   <com.google.android.material.bottomnavigation.BottomNavigationView
