@@ -18,7 +18,7 @@ dependencies {
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)
 
-    implementation(Libs.Kotlin.xJson)
+    implementation(Libs.JetBrains.xJson)
 
     implementation(Libs.Retrofit2.retrofit)
 

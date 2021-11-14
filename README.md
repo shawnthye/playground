@@ -21,3 +21,4 @@
 [x] UseCase
 [] Domain
 [] Saving api auth on app module
+[] Dynamic features

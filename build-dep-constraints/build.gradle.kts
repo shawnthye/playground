@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     constraints {
-        api("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
         api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTestJunit4}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiToolingPreview}:${Versions.COMPOSE}")
@@ -58,7 +57,8 @@ dependencies {
         api("${Libs.Junit5.androidCore}:${Versions.JUNIT5_ANDROID_TEST}")
         api("${Libs.Junit5.androidRunner}:${Versions.JUNIT5_ANDROID_TEST}")
         api("${Libs.Junit5.bom}:${Versions.JUPITER}")
-        api("${Libs.Kotlin.xJson}:${Versions.KOTLINX_JSON}")
+        api("${Libs.JetBrains.reflect}:${Versions.KOTLIN}")
+        api("${Libs.JetBrains.xJson}:${Versions.KOTLINX_JSON}")
         api("${Libs.OkHttp3.bom}:${Versions.OK_HTTP}")
         api("${Libs.OkHttp3.dnsOverHttp}:${Versions.OK_HTTP}")
         api("${Libs.OkHttp3.okhttp}:${Versions.OK_HTTP}")

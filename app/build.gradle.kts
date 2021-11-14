@@ -126,8 +126,6 @@ dependencies {
     androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestUtil(platform(project(":build-dep-constraints")))
 
-    compileOnly("com.android.tools.lint:lint-checks:30.0.3")
-
     implementation(project(":core"))
     implementation(project(":app-entities"))
     implementation(project(":feature-deviant"))
@@ -170,7 +168,7 @@ dependencies {
     implementation(Libs.Firebase.analytics)
     implementation(Libs.Firebase.config)
 
-    implementation(Libs.Kotlin.xJson)
+    implementation(Libs.JetBrains.xJson)
 
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)

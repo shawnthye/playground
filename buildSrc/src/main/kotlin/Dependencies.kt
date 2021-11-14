@@ -55,9 +55,10 @@ object Libs {
         const val pluginGradle = "com.android.tools.build:gradle:${Versions.ANDROID_PLUGIN}"
     }
 
-    object Kotlin {
+    object JetBrains {
         const val pluginGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
         const val xJson = "org.jetbrains.kotlinx:kotlinx-serialization-json"
+        const val reflect = "org.jetbrains.kotlin:kotlin-reflect"
     }
 
     object AndroidX {
@@ -94,6 +95,9 @@ object Libs {
         }
 
         object Navigation {
+            const val pluginGradle = "androidx.navigation:navigation-safe-args-gradle-plugin:${
+                Versions.NAVIGATION
+            }"
             const val fragment = "androidx.navigation:navigation-fragment-ktx"
             const val ui = "androidx.navigation:navigation-ui-ktx"
         }
