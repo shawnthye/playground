@@ -1,4 +1,4 @@
-package feature.playground.deviant.ui
+package feature.playground.deviant.ui.track
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class DeviantArtViewModel
+class DeviantTrackViewModel
 @Inject constructor(
     loadPopularDeviantsUseCase: LoadPopularDeviantsUseCase,
-) : ViewModel(), DeviantArtsAdapter.OnClickListener {
+) : ViewModel(), DeviantTrackAdapter.OnClickListener {
 
     val resultState: StateFlow<Result<List<DeviationEntity>>> =
         loadPopularDeviantsUseCase(Unit).stateIn(

@@ -30,8 +30,8 @@ class DeviantRepository @Inject constructor(
                     url = it.url,
                     title = it.title,
                     imageSrc = (it.thumbs.lastOrNull() ?: it.preview).src,
-                    imageHeight = it.content.height,
-                    imageWidth = it.content.width,
+                    imageHeight = it.content?.height ?: it.thumbs.lastOrNull()?.height ?: 0,
+                    imageWidth = it.content?.width ?: it.thumbs.lastOrNull()?.width ?: 0,
                     track = null,
                 )
             }

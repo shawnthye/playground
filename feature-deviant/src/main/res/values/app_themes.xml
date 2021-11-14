@@ -16,29 +16,29 @@
     <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
     <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
     <!--selection controls.-->
-    <item name="colorPrimary">@color/brand_night</item>
-    <item name="colorPrimaryVariant">@color/brand_night</item>
-    <item name="colorSecondary">@color/brand</item>
-    <item name="colorSecondaryVariant">@color/brand_variant</item>
+    <item name="colorPrimary">@color/deviant_art_brand_night</item>
+    <item name="colorPrimaryVariant">@color/deviant_art_brand_night</item>
+    <item name="colorSecondary">@color/deviant_art_brand</item>
+    <item name="colorSecondaryVariant">@color/deviant_art_brand_variant</item>
 
     <!--colorBackground appears behind scrollable content and is used for the default window-->
     <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
     <!--and menus. colorError is used to indicate an error state for components such as-->
     <!--text fields.-->
-    <item name="android:colorBackground">@color/white_50</item>
-    <item name="colorSurface">@color/white_50</item>
-    <item name="colorError">@color/red_600</item>
+    <item name="android:colorBackground">@color/deviant_art_white_50</item>
+    <item name="colorSurface">@color/deviant_art_white_50</item>
+    <item name="colorError">@color/deviant_art_red_600</item>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
     <!--on which they appear.-->
-    <item name="colorOnPrimary">@color/white_50</item>
-    <item name="colorOnSecondary">@color/white_50</item>
-    <item name="colorOnBackground">@color/brand_night</item>
-    <item name="colorOnSurface">@color/brand_night</item>
-    <item name="colorOnError">@color/white_50</item>
+    <item name="colorOnPrimary">@color/deviant_art_white_50</item>
+    <item name="colorOnSecondary">@color/deviant_art_white_50</item>
+    <item name="colorOnBackground">@color/deviant_art_brand_night</item>
+    <item name="colorOnSurface">@color/deviant_art_brand_night</item>
+    <item name="colorOnError">@color/deviant_art_white_50</item>
 
     <!--Dividers-->
-    <item name="dividerVertical">@color/list_divider_day</item>
+    <item name="dividerVertical">@color/deviant_art_list_divider_day</item>
     <item name="android:dividerVertical">?dividerVertical</item>
     <item name="android:listDivider">?dividerVertical</item>
     <!--<item name="dividerHorizontal">@drawable/abc_list_divider_mtrl_alpha</item>-->
@@ -114,9 +114,9 @@
     <!-- Work around to remove DrawerLayout status bar color -->
     <item name="colorPrimaryDark">@null</item>
 
-    <item name="android:statusBarColor">@color/status_bar_color</item>
+    <item name="android:statusBarColor">@color/deviant_art_status_bar_color</item>
     <!--    <item name="android:windowLightStatusBar">true</item>-->
-    <item name="android:navigationBarColor">@color/status_bar_color</item>
+    <item name="android:navigationBarColor">@color/deviant_art_status_bar_color</item>
     <!--    <item name="android:windowLightNavigationBar">true</item>-->
   </style>
 </resources>

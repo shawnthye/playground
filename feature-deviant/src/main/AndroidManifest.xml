@@ -4,14 +4,9 @@
 
   <application>
     <activity
-      android:name=".ui.DeviantExplorerActivity"
+      android:name=".ui.DeviantArt"
       android:exported="false"
       android:label="@string/deviant_art"
-      android:theme="@style/DeviantArt" />
-
-    <activity
-      android:name=".ui.DeviationActivity"
-      android:exported="false"
       android:theme="@style/DeviantArt" />
   </application>
 

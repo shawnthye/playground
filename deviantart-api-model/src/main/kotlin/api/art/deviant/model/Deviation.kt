@@ -8,7 +8,7 @@ data class Deviation(
     val deviationid: String,
     val url: String,
     val title: String,
-    val content: DeviationImage,
+    val content: DeviationImage? = null,
     val preview: DeviationImage,
     val thumbs: List<DeviationImage>,
 )

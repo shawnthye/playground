@@ -1,73 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  tools:context=".ui.DeviantExplorerActivity"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context=".ui.DeviantArt"
   >
 
-  <data>
-
-    <import type="feature.playground.deviant.ui.DeviantArtViewModel" />
-
-    <variable
-      name="viewModel"
-      type="DeviantArtViewModel"
-      />
-  </data>
-
-  <androidx.constraintlayout.widget.ConstraintLayout
+  <androidx.fragment.app.FragmentContainerView
+    android:id="@+id/nav_host_container"
+    android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/deviant_art_navigation_graph"
+    />
 
-    <com.google.android.material.appbar.AppBarLayout
-      android:id="@+id/appbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:fitsSystemWindows="true"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      >
-
-      <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/deviations"
-      deviations="@{viewModel.resultState.data}"
-      goneUnless="@{!viewModel.resultState.data.empty}"
-      onClickListener="@{viewModel}"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      android:orientation="vertical"
-      app:layoutManager="GridLayoutManager"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/appbar"
-      app:spanCount="2"
-      tools:itemCount="10"
-      tools:listitem="@layout/deviation_item"
-      tools:spanCount="2"
-      />
-
-    <ProgressBar
-      style="?attr/progressBarStyle"
-      goneUnless="@{viewModel.resultState.loading}"
-      android:layout_width="56dp"
-      android:layout_height="56dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      />
-  </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</layout>
+  <com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:menu="@menu/deviant_art_navigation_menu"
+    />
+</LinearLayout>

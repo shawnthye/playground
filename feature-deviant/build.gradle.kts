@@ -70,6 +70,9 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.viewModel)
     implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
 
+    implementation(Libs.AndroidX.Navigation.fragment)
+    implementation(Libs.AndroidX.Navigation.ui)
+
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
 

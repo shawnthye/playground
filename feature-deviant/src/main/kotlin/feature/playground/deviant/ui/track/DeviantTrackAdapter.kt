@@ -1,4 +1,4 @@
-package feature.playground.deviant.ui
+package feature.playground.deviant.ui.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,21 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import app.playground.entities.DeviationEntity
 import feature.playground.deviant.databinding.DeviationItemBinding
 
-class DeviantArtsAdapter(
+class DeviantTrackAdapter(
     private val onClickListener: OnClickListener,
-) : ListAdapter<DeviationEntity, DeviationArtViewHolder>(Diff) {
+) : ListAdapter<DeviationEntity, DeviationViewHolder>(Diff) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviationArtViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviationViewHolder {
 
         val binding = DeviationItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false,
         )
         binding.onClickListener = onClickListener
 
-        return DeviationArtViewHolder(binding)
+        return DeviationViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: DeviationArtViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
@@ -31,7 +31,7 @@ class DeviantArtsAdapter(
     }
 }
 
-class DeviationArtViewHolder(
+class DeviationViewHolder(
     private val binding: DeviationItemBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(deviation: DeviationEntity) {
@@ -41,9 +41,11 @@ class DeviationArtViewHolder(
 }
 
 object Diff : DiffUtil.ItemCallback<DeviationEntity>() {
-    override fun areItemsTheSame(oldItem: DeviationEntity, newItem: DeviationEntity): Boolean {
-        return oldItem.id == newItem.id
-    }
+    override fun areItemsTheSame(
+        oldItem: DeviationEntity, newItem: DeviationEntity,
+    ) = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: DeviationEntity, newItem: DeviationEntity) = oldItem == newItem
+    override fun areContentsTheSame(
+        oldItem: DeviationEntity, newItem: DeviationEntity,
+    ) = oldItem == newItem
 }

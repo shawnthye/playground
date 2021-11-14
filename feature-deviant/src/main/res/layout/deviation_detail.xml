@@ -2,16 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  tools:context=".ui.DeviationActivity"
+  tools:context=".ui.deviation.DeviationDetail"
   >
 
   <data>
 
-    <import type="feature.playground.deviant.ui.DeviationViewModel" />
+    <import type="feature.playground.deviant.ui.deviation.DeviationDetailViewModel" />
 
     <variable
       name="viewModel"
-      type="DeviationViewModel"
+      type="DeviationDetailViewModel"
       />
   </data>
 
@@ -68,7 +68,6 @@
               />
           </androidx.constraintlayout.widget.ConstraintLayout>
 
-
           <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -103,7 +102,6 @@
 
       </androidx.core.widget.NestedScrollView>
     </core.playground.ui.widget.CoreSwipeRefreshLayout>
-
 
     <ProgressBar
       style="?attr/progressBarStyle"

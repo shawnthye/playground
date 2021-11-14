@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@id/deviant_art_nav_popular"
+  app:startDestination="@id/deviant_track_popular">
+
+  <fragment
+    android:id="@+id/deviant_track_popular"
+    android:name="feature.playground.deviant.ui.track.DeviantTrack"
+    android:label="Popular"
+    tools:layout="@layout/deviant_track">
+    <argument
+      android:name="track"
+      android:defaultValue="popular" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/deviant_detail"
+    android:name="feature.playground.deviant.ui.deviation.DeviationDetail"
+    android:label="Popular"
+    tools:layout="@layout/deviation_detail">
+    <argument
+      android:name="args.DEVIATION_ID"
+      app:argType="string" />
+  </fragment>
+</navigation>

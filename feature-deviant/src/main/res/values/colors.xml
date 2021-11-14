@@ -28,22 +28,22 @@
 
   <!--Color palette-->
 
-  <color name="brand">#00e59b</color>
-  <color name="brand_variant">#00c787</color>
+  <color name="deviant_art_brand">#00e59b</color>
+  <color name="deviant_art_brand_variant">#00c787</color>
 
-  <color name="brand_night">#06070d</color>
-  <color name="brand_night_variant">#15191e</color>
+  <color name="deviant_art_brand_night">#06070d</color>
+  <color name="deviant_art_brand_night_variant">#15191e</color>
 
-  <color name="red_200">#ffcf6679</color> <!--Color error (dark)-->
-  <color name="red_600">#ffb00020</color> <!--Color error (light)-->
+  <color name="deviant_art_red_200">#ffcf6679</color> <!--Color error (dark)-->
+  <color name="deviant_art_red_600">#ffb00020</color> <!--Color error (light)-->
 
   <!--Color surface (light), color on error (light), -->
   <!--color on surface (dark), color on surface (dark)-->
-  <color name="white_50">#ffffffff</color>
+  <color name="deviant_art_white_50">#ffffffff</color>
 
-  <color name="status_bar_color">@color/brand_night</color>
+  <color name="deviant_art_status_bar_color">@color/deviant_art_brand_night</color>
 
-  <color name="list_divider_day">#1f000000</color>
-  <color name="list_divider_night">#1fffffff</color>
+  <color name="deviant_art_list_divider_day">#1f000000</color>
+  <color name="deviant_art_list_divider_night">#1fffffff</color>
 
 </resources>

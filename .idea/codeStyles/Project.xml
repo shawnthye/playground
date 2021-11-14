@@ -22,6 +22,9 @@
     <Properties>
       <option name="KEEP_BLANK_LINES" value="true" />
     </Properties>
+    <XML>
+      <option name="XML_KEEP_BLANK_LINES" value="1" />
+    </XML>
     <codeStyleSettings language="EditorConfig">
       <option name="SPACE_AFTER_COMMA" value="false" />
     </codeStyleSettings>

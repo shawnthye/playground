@@ -3,7 +3,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
   <style name="ThemeOverlay.DeviantArt.Branded" parent="ThemeOverlay.MaterialComponents.Dialog">
-    <item name="colorPrimary">@color/brand</item>
+    <item name="colorPrimary">@color/deviant_art_brand</item>
   </style>
 
   <style name="ThemeOverlay.DeviantArt.Toolbar" parent="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary">

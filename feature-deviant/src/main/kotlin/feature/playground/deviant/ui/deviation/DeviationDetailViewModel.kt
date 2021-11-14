@@ -1,4 +1,4 @@
-package feature.playground.deviant.ui
+package feature.playground.deviant.ui.deviation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -19,12 +19,12 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class DeviationViewModel @Inject constructor(
+class DeviationDetailViewModel @Inject constructor(
     loadDeviantUseCase: LoadDeviantUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val deviantId: String = savedStateHandle.get<String>(EXTRA_ID)!!.also {
+    private val deviantId: String = savedStateHandle.get<String>(ARGS_DEVIATION_ID)!!.also {
         Timber.i("deviation $it opened")
     }
 
@@ -57,6 +57,6 @@ class DeviationViewModel @Inject constructor(
     }
 
     companion object {
-        const val EXTRA_ID = "extra.id"
+        const val ARGS_DEVIATION_ID = "args.DEVIATION_ID"
     }
 }
