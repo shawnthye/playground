@@ -23,7 +23,7 @@
     android:label="Home Detail"
     tools:layout="@layout/deviation_detail">
     <argument
-      android:name="args.DEVIATION_ID"
+      android:name="id"
       app:argType="string" />
   </fragment>
 </navigation>
