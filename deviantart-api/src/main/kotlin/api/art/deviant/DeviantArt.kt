@@ -18,7 +18,7 @@ class DeviantArt @Inject constructor(
 
         val artClient = client.newBuilder()
             .authenticator(authenticator)
-            // .addInterceptor(cronetInterceptor)
+            .addInterceptor(authenticator.interceptor)
             .build()
 
         Retrofit.Builder()

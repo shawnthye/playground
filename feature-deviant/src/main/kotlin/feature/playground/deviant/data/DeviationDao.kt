@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import app.playground.entities.DeviationEntity
-import app.playground.entities.PopularDeviationEntities
+import app.playground.entities.PopularDeviationEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,7 +16,7 @@ interface DeviationDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPopular(
-        populars: List<PopularDeviationEntities>,
+        populars: List<PopularDeviationEntity>,
         deviations: List<DeviationEntity>,
     )
 

@@ -126,6 +126,8 @@ dependencies {
     androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestUtil(platform(project(":build-dep-constraints")))
 
+    compileOnly("com.android.tools.lint:lint-checks:30.0.3")
+
     implementation(project(":core"))
     implementation(project(":app-entities"))
     implementation(project(":feature-deviant"))

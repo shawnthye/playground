@@ -2,19 +2,23 @@ package feature.playground.deviant.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.get
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.R
 
 @AndroidEntryPoint
-class DeviantArt : AppCompatActivity() {
+class DeviantArt : AppCompatActivity(), NavigationHost {
 
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -28,17 +32,56 @@ class DeviantArt : AppCompatActivity() {
         navController = navHostFragment.navController
 
         // Setup the bottom navigation view with navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavigationView = findViewById(R.id.bottom_nav)
         bottomNavigationView.setupWithNavController(navController)
 
         // Setup the ActionBar with navController and 3 top level destinations
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.deviant_art_nav_home, R.id.deviant_art_nav_popular),
+            setOf(R.id.deviant_home_start, R.id.deviant_popular_start),
         )
-        // setupActionBarWithNavController(navController, appBarConfiguration)
+
+        bottomNavigationView.setOnItemReselectedListener { menu ->
+            val destination = navController.graph[menu.itemId]
+            val graph = destination as? NavGraph ?: return@setOnItemReselectedListener
+            navController.popBackStack(graph.startDestinationId, false)
+        }
+    }
+
+    override fun onBackPressed() {
+
+        /**
+         * We only override the behavior when back to home from other menu
+         * else we leave it to the default [onBackPressed]
+         */
+        if (bottomNavigationView.selectedItemId != bottomNavigationView.menu[0].itemId) {
+            val previousDestination = navController.previousBackStackEntry?.destination ?: run {
+                /**
+                 * on the root, left it to default [onBackPressed]
+                 */
+                return super.onBackPressed()
+            }
+
+            /**
+             * in case the first menu/tab is not a nested graph
+             */
+            val previousId = previousDestination.parent?.id ?: previousDestination.id
+            if (previousId == bottomNavigationView.menu[0].itemId) {
+                /**
+                 * We let [BottomNavigationView] to switch to home
+                 */
+                bottomNavigationView.selectedItemId = bottomNavigationView.menu[0].itemId
+                return
+            }
+        }
+
+        super.onBackPressed()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
+    }
+
+    override fun registerToolbarWithNavigation(toolbar: Toolbar) {
+        toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 }

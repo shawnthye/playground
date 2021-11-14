@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     constraints {
+        api("org.jetbrains.kotlin:kotlin-reflect:1.5.31")
         api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTestJunit4}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiToolingPreview}:${Versions.COMPOSE}")

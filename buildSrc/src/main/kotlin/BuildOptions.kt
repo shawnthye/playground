@@ -7,7 +7,7 @@ object BuildOptions {
     const val COMPILE_SDK = 31
 
     // temporary set to 26, check this https://github.com/mannodermaus/android-junit5/issues/225
-    const val MIN_SDK = 26
+    const val MIN_SDK = 21
 
     val JAVA_VERSION = JavaVersion.VERSION_1_8
 

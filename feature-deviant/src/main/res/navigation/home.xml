@@ -3,12 +3,14 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@id/deviant_art_nav_home"
-  app:startDestination="@+id/deviant_track_home">
+  android:label="@string/deviant_art_home"
+  app:route="@string/deviant_art_home"
+  app:startDestination="@+id/deviant_home_start">
 
   <fragment
-    android:id="@+id/deviant_track_home"
+    android:id="@+id/deviant_home_start"
     android:name="feature.playground.deviant.ui.track.DeviantTrack"
-    android:label="Popular"
+    android:label="Popular Home"
     tools:layout="@layout/deviant_track">
     <argument
       android:name="track"
@@ -18,7 +20,7 @@
   <fragment
     android:id="@+id/deviant_detail"
     android:name="feature.playground.deviant.ui.deviation.DeviationDetail"
-    android:label="Popular"
+    android:label="Home Detail"
     tools:layout="@layout/deviation_detail">
     <argument
       android:name="args.DEVIATION_ID"

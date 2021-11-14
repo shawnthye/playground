@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import core.playground.ui.onCreateViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.databinding.DeviationDetailBinding
+import feature.playground.deviant.ui.DeviantArtNavigationFragment
 
 @AndroidEntryPoint
-class DeviationDetail : Fragment() {
+class DeviationDetail : DeviantArtNavigationFragment() {
 
     private val model: DeviationDetailViewModel by viewModels()
 

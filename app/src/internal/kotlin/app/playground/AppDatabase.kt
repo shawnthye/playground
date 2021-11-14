@@ -3,7 +3,7 @@ package app.playground
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import app.playground.entities.DeviationEntity
-import app.playground.entities.PopularDeviationEntities
+import app.playground.entities.PopularDeviationEntity
 import feature.playground.deviant.data.DeviationDao
 
 @Database(
@@ -11,7 +11,7 @@ import feature.playground.deviant.data.DeviationDao
     exportSchema = false,
     entities = [
         DeviationEntity::class,
-        PopularDeviationEntities::class,
+        PopularDeviationEntity::class,
     ],
 )
 abstract class AppDatabase : RoomDatabase() {

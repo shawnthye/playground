@@ -2,6 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:id="@+id/deviant_art_nav_graph"
+  android:label="@string/deviant_art"
+  app:route="@string/deviant_art"
   app:startDestination="@id/deviant_art_nav_home">
   <include app:graph="@navigation/home" />
   <include app:graph="@navigation/popular" />

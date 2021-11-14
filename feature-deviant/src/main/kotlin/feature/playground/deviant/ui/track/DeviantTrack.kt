@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,12 +17,13 @@ import core.playground.ui.onCreateViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviantTrackBinding
+import feature.playground.deviant.ui.DeviantArtNavigationFragment
 import feature.playground.deviant.ui.deviation.DeviationDetailViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DeviantTrack : Fragment() {
+class DeviantTrack : DeviantArtNavigationFragment() {
 
     private val model: DeviantTrackViewModel by viewModels()
 

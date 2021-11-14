@@ -22,6 +22,12 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = BuildOptions.JAVA_VERSION
+        targetCompatibility = BuildOptions.JAVA_VERSION
+    }
+
     buildTypes {
         debug {
             isTestCoverageEnabled = true
