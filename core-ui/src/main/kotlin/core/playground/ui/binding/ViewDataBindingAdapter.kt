@@ -3,6 +3,7 @@ package core.playground.ui.binding
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import core.playground.ui.currentWindowMetricsBounds
 
 @BindingAdapter("goneUnless")
@@ -40,4 +41,14 @@ fun constraintDimensionRatio(view: View, layout_constraintMaxHeight_percent: Dou
     val screenHeight = view.currentWindowMetricsBounds().height()
 
     params.matchConstraintMaxHeight = (screenHeight * layout_constraintMaxHeight_percent).toInt()
+}
+
+@BindingAdapter("app:onRefreshListener")
+fun onRefreshListener(view: SwipeRefreshLayout, listener: SwipeRefreshLayout.OnRefreshListener) {
+    view.setOnRefreshListener(listener)
+}
+
+@BindingAdapter("app:refreshing")
+fun onRefreshListener(view: SwipeRefreshLayout, refreshing: Boolean) {
+    view.isRefreshing = refreshing
 }

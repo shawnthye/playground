@@ -1,7 +1,6 @@
 package api.art.deviant
 
 import core.playground.data.FlowCallAdapterFactory
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -11,14 +10,14 @@ import javax.inject.Singleton
 @Singleton
 class DeviantArt @Inject constructor(
     private val client: OkHttpClient,
-    private val authenticator: AuthenticatorInterceptor,
+    private val authenticator: DeviantArtAuthenticator,
     private val converterFactory: Converter.Factory,
 ) {
 
     val api: DeviantArtApi by lazy {
 
         val artClient = client.newBuilder()
-            .addInterceptor(authenticator)
+            .authenticator(authenticator)
             // .addInterceptor(cronetInterceptor)
             .build()
 

@@ -46,6 +46,9 @@ inline fun <RequestType, ResultType> Flow<ApiResponse<RequestType>>.asNetworkBou
         emit(Result.Loading(null))
 
         val data = query.flowOn(Dispatchers.Main.immediate).first()
+        if (data != null) {
+            emit(Result.Loading(data))
+        }
 
         if (shouldFetch(data)) {
             emitAll(work)

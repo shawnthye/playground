@@ -38,7 +38,9 @@ class FlowCallAdapter<R>(private val responseType: Type) :
         return flow {
             emit(
                 suspendCancellableCoroutine { continuation ->
-                    call.enqueue(
+                    call.let {
+                        if (!it.isExecuted) it else it.clone()
+                    }.enqueue(
                         object : Callback<R> {
                             override fun onResponse(call: Call<R>, response: Response<R>) {
                                 continuation.resumeWith(
