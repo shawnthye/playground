@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+  <style name="ThemeOverlay.DeviantArt.Branded" parent="ThemeOverlay.MaterialComponents.Dialog">
+    <item name="colorPrimary">@color/deviant_art_brand</item>
+  </style>
+
+  <style name="ThemeOverlay.DeviantArt.Toolbar" parent="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary">
+    <item name="colorControlNormal">?colorOnSurface</item>
+    <item name="actionMenuTextColor">?colorOnSurface</item>
+  </style>
+
+  <!--Bottom Sheets-->
+  <style name="ThemeOverlay.DeviantArt.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowAnimationStyle">@style/Animation.DeviantArt.BottomSheet.Modal</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="bottomSheetStyle">@style/Widget.DeviantArt.BottomSheet.Modal</item>
+    <item name="android:navigationBarColor">?attr/colorSurface</item>
+    <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
+      @android:color/transparent
+    </item>
+  </style>
+
+</resources>

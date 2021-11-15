@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="Base.Theme.Api29" parent="Base.Theme.Api27">
+    <item name="android:enforceStatusBarContrast">false</item>
+    <item name="android:enforceNavigationBarContrast">false</item>
+    <item name="android:navigationBarColor">@color/system_ui_scrim</item>
+  </style>
+</resources>

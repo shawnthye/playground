@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <color name="transparent">@android:color/transparent</color>
+
+  <!--Color-->
+
+  <!--Material uses an organized approach to applying color by -->
+  <!--providing a set of attributes which define semantically named -->
+  <!--colors for generalized UI concepts such as backgrounds, -->
+  <!--surfaces, type and icons. Using these attributes throughout -->
+  <!--your app makes it easy to change a single color, or the -->
+  <!--entire theme, and have those changes cascade through the interface.-->
+
+  <!--Color is customized by overriding Material Components color -->
+  <!--attributes with custom color values. In this project, your theme’s -->
+  <!--color attributes are already overridden with default values -->
+  <!--defined in this file, colors.xml. This file holds the color palette -->
+  <!--for both light and dark themes of the Material baseline (default) -->
+  <!--theme. Next to each color is a comment describing the semantic theme -->
+  <!--color attribute which the palette color maps to.-->
+
+  <!--Replace the colors here with your own brand's palette and ensure -->
+  <!--they are applied as desired in both light and dark theme -->
+  <!--(values/themes.xml and values-night/themes.xml). For more -->
+  <!--information on color palettes and their application color -->
+  <!--theme attributes, see https://www.youtube.com/watch?v=Owkf8DhAOSo-->
+
+  <!--Color palette-->
+
+  <color name="deviant_art_brand">#00e59b</color>
+  <color name="deviant_art_brand_variant">#00c787</color>
+
+  <color name="deviant_art_brand_night">#06070d</color>
+  <color name="deviant_art_brand_night_variant">#15191e</color>
+
+  <color name="deviant_art_red_200">#ffcf6679</color> <!--Color error (dark)-->
+  <color name="deviant_art_red_600">#ffb00020</color> <!--Color error (light)-->
+
+  <!--Color surface (light), color on error (light), -->
+  <!--color on surface (dark), color on surface (dark)-->
+  <color name="deviant_art_white_50">#ffffffff</color>
+
+  <color name="deviant_art_status_bar_color">@color/deviant_art_brand_night</color>
+
+  <color name="deviant_art_list_divider_day">#1f000000</color>
+  <color name="deviant_art_list_divider_night">#1fffffff</color>
+
+</resources>
