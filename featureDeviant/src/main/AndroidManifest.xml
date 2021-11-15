@@ -6,7 +6,6 @@
     <activity
       android:name=".ui.DeviantArt"
       android:exported="false"
-      android:label="@string/deviant_art"
       android:theme="@style/DeviantArt" />
   </application>
 
