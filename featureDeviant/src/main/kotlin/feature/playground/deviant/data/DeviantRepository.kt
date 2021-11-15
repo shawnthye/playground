@@ -2,6 +2,7 @@ package feature.playground.deviant.data
 
 // import api.art.deviant.DeviantArt
 import api.art.deviant.DeviantArt
+import app.playground.core.database.DeviationDao
 import app.playground.entities.DeviationEntity
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResource

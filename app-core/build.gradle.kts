@@ -29,10 +29,14 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     api(platform(project(":build-dep-constraints")))
-    testImplementation(platform(project(":build-dep-constraints")))
-    testRuntimeOnly(platform(project(":build-dep-constraints")))
+    kapt(platform(project(":build-dep-constraints")))
+
+    implementation(project(":app-entities"))
 
     implementation(Libs.timber)
 
     implementation(Libs.Coroutines.core)
+
+    implementation(Libs.AndroidX.Room.ktx)
+    kapt(Libs.AndroidX.Room.compiler)
 }

@@ -45,6 +45,7 @@ dependencies {
     androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
     androidTestUtil(platform(project(":build-dep-constraints")))
 
+    implementation(project(":app-core"))
     implementation(project(":app-entities"))
     implementation(project(":core"))
     implementation(project(":core-data"))
@@ -76,9 +77,6 @@ dependencies {
 
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
-
-    implementation(Libs.AndroidX.Room.common)
-    kapt(Libs.AndroidX.Room.compiler)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

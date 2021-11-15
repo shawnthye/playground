@@ -1,4 +1,4 @@
-package feature.playground.deviant.data
+package app.playground.core.database
 
 import androidx.room.Dao
 import androidx.room.Insert

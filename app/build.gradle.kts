@@ -127,7 +127,7 @@ dependencies {
     androidTestUtil(platform(project(":build-dep-constraints")))
 
     implementation(project(":core"))
-    implementation(project(":app-entities"))
+    implementation(project(":app-core"))
     implementation(project(":featureDeviant"))
 
     implementation(Libs.timber)

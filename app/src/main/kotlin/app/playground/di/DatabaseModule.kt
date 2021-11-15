@@ -2,7 +2,7 @@ package app.playground.di
 
 import android.content.Context
 import androidx.room.Room
-import app.playground.AppDatabase
+import app.playground.core.database.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
