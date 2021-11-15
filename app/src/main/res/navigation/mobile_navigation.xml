@@ -22,4 +22,9 @@
     android:name="app.playground.ui.slideshow.SlideshowFragment"
     android:label="@string/menu_slideshow"
     tools:layout="@layout/fragment_slideshow" />
+
+  <activity
+    android:id="@+id/featureDeviant"
+    android:name="feature.playground.deviant.ui.DeviantArt"
+    android:label="@string/menu_deviantArt" />
 </navigation>

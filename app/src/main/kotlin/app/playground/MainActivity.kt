@@ -1,6 +1,5 @@
 package app.playground
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import app.playground.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import feature.playground.deviant.ui.DeviantArt
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,13 +42,11 @@ class MainActivity : AppCompatActivity() {
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView.apply {
-            menu.findItem(R.id.nav_deviants_search).also { deviantMenu ->
+            menu.findItem(R.id.navDeviantArt).also { deviantMenu ->
                 deviantMenu.setActionView(R.layout.action_view_open)
                 deviantMenu.isCheckable = false
                 deviantMenu.setOnMenuItemClickListener {
-                    Intent(this@MainActivity, DeviantArt::class.java).also {
-                        startActivity(it)
-                    }
+                    navController.navigate(R.id.featureDeviant)
                     true
                 }
             }
