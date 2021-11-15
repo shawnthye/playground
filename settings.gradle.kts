@@ -16,10 +16,12 @@ pluginManagement {
     }
 }
 
+// dependency constraint
+include("build-dep-constraints")
 
 include(":app")
+include(":app-core")
 include(":app-entities")
-include(":feature-deviant")
 include(":deviantart-api")
 include(":deviantart-api-model")
 include(":core")
@@ -29,8 +31,8 @@ include(":core-ui")
 include(":testing-core")
 include(":testing-core-android")
 
+// dynamic feature
+include(":featureDeviant")
+
 // for testing purpose
 include(":gradle-android-library-configuration-assert")
-
-// dependency constraint
-include("build-dep-constraints")
