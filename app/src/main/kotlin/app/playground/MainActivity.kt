@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    val navController: NavController by lazy {
+    private val navController: NavController by lazy {
         supportFragmentManager
             .findFragmentById(
                 R.id.nav_host_fragment_content_main,

@@ -6,5 +6,5 @@
   android:adjustViewBounds="true"
   android:contentDescription="@string/open_deviant_art"
   android:src="@drawable/ic_baseline_open_in_new_24"
-  app:tint="@color/deviant_art_brand"
+  app:tint="@color/deviantArtBrand"
   />

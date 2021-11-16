@@ -28,7 +28,7 @@
 
   <!--Color palette-->
 
-  <color name="deviant_art_brand">#00e59b</color>
+  <color name="deviant_art_brand">@color/deviantArtBrand</color>
   <color name="deviant_art_brand_variant">#00c787</color>
 
   <color name="deviant_art_brand_night">#06070d</color>
