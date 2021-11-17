@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <!--Top level DayNight theme to be used in AndroidManifest.xml-->
+  <style name="Playground" parent="Base.Playground" />
+
+  <style name="Playground.Launch">
+    <!--TODO: launch screen logo-->
+    <item name="android:windowBackground">@android:color/black</item>
+    <item name="android:colorBackground">?android:windowBackground</item>
+  </style>
+
+  <style name="Base.Playground" parent="Base.Theme.NoApi">
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:colorBackground">@android:color/transparent</item>
+  </style>
+
+  <style name="Base.Theme.NoApi" parent="Base.Theme.Api29">
+    <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+  </style>
+
+  <style name="Base.Theme.Api29" parent="Base.Theme.Api27" />
+
+  <style name="Base.Theme.Api27" parent="Base.Theme.Api23" />
+
+  <style name="Base.Theme.Api23" />
+
+  <style name="Base.Theme" parent="Platform.Theme.Playground" />
+
+  <style name="Platform.Theme.Playground" parent="Theme.AppCompat.DayNight.NoActionBar">
+
+    <!--
+    This is the status bar color for API below 23, usually the theme primary color,
+    Note: the status bar icons will be always white
+    -->
+    <item name="android:statusBarColor">@android:color/black</item>
+
+    <!--
+    This is the navigation bar color for API below 23, usually dark color,
+    because the navigation button is only come with white color.
+    We unset to use the default, or we can set it to a better dark color
+    -->
+    <!--<item name="android:navigationBarColor">@color/status_bar_color</item>-->
+  </style>
+</resources>

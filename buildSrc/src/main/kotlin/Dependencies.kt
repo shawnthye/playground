@@ -41,6 +41,7 @@ object Versions {
     const val ROOM = "2.3.0"
     const val TIMBER = "5.0.1"
     const val SWIPE_REFRESH = "1.1.0"
+    const val ACCOMPANIST = "0.20.2"
 }
 
 object Libs {
@@ -59,6 +60,12 @@ object Libs {
         const val pluginGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
         const val xJson = "org.jetbrains.kotlinx:kotlinx-serialization-json"
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect"
+    }
+
+    object Google {
+        object Accompanist {
+            const val insets = "com.google.accompanist:accompanist-insets"
+        }
     }
 
     object AndroidX {
@@ -98,6 +105,7 @@ object Libs {
             const val pluginGradle = "androidx.navigation:navigation-safe-args-gradle-plugin:${
                 Versions.NAVIGATION
             }"
+            const val compose = "androidx.navigation:navigation-compose"
             const val fragment = "androidx.navigation:navigation-fragment-ktx"
             const val ui = "androidx.navigation:navigation-ui-ktx"
         }

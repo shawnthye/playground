@@ -127,6 +127,7 @@ dependencies {
     androidTestUtil(platform(project(":build-dep-constraints")))
 
     implementation(project(":core"))
+    implementation(project(":core-ui"))
     implementation(project(":app-core"))
     implementation(project(":deviantArt"))
 
@@ -160,6 +161,9 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
 
+    implementation(Libs.Google.Accompanist.insets)
+
+    implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.AndroidX.Navigation.fragment)
     implementation(Libs.AndroidX.Navigation.ui)
 

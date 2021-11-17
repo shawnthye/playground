@@ -26,7 +26,12 @@ android {
     }
 
     buildFeatures {
+        compose = true
         dataBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
 }
 
@@ -42,8 +47,14 @@ dependencies {
     implementation(Libs.Coroutines.core)
 
     implementation(Libs.AndroidX.core)
+    implementation(Libs.AndroidX.appcompat)
     implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.swipeRefresh)
+
+    implementation(Libs.AndroidX.Compose.ui)
+    implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.uiTooling)
+    implementation(Libs.AndroidX.Compose.uiToolingPreview)
 
     implementation(Libs.coil)
 
