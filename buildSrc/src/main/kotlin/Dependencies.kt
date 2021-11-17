@@ -1,4 +1,5 @@
 object Versions {
+    const val ACCOMPANIST = "0.20.2"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.3"
     const val ANDROID_TEST_CORE = "1.4.0"
@@ -22,6 +23,7 @@ object Versions {
     const val FIREBASE = "29.0.0"
     const val FRAGMENT = "1.4.0-rc01"
     const val HAMCREST = "2.2"
+    const val HILT_NAVIGATION_COMPOSE = "1.0.0-beta01"
     const val JACOCO = "0.8.7"
     const val JUNIT = "4.13.2"
     const val JUNIT5_ANDROID_TEST = "1.3.0"
@@ -39,9 +41,8 @@ object Versions {
     const val RETROFIT = "2.9.0"
     const val RETROFIT_CONVERTER = "0.8.0"
     const val ROOM = "2.3.0"
-    const val TIMBER = "5.0.1"
     const val SWIPE_REFRESH = "1.1.0"
-    const val ACCOMPANIST = "0.20.2"
+    const val TIMBER = "5.0.1"
 }
 
 object Libs {
@@ -95,6 +96,10 @@ object Libs {
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
         }
 
+        object Hilt {
+            const val navigationCompose = "androidx.hilt:hilt-navigation-compose"
+        }
+
         object Lifecycle {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx"
             const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate"
@@ -140,11 +145,11 @@ object Libs {
         const val dagger = "com.google.dagger:dagger"
         const val daggerCompiler = "com.google.dagger:dagger-compiler"
 
-        const val hilt = "com.google.dagger:hilt-android"
-        const val hiltCompiler = "com.google.dagger:hilt-android-compiler"
         const val hiltPluginGradle = "com.google.dagger:hilt-android-gradle-plugin:${
             Versions.DAGGER
         }"
+        const val hilt = "com.google.dagger:hilt-android"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler"
     }
 
     object Firebase {
