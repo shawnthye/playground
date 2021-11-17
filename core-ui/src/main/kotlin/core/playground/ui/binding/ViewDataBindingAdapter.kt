@@ -42,13 +42,3 @@ fun constraintDimensionRatio(view: View, layout_constraintMaxHeight_percent: Dou
 
     params.matchConstraintMaxHeight = (screenHeight * layout_constraintMaxHeight_percent).toInt()
 }
-
-@BindingAdapter("app:onRefreshListener")
-fun onRefreshListener(view: SwipeRefreshLayout, listener: SwipeRefreshLayout.OnRefreshListener) {
-    view.setOnRefreshListener(listener)
-}
-
-@BindingAdapter("app:refreshing")
-fun onRefreshListener(view: SwipeRefreshLayout, refreshing: Boolean) {
-    view.isRefreshing = refreshing
-}
