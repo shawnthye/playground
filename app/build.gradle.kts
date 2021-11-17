@@ -1,18 +1,18 @@
 import android.annotation.SuppressLint
 
 plugins {
+    kotlin("android")
+    kotlin("kapt")
     id("com.android.application")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    kotlin("android")
-    kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
-    jacoco
+    id("de.mannodermaus.android-junit5")
+
     // id("com.google.devtools.ksp") version "1.5.31-1.0.0"
     // id("idea")
-
-    // id("androidx.navigation.safeargs.kotlin")
-    id("de.mannodermaus.android-junit5")
+    jacoco
 }
 
 android {
