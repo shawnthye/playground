@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+  <declare-styleable name="Theme">
+    <attr name="materialButtonTextButtonStyle" format="reference" />
+
+    <attr name="appBarSize" format="dimension" />
+    <attr name="appBarZ" format="dimension" />
+    <attr name="bottomAppBarZ" format="dimension" />
+
+    <attr name="cardZLow" format="dimension" />
+    <attr name="cardZ" format="dimension" />
+    <attr name="cardZHigh" format="dimension" />
+  </declare-styleable>
+</resources>

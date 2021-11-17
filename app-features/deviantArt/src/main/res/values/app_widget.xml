@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <style name="Widget.DeviantArt" parent="android:Widget" />
+
+  <style name="Widget.DeviantArt.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <item name="shapeAppearanceOverlay">?attr/shapeAppearanceLargeComponent</item>
+  </style>
+
+  <!--Navigation Drawer-->
+  <style name="Widget.DeviantArt.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+    <item name="itemTextAppearance">?attr/textAppearanceBody2</item>
+  </style>
+
+  <!--AppBar-->
+  <style name="Widget.DeviantArt.AppBar" parent="Widget.Design.AppBarLayout">
+    <item name="android:background">?colorSurface</item>
+    <item name="android:elevation">?appBarZ</item>
+    <item name="statusBarForeground">?colorSurface</item>
+  </style>
+
+  <!--Toolbar-->
+  <style name="Widget.DeviantArt.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+    <item name="titleTextColor">?colorOnSurface</item>
+    <item name="materialThemeOverlay">@style/ThemeOverlay.DeviantArt.Toolbar</item>
+    <!--<item name="popupTheme"></item>-->
+  </style>
+
+  <!--Bottom Navigation Bar-->
+  <style name="Widget.DeviantArt.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+    <item name="materialThemeOverlay">@style/ThemeOverlay.DeviantArt.Branded</item>
+    <item name="itemIconTint">@color/bottom_navigation_item_tint</item>
+    <item name="itemTextColor">@color/bottom_navigation_item_tint</item>
+    <item name="labelVisibilityMode">unlabeled</item>
+    <item name="android:elevation">?bottomAppBarZ</item>
+    <item name="elevation">?bottomAppBarZ</item>
+  </style>
+
+  <style name="Widget.DeviantArt.Button" parent="Widget.MaterialComponents.Button">
+    <item name="iconTint">@color/button_text_color</item>
+    <item name="drawableTint">@color/button_text_color</item>
+  </style>
+
+  <style name="Widget.DeviantArt.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+    <item name="android:textColor">@color/button_text_button_text_color</item>
+    <item name="iconTint">@color/button_text_button_text_color</item>
+    <item name="drawableTint">@color/button_text_button_text_color</item>
+  </style>
+
+  <style name="Widget.DeviantArt.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <item name="android:textColor">@color/button_text_button_text_color</item>
+    <item name="iconTint">@color/button_text_button_text_color</item>
+    <item name="drawableTint">@color/button_text_button_text_color</item>
+
+    <!--<item name="strokeColor">@color/button_text_button_text_color</item>-->
+  </style>
+
+</resources>
