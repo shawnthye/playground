@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-  <style name="Base.Theme.Api27" parent="Base.Theme.Api23">
-    <item name="android:windowLightNavigationBar">true</item>
-    <!--<item name="android:navigationBarDividerColor">?attr/colorControlHighlight</item>-->
-  </style>
-</resources>

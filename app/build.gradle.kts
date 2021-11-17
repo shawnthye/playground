@@ -128,7 +128,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":app-core"))
-    implementation(project(":featureDeviant"))
+    implementation(project(":deviantArt"))
 
     implementation(Libs.timber)
 

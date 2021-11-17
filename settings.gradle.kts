@@ -31,8 +31,10 @@ include(":core-ui")
 include(":testing-core")
 include(":testing-core-android")
 
-// dynamic feature
-include(":featureDeviant")
+// features
+include(":deviantArt").also {
+    project(":deviantArt").projectDir = File(rootDir, "app-features/deviantArt")
+}
 
 // for testing purpose
 include(":gradle-android-library-configuration-assert")
