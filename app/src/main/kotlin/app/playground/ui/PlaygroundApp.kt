@@ -51,7 +51,14 @@ internal fun PlaygroundApp() {
                     }
                 },
             ) {
-                PlaygroundNavGraph(navController = navController)
+                PlaygroundNavGraph(
+                    navController = navController,
+                    openDrawer = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    },
+                )
             }
         }
     }

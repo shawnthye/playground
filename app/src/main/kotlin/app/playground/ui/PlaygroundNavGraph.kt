@@ -12,16 +12,17 @@ import app.playground.ui.home.Home
 fun PlaygroundNavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: PlaygroundDestination = PlaygroundDestination.Home,
+    openDrawer: () -> Unit,
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination.route,
     ) {
         composable(PlaygroundDestination.Home.route) {
-            Home()
+            Home(openDrawer = openDrawer)
         }
         composable(PlaygroundDestination.Gallery.route) {
-            Gallery()
+            Gallery(openDrawer = openDrawer)
         }
     }
 }

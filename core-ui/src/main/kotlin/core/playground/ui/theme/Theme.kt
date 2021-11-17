@@ -1,5 +1,6 @@
 package core.playground.ui.theme
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
@@ -43,11 +44,11 @@ private fun PreviewContent() {
 @Preview
 @Composable
 private fun PreviewInLightColors() {
-    PlaygroundTheme(useDarkColors = false) { PreviewContent() }
+    PlaygroundTheme { PreviewContent() }
 }
 
-@Preview
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewInDarkColors() {
-    PlaygroundTheme(useDarkColors = true) { PreviewContent() }
+    PlaygroundTheme { PreviewContent() }
 }
