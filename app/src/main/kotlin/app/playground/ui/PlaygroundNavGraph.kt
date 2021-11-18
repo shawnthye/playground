@@ -22,7 +22,7 @@ fun PlaygroundNavGraph(
             Home(openDrawer = openDrawer)
         }
         composable(PlaygroundDestination.Gallery.route) {
-            ProductHunt()
+            ProductHunt(openDrawer = openDrawer)
         }
     }
 }

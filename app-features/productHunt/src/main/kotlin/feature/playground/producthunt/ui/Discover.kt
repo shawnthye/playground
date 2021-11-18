@@ -1,4 +1,4 @@
-package feature.playground.producthunt
+package feature.playground.producthunt.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -8,8 +8,8 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.components.TopAppbar
 
 @Composable
-fun Feed(openDrawer: () -> Unit) {
+fun Discover(openDrawer: () -> Unit) {
     Scaffold(topBar = { TopAppbar(title = "ProductHunt", navigationClick = openDrawer) }) {
-        Text(text = "Product Hunt", modifier = Modifier.statusBarsPadding())
+        Text(text = "Discover", modifier = Modifier.statusBarsPadding())
     }
 }
