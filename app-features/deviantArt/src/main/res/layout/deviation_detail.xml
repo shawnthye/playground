@@ -38,7 +38,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <core.playground.ui.widget.CoreSwipeRefreshLayout
+    <feature.playground.deviant.widget.CoreSwipeRefreshLayout
       goneUnless="@{viewModel.deviationState != null}"
       android:layout_width="0dp"
       android:layout_height="0dp"
@@ -119,7 +119,7 @@
         </LinearLayout>
 
       </androidx.core.widget.NestedScrollView>
-    </core.playground.ui.widget.CoreSwipeRefreshLayout>
+    </feature.playground.deviant.widget.CoreSwipeRefreshLayout>
 
     <ProgressBar
       style="?attr/progressBarStyle"

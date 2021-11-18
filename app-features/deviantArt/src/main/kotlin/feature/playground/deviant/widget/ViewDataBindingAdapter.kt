@@ -1,10 +1,8 @@
-package core.playground.ui.binding
+package feature.playground.deviant.widget
 
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import core.playground.ui.currentWindowMetricsBounds
 
 @BindingAdapter("goneUnless")
 fun goneUnless(view: View, visible: Boolean) {

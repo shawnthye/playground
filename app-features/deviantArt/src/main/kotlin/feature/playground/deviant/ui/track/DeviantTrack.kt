@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.entities.DeviationEntity
-import core.playground.ui.onCreateViewBinding
+import feature.playground.deviant.widget.onCreateViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.databinding.DeviantTrackBinding

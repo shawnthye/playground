@@ -13,6 +13,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += mapOf(
+                    "room.incremental" to "true",
+                    "room.expandProjection" to "true",
+                )
+            }
+        }
     }
 
     buildTypes {
@@ -36,6 +45,10 @@ dependencies {
     implementation(Libs.timber)
 
     implementation(Libs.Coroutines.core)
+
+    implementation(Libs.Dagger.dagger)
+    implementation(Libs.Dagger.hilt)
+    kapt(Libs.Dagger.hiltCompiler)
 
     implementation(Libs.AndroidX.Room.ktx)
     kapt(Libs.AndroidX.Room.compiler)

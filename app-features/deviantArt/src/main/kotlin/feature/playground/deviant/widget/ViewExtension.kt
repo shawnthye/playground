@@ -1,4 +1,4 @@
-package core.playground.ui
+package feature.playground.deviant.widget
 
 import android.graphics.Rect
 import android.os.Build
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.view.ViewCompat
 
-fun View.currentWindowMetricsBounds(): Rect {
+internal fun View.currentWindowMetricsBounds(): Rect {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         return context.getSystemService(WindowManager::class.java).currentWindowMetrics.bounds

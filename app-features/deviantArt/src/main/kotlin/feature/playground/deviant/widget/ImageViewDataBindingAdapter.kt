@@ -1,4 +1,4 @@
-package core.playground.ui.binding
+package feature.playground.deviant.widget
 
 import android.graphics.drawable.Drawable
 import android.net.Uri

@@ -1,4 +1,4 @@
-package core.playground.ui.widget
+package feature.playground.deviant.widget
 
 import android.content.Context
 import android.util.AttributeSet

@@ -78,6 +78,8 @@ dependencies {
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
 
+    implementation(Libs.Coil.coil)
+
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
     testRuntimeOnly(Libs.Junit5.jupiterEngine)

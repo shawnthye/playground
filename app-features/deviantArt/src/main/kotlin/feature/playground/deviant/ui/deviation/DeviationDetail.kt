@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import core.playground.ui.onCreateViewBinding
+import feature.playground.deviant.widget.onCreateViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.databinding.DeviationDetailBinding
 import feature.playground.deviant.ui.DeviantArtNavigationFragment

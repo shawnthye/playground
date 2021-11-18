@@ -38,7 +38,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <core.playground.ui.widget.CoreSwipeRefreshLayout
+    <feature.playground.deviant.widget.CoreSwipeRefreshLayout
       goneUnless="@{!viewModel.deviationsState.empty}"
       android:layout_width="match_parent"
       android:layout_height="0dp"
@@ -63,7 +63,7 @@
         tools:listitem="@layout/deviation_item"
         tools:spanCount="2"
         />
-    </core.playground.ui.widget.CoreSwipeRefreshLayout>
+    </feature.playground.deviant.widget.CoreSwipeRefreshLayout>
 
     <ProgressBar
       style="?attr/progressBarStyle"

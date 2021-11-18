@@ -1,4 +1,4 @@
-package app.playground.di
+package app.playground.core.di
 
 import android.content.Context
 import androidx.room.Room

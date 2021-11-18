@@ -1,5 +1,3 @@
-import android.annotation.SuppressLint
-
 plugins {
     kotlin("android")
     kotlin("kapt")
@@ -33,15 +31,6 @@ android {
 
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true",
-                )
-            }
         }
     }
 
@@ -88,10 +77,6 @@ android {
 
     buildFeatures {
         compose = true
-        viewBinding = true
-
-        // false positive, gradle lint only recognize kotlin("kotlin-kapt")
-        @SuppressLint("DataBindingWithoutKapt")
         dataBinding = true
     }
 
@@ -136,7 +121,7 @@ dependencies {
     implementation(Libs.Coroutines.core)
     implementation(Libs.Coroutines.android)
     implementation(Libs.Coroutines.play)
-    
+
     implementation(Libs.AndroidX.activity)
     implementation(Libs.AndroidX.activityCompose)
 
@@ -146,9 +131,6 @@ dependencies {
     implementation(Libs.Dagger.dagger)
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
-
-    implementation(Libs.AndroidX.Room.ktx)
-    kapt(Libs.AndroidX.Room.compiler)
 
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.material)
