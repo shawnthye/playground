@@ -139,11 +139,7 @@ dependencies {
 
     implementation(Libs.AndroidX.core)
     implementation(Libs.AndroidX.appcompat)
-    implementation(Libs.AndroidX.activity)
-    implementation(Libs.AndroidX.fragment)
-    implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.activityCompose)
-    implementation(Libs.material)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
     implementation(Libs.AndroidX.Lifecycle.viewModel)
@@ -164,8 +160,6 @@ dependencies {
     implementation(Libs.Google.Accompanist.insets)
 
     implementation(Libs.AndroidX.Navigation.compose)
-    implementation(Libs.AndroidX.Navigation.fragment)
-    implementation(Libs.AndroidX.Navigation.ui)
 
     implementation(platform(Libs.Firebase.bom))
     implementation(Libs.Firebase.crashlytics)
@@ -180,7 +174,7 @@ dependencies {
 
     implementation(Libs.Retrofit2.converter)
 
-    implementation(Libs.coil)
+    implementation(Libs.Coil.coilCompose)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

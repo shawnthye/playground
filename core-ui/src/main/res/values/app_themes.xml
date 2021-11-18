@@ -27,7 +27,7 @@
 
   <style name="Base.Theme" parent="Platform.Theme.Playground" />
 
-  <style name="Platform.Theme.Playground" parent="Theme.AppCompat.DayNight.NoActionBar">
+  <style name="Platform.Theme.Playground" parent="android:Theme.Material.Light.NoActionBar">
 
     <!--
     This is the status bar color for API below 23, usually the theme primary color,

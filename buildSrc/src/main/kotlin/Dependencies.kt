@@ -46,7 +46,6 @@ object Versions {
 }
 
 object Libs {
-    const val coil = "io.coil-kt:coil"
     const val material = "com.google.android.material:material"
     const val okio = "com.squareup.okio:okio"
 
@@ -171,6 +170,11 @@ object Libs {
     object Retrofit2 {
         const val converter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter"
         const val retrofit = "com.squareup.retrofit2:retrofit"
+    }
+
+    object Coil {
+        const val coil = "io.coil-kt:coil"
+        const val coilCompose = "io.coil-kt:coil-compose"
     }
 
     object Test {

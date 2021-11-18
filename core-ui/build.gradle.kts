@@ -46,17 +46,17 @@ dependencies {
 
     implementation(Libs.Coroutines.core)
 
-    implementation(Libs.AndroidX.core)
-    implementation(Libs.AndroidX.appcompat)
-    implementation(Libs.AndroidX.constraintLayout)
-    implementation(Libs.AndroidX.swipeRefresh)
+    implementation(Libs.AndroidX.core) // TODO: move to Deviant Art also?
+    implementation(Libs.AndroidX.appcompat) // TODO: move to Deviant Art
+    implementation(Libs.AndroidX.constraintLayout) // TODO: move to Deviant Art
+    implementation(Libs.AndroidX.swipeRefresh) // TODO: move to Deviant Art
 
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
 
-    implementation(Libs.coil)
+    implementation(Libs.Coil.coil)  // TODO: move to Deviant Art
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
