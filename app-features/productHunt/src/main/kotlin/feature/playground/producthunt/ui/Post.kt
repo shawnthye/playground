@@ -9,7 +9,7 @@ import core.playground.ui.components.TopAppbar
 
 @Composable
 fun Post() {
-    Scaffold(topBar = { TopAppbar(title = "Post", navigationClick = null) }) {
+    Scaffold(topBar = { TopAppbar(title = "Post", navigationUp = null) }) {
         Text(text = "Post", modifier = Modifier.statusBarsPadding())
     }
 }

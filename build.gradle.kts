@@ -182,9 +182,7 @@ configure(modules) {
             // Treat all JetBrains warnings as errors
             allWarningsAsErrors = true
 
-            freeCompilerArgs = (
-                freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-                )
+            freeCompilerArgs = listOf("-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
 
             jvmTarget = BuildOptions.JAVA_VERSION.toString()
         }

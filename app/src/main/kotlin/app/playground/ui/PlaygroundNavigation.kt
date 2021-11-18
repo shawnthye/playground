@@ -9,14 +9,14 @@ import feature.playground.deviant.ui.DeviantArt
 
 sealed class PlaygroundDestination(val route: String) {
     object Home : PlaygroundDestination("home")
-    object Gallery : PlaygroundDestination("gallery")
+    object ProductHunt : PlaygroundDestination("product-hunt")
     object DeviantArt : PlaygroundDestination("deviantArt")
 
     companion object {
         fun fromRoute(route: String?): PlaygroundDestination {
             return when (route) {
                 Home.route -> Home
-                Gallery.route -> Gallery
+                ProductHunt.route -> ProductHunt
                 DeviantArt.route -> DeviantArt
                 else -> Home
             }
@@ -42,7 +42,7 @@ class PlaygroundNavigationActions(navController: NavHostController) {
     }
 
     val navigateToGallery: () -> Unit = {
-        navController.navigate(PlaygroundDestination.Gallery.route) {
+        navController.navigate(PlaygroundDestination.ProductHunt.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items

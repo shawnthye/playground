@@ -9,7 +9,7 @@ import core.playground.ui.components.TopAppbar
 
 @Composable
 fun Discover(openDrawer: () -> Unit) {
-    Scaffold(topBar = { TopAppbar(title = "ProductHunt", navigationClick = openDrawer) }) {
+    Scaffold(topBar = { TopAppbar(title = "ProductHunt", navigationUp = openDrawer) }) {
         Text(text = "Discover", modifier = Modifier.statusBarsPadding())
     }
 }

@@ -9,7 +9,7 @@ import core.playground.ui.components.TopAppbar
 
 @Composable
 fun Topics(openDrawer: () -> Unit) {
-    Scaffold(topBar = { TopAppbar(title = "Topics", navigationClick = openDrawer) }) {
+    Scaffold(topBar = { TopAppbar(title = "Topics", navigationUp = openDrawer) }) {
         Text(text = "Topics", modifier = Modifier.statusBarsPadding())
     }
 }

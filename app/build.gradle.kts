@@ -140,6 +140,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
 
     implementation(Libs.Google.Accompanist.insets)
+    implementation(Libs.Google.Accompanist.navigationAnimation)
 
     implementation(Libs.AndroidX.Navigation.compose)
 

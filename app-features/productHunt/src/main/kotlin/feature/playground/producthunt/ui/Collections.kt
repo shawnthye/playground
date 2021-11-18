@@ -9,7 +9,7 @@ import core.playground.ui.components.TopAppbar
 
 @Composable
 fun Collections(openDrawer: () -> Unit) {
-    Scaffold(topBar = { TopAppbar(title = "Collections", navigationClick = openDrawer) }) {
+    Scaffold(topBar = { TopAppbar(title = "Collections", navigationUp = openDrawer) }) {
         Text(text = "Collections", modifier = Modifier.statusBarsPadding())
     }
 }

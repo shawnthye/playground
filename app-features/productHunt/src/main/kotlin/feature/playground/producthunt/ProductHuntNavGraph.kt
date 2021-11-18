@@ -1,12 +1,15 @@
 package feature.playground.producthunt
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.navigation
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import feature.playground.producthunt.ui.Collections
 import feature.playground.producthunt.ui.Discover
 import feature.playground.producthunt.ui.Post
@@ -15,7 +18,7 @@ import timber.log.Timber
 
 private const val PRODUCT_HUNT = "product-hunt"
 
-internal sealed class Screen(val route: String) {
+sealed class Screen(val route: String) {
     object Discover : Screen("$PRODUCT_HUNT/discover")
     object Topics : Screen("$PRODUCT_HUNT/topics")
     object Collections : Screen("$PRODUCT_HUNT/collections")
@@ -40,18 +43,27 @@ internal sealed class Destination(
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun ProductHuntNavGraph(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberAnimatedNavController(),
     openDrawer: () -> Unit,
 ) {
-    NavHost(navController = navController, startDestination = Screen.Discover.route) {
+    AnimatedNavHost(
+        navController = navController,
+        startDestination = Screen.Discover.route,
+        enterTransition = { _, _ -> EnterTransition.None },
+        exitTransition = { _, _ -> ExitTransition.None },
+        popEnterTransition = { _, _ -> EnterTransition.None },
+        popExitTransition = { _, _ -> ExitTransition.None },
+    ) {
         addDiscoverScreen(navController, openDrawer)
         addTopicsScreen(navController, openDrawer)
         addCollectionsScreen(navController, openDrawer)
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addDiscoverScreen(
     navController: NavHostController,
     openDrawer: () -> Unit,
@@ -66,6 +78,7 @@ private fun NavGraphBuilder.addDiscoverScreen(
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addTopicsScreen(
     navController: NavHostController,
     openDrawer: () -> Unit,
@@ -80,6 +93,7 @@ private fun NavGraphBuilder.addTopicsScreen(
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addCollectionsScreen(
     navController: NavHostController,
     openDrawer: () -> Unit,
@@ -94,6 +108,7 @@ private fun NavGraphBuilder.addCollectionsScreen(
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addDiscover(
     navController: NavHostController,
     screen: Screen,
@@ -105,6 +120,7 @@ private fun NavGraphBuilder.addDiscover(
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addTopics(
     navController: NavHostController,
     screen: Screen,
@@ -116,6 +132,7 @@ private fun NavGraphBuilder.addTopics(
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addCollections(
     navController: NavHostController,
     screen: Screen,
@@ -127,6 +144,7 @@ private fun NavGraphBuilder.addCollections(
     }
 }
 
+@ExperimentalAnimationApi
 private fun NavGraphBuilder.addPost(
     navController: NavHostController,
     screen: Screen,

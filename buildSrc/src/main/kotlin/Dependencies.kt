@@ -65,6 +65,8 @@ object Libs {
     object Google {
         object Accompanist {
             const val insets = "com.google.accompanist:accompanist-insets"
+            const val navigationAnimation =
+                "com.google.accompanist:accompanist-navigation-animation"
         }
     }
 

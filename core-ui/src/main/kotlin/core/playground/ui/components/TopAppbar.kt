@@ -27,7 +27,7 @@ fun TopAppbar(
 ) {
     TopAppbar(
         title = stringResource(id = title),
-        navigationClick = navigationClick,
+        navigationUp = navigationClick,
         elevation = elevation,
         actions = actions,
     )
@@ -36,7 +36,7 @@ fun TopAppbar(
 @Composable
 fun TopAppbar(
     title: String? = null,
-    navigationClick: (() -> Unit)? = null,
+    navigationUp: (() -> Unit)? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable (() -> Unit)? = null,
 ) {
@@ -49,7 +49,7 @@ fun TopAppbar(
                 Text(text = title ?: "")
             },
             navigationIcon = {
-                IconButton(onClick = { navigationClick?.invoke() }) {
+                IconButton(onClick = { navigationUp?.invoke() }) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
                 }
             },

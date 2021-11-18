@@ -51,9 +51,9 @@ internal fun DrawerMenus(
         DrawerButton(
             icon = ImageVector.vectorResource(id = R.drawable.ic_menu_gallery),
             label = stringResource(id = R.string.menu_gallery),
-            isSelected = currentDestination is PlaygroundDestination.Gallery,
+            isSelected = currentDestination is PlaygroundDestination.ProductHunt,
         ) {
-            onClick(PlaygroundDestination.Gallery)
+            onClick(PlaygroundDestination.ProductHunt)
         }
 
         DrawerButton(

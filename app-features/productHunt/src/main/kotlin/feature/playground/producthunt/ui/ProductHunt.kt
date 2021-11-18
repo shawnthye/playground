@@ -1,9 +1,13 @@
 package feature.playground.producthunt.ui
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
@@ -11,18 +15,21 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import feature.playground.producthunt.ProductHuntNavGraph
 import feature.playground.producthunt.Screen
 
+@ExperimentalAnimationApi
 @Composable
 fun ProductHunt(openDrawer: () -> Unit) {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -47,7 +54,6 @@ fun ProductHunt(openDrawer: () -> Unit) {
     }
 
     Scaffold(
-        modifier = Modifier.navigationBarsPadding(),
         bottomBar = {
             ProductHuntBottomNavigation(
                 selectedScreen = selectedScreen,
@@ -78,14 +84,24 @@ private fun ProductHuntBottomNavigation(
     selectedScreen: Screen,
     onNavigationSelected: (selected: Screen) -> Unit,
 ) {
-    BottomNavigation {
-        ProductHuntNavigationItems.map { item ->
-            BottomNavigationItem(
-                icon = { Icon(item.imageVector, contentDescription = null) },
-                label = null,
-                selected = selectedScreen == item.screen,
-                onClick = { onNavigationSelected(item.screen) },
-            )
+    Surface(
+        color = MaterialTheme.colors.surface,
+        elevation = AppBarDefaults.BottomAppBarElevation,
+    ) {
+        BottomNavigation(
+            modifier = Modifier.navigationBarsPadding(),
+            backgroundColor = Color.Transparent,
+            elevation = 0.dp,
+        ) {
+            ProductHuntNavigationItems.map { item ->
+                BottomNavigationItem(
+                    selectedContentColor = MaterialTheme.colors.primary,
+                    icon = { Icon(item.imageVector, contentDescription = null) },
+                    label = null,
+                    selected = selectedScreen == item.screen,
+                    onClick = { onNavigationSelected(item.screen) },
+                )
+            }
         }
     }
 }
