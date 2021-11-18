@@ -9,9 +9,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.components.TopAppbar
 
 @Composable
-fun Gallery(
-    openDrawer: () -> Unit,
-) {
+fun Gallery(openDrawer: () -> Unit) {
     Scaffold(topBar = { TopAppbar(title = R.string.menu_gallery, navigationClick = openDrawer) }) {
         Text(text = "gallery", modifier = Modifier.statusBarsPadding())
     }
