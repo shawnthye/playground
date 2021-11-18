@@ -11,7 +11,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import feature.playground.producthunt.Screen
-import feature.playground.producthunt.ui.ProductHunt
+import feature.playground.producthunt.ProductHunt
 
 @ExperimentalAnimationApi
 @Composable

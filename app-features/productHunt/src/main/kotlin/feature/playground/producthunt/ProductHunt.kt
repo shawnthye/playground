@@ -1,4 +1,4 @@
-package feature.playground.producthunt.ui
+package feature.playground.producthunt
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.AppBarDefaults

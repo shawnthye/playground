@@ -128,7 +128,9 @@ private fun NavGraphBuilder.addTopics(
 ) {
     Timber.i(navController.toString())
     composable(Destination.Topics.createRoute(screen)) {
-        Topics(openDrawer)
+        Topics(openDrawer) {
+            navController.navigate(Destination.Post.createRoute(screen))
+        }
     }
 }
 
