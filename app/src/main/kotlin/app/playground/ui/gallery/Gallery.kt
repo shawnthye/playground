@@ -5,8 +5,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import app.playground.R
-import app.playground.navigation.TopAppbar
 import com.google.accompanist.insets.statusBarsPadding
+import core.playground.ui.components.TopAppbar
 
 @Composable
 fun Gallery(

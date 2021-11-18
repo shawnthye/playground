@@ -1,4 +1,4 @@
-package app.playground.navigation
+package core.playground.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material.AppBarDefaults
@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.playground.R
 import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
@@ -46,7 +45,9 @@ fun TopAppbar(
         elevation = elevation,
     ) {
         TopAppBar(
-            title = { Text(text = title ?: stringResource(id = R.string.playground_app_name)) },
+            title = {
+                Text(text = title ?: "")
+            },
             navigationIcon = {
                 IconButton(onClick = { navigationClick?.invoke() }) {
                     Icon(imageVector = Icons.Filled.Menu, contentDescription = "")

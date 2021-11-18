@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.R
-import app.playground.navigation.TopAppbar
+import core.playground.ui.components.TopAppbar
 import core.playground.ui.rememberFlowWithLifecycle
 
 @Composable

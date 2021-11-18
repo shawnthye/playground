@@ -42,12 +42,16 @@ dependencies {
     testImplementation(platform(project(":build-dep-constraints")))
     testRuntimeOnly(platform(project(":build-dep-constraints")))
 
+    implementation(project(":core"))
+
     implementation(Libs.timber)
 
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
+
+    implementation(Libs.Google.Accompanist.insets)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

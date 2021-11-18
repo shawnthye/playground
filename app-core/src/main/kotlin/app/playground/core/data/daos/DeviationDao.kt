@@ -1,4 +1,4 @@
-package app.playground.core.database
+package app.playground.core.data.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
