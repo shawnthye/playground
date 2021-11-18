@@ -136,9 +136,8 @@ dependencies {
     implementation(Libs.Coroutines.core)
     implementation(Libs.Coroutines.android)
     implementation(Libs.Coroutines.play)
-
-    implementation(Libs.AndroidX.core)
-    implementation(Libs.AndroidX.appcompat)
+    
+    implementation(Libs.AndroidX.activity)
     implementation(Libs.AndroidX.activityCompose)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)

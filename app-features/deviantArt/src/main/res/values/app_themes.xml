@@ -11,7 +11,7 @@
   <!--</style>-->
 
   <!--Base custom theme which will be shared between both light and dark theme variants-->
-  <style name="Base.DeviantArt" parent="Platform.Theme.DeviantArt">
+  <style name="Base.DeviantArt" parent="DeviantArt.Base.Theme.NoApi">
     <!--Material color attributes (light theme) -->
     <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
     <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
@@ -97,15 +97,26 @@
     <item name="cardZHigh">@dimen/z_card_high</item>
   </style>
 
-  <style name="Platform.Theme.DeviantArt" parent="Base.Theme.NoApi">
+  <style name="DeviantArt.Base.Theme.NoApi" parent="DeviantArt.Base.Theme.Api29">
+    <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+  </style>
+
+  <style name="DeviantArt.Base.Theme.Api29" parent="DeviantArt.Base.Theme.Api27" />
+
+  <style name="DeviantArt.Base.Theme.Api27" parent="DeviantArt.Base.Theme.Api23" />
+
+  <style name="DeviantArt.Base.Theme.Api23" parent="DeviantArt.Base.Theme" />
+
+  <style name="DeviantArt.Base.Theme" parent="Platform.Theme.DeviantArt" />
+
+  <style name="Platform.Theme.DeviantArt" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
     <!-- Work around to remove DrawerLayout status bar color -->
     <item name="colorPrimaryDark">@null</item>
 
-    <!--<item name="android:statusBarColor">@color/deviant_art_status_bar_color</item>-->
+    <item name="android:statusBarColor">@color/deviant_art_status_bar_color</item>
     <!--    <item name="android:windowLightStatusBar">true</item>-->
-
-    <!--<item name="android:navigationBarColor">@color/deviant_art_status_bar_color</item>-->
+    <item name="android:navigationBarColor">@color/deviant_art_status_bar_color</item>
     <!--    <item name="android:windowLightNavigationBar">true</item>-->
   </style>
 </resources>
