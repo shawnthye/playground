@@ -29,7 +29,11 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.COMPOSE
     }
 }
 

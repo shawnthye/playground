@@ -115,6 +115,7 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":app-core"))
     implementation(project(":deviantArt"))
+    implementation(project(":productHunt"))
 
     implementation(Libs.timber)
 

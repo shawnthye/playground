@@ -35,6 +35,9 @@ include(":testing-core-android")
 include(":deviantArt").also {
     project(":deviantArt").projectDir = File(rootDir, "app-features/deviantArt")
 }
+include(":productHunt").also {
+    project(":productHunt").projectDir = File(rootDir, "app-features/productHunt")
+}
 
 // for testing purpose
 include(":gradle-android-library-configuration-assert")
