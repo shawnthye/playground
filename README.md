@@ -7,12 +7,13 @@
 - `junit 5` Note: instrumentation test will only able to run on Android 8.0/API 26/Oreo, we
   currently set min to 26 because of some bug,
   see https://github.com/mannodermaus/android-junit5/issues/225.
-- `Jetpack compose` Note currently still doing some demo on databinding, else we will remove all
-  unrelated library.
+- `Jetpack compose` Compose is a fast moving project, but lets give it a try
 - `Jetpack room` Single Source of Truth
 - `Coroutines` you know why.
 - `Hilt` you should know.
 - `Coil` kotlin base image loading like Glide.
+- `Data Binding` Note currently still doing some demo on databinding, else we will remove all
+  data binding unrelated setting/code.
 
 ### TODO
 
