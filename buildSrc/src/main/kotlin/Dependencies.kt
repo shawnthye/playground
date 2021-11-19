@@ -1,5 +1,5 @@
 object Versions {
-    const val ACCOMPANIST = "0.20.2"
+    const val ACCOMPANIST = "0.21.2-beta"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.3"
     const val ANDROID_TEST_CORE = "1.4.0"
@@ -11,7 +11,7 @@ object Versions {
     const val ANNOTATION = "1.3.0"
     const val APPCOMPAT = "1.3.1"
     const val COIL = "1.4.0"
-    const val COMPOSE = "1.0.5"
+    const val COMPOSE = "1.1.0-beta03"
     const val CONCURRENT = "1.1.0"
     const val CONSTRAINT_LAYOUT = "2.1.2"
     const val CORE = "1.7.0"

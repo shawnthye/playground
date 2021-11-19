@@ -9,14 +9,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.R
-import core.playground.ui.components.TopAppbar
+import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
 
 @Composable
-fun Home(viewModel: HomeViewModel = viewModel(), openDrawer: () -> Unit) {
+fun Home(viewModel: HomeViewModel = viewModel(), navigateUp: () -> Unit) {
     val uiState by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(HomeUiState(0))
 
-    Scaffold(topBar = { TopAppbar(title = R.string.menu_home, navigationClick = openDrawer) }) {
+    Scaffold(
+        topBar = {
+            DrawerAppBar(
+                titleRes = R.string.menu_home,
+                navigationUp = navigateUp,
+            )
+        },
+    ) {
         Column {
             TextButton(onClick = { viewModel.onClick() }) {
                 Text(text = "home ${uiState.count}")

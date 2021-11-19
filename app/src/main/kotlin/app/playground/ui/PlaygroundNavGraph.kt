@@ -30,7 +30,7 @@ fun PlaygroundNavGraph(
         popExitTransition = { fadeOut(animationSpec = tween(120)) },
     ) {
         composable(PlaygroundDestination.Home.route) {
-            Home(openDrawer = openDrawer)
+            Home(navigateUp = openDrawer)
         }
 
         navigation(

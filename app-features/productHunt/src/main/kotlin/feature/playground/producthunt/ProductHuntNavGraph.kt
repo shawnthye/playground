@@ -52,10 +52,10 @@ fun ProductHuntNavGraph(
     AnimatedNavHost(
         navController = navController,
         startDestination = Screen.Discover.route,
-        enterTransition = { _, _ -> EnterTransition.None },
-        exitTransition = { _, _ -> ExitTransition.None },
-        popEnterTransition = { _, _ -> EnterTransition.None },
-        popExitTransition = { _, _ -> ExitTransition.None },
+        enterTransition = { EnterTransition.None },
+        exitTransition = { ExitTransition.None },
+        popEnterTransition = { EnterTransition.None },
+        popExitTransition = { ExitTransition.None },
     ) {
         addDiscoverScreen(navController, openDrawer)
         addTopicsScreen(navController, openDrawer)
@@ -161,6 +161,6 @@ private fun NavGraphBuilder.addPost(
         //     },
         // ),
     ) {
-        Post()
+        Post(navigateUp = navController::navigateUp)
     }
 }

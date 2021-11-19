@@ -5,11 +5,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.insets.statusBarsPadding
-import core.playground.ui.components.TopAppbar
+import core.playground.ui.components.DrawerAppBar
 
 @Composable
-fun Collections(openDrawer: () -> Unit) {
-    Scaffold(topBar = { TopAppbar(title = "Collections", navigationUp = openDrawer) }) {
+fun Collections(navigateUp: () -> Unit) {
+    Scaffold(
+        topBar = {
+            DrawerAppBar(
+                titleRes = core.playground.ui.R.string.menu_collections, navigationUp = navigateUp,
+            )
+        },
+    ) {
         Text(text = "Collections", modifier = Modifier.statusBarsPadding())
     }
 }

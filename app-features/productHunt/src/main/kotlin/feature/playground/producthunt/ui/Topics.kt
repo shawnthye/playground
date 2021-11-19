@@ -6,11 +6,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.insets.statusBarsPadding
-import core.playground.ui.components.TopAppbar
+import core.playground.ui.components.DrawerAppBar
 
 @Composable
-fun Topics(openDrawer: () -> Unit, onPostSelected: () -> Unit) {
-    Scaffold(topBar = { TopAppbar(title = "Topics", navigationUp = openDrawer) }) {
+fun Topics(navigateUp: () -> Unit, onPostSelected: () -> Unit) {
+    Scaffold(
+        topBar = {
+            DrawerAppBar(
+                titleRes = core.playground.ui.R.string.menu_topics, navigationUp = navigateUp,
+            )
+        },
+    ) {
         Button(onClick = { onPostSelected() }) {
             Text(text = "Topics", modifier = Modifier.statusBarsPadding())
         }

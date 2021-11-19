@@ -9,32 +9,49 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
-fun TopAppbar(
-    @StringRes title: Int = -1,
-    navigationClick: (() -> Unit)? = null,
-    elevation: Dp = AppBarDefaults.TopAppBarElevation,
-    actions: @Composable (() -> Unit)? = null,
+fun DrawerAppBar(
+    @StringRes titleRes: Int = -1,
+    navigationUp: (() -> Unit)? = null,
 ) {
-    TopAppbar(
-        title = stringResource(id = title),
-        navigationUp = navigationClick,
-        elevation = elevation,
-        actions = actions,
+    AppBar(
+        iconVector = Icons.Filled.Menu,
+        titleRes = titleRes,
+        navigationUp = navigationUp,
     )
 }
 
 @Composable
-fun TopAppbar(
+fun AppBar(
+    iconVector: ImageVector = Icons.Filled.ArrowBack,
+    @StringRes titleRes: Int = -1,
+    navigationUp: (() -> Unit)? = null,
+    elevation: Dp = AppBarDefaults.TopAppBarElevation,
+    actions: @Composable (() -> Unit)? = null,
+) {
+    AppBar(
+        title = stringResource(id = titleRes),
+        navigationUp = navigationUp,
+        elevation = elevation,
+        actions = actions,
+        iconVector = iconVector,
+    )
+}
+
+@Composable
+fun AppBar(
+    iconVector: ImageVector = Icons.Filled.ArrowBack,
     title: String? = null,
     navigationUp: (() -> Unit)? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
@@ -50,7 +67,7 @@ fun TopAppbar(
             },
             navigationIcon = {
                 IconButton(onClick = { navigationUp?.invoke() }) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
+                    Icon(imageVector = iconVector, contentDescription = "")
                 }
             },
             actions = {
