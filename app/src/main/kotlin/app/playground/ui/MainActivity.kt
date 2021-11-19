@@ -21,7 +21,8 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             /**
-             * We initial set the [[LocalElevationOverlay] provides null] to disable it
+             * We initial set the [[LocalElevationOverlay] provides null] to
+             * disable surface overlay color, but we can actually do it in our custom app bar
              * We keep this, so in the future we can set DateFormatProvider or etc :)
              */
             CompositionLocalProvider {
