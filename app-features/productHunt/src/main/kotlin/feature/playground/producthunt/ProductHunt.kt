@@ -28,10 +28,11 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import core.playground.ui.alias.NavigateUp
 
 @ExperimentalAnimationApi
 @Composable
-fun ProductHunt(openDrawer: () -> Unit) {
+fun ProductHunt(navigateUp: NavigateUp) {
     val navController = rememberAnimatedNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -79,7 +80,7 @@ fun ProductHunt(openDrawer: () -> Unit) {
             )
         },
     ) {
-        ProductHuntNavGraph(navController = navController, openDrawer)
+        ProductHuntNavGraph(navController = navController, navigateUp)
     }
 }
 

@@ -18,9 +18,12 @@ import feature.playground.producthunt.ui.Post
 import feature.playground.producthunt.ui.Topics
 import timber.log.Timber
 
-private const val PRODUCT_HUNT = "product-hunt"
+/**
+ * This match the root drawer route
+ */
+private const val PRODUCT_HUNT = "product-hunt/app"
 
-sealed class Screen(val route: String) {
+internal sealed class Screen(val route: String) {
     object Discover : Screen("$PRODUCT_HUNT/discover")
     object Topics : Screen("$PRODUCT_HUNT/topics")
     object Collections : Screen("$PRODUCT_HUNT/collections")
@@ -117,7 +120,6 @@ private fun NavGraphBuilder.addDiscover(
     screen: Screen,
     openDrawer: () -> Unit,
 ) {
-    Timber.i(navController.toString())
     composable(Destination.Discover.createRoute(screen)) {
         Discover(openDrawer) { postId ->
             navController.navigate(Destination.Post.createRoute(screen, postId))

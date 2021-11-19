@@ -15,6 +15,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,13 +28,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import app.playground.R
-import app.playground.ui.PlaygroundDestination
+import app.playground.ui.Screen
 import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
 internal fun DrawerMenus(
-    currentDestination: PlaygroundDestination,
-    onClick: (destination: PlaygroundDestination) -> Unit,
+    currentDestination: Screen,
+    onClick: (destination: Screen) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -43,17 +44,25 @@ internal fun DrawerMenus(
         DrawerButton(
             icon = Icons.Filled.Home,
             label = stringResource(id = R.string.menu_home),
-            isSelected = currentDestination is PlaygroundDestination.Home,
+            isSelected = currentDestination is Screen.Home,
         ) {
-            onClick(PlaygroundDestination.Home)
+            onClick(Screen.Home)
         }
 
         DrawerButton(
-            icon = ImageVector.vectorResource(id = R.drawable.ic_menu_gallery),
-            label = stringResource(id = R.string.menu_gallery),
-            isSelected = currentDestination is PlaygroundDestination.ProductHunt,
+            icon = Icons.Filled.Favorite,
+            label = stringResource(id = R.string.menu_theme),
+            isSelected = currentDestination is Screen.Theme,
         ) {
-            onClick(PlaygroundDestination.ProductHunt)
+            onClick(Screen.Theme)
+        }
+
+        DrawerButton(
+            icon = ImageVector.vectorResource(id = core.playground.ui.R.drawable.ic_producthunt_24),
+            label = stringResource(id = R.string.menu_product_hunt),
+            isSelected = currentDestination is Screen.ProductHunt,
+        ) {
+            onClick(Screen.ProductHunt)
         }
 
         DrawerButton(
@@ -62,7 +71,7 @@ internal fun DrawerMenus(
             label = stringResource(id = R.string.menu_deviantArt),
             isSelected = false,
         ) {
-            onClick(PlaygroundDestination.DeviantArt)
+            onClick(Screen.DeviantArt)
         }
     }
 }

@@ -12,9 +12,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import app.playground.navigation.DrawerMenus
-import app.playground.ui.PlaygroundDestination.DeviantArt
-import app.playground.ui.PlaygroundDestination.Home
-import app.playground.ui.PlaygroundDestination.ProductHunt
+import app.playground.ui.Screen.DeviantArt
+import app.playground.ui.Screen.Home
+import app.playground.ui.Screen.ProductHunt
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import core.playground.ui.theme.PlaygroundTheme
@@ -37,6 +37,7 @@ internal fun PlaygroundApp() {
         } else {
             when {
                 destination.hierarchy.any { it.route == Home.route } -> Home
+                destination.hierarchy.any { it.route == Screen.Theme.route } -> Screen.Theme
                 destination.hierarchy.any { it.route == ProductHunt.route } -> ProductHunt
                 else -> Home
             }
@@ -52,7 +53,8 @@ internal fun PlaygroundApp() {
                     DrawerMenus(currentDestination) {
                         when (it) {
                             Home -> navigationActions.navigateToHome()
-                            ProductHunt -> navigationActions.navigateToGallery()
+                            Screen.Theme -> navigationActions.navigateToTheme()
+                            ProductHunt -> navigationActions.navigateToProductHunt()
                             DeviantArt -> navigationActions.openDeviantArt(context)
                         }
 
@@ -66,7 +68,7 @@ internal fun PlaygroundApp() {
             ) {
                 PlaygroundNavGraph(
                     navController = navController,
-                    openDrawer = {
+                    navigateUp = {
                         scope.launch {
                             drawerState.open()
                         }
