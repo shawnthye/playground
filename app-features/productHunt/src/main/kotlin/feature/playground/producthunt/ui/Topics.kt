@@ -9,7 +9,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.components.DrawerAppBar
 
 @Composable
-fun Topics(navigateUp: () -> Unit, onPostSelected: () -> Unit) {
+fun Topics(navigateUp: () -> Unit, openPost: (postId: String) -> Unit) {
     Scaffold(
         topBar = {
             DrawerAppBar(
@@ -17,7 +17,7 @@ fun Topics(navigateUp: () -> Unit, onPostSelected: () -> Unit) {
             )
         },
     ) {
-        Button(onClick = { onPostSelected() }) {
+        Button(onClick = { openPost("postid from topics") }) {
             Text(text = "Topics", modifier = Modifier.statusBarsPadding())
         }
     }

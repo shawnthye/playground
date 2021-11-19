@@ -2,13 +2,14 @@ package feature.playground.producthunt.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.components.DrawerAppBar
 
 @Composable
-fun Discover(navigateUp: () -> Unit) {
+fun Discover(navigateUp: () -> Unit, openPost: (postId: String) -> Unit) {
     Scaffold(
         topBar = {
             DrawerAppBar(
@@ -16,6 +17,8 @@ fun Discover(navigateUp: () -> Unit) {
             )
         },
     ) {
-        Text(text = "Discover", modifier = Modifier.statusBarsPadding())
+        TextButton(onClick = { openPost("post from discover") }) {
+            Text(text = "Discover", modifier = Modifier.statusBarsPadding())
+        }
     }
 }

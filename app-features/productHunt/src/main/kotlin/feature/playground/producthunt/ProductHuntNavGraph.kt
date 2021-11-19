@@ -6,6 +6,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -34,7 +36,7 @@ internal sealed class Destination(
     object Topics : Destination("topics")
     object Collections : Destination("collections")
 
-    object Post : Destination("post/{postId}") {
+    object Post : Destination("posts/{postId}") {
         fun createRoute(screen: Screen, postId: String) = "${screen.route}/posts/$postId"
     }
 
@@ -49,6 +51,7 @@ fun ProductHuntNavGraph(
     navController: NavHostController = rememberAnimatedNavController(),
     openDrawer: () -> Unit,
 ) {
+
     AnimatedNavHost(
         navController = navController,
         startDestination = Screen.Discover.route,
@@ -116,7 +119,9 @@ private fun NavGraphBuilder.addDiscover(
 ) {
     Timber.i(navController.toString())
     composable(Destination.Discover.createRoute(screen)) {
-        Discover(openDrawer)
+        Discover(openDrawer) { postId ->
+            navController.navigate(Destination.Post.createRoute(screen, postId))
+        }
     }
 }
 
@@ -128,8 +133,8 @@ private fun NavGraphBuilder.addTopics(
 ) {
     Timber.i(navController.toString())
     composable(Destination.Topics.createRoute(screen)) {
-        Topics(openDrawer) {
-            navController.navigate(Destination.Post.createRoute(screen))
+        Topics(openDrawer) { postId ->
+            navController.navigate(Destination.Post.createRoute(screen, postId))
         }
     }
 }
@@ -154,12 +159,12 @@ private fun NavGraphBuilder.addPost(
     Timber.i(navController.toString())
     composable(
         route = Destination.Post.createRoute(screen),
-        // arguments = listOf(
-        //     navArgument("postId") {
-        //         type = NavType.StringType
-        //         nullable = false
-        //     },
-        // ),
+        arguments = listOf(
+            navArgument("postId") {
+                type = NavType.StringType
+                nullable = false
+            },
+        ),
     ) {
         Post(navigateUp = navController::navigateUp)
     }

@@ -138,6 +138,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
+    implementation(Libs.AndroidX.Hilt.navigationCompose)
 
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.navigationAnimation)
