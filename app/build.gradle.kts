@@ -59,6 +59,7 @@ android {
 
     buildTypes {
         debug {
+            isMinifyEnabled = false
             isTestCoverageEnabled = true
             versionNameSuffix = "-debug"
             configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {

@@ -15,9 +15,7 @@ import app.playground.navigation.DrawerMenus
 import app.playground.ui.Screen.DeviantArt
 import app.playground.ui.Screen.Home
 import app.playground.ui.Screen.ProductHunt
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import core.playground.ui.theme.PlaygroundTheme
 import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
@@ -44,37 +42,33 @@ internal fun PlaygroundApp() {
         }
     }
 
-    PlaygroundTheme {
-        ProvideWindowInsets {
-            ModalDrawer(
-                drawerState = drawerState,
-                drawerContent = {
-                    val context = LocalContext.current
-                    DrawerMenus(currentDestination) {
-                        when (it) {
-                            Home -> navigationActions.navigateToHome()
-                            Screen.Theme -> navigationActions.navigateToTheme()
-                            ProductHunt -> navigationActions.navigateToProductHunt()
-                            DeviantArt -> navigationActions.openDeviantArt(context)
-                        }
+    ModalDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            val context = LocalContext.current
+            DrawerMenus(currentDestination) {
+                when (it) {
+                    Home -> navigationActions.navigateToHome()
+                    Screen.Theme -> navigationActions.navigateToTheme()
+                    ProductHunt -> navigationActions.navigateToProductHunt()
+                    DeviantArt -> navigationActions.openDeviantArt(context)
+                }
 
-                        scope.launch {
-                            if (it !is DeviantArt) {
-                                drawerState.close()
-                            }
-                        }
+                scope.launch {
+                    if (it !is DeviantArt) {
+                        drawerState.close()
                     }
-                },
-            ) {
-                PlaygroundNavGraph(
-                    navController = navController,
-                    navigateUp = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    },
-                )
+                }
             }
-        }
+        },
+    ) {
+        PlaygroundNavGraph(
+            navController = navController,
+            navigateUp = {
+                scope.launch {
+                    drawerState.open()
+                }
+            },
+        )
     }
 }

@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -57,25 +59,30 @@ fun AppBar(
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable (() -> Unit)? = null,
 ) {
-    Surface(
-        color = MaterialTheme.colors.surface,
-        elevation = elevation,
+    CompositionLocalProvider(
+        LocalElevationOverlay provides null,
     ) {
-        TopAppBar(
-            title = {
-                Text(text = title ?: "")
-            },
-            navigationIcon = {
-                IconButton(onClick = { navigationUp?.invoke() }) {
-                    Icon(imageVector = iconVector, contentDescription = "")
-                }
-            },
-            actions = {
-                actions?.invoke()
-            },
-            backgroundColor = Color.Transparent,
-            modifier = Modifier.statusBarsPadding(),
-            elevation = 0.dp,
-        )
+
+        Surface(
+            color = MaterialTheme.colors.background,
+            elevation = elevation,
+        ) {
+            TopAppBar(
+                title = {
+                    Text(text = title ?: "")
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navigationUp?.invoke() }) {
+                        Icon(imageVector = iconVector, contentDescription = "")
+                    }
+                },
+                actions = {
+                    actions?.invoke()
+                },
+                backgroundColor = Color.Transparent,
+                modifier = Modifier.statusBarsPadding(),
+                elevation = 0.dp,
+            )
+        }
     }
 }

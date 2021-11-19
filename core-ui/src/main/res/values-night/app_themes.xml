@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
   <!--Top level DayNight theme to be used in AndroidManifest.xml-->
   <style name="Playground" parent="Base.Playground">
     <!--Material color attributes (dark theme) -->
@@ -18,8 +18,8 @@
     <!--<item name="colorOnSurface">@color/deviant_art_white_50</item>-->
     <!--<item name="colorOnError">@color/deviant_art_brand_night</item>-->
 
-    <!--<item name="android:windowLightStatusBar" tools:targetApi="m">false</item>-->
-    <!--<item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>-->
+    <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     <!--<item name="elevationOverlayEnabled">false</item>-->
 
     <!--<item name="dividerVertical">@color/deviant_art_list_divider_night</item>-->

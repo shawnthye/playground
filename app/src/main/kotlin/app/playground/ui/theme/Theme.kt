@@ -1,6 +1,8 @@
 package app.playground.ui.theme
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,10 +12,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -24,14 +27,14 @@ import androidx.compose.ui.unit.dp
 import app.playground.R
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
+import core.playground.ui.theme.PlaygroundTheme
 
 private val NOOP: () -> Unit = {
     // do nothing
 }
 
-@Preview
 @Composable
-fun Theme(navigateUp: NavigateUp = NOOP) {
+fun Theme(navigateUp: NavigateUp) {
 
     Scaffold(
         topBar = {
@@ -41,13 +44,13 @@ fun Theme(navigateUp: NavigateUp = NOOP) {
             )
         },
     ) {
-        Surface(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(16.dp)) {
             Column {
-                FillRow {
+                Component("Button") {
                     Button(onClick = NOOP) {
                         ButtonText()
                     }
-                    OutlinedButton(onClick = NOOP) {
+                    TextButton(onClick = NOOP) {
                         ButtonText()
                     }
 
@@ -56,7 +59,7 @@ fun Theme(navigateUp: NavigateUp = NOOP) {
                     }
                 }
 
-                FillRow {
+                Component("FAB") {
                     ExtendedFloatingActionButton(
                         text = { ButtonText() }, onClick = NOOP,
                         icon = { IconAdd() },
@@ -71,7 +74,17 @@ fun Theme(navigateUp: NavigateUp = NOOP) {
 }
 
 @Composable
-fun FillRow(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+private fun Component(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+
+    Text(
+        text = title.uppercase(),
+        style = MaterialTheme.typography.overline,
+        modifier = Modifier.padding(bottom = 8.dp),
+    )
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -84,11 +97,25 @@ fun FillRow(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
 }
 
 @Composable
-fun ButtonText() {
+private fun ButtonText() {
     Text(text = "Button")
 }
 
 @Composable
-fun IconAdd() {
+private fun IconAdd() {
     Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+}
+
+@Preview
+@Composable
+private fun PreviewLight() {
+    PlaygroundTheme {
+        Theme(navigateUp = NOOP)
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun PreviewNight() {
+    PreviewLight()
 }
