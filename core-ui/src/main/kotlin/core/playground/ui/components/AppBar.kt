@@ -2,6 +2,7 @@ package core.playground.ui.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.ElevationOverlay
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalElevationOverlay
@@ -59,10 +60,12 @@ fun AppBar(
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable (() -> Unit)? = null,
 ) {
-    CompositionLocalProvider(
-        LocalElevationOverlay provides null,
-    ) {
-
+    /**
+     * [ElevationOverlay] is auto apply in Night Mode.
+     * But we wanted a more paper like experience even in Night Mode
+     * see also https://developer.android.com/jetpack/compose/themes/material#elevation-overlays
+     */
+    CompositionLocalProvider(LocalElevationOverlay provides null) {
         Surface(
             color = MaterialTheme.colors.background,
             elevation = elevation,
