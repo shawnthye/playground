@@ -16,9 +16,10 @@
 
 ### TODO
 
-[] enable junitPlatform
-[] Jetpack navigation compose
+[x] enable junitPlatform
+[x] Jetpack navigation compose
 [x] UseCase
-[] Domain
-[] Saving api auth on app module
-[] Dynamic features
+[x] Domain
+[] Saving api auth token
+[] Dynamic features (Waiting for better Hilt support in the future)
+[] Kotlin json serialization customization to transform all empty/blank string to null
