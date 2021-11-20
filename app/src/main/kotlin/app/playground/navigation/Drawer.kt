@@ -1,5 +1,7 @@
 package app.playground.navigation
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +17,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,50 +30,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import app.playground.R
-import app.playground.ui.Screen
 import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
-internal fun DrawerMenus(
-    currentDestination: Screen,
-    onClick: (destination: Screen) -> Unit,
+internal fun Drawer(
+    selectedScreen: Screen,
+    onNavigationSelected: (destination: Screen) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .statusBarsPadding()
             .fillMaxSize(),
     ) {
-        DrawerButton(
-            icon = Icons.Filled.Home,
-            label = stringResource(id = R.string.menu_home),
-            isSelected = currentDestination is Screen.Home,
-        ) {
-            onClick(Screen.Home)
-        }
+        MenuItems.map { menuItem ->
+            val icon = when (menuItem) {
+                is MenuItem.ResourceIcon -> ImageVector.vectorResource(id = menuItem.icon)
+                is MenuItem.VectorIcon -> menuItem.icon
+            }
 
-        DrawerButton(
-            icon = Icons.Filled.Favorite,
-            label = stringResource(id = R.string.menu_theme),
-            isSelected = currentDestination is Screen.Theme,
-        ) {
-            onClick(Screen.Theme)
-        }
+            val iconSecondary = (menuItem as? MenuItem.ResourceIcon)
+                ?.iconSecondary
+                ?.let { ImageVector.vectorResource(id = it) }
 
-        DrawerButton(
-            icon = ImageVector.vectorResource(id = core.playground.ui.R.drawable.ic_producthunt_24),
-            label = stringResource(id = R.string.menu_product_hunt),
-            isSelected = currentDestination is Screen.ProductHunt,
-        ) {
-            onClick(Screen.ProductHunt)
-        }
-
-        DrawerButton(
-            icon = ImageVector.vectorResource(id = R.drawable.ic_deviant_art),
-            subIcon = ImageVector.vectorResource(id = R.drawable.ic_baseline_open_in_new_24),
-            label = stringResource(id = R.string.menu_deviantArt),
-            isSelected = false,
-        ) {
-            onClick(Screen.DeviantArt)
+            DrawerButton(
+                icon = icon,
+                subIcon = iconSecondary,
+                label = stringResource(id = menuItem.label),
+                isSelected = selectedScreen == menuItem.screen,
+            ) {
+                onNavigationSelected(menuItem.screen)
+            }
         }
     }
 }
@@ -147,7 +135,7 @@ private fun DrawerButton(
 }
 
 @Composable
-fun NavigationIcon(
+private fun NavigationIcon(
     icon: ImageVector,
     isSelected: Boolean,
     modifier: Modifier = Modifier,
@@ -177,3 +165,45 @@ fun NavigationIcon(
         alpha = imageAlpha,
     )
 }
+
+private sealed class MenuItem(
+    val screen: Screen,
+    @StringRes val label: Int,
+) {
+    class ResourceIcon(
+        screen: Screen,
+        @StringRes label: Int,
+        @DrawableRes val icon: Int,
+        @DrawableRes val iconSecondary: Int? = null,
+    ) : MenuItem(screen, label)
+
+    class VectorIcon(
+        screen: Screen,
+        @StringRes label: Int,
+        val icon: ImageVector,
+    ) : MenuItem(screen, label)
+}
+
+private val MenuItems = listOf(
+    MenuItem.VectorIcon(
+        screen = Screen.Home,
+        label = R.string.menu_home,
+        icon = Icons.Filled.Home,
+    ),
+    MenuItem.VectorIcon(
+        screen = Screen.Theme,
+        label = R.string.menu_theme,
+        icon = Icons.Filled.Category,
+    ),
+    MenuItem.ResourceIcon(
+        screen = Screen.ProductHunt,
+        label = R.string.menu_product_hunt,
+        icon = core.playground.ui.R.drawable.ic_producthunt_24,
+    ),
+    MenuItem.ResourceIcon(
+        screen = Screen.DeviantArt,
+        label = R.string.menu_deviantArt,
+        icon = R.drawable.ic_deviant_art,
+        iconSecondary = R.drawable.ic_baseline_open_in_new_24,
+    ),
+)

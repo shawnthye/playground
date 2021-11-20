@@ -91,6 +91,7 @@ object Libs {
 
         object Compose {
             const val material = "androidx.compose.material:material"
+            const val materialIconsExtended = "androidx.compose.material:material-icons-extended"
             const val ui = "androidx.compose.ui:ui"
             const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4"
             const val uiTooling = "androidx.compose.ui:ui-tooling"

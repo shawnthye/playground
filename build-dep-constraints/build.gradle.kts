@@ -5,6 +5,7 @@ plugins {
 dependencies {
     constraints {
         api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
+        api("${Libs.AndroidX.Compose.materialIconsExtended}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTestJunit4}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiToolingPreview}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTooling}:${Versions.COMPOSE}")

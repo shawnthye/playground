@@ -5,6 +5,7 @@ import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
@@ -25,7 +27,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import core.playground.ui.alias.NavigateUp
@@ -34,29 +35,7 @@ import core.playground.ui.alias.NavigateUp
 @Composable
 fun ProductHunt(navigateUp: NavigateUp) {
     val navController = rememberAnimatedNavController()
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-
-    val selectedScreen = currentDestination.let { destination ->
-        if (destination == null) {
-            Screen.Discover
-        } else {
-            when {
-                destination.hierarchy.any { it.route == Screen.Discover.route } -> {
-                    Screen.Discover
-                }
-                destination.hierarchy.any { it.route == Screen.Topics.route } -> {
-                    Screen.Topics
-                }
-                destination.hierarchy.any { it.route == Screen.Collections.route } -> {
-                    Screen.Collections
-                }
-                else -> Screen.Discover
-            }
-        }
-    }
-
+    val selectedScreen by navController.currentScreenAsState()
     val popupDestinationId by navController.popUpDestinationId()
 
     Scaffold(
@@ -84,28 +63,65 @@ fun ProductHunt(navigateUp: NavigateUp) {
     }
 }
 
+/**
+ * Adds an [NavController.OnDestinationChangedListener] to this [NavController] and updates the
+ * returned [State] which is updated as the destination changes.
+ */
+@Stable
+@Composable
+private fun NavController.currentScreenAsState(): State<Screen> {
+    val selectedItem = remember { mutableStateOf<Screen>(Screen.Discover) }
+
+    DisposableEffect(this) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            when {
+                destination.hierarchy.any { it.route == Screen.Discover.route } -> {
+                    selectedItem.value = Screen.Discover
+                }
+                destination.hierarchy.any { it.route == Screen.Topics.route } -> {
+                    selectedItem.value = Screen.Topics
+                }
+                destination.hierarchy.any { it.route == Screen.Collections.route } -> {
+                    selectedItem.value = Screen.Collections
+                }
+            }
+        }
+        addOnDestinationChangedListener(listener)
+
+        onDispose {
+            removeOnDestinationChangedListener(listener)
+        }
+    }
+
+    return selectedItem
+}
+
 @Composable
 private fun ProductHuntBottomNavigation(
     selectedScreen: Screen,
     onNavigationSelected: (selected: Screen) -> Unit,
 ) {
-    Surface(
-        color = MaterialTheme.colors.surface,
-        elevation = AppBarDefaults.BottomAppBarElevation,
+    CompositionLocalProvider(
+        LocalElevationOverlay provides null,
     ) {
-        BottomNavigation(
-            modifier = Modifier.navigationBarsPadding(),
-            backgroundColor = Color.Transparent,
-            elevation = 0.dp,
+        Surface(
+            color = MaterialTheme.colors.surface,
+            elevation = AppBarDefaults.BottomAppBarElevation,
         ) {
-            ProductHuntNavigationItems.map { item ->
-                BottomNavigationItem(
-                    selectedContentColor = MaterialTheme.colors.primary,
-                    icon = { Icon(item.imageVector, contentDescription = null) },
-                    label = null,
-                    selected = selectedScreen == item.screen,
-                    onClick = { onNavigationSelected(item.screen) },
-                )
+            BottomNavigation(
+                modifier = Modifier.navigationBarsPadding(),
+                backgroundColor = Color.Transparent,
+                elevation = 0.dp,
+            ) {
+                ProductHuntNavigationItems.map { item ->
+                    BottomNavigationItem(
+                        selectedContentColor = MaterialTheme.colors.primary,
+                        icon = { Icon(item.imageVector, contentDescription = null) },
+                        label = null,
+                        selected = selectedScreen == item.screen,
+                        onClick = { onNavigationSelected(item.screen) },
+                    )
+                }
             }
         }
     }

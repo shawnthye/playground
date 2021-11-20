@@ -135,10 +135,11 @@ dependencies {
     kapt(Libs.Dagger.hiltCompiler)
 
     implementation(Libs.AndroidX.Compose.ui)
-    implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
+    implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.materialIconsExtended)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
     implementation(Libs.Google.Accompanist.insets)

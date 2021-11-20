@@ -1,4 +1,4 @@
-package app.playground.ui
+package app.playground.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -20,9 +20,13 @@ internal sealed class Screen(val route: String) {
     object Theme : Screen("theme")
     object ProductHunt : Screen("product-hunt")
     object DeviantArt : Screen("deviant-art")
+
+    companion object {
+        val START = Home
+    }
 }
 
-internal sealed class Destination(private val route: String) {
+private sealed class Destination(private val route: String) {
 
     fun createRoute(screen: Screen) = "${screen.route}/$route"
 
@@ -31,7 +35,7 @@ internal sealed class Destination(private val route: String) {
 
 @ExperimentalAnimationApi
 @Composable
-fun PlaygroundNavGraph(
+internal fun PlaygroundNavGraph(
     navController: NavHostController = rememberAnimatedNavController(),
     navigateUp: NavigateUp,
 ) {
