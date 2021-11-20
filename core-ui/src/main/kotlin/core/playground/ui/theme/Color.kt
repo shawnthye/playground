@@ -19,12 +19,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
 private val LIGHT = Color(0xFFFFFFFF)
-private val DARK = Color(0xFF212121)
+private val DARK = Color(0xFF111827)
+private val SYSTEM = Color(0xFF666666)
 
 internal val PlaygroundLightColors = lightColors(
     primary = DARK,
     secondary = DARK,
     surface = Color.White,
+    onSurface = SYSTEM,
 )
 internal val PlaygroundDarkColors = darkColors(
     primary = LIGHT,

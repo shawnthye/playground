@@ -52,6 +52,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
 
     implementation(Libs.Google.Accompanist.insets)
+    implementation(Libs.Google.Accompanist.insetsUi)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

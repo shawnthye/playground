@@ -7,21 +7,19 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
+import com.google.accompanist.insets.ui.TopAppBar
 
 @Composable
 fun DrawerAppBar(
@@ -29,7 +27,7 @@ fun DrawerAppBar(
     navigationUp: (() -> Unit)? = null,
 ) {
     AppBar(
-        iconVector = Icons.Filled.Menu,
+        iconVector = Icons.Default.Menu,
         titleRes = titleRes,
         navigationUp = navigationUp,
     )
@@ -54,7 +52,8 @@ fun AppBar(
 
 @Composable
 fun AppBar(
-    iconVector: ImageVector = Icons.Filled.ArrowBack,
+    modifier: Modifier = Modifier,
+    iconVector: ImageVector = Icons.Default.ArrowBack,
     title: String? = null,
     navigationUp: (() -> Unit)? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
@@ -66,26 +65,25 @@ fun AppBar(
      * see also https://developer.android.com/jetpack/compose/themes/material#elevation-overlays
      */
     CompositionLocalProvider(LocalElevationOverlay provides null) {
-        Surface(
-            color = MaterialTheme.colors.background,
+        TopAppBar(
+            modifier = modifier,
+            title = { Text(text = title ?: "", color = MaterialTheme.colors.onSurface) },
+            navigationIcon = {
+                IconButton(onClick = { navigationUp?.invoke() }) {
+                    Icon(
+                        imageVector = iconVector,
+                        contentDescription = "",
+                        tint = MaterialTheme.colors.onSurface,
+                    )
+                }
+            },
+            actions = {
+                actions?.invoke()
+            },
+            contentColor = MaterialTheme.colors.onSurface,
+            backgroundColor = MaterialTheme.colors.surface.copy(alpha = .97f),
             elevation = elevation,
-        ) {
-            TopAppBar(
-                title = {
-                    Text(text = title ?: "")
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navigationUp?.invoke() }) {
-                        Icon(imageVector = iconVector, contentDescription = "")
-                    }
-                },
-                actions = {
-                    actions?.invoke()
-                },
-                backgroundColor = Color.Transparent,
-                modifier = Modifier.statusBarsPadding(),
-                elevation = 0.dp,
-            )
-        }
+            contentPadding = rememberInsetsPaddingValues(LocalWindowInsets.current.statusBars),
+        )
     }
 }
