@@ -25,3 +25,4 @@
 [] Dynamic features (Waiting for better Hilt support in the future)
 [] Kotlin json serialization customization to transform all empty/blank string to null
 [] Solution to transform DTO to Entity
+[] Network bound resource with Data Mapper or use DataSource approach?
