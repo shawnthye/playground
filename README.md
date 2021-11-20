@@ -12,8 +12,8 @@
 - `Coroutines` you know why.
 - `Hilt` you should know.
 - `Coil` kotlin base image loading like Glide.
-- `Data Binding` Note currently still doing some demo on databinding, else we will remove all data
-  binding unrelated setting/code.
+- `Data Binding` Note currently still doing some demo on data binding, else we will remove all data
+  binding unrelated setting/dependency.
 
 ### TODO
 
@@ -29,3 +29,4 @@ class), no way to apply in the JsonBuilder like Gson TypeAdapter, see
 also [issue](https://github.com/Kotlin/kotlinx.serialization/issues/507)
 [] Solution to transform DTO to Entity
 [] Network bound resource with Data Mapper or use DataSource approach?
+[] exponential back off retry
