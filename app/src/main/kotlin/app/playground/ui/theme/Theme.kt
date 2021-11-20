@@ -47,21 +47,16 @@ fun Theme(navigateUp: NavigateUp) {
         Box(modifier = Modifier.padding(16.dp)) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Component("Button") {
-                    Button(onClick = NOOP) {
-                        ButtonText()
-                    }
-                    TextButton(onClick = NOOP) {
-                        ButtonText()
-                    }
+                    Button(onClick = NOOP) { ButtonText() }
+                    TextButton(onClick = NOOP) { ButtonText() }
 
-                    OutlinedButton(onClick = NOOP) {
-                        ButtonText()
-                    }
+                    OutlinedButton(onClick = NOOP) { ButtonText() }
                 }
 
                 Component("FAB") {
                     ExtendedFloatingActionButton(
-                        text = { ButtonText() }, onClick = NOOP,
+                        onClick = NOOP,
+                        text = { ButtonText() },
                         icon = { IconAdd() },
                     )
 
