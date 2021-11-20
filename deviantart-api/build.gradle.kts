@@ -23,7 +23,6 @@ dependencies {
     implementation(Libs.Retrofit2.retrofit)
 
     implementation(Libs.Dagger.javaxInject)
-    implementation(Libs.Dagger.dagger)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
