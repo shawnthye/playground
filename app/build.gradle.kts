@@ -142,7 +142,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
-    implementation(Libs.Google.Accompanist.insets)
+    // implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.navigationAnimation)
 
     implementation(Libs.AndroidX.Navigation.compose)

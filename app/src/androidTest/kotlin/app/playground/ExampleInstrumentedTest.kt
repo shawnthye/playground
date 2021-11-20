@@ -1,7 +1,7 @@
 package app.playground
 
 import androidx.test.platform.app.InstrumentationRegistry
-import app.playground.di.DatabaseModule
+import app.playground.core.di.DatabaseModule
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsNull
