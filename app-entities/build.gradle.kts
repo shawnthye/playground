@@ -9,6 +9,7 @@ dependencies {
     api(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
 
+    implementation(project(":core"))
     implementation(project(":core-data"))
     @Suppress("SpellCheckingInspection")
     implementation(project(":deviantart-api-model"))

@@ -15,7 +15,8 @@ data class DeviationEntity(
     val deviationId: String,
     val url: String,
     val title: String,
-    val imageSrc: String,
+    val coverUrl: String,
+    val imageUrl: String,
     val imageHeight: Int,
     val imageWidth: Int,
 ) : AppEntity

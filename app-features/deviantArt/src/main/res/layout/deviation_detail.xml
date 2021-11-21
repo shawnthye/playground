@@ -68,7 +68,7 @@
 
             <ImageView
               android:id="@+id/image"
-              imageUrl="@{viewModel.deviationState.imageSrc}"
+              imageUrl="@{viewModel.deviationState.imageUrl}"
               android:layout_width="match_parent"
               android:layout_height="0dp"
               android:adjustViewBounds="true"

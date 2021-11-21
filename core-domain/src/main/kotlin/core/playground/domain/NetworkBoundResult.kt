@@ -2,12 +2,10 @@ package core.playground.domain
 
 import core.playground.data.Mapper
 import core.playground.data.Response
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.transform
@@ -55,7 +53,7 @@ inline fun <ResultType, RemoteType> Flow<ResultType>.asNetworkBoundResult(
     return flow {
         emit(Result.Loading(null))
 
-        val data = cache.flowOn(Dispatchers.Main.immediate).first()
+        val data = cache.first()
         if (data != null) {
             emit(Result.Loading(data))
         }
