@@ -2,37 +2,33 @@ package feature.playground.deviant.data
 
 import app.playground.core.data.daos.DeviationDao
 import app.playground.entities.DeviationEntity
-import app.playground.entities.mappers.DeviationToEntity
 import core.playground.domain.Result
-import core.playground.domain.asNetworkBoundResource
+import core.playground.domain.asNetworkBoundResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DeviantRepository @Inject constructor(
-    private val deviantDataSource: DeviantDataSource,
+    private val deviationDataSource: DeviationDataSource,
     private val deviationDao: DeviationDao,
-    private val deviationToEntity: DeviationToEntity,
 ) {
 
-    fun observeDeviation(id: String): Flow<Result<DeviationEntity>> =
-        deviantDataSource.fetchDeviation2(id)
-    // .fetchDeviation(id)
-    // .asNetworkBoundResource(
-    //     query = deviationDao.observeDeviation(id),
-    //     shouldFetch = { true },
-    // ) {
-    //     deviationDao.insert(deviationToEntity(it))
-    // }
-
-    fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviantDataSource
-        .fetchPopular()
-        .asNetworkBoundResource(
-            query = deviationDao.observeAll(),
+    fun observeDeviation(id: String): Flow<Result<DeviationEntity>> = deviationDao
+        .observeDeviation(id)
+        .asNetworkBoundResult(
+            remote = deviationDataSource.fetchDeviation(id),
             shouldFetch = { true },
-        ) { response ->
-            val entities = response.results.map { deviationToEntity(it) }
-            deviationDao.insertAll(entities)
+        ) {
+            deviationDao.insert(it)
+        }
+
+    fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviationDao
+        .observePopular()
+        .asNetworkBoundResult(
+            remote = deviationDataSource.fetchPopular(),
+            shouldFetch = { true },
+        ) {
+            deviationDao.insertPopular(it.first, it.second)
         }
 }

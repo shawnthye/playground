@@ -26,17 +26,11 @@ interface DeviationDao {
     @Query("DELETE FROM deviations")
     suspend fun deleteAll()
 
-    // @Transaction
-    // suspend fun refresh(){
-    //     deleteAll()
-    //
-    // }
-
-    @Query("SELECT deviations.* FROM deviations WHERE id = :id")
+    @Query("SELECT deviations.* FROM deviations WHERE deviationId = :id")
     fun observeDeviation(id: String): Flow<DeviationEntity>
 
-    @Query("SELECT deviations.* FROM popular_deviations INNER JOIN deviations")
-    fun getPopular(): Flow<List<DeviationEntity>>
+    @Query("SELECT deviations.* FROM popular_deviations INNER JOIN deviations ON popular_deviations.deviationId = deviations.deviationId")
+    fun observePopular(): Flow<List<DeviationEntity>>
 
     @Query("SELECT * FROM  deviations")
     fun observeAll(): Flow<List<DeviationEntity>>

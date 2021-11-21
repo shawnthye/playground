@@ -10,7 +10,7 @@ class DeviationToEntity
     override suspend fun map(
         from: Deviation,
     ): DeviationEntity = DeviationEntity(
-        id = from.deviationid,
+        deviationId = from.deviationid,
         url = from.url,
         title = from.title,
         imageSrc = (from.thumbs.lastOrNull() ?: from.preview).src,
