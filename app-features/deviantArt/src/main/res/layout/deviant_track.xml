@@ -46,7 +46,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/appbar"
       />
 
     <feature.playground.deviant.widget.CoreSwipeRefreshLayout
@@ -62,12 +62,13 @@
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/deviations"
+        android:clipToPadding="false"
         deviations="@{viewModel.deviationsState}"
         onClickListener="@{viewModel}"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="2dp"
+        android:padding="1dp"
         app:layoutManager="GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="10"
