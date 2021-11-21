@@ -11,19 +11,16 @@ class CoreSwipeRefreshLayout @JvmOverloads constructor(
 ) : SwipeRefreshLayout(context, attrs)
 
 @BindingAdapter("onRefreshListener")
-fun onRefreshListener(view: SwipeRefreshLayout, listener: SwipeRefreshLayout.OnRefreshListener) {
-    view.setOnRefreshListener(listener)
+fun SwipeRefreshLayout.onRefreshListener(listener: SwipeRefreshLayout.OnRefreshListener) {
+    setOnRefreshListener(listener)
 }
 
 @BindingAdapter("refreshing")
-fun refreshing(view: SwipeRefreshLayout, refreshing: Boolean) {
-    view.post {
-        // view.setRefreshing()
-        view.isRefreshing = refreshing
-    }
+fun SwipeRefreshLayout.refreshing(refreshing: Boolean) {
+    isRefreshing = refreshing
 }
 
 @BindingAdapter("enabled")
-fun enabled(view: SwipeRefreshLayout, enabled: Boolean) {
-    view.isEnabled = enabled
+fun SwipeRefreshLayout.enabled(enabled: Boolean) {
+    isEnabled = enabled
 }
