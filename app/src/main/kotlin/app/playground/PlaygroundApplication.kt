@@ -38,6 +38,6 @@ class PlaygroundApplication : Application(), ImageLoaderFactory {
             )
             add(VideoFrameDecoder(context))
         }
-        .crossfade(resources.getInteger(core.playground.ui.R.integer.rapid_animation))
+        .crossfade(resources.getInteger(android.R.integer.config_shortAnimTime))
         .build()
 }

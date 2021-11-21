@@ -17,6 +17,7 @@ import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviantTrackBinding
 import feature.playground.deviant.ui.DeviantArtNavigationFragment
+import feature.playground.deviant.widget.SlideInItemAnimator
 import feature.playground.deviant.widget.SpaceDecoration
 import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.collect
@@ -53,6 +54,7 @@ fun deviations(
     list ?: return
 
     if (recyclerView.adapter == null) {
+        recyclerView.itemAnimator = SlideInItemAnimator()
         val space = recyclerView.context.resources.getDimensionPixelSize(R.dimen.grid_spacing)
         recyclerView.addItemDecoration(SpaceDecoration(space, space, space, space))
         recyclerView.adapter = DeviantTrackAdapter(onClickListener)
