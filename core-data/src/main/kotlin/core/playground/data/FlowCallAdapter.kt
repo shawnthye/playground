@@ -1,40 +1,32 @@
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package core.playground.data
 
+import core.playground.Reason
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import okhttp3.CacheControl
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.Retrofit
+import java.io.IOException
 import java.lang.reflect.Type
+import java.time.Duration
 
 /**
- * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
+ * A Retrofit adapter that converts the Call into a LiveData of Response.
  * @param <R>
 </R> */
-class FlowCallAdapter<R>(private val responseType: Type) :
-    CallAdapter<R, Flow<ApiResponse<R>>> {
+class FlowCallAdapter<R>(
+    private val responseType: Type,
+    private val retrofit: Retrofit,
+) : CallAdapter<R, Flow<Response<R>>> {
 
     override fun responseType() = responseType
 
-    override fun adapt(call: Call<R>): Flow<ApiResponse<R>> {
+    override fun adapt(call: Call<R>): Flow<Response<R>> {
         return flow {
             emit(
                 suspendCancellableCoroutine { continuation ->
@@ -42,20 +34,20 @@ class FlowCallAdapter<R>(private val responseType: Type) :
                         if (!it.isExecuted) it else it.clone()
                     }.enqueue(
                         object : Callback<R> {
-                            override fun onResponse(call: Call<R>, response: Response<R>) {
+                            override fun onResponse(
+                                call: Call<R>,
+                                response: retrofit2.Response<R>,
+                            ) {
                                 continuation.resumeWith(
-                                    Result.success(ApiResponse.create(response)),
+                                    Result.success(
+                                        Response.create(response),
+                                    ),
                                 )
                             }
 
                             override fun onFailure(call: Call<R>, throwable: Throwable) {
-                                // TODO: 11/12/2021 try below for api error handling
-                                // continuation.resumeWith(
-                                //     Result.failure(throwable),
-                                // )
-                                continuation.resumeWith(
-                                    Result.success(ApiResponse.create(throwable)),
-                                )
+                                val error = retrofit.finalizeError(throwable)
+                                continuation.resumeWith(Result.success(Response.create(error)))
                             }
                         },
                     )
@@ -66,23 +58,49 @@ class FlowCallAdapter<R>(private val responseType: Type) :
                 },
             )
         }
-
-        // return object : LiveData<ApiResponse<R>>() {
-        //     private var started = AtomicBoolean(false)
-        //     override fun onActive() {
-        //         super.onActive()
-        //         if (started.compareAndSet(false, true)) {
-        //             call.enqueue(object : Callback<R> {
-        //                 override fun onResponse(call: Call<R>, response: Response<R>) {
-        //                     postValue(ApiResponse.create(response))
-        //                 }
-        //
-        //                 override fun onFailure(call: Call<R>, throwable: Throwable) {
-        //                     postValue(ApiResponse.create(throwable))
-        //                 }
-        //             })
-        //         }
-        //     }
-        // }
     }
+}
+
+/**
+ * Here we use google to check if the connect too slow
+ */
+private fun Retrofit.finalizeError(original: Throwable): Throwable {
+    val client = (callFactory() as OkHttpClient)
+        .newBuilder()
+        .callTimeout(Duration.ofSeconds(10))
+        .connectTimeout(Duration.ofSeconds(5))
+        .retryOnConnectionFailure(true)
+        .apply {
+            /**
+             * clear all the interceptor, since we doesn't need it
+             * we only need other setting eg: DNS,
+             * so that we can use the closet environment to check connection
+             */
+            interceptors().clear()
+        }
+        .build()
+
+
+    return try {
+        client.newCall(GENERATE_204_REQUEST).execute()
+        // no problem, return the original
+        original
+    } catch (e: IOException) {
+        return Reason.Connection(original)
+    } catch (e: Throwable) {
+        /**
+         * something else, return the original too
+         * TODO: a way to return both? in case the when checking connection?
+         */
+        original
+    }
+}
+
+private val GENERATE_204_REQUEST by lazy {
+    Request.Builder()
+        .url("https://clients3.google.com/generate_204")
+        .method("HEAD", null)
+        .header("Cache-Control", "no-cache")
+        .cacheControl(CacheControl.FORCE_NETWORK)
+        .build()
 }

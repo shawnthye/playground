@@ -38,9 +38,7 @@ class DeviantArtAuthenticator @Inject constructor(
             return null
         }
 
-        return response.request.newBuilder()
-            .header("Authorization", "${tokenCache!!.token_type} ${tokenCache!!.access_token}")
-            .build()
+        return buildAuthRequest(response.request)
     }
 
     private fun requestToken(): DeviantArtToken? {

@@ -16,6 +16,9 @@ fun onRefreshListener(view: SwipeRefreshLayout, listener: SwipeRefreshLayout.OnR
 }
 
 @BindingAdapter("refreshing")
-fun onRefreshListener(view: SwipeRefreshLayout, refreshing: Boolean) {
-    view.isRefreshing = refreshing
+fun refreshing(view: SwipeRefreshLayout, refreshing: Boolean) {
+    view.post {
+        // view.setRefreshing()
+        view.isRefreshing = refreshing
+    }
 }

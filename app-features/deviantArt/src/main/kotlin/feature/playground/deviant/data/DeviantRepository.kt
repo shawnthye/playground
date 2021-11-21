@@ -16,14 +16,15 @@ class DeviantRepository @Inject constructor(
     private val deviationToEntity: DeviationToEntity,
 ) {
 
-    fun observeDeviation(id: String): Flow<Result<DeviationEntity>> = deviantDataSource
-        .fetchDeviation(id)
-        .asNetworkBoundResource(
-            query = deviationDao.observeDeviation(id),
-            shouldFetch = { true },
-        ) {
-            deviationDao.insert(deviationToEntity(it))
-        }
+    fun observeDeviation(id: String): Flow<Result<DeviationEntity>> =
+        deviantDataSource.fetchDeviation2(id)
+    // .fetchDeviation(id)
+    // .asNetworkBoundResource(
+    //     query = deviationDao.observeDeviation(id),
+    //     shouldFetch = { true },
+    // ) {
+    //     deviationDao.insert(deviationToEntity(it))
+    // }
 
     fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviantDataSource
         .fetchPopular()

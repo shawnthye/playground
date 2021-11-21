@@ -36,13 +36,13 @@ class FlowCallAdapterFactory : Factory() {
 
         val observableType = getParameterUpperBound(0, returnType as ParameterizedType)
         val rawObservableType = getRawType(observableType)
-        if (rawObservableType != ApiResponse::class.java) {
+        if (rawObservableType != Response::class.java) {
             throw IllegalArgumentException("type must be a resource")
         }
         if (observableType !is ParameterizedType) {
             throw IllegalArgumentException("$observableType resource must be parameterized")
         }
         val bodyType = getParameterUpperBound(0, observableType)
-        return FlowCallAdapter<Any>(bodyType)
+        return FlowCallAdapter<Any>(bodyType, retrofit)
     }
 }
