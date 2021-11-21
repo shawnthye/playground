@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
     android:id="@id/deviant_art_navigation"
-    android:contentDescription="@string/deviant_art_home"
+    android:contentDescription="@string/deviant_art_track_newest"
     android:icon="@drawable/ic_baseline_home_24"
-    android:title="@string/deviant_art_home" />
+    android:title="@string/deviant_art_track_newest" />
   <item
     android:id="@id/deviant_art_navigation_popular"
-    android:contentDescription="@string/deviant_art_track_popular"
+    android:contentDescription="@string/deviant_art_track_hot"
     android:icon="@drawable/ic_baseline_popular_24"
-    android:title="@string/deviant_art_track_popular" />
+    android:title="@string/deviant_art_track_hot" />
 </menu>

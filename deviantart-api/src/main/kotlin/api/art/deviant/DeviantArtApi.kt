@@ -9,11 +9,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface DeviantArtApi {
-    @GET("browse/popular")
-    fun popular(
-        @Query("offset") offset: Int?,
-        @Query("limit") limit: Int = 20,
-    ): Flow<Response<DeviationResult>>
 
     @GET("browse/{track}")
     fun browse(

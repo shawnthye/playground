@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LoadPopularDeviantsUseCase @Inject constructor(
+class LoadTrackDeviantsUseCase @Inject constructor(
     private val repository: DeviantRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : FlowUseCase<Track, List<DeviationEntity>>(dispatcher) {

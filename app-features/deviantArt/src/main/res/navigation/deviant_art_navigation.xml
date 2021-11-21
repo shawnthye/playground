@@ -16,11 +16,11 @@
   <fragment
     android:id="@+id/deviant_track"
     android:name="feature.playground.deviant.ui.track.DeviantTrack"
-    android:label="@string/deviant_art_track_hot"
+    android:label="@string/deviant_art_track_newest"
     tools:layout="@layout/deviant_track">
     <argument
       android:name="track"
-      android:defaultValue="HOT"
+      android:defaultValue="NEWEST"
       app:argType="feature.playground.deviant.ui.track.Track"
       app:nullable="false" />
   </fragment>

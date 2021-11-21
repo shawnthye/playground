@@ -7,7 +7,7 @@ import app.playground.entities.DeviationEntity
 import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import feature.playground.deviant.domain.LoadPopularDeviantsUseCase
+import feature.playground.deviant.domain.LoadTrackDeviantsUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DeviantTrackViewModel
 @Inject constructor(
-    loadPopularDeviantsUseCase: LoadPopularDeviantsUseCase,
+    loadTrackDeviantsUseCase: LoadTrackDeviantsUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel(), DeviantTrackAdapter.OnClickListener {
 
@@ -34,7 +34,7 @@ class DeviantTrackViewModel
 
     private val resultState: Flow<Result<List<DeviationEntity>>> = _refreshingAction
         .receiveAsFlow()
-        .flatMapLatest { loadPopularDeviantsUseCase(track) }.stateIn(
+        .flatMapLatest { loadTrackDeviantsUseCase(track) }.stateIn(
             viewModelScope,
             WhileViewSubscribed,
             Result.Loading(),
