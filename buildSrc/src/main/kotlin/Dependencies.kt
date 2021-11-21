@@ -37,6 +37,8 @@ object Versions {
     const val NAVIGATION = "2.4.0-beta02"
     const val OKIO = "3.0.0"
     const val OK_HTTP = "4.9.2"
+    const val PAGING = "3.1.0"
+    const val PAGING_COMPOSE = "1.0.0-alpha14"
     const val RECYCLER_VIEW = "1.2.1"
     const val RETROFIT = "2.9.0"
     const val RETROFIT_CONVERTER = "0.8.0"
@@ -122,6 +124,12 @@ object Libs {
             const val common = "androidx.room:room-common"
             const val compiler = "androidx.room:room-compiler"
             const val ktx = "androidx.room:room-ktx"
+        }
+
+        object Paging {
+            const val common = "androidx.paging:paging-common"
+            const val compose = "androidx.paging:paging-compose"
+            const val runtime = "androidx.paging:paging-runtime"
         }
 
         object Test {

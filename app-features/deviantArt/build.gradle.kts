@@ -75,6 +75,9 @@ dependencies {
     implementation(Libs.AndroidX.Navigation.fragment)
     implementation(Libs.AndroidX.Navigation.ui)
 
+    implementation(Libs.AndroidX.Paging.common)
+    implementation(Libs.AndroidX.Paging.runtime)
+
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
 
