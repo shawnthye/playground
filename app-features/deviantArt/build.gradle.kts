@@ -79,6 +79,7 @@ dependencies {
     kapt(Libs.Dagger.hiltCompiler)
 
     implementation(Libs.Coil.coil)
+    implementation(Libs.Coil.coilGif)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

@@ -13,7 +13,7 @@ class DeviationToEntity
         deviationId = from.deviationid,
         url = from.url,
         title = from.title,
-        imageSrc = (from.thumbs?.lastOrNull() ?: from.preview ?: from.content)!!.src,
+        imageSrc = (from.content ?: from.thumbs?.lastOrNull() ?: from.preview)!!.src,
         imageHeight = from.content?.height ?: from.thumbs?.lastOrNull()?.height ?: 0,
         imageWidth = from.content?.width ?: from.thumbs?.lastOrNull()?.width ?: 0,
     )

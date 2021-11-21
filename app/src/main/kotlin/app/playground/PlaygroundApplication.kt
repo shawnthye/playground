@@ -1,8 +1,13 @@
 package app.playground
 
 import android.app.Application
+import android.os.Build
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.decode.SvgDecoder
+import coil.decode.VideoFrameDecoder
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,6 +26,18 @@ class PlaygroundApplication : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader = ImageLoader
         .Builder(this)
+        .componentRegistry {
+            val context = this@PlaygroundApplication
+            add(SvgDecoder(context))
+            add(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    ImageDecoderDecoder(context)
+                } else {
+                    GifDecoder()
+                },
+            )
+            add(VideoFrameDecoder(context))
+        }
         .crossfade(resources.getInteger(core.playground.ui.R.integer.rapid_animation))
         .build()
 }

@@ -13,8 +13,10 @@ interface DeviantArtApi {
     @GET("browse/{track}")
     fun browse(
         @Path("track") track: String,
+        @Query("q") query: String = "gif",
+        @Query("mature_content") mature: Boolean = true,
         @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int = 20,
+        @Query("limit") limit: Int = 35,
     ): Flow<Response<DeviationResult>>
 
     @Suppress("SpellCheckingInspection")

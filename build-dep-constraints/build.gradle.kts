@@ -4,8 +4,8 @@ plugins {
 
 dependencies {
     constraints {
-        api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.materialIconsExtended}:${Versions.COMPOSE}")
+        api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTestJunit4}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiToolingPreview}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTooling}:${Versions.COMPOSE}")
@@ -47,8 +47,11 @@ dependencies {
         api("${Libs.AndroidX.fragment}:${Versions.FRAGMENT}")
         api("${Libs.AndroidX.recyclerView}:${Versions.RECYCLER_VIEW}")
         api("${Libs.AndroidX.swipeRefresh}:${Versions.SWIPE_REFRESH}")
-        api("${Libs.Coil.coil}:${Versions.COIL}")
         api("${Libs.Coil.coilCompose}:${Versions.COIL}")
+        api("${Libs.Coil.coilGif}:${Versions.COIL}")
+        api("${Libs.Coil.coilSvg}:${Versions.COIL}")
+        api("${Libs.Coil.coilVideo}:${Versions.COIL}")
+        api("${Libs.Coil.coil}:${Versions.COIL}")
         api("${Libs.Coroutines.android}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.core}:${Versions.COROUTINES}")
         api("${Libs.Coroutines.play}:${Versions.COROUTINES}")
@@ -59,8 +62,8 @@ dependencies {
         api("${Libs.Dagger.hilt}:${Versions.DAGGER}")
         api("${Libs.Dagger.javaxInject}:${Versions.DAGGER_INJECT}")
         api("${Libs.Firebase.bom}:${Versions.FIREBASE}")
-        api("${Libs.Google.Accompanist.insets}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.insetsUi}:${Versions.ACCOMPANIST}")
+        api("${Libs.Google.Accompanist.insets}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.navigationAnimation}:${Versions.ACCOMPANIST}")
         api("${Libs.JetBrains.reflect}:${Versions.KOTLIN}")
         api("${Libs.JetBrains.xJson}:${Versions.KOTLINX_JSON}")

@@ -178,6 +178,10 @@ object Libs {
 
     object Coil {
         const val coil = "io.coil-kt:coil"
+        const val coilSvg = "io.coil-kt:coil-svg"
+        const val coilGif = "io.coil-kt:coil-gif"
+        const val coilVideo = "io.coil-kt:coil-video"
+
         const val coilCompose = "io.coil-kt:coil-compose"
     }
 

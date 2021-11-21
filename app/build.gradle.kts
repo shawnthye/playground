@@ -160,6 +160,10 @@ dependencies {
 
     implementation(Libs.Retrofit2.converter)
 
+    implementation(Libs.Coil.coil)
+    implementation(Libs.Coil.coilSvg)
+    implementation(Libs.Coil.coilGif)
+    implementation(Libs.Coil.coilVideo)
     implementation(Libs.Coil.coilCompose)
 
     testImplementation(platform(Libs.Junit5.bom))

@@ -6,7 +6,6 @@ import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import coil.load
-import timber.log.Timber
 
 @BindingAdapter(value = ["imageUrl", "placeholder", "crossFade"], requireAll = false)
 fun imageUrl(
@@ -30,7 +29,6 @@ fun imageUri(
 
     when (imageUri) {
         null -> {
-            Timber.d("Unsetting image url")
             imageView.load(drawable = placeholder) {
                 if (!crossFadeEnabled) {
                     crossfade(enable = false)
