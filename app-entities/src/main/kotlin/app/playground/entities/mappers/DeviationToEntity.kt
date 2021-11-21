@@ -5,7 +5,8 @@ import app.playground.entities.DeviationEntity
 import core.playground.data.Mapper
 import javax.inject.Inject
 
-class DeviationToEntity @Inject constructor() : Mapper<Deviation, DeviationEntity>() {
+class DeviationToEntity
+@Inject constructor() : Mapper<Deviation, DeviationEntity>() {
     override suspend fun map(
         from: Deviation,
     ): DeviationEntity = DeviationEntity(

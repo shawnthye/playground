@@ -1,6 +1,5 @@
 package feature.playground.deviant.data
 
-import api.art.deviant.DeviantArt
 import app.playground.core.data.daos.DeviationDao
 import app.playground.entities.DeviationEntity
 import app.playground.entities.mappers.DeviationToEntity
@@ -12,15 +11,22 @@ import javax.inject.Singleton
 
 @Singleton
 class DeviantRepository @Inject constructor(
-    private val deviantArt: DeviantArt,
+    private val deviantDataSource: DeviantDataSource,
     private val deviationDao: DeviationDao,
     private val deviationToEntity: DeviationToEntity,
 ) {
-    fun observeDeviation(id: String): Flow<DeviationEntity> = deviationDao.observeDeviation(id)
 
-    fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviantArt
-        .api
-        .popular(null)
+    fun observeDeviation(id: String): Flow<Result<DeviationEntity>> = deviantDataSource
+        .fetchDeviation(id)
+        .asNetworkBoundResource(
+            query = deviationDao.observeDeviation(id),
+            shouldFetch = { true },
+        ) {
+            deviationDao.insert(deviationToEntity(it))
+        }
+
+    fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviantDataSource
+        .fetchPopular()
         .asNetworkBoundResource(
             query = deviationDao.observeAll(),
             shouldFetch = { true },

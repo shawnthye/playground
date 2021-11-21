@@ -7,9 +7,6 @@ import core.playground.domain.Result
 import feature.playground.deviant.data.DeviantRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LoadDeviantUseCase @Inject constructor(
@@ -17,8 +14,7 @@ class LoadDeviantUseCase @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher,
 ) : FlowUseCase<String, DeviationEntity>(dispatcher) {
 
-    override fun execute(parameters: String): Flow<Result<DeviationEntity>> = flow {
-        emit(Result.Loading())
-        emitAll(repository.observeDeviation(parameters).map { Result.Success(it) })
-    }
+    override fun execute(
+        parameters: String,
+    ): Flow<Result<DeviationEntity>> = repository.observeDeviation(parameters)
 }
