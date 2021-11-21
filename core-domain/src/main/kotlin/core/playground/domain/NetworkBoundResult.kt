@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.transform
+import timber.log.Timber
 
 infix fun <RequestType, ResultType> Flow<Response<RequestType>>.toResult(
     mapper: Mapper<RequestType, ResultType>,
@@ -44,6 +45,7 @@ inline fun <ResultType, RemoteType> Flow<ResultType>.asNetworkBoundResult(
                 emitAll(cache.map { Result.Success(it) })
             }
             is Result.Error -> {
+                Timber.e(result.throwable)
                 emitAll(cache.map { Result.Error(result.throwable, it) })
             }
             else -> throw IllegalStateException("impossible to reach here")

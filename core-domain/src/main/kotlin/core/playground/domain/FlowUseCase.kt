@@ -4,7 +4,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 /**
@@ -16,10 +15,6 @@ import timber.log.Timber
 abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
     operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
         .flowOn(coroutineDispatcher)
-        .map {
-            (it as? Result.Error)?.run { Timber.e(throwable) }
-            it
-        }
         .catch { e ->
             Timber.tag("FlowUseCase").e(e)
             emit(Result.Error(e, null))

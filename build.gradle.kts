@@ -182,7 +182,12 @@ configure(modules) {
             // Treat all JetBrains warnings as errors
             allWarningsAsErrors = true
 
-            freeCompilerArgs = listOf("-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+            freeCompilerArgs = let {
+                freeCompilerArgs + listOf(
+                    "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xopt-in=kotlin.RequiresOptIn", // for Paging3 RemoteMediator
+                )
+            }
 
             jvmTarget = BuildOptions.JAVA_VERSION.toString()
         }
