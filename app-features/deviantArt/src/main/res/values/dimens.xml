@@ -23,4 +23,6 @@
 
   <dimen name="component_label_horizontal_margin">@dimen/key_line_4</dimen>
   <dimen name="elevation_default_top_app_bar">4dp</dimen>
+
+  <dimen name="grid_spacing">1dp</dimen>
 </resources>

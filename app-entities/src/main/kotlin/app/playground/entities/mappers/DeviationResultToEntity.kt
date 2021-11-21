@@ -10,5 +10,5 @@ class DeviationResultToEntity @Inject constructor(
 ) : Mapper<DeviationResult, List<DeviationEntity>>() {
     override suspend fun map(
         from: DeviationResult,
-    ): List<DeviationEntity> = from.results.map { deviationToEntity(it) }
+    ): List<DeviationEntity> = from.results.filter { it.hasImage }.map { deviationToEntity(it) }
 }

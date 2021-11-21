@@ -44,10 +44,11 @@ object Diff : DiffUtil.ItemCallback<DeviationEntity>() {
     override fun areItemsTheSame(
         oldItem: DeviationEntity,
         newItem: DeviationEntity,
-    ) = oldItem.id == newItem.id
+    ) = oldItem.deviationId == newItem.deviationId
 
     override fun areContentsTheSame(
         oldItem: DeviationEntity,
         newItem: DeviationEntity,
-    ) = oldItem == newItem
+    ) = oldItem.deviationId == newItem.deviationId &&
+        oldItem.url == newItem.url
 }

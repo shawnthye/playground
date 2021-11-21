@@ -24,7 +24,9 @@ class DeviantRepository @Inject constructor(
             deviationDao.insert(it)
         }
 
-    fun observePopular(track: Track): Flow<Result<List<DeviationEntity>>> = deviationDao
+    fun observePopular(
+        track: Track,
+    ): Flow<Result<List<DeviationEntity>>> = deviationDao
         .observeTrackDeviations(track = track.toString())
         .asNetworkBoundResult(
             remote = deviationDataSource.browseDeviations(track),

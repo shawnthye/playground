@@ -22,3 +22,8 @@ fun refreshing(view: SwipeRefreshLayout, refreshing: Boolean) {
         view.isRefreshing = refreshing
     }
 }
+
+@BindingAdapter("enabled")
+fun enabled(view: SwipeRefreshLayout, enabled: Boolean) {
+    view.isEnabled = enabled
+}

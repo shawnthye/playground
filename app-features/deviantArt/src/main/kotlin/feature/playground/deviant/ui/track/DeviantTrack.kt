@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import app.playground.entities.DeviationEntity
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
+import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviantTrackBinding
 import feature.playground.deviant.ui.DeviantArtNavigationFragment
+import feature.playground.deviant.widget.SpaceDecoration
 import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -48,6 +50,14 @@ fun deviations(
     list: List<DeviationEntity>?,
     onClickListener: DeviantTrackAdapter.OnClickListener,
 ) {
+    for (i in 0 until recyclerView.itemDecorationCount) {
+        recyclerView.removeItemDecoration(recyclerView.getItemDecorationAt(i))
+    }
+
+    val space = recyclerView.context.resources.getDimensionPixelSize(R.dimen.grid_spacing)
+
+    recyclerView.addItemDecoration(SpaceDecoration(space, space, space, space))
+
     list ?: return
 
     if (recyclerView.adapter == null) {

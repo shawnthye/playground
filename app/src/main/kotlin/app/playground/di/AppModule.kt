@@ -83,6 +83,7 @@ object AppModule {
     fun provideJson(): Json = Json {
         prettyPrint = BuildConfig.DEBUG
         ignoreUnknownKeys = true
+        // explicitNulls = false
     }
 
     @ExperimentalSerializationApi

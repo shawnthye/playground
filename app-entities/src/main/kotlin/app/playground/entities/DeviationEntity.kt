@@ -18,5 +18,4 @@ data class DeviationEntity(
     val imageSrc: String,
     val imageHeight: Int,
     val imageWidth: Int,
-    val track: String?,
 ) : AppEntity
