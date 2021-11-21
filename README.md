@@ -30,3 +30,4 @@ also [issue](https://github.com/Kotlin/kotlinx.serialization/issues/507)
 [] Solution to transform DTO to Entity
 [] Network bound resource with Data Mapper or use DataSource approach?
 [] exponential back off retry
+[] Paging 3
