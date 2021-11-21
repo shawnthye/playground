@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import app.playground.entities.DeviationEntity
-import app.playground.entities.PopularDeviationEntity
+import app.playground.entities.TrackDeviationEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,22 +15,21 @@ interface DeviationDao {
     suspend fun insert(deviation: DeviationEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPopular(
-        populars: List<PopularDeviationEntity>,
+    suspend fun insertTracks(
+        trackDeviations: List<TrackDeviationEntity>,
         deviations: List<DeviationEntity>,
     )
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(deviations: List<DeviationEntity>)
-
-    @Query("DELETE FROM deviations")
-    suspend fun deleteAll()
 
     @Query("SELECT deviations.* FROM deviations WHERE deviationId = :id")
     fun observeDeviation(id: String): Flow<DeviationEntity>
 
-    @Query("SELECT deviations.* FROM popular_deviations INNER JOIN deviations ON popular_deviations.deviationId = deviations.deviationId")
-    fun observePopular(): Flow<List<DeviationEntity>>
+    @Query(
+        """SELECT deviations.* 
+        FROM tracks_deviations tracks 
+        INNER JOIN deviations ON tracks.deviationId = deviations.deviationId 
+        WHERE tracks.track = :track""",
+    )
+    fun observeTrackDeviations(track: String): Flow<List<DeviationEntity>>
 
     @Query("SELECT * FROM  deviations")
     fun observeAll(): Flow<List<DeviationEntity>>

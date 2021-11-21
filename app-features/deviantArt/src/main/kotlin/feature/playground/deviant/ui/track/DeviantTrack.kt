@@ -12,11 +12,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.entities.DeviationEntity
-import feature.playground.deviant.widget.onCreateViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.databinding.DeviantTrackBinding
 import feature.playground.deviant.ui.DeviantArtNavigationFragment
+import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -33,7 +33,7 @@ class DeviantTrack : DeviantArtNavigationFragment() {
         viewModel = model
 
         viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.idActions.collect {
                     findNavController().navigate(DeviantArtNavigationDirections.toDeviantDetail(it))
                 }

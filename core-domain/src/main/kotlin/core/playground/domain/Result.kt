@@ -1,7 +1,10 @@
 package core.playground.domain
 
 import core.playground.domain.Result.Success
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 
 /**
  * A generic class that holds a value with its loading status.
@@ -46,5 +49,15 @@ fun <T> Result<T>.successOr(fallback: T): T {
 inline fun <reified T> Result<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>) {
     if (this is Success) {
         stateFlow.value = data
+    }
+}
+
+inline fun <reified T> Flow<Result<T>>.mapCachedThrowable(): Flow<Result.Error<T>> {
+    return flatMapLatest { result ->
+        flow {
+            if (result is Result.Error && result.data != null) {
+                emit(result)
+            }
+        }
     }
 }

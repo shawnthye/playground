@@ -7,7 +7,7 @@
     android:title="@string/deviant_art_home" />
   <item
     android:id="@id/deviant_art_navigation_popular"
-    android:contentDescription="@string/deviant_art_popular"
+    android:contentDescription="@string/deviant_art_track_popular"
     android:icon="@drawable/ic_baseline_popular_24"
-    android:title="@string/deviant_art_popular" />
+    android:title="@string/deviant_art_track_popular" />
 </menu>

@@ -5,6 +5,7 @@ import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result
 import feature.playground.deviant.data.DeviantRepository
+import feature.playground.deviant.ui.track.Track
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,9 +13,9 @@ import javax.inject.Inject
 class LoadPopularDeviantsUseCase @Inject constructor(
     private val repository: DeviantRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-) : FlowUseCase<Unit, List<DeviationEntity>>(dispatcher) {
+) : FlowUseCase<Track, List<DeviationEntity>>(dispatcher) {
 
     override fun execute(
-        parameters: Unit,
-    ): Flow<Result<List<DeviationEntity>>> = repository.observePopular()
+        parameters: Track,
+    ): Flow<Result<List<DeviationEntity>>> = repository.observePopular(parameters)
 }

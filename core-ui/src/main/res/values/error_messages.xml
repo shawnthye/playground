@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="reason_connection">Network unavailable, check your data or wifi connection.</string>
+  <string name="reason_unknown">Oops, something went wrong.</string>
+</resources>

@@ -4,6 +4,7 @@ import app.playground.core.data.daos.DeviationDao
 import app.playground.entities.DeviationEntity
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
+import feature.playground.deviant.ui.track.Track
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,12 +24,13 @@ class DeviantRepository @Inject constructor(
             deviationDao.insert(it)
         }
 
-    fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviationDao
-        .observePopular()
+    fun observePopular(track: Track): Flow<Result<List<DeviationEntity>>> = deviationDao
+        .observeTrackDeviations(track = track.toString())
         .asNetworkBoundResult(
-            remote = deviationDataSource.getPopularDeviations(),
+            remote = deviationDataSource.browseDeviations(track),
             shouldFetch = { true },
-        ) {
-            deviationDao.insertPopular(it.first, it.second)
+        ) { response ->
+            val tracks = response.first.map { it.copy(track = track.toString()) }
+            deviationDao.insertTracks(tracks, response.second)
         }
 }

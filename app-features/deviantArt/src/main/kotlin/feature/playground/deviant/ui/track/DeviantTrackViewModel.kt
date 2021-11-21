@@ -1,5 +1,6 @@
 package feature.playground.deviant.ui.track
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.entities.DeviationEntity
@@ -20,7 +21,12 @@ import javax.inject.Inject
 class DeviantTrackViewModel
 @Inject constructor(
     loadPopularDeviantsUseCase: LoadPopularDeviantsUseCase,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel(), DeviantTrackAdapter.OnClickListener {
+
+    private val safeArgs = DeviantTrackArgs.fromSavedStateHandle(savedStateHandle)
+
+    private val track = safeArgs.track
 
     private val _refreshingAction = Channel<Unit>(Channel.CONFLATED).apply {
         trySend(Unit) // init loading
@@ -28,7 +34,7 @@ class DeviantTrackViewModel
 
     private val resultState: Flow<Result<List<DeviationEntity>>> = _refreshingAction
         .receiveAsFlow()
-        .flatMapLatest { loadPopularDeviantsUseCase(Unit) }.stateIn(
+        .flatMapLatest { loadPopularDeviantsUseCase(track) }.stateIn(
             viewModelScope,
             WhileViewSubscribed,
             Result.Loading(),

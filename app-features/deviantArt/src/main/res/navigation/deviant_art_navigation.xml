@@ -5,7 +5,7 @@
   android:id="@id/deviant_art_navigation"
   android:label="@string/deviant_art_home"
   app:route="@string/deviant_art_home"
-  app:startDestination="@+id/deviant_home_start">
+  app:startDestination="@+id/deviant_track">
 
   <action
     android:id="@+id/to_deviant_detail"
@@ -14,13 +14,15 @@
     app:popUpToInclusive="true" />
 
   <fragment
-    android:id="@+id/deviant_home_start"
+    android:id="@+id/deviant_track"
     android:name="feature.playground.deviant.ui.track.DeviantTrack"
-    android:label="Popular Home"
+    android:label="@string/deviant_art_track_hot"
     tools:layout="@layout/deviant_track">
     <argument
       android:name="track"
-      android:defaultValue="popular" />
+      android:defaultValue="HOT"
+      app:argType="feature.playground.deviant.ui.track.Track"
+      app:nullable="false" />
   </fragment>
 
   <fragment

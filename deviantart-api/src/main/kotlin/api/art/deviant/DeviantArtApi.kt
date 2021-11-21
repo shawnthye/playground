@@ -15,6 +15,13 @@ interface DeviantArtApi {
         @Query("limit") limit: Int = 20,
     ): Flow<Response<DeviationResult>>
 
+    @GET("browse/{track}")
+    fun browse(
+        @Path("track") track: String,
+        @Query("offset") offset: Int? = null,
+        @Query("limit") limit: Int = 20,
+    ): Flow<Response<DeviationResult>>
+
     @Suppress("SpellCheckingInspection")
     @GET("deviation/medadata")
     fun deviationMetadata(

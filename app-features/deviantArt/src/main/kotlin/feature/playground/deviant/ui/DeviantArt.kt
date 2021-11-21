@@ -37,7 +37,7 @@ class DeviantArt : AppCompatActivity(), NavigationHost {
 
         // Setup the ActionBar with navController and 3 top level destinations
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.deviant_home_start, R.id.deviant_popular_start),
+            setOf(R.id.deviant_track, R.id.deviant_popular_start),
         )
 
         bottomNavigationView.setOnItemReselectedListener { menu ->
