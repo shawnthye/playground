@@ -29,13 +29,13 @@ internal fun PlaygroundApp() {
     val navController = rememberAnimatedNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val selectedScreen by navController.currentScreenAsState()
+    val currentScreen by navController.currentScreenAsState()
 
     ModalDrawer(
         drawerState = drawerState,
         drawerContent = {
             val context = LocalContext.current
-            Drawer(selectedScreen = selectedScreen) { selected ->
+            Drawer(selectedScreen = currentScreen) { selected ->
                 if (selected is Screen.DeviantArt) {
                     context.startActivity(
                         Intent(
@@ -48,6 +48,10 @@ internal fun PlaygroundApp() {
                 scope.launch {
                     if (selected !is Screen.DeviantArt) {
                         drawerState.close()
+                    }
+
+                    if (currentScreen == selected) {
+                        return@launch
                     }
 
                     navController.navigate(selected.route) {

@@ -36,13 +36,13 @@ import core.playground.ui.alias.NavigateUp
 @Composable
 fun ProductHunt(navigateUp: NavigateUp) {
     val navController = rememberAnimatedNavController()
-    val selectedScreen by navController.currentScreenAsState()
+    val currentScreen by navController.currentScreenAsState()
     val popupDestinationId by navController.popUpDestinationId()
 
     Scaffold(
         bottomBar = {
             ProductHuntBottomNavigation(
-                selectedScreen = selectedScreen,
+                selectedScreen = currentScreen,
                 onNavigationSelected = { selected ->
                     navController.navigate(selected.route) {
                         // Pop up to the start destination of the graph to
