@@ -17,7 +17,7 @@ class DeviantRepository @Inject constructor(
     fun observeDeviation(id: String): Flow<Result<DeviationEntity>> = deviationDao
         .observeDeviation(id)
         .asNetworkBoundResult(
-            remote = deviationDataSource.fetchDeviation(id),
+            remote = deviationDataSource.getDeviation(id),
             shouldFetch = { true },
         ) {
             deviationDao.insert(it)
@@ -26,7 +26,7 @@ class DeviantRepository @Inject constructor(
     fun observePopular(): Flow<Result<List<DeviationEntity>>> = deviationDao
         .observePopular()
         .asNetworkBoundResult(
-            remote = deviationDataSource.fetchPopular(),
+            remote = deviationDataSource.getPopularDeviations(),
             shouldFetch = { true },
         ) {
             deviationDao.insertPopular(it.first, it.second)

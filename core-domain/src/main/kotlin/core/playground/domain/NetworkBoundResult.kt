@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.transform
 
-infix fun <RequestType, ResultType> Flow<Response<RequestType>>.toEntity(
+infix fun <RequestType, ResultType> Flow<Response<RequestType>>.toResult(
     mapper: Mapper<RequestType, ResultType>,
 ): Flow<Result<ResultType>> {
     return mapLatest { response ->

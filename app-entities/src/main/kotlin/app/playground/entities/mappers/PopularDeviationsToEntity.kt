@@ -6,7 +6,7 @@ import app.playground.entities.PopularDeviationEntity
 import core.playground.data.Mapper
 import javax.inject.Inject
 
-class PopularResultToEntity @Inject constructor(
+class PopularDeviationsToEntity @Inject constructor(
     private val deviationResultToEntity: DeviationResultToEntity,
 ) : Mapper<DeviationResult, Pair<List<PopularDeviationEntity>, List<DeviationEntity>>>() {
     override suspend fun map(
