@@ -62,11 +62,11 @@
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/deviations"
-        android:clipToPadding="false"
         deviations="@{viewModel.deviationsState}"
         onClickListener="@{viewModel}"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:padding="1dp"
         app:layoutManager="GridLayoutManager"

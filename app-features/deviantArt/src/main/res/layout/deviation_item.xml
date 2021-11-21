@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
+  tools:showIn="@layout/deviant_track"
   >
 
   <data>
@@ -28,10 +29,12 @@
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
     >
 
     <ImageView
       imageUrl="@{deviation.coverUrl}"
+      placeholder="@{@color/track_placeholder}"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:onClick="@{() -> onClickListener.onClicked(deviation.deviationId)}"

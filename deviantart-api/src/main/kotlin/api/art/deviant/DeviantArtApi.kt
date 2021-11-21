@@ -16,7 +16,7 @@ interface DeviantArtApi {
         @Query("q") query: String? = null,
         @Query("mature_content") mature: Boolean = false,
         @Query("offset") offset: Int? = null,
-        @Query("limit") limit: Int = 35,
+        @Query("limit") limit: Int = 100,
     ): Flow<Response<DeviationResult>>
 
     @Suppress("SpellCheckingInspection")

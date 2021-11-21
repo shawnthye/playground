@@ -26,8 +26,16 @@ class DeviantTrackAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position).deviationId.hashCode().toLong()
+    }
+
     interface OnClickListener {
         fun onClicked(id: String)
+    }
+
+    init {
+        setHasStableIds(true)
     }
 }
 
@@ -50,5 +58,5 @@ object Diff : DiffUtil.ItemCallback<DeviationEntity>() {
         oldItem: DeviationEntity,
         newItem: DeviationEntity,
     ) = oldItem.deviationId == newItem.deviationId &&
-        oldItem.url == newItem.url
+        oldItem.coverUrl == newItem.coverUrl
 }

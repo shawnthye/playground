@@ -50,17 +50,11 @@ fun deviations(
     list: List<DeviationEntity>?,
     onClickListener: DeviantTrackAdapter.OnClickListener,
 ) {
-    for (i in 0 until recyclerView.itemDecorationCount) {
-        recyclerView.removeItemDecoration(recyclerView.getItemDecorationAt(i))
-    }
-
-    val space = recyclerView.context.resources.getDimensionPixelSize(R.dimen.grid_spacing)
-
-    recyclerView.addItemDecoration(SpaceDecoration(space, space, space, space))
-
     list ?: return
 
     if (recyclerView.adapter == null) {
+        val space = recyclerView.context.resources.getDimensionPixelSize(R.dimen.grid_spacing)
+        recyclerView.addItemDecoration(SpaceDecoration(space, space, space, space))
         recyclerView.adapter = DeviantTrackAdapter(onClickListener)
     }
     recyclerView.setOnClickListener { }

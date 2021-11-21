@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import coil.load
+import coil.request.repeatCount
 
 @BindingAdapter(value = ["imageUrl", "placeholder", "crossFade"], requireAll = false)
 fun imageUrl(
@@ -41,6 +42,7 @@ fun imageUri(
                 if (!crossFadeEnabled) {
                     crossfade(enable = false)
                 }
+                repeatCount(0)
             }
         }
     }
