@@ -1,9 +1,9 @@
 package feature.playground.deviant.data
 
-// import api.art.deviant.DeviantArt
 import api.art.deviant.DeviantArt
 import app.playground.core.data.daos.DeviationDao
 import app.playground.entities.DeviationEntity
+import app.playground.entities.mappers.DeviationToEntity
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResource
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +14,7 @@ import javax.inject.Singleton
 class DeviantRepository @Inject constructor(
     private val deviantArt: DeviantArt,
     private val deviationDao: DeviationDao,
+    private val deviationToEntity: DeviationToEntity,
 ) {
     fun observeDeviation(id: String): Flow<DeviationEntity> = deviationDao.observeDeviation(id)
 
@@ -24,19 +25,7 @@ class DeviantRepository @Inject constructor(
             query = deviationDao.observeAll(),
             shouldFetch = { true },
         ) { response ->
-
-            val entities = response.results.map {
-                DeviationEntity(
-                    id = it.deviationid,
-                    url = it.url,
-                    title = it.title,
-                    imageSrc = (it.thumbs.lastOrNull() ?: it.preview).src,
-                    imageHeight = it.content?.height ?: it.thumbs.lastOrNull()?.height ?: 0,
-                    imageWidth = it.content?.width ?: it.thumbs.lastOrNull()?.width ?: 0,
-                    track = null,
-                )
-            }
-
+            val entities = response.results.map { deviationToEntity(it) }
             deviationDao.insertAll(entities)
         }
 }
