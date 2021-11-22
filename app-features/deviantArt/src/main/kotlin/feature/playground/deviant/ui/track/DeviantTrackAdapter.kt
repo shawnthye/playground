@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import feature.playground.deviant.databinding.DeviationItemBinding
 
 class DeviantTrackAdapter(
     private val onClickListener: OnClickListener,
-) : ListAdapter<app.playground.source.of.truth.database.entities.TrackWithDeviation, DeviationViewHolder>(
+) : ListAdapter<TrackWithDeviation, DeviationViewHolder>(
     Diff,
 ) {
 
@@ -43,22 +45,22 @@ class DeviantTrackAdapter(
 class DeviationViewHolder(
     private val binding: DeviationItemBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(deviation: app.playground.source.of.truth.database.entities.Deviation) {
+    fun bind(deviation: Deviation) {
         binding.deviation = deviation
         binding.executePendingBindings()
     }
 }
 
 object Diff :
-    DiffUtil.ItemCallback<app.playground.source.of.truth.database.entities.TrackWithDeviation>() {
+    DiffUtil.ItemCallback<TrackWithDeviation>() {
     override fun areItemsTheSame(
-        oldItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
-        newItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
+        oldItem: TrackWithDeviation,
+        newItem: TrackWithDeviation,
     ) = oldItem.deviation.deviationId == newItem.deviation.deviationId
 
     override fun areContentsTheSame(
-        oldItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
-        newItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
+        oldItem: TrackWithDeviation,
+        newItem: TrackWithDeviation,
     ) = oldItem.deviation.deviationId == newItem.deviation.deviationId &&
         oldItem.deviation.coverUrl == newItem.deviation.coverUrl
 }

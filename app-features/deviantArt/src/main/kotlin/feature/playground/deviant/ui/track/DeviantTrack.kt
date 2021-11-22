@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
@@ -47,7 +48,7 @@ class DeviantTrack : DeviantArtNavigationFragment() {
 @BindingAdapter(value = ["deviations", "onClickListener"])
 fun deviations(
     recyclerView: RecyclerView,
-    list: List<app.playground.source.of.truth.database.entities.TrackWithDeviation>?,
+    list: List<TrackWithDeviation>?,
     onClickListener: DeviantTrackAdapter.OnClickListener,
 ) {
     list ?: return

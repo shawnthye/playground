@@ -5,6 +5,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import app.playground.source.of.truth.database.EntityDao
 import app.playground.source.of.truth.database.entities.DeviationTrack
+import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,5 +21,5 @@ abstract class DeviationTrackDao : EntityDao<DeviationTrack>() {
         track: String,
         count: Int,
         offset: Int,
-    ): Flow<List<app.playground.source.of.truth.database.entities.TrackWithDeviation>>
+    ): Flow<List<TrackWithDeviation>>
 }
