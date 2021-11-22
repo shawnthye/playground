@@ -3,7 +3,7 @@ package feature.playground.deviant.ui.track
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.entities.entries.TrackWithDeviation
+import app.playground.entities.entities.TrackWithDeviation
 import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel

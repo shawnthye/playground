@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.entities.entries.DeviationEntry
-import app.playground.entities.entries.TrackWithDeviation
+import app.playground.entities.entities.Deviation
+import app.playground.entities.entities.TrackWithDeviation
 import feature.playground.deviant.databinding.DeviationItemBinding
 
 class DeviantTrackAdapter(
@@ -43,7 +43,7 @@ class DeviantTrackAdapter(
 class DeviationViewHolder(
     private val binding: DeviationItemBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(deviation: DeviationEntry) {
+    fun bind(deviation: Deviation) {
         binding.deviation = deviation
         binding.executePendingBindings()
     }

@@ -31,4 +31,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDeviationDao(database: AppDatabase) = database.deviationDao()
+
+    @Singleton
+    @Provides
+    fun provideDeviationTrackDao(database: AppDatabase) = database.deviationTrackDao()
 }

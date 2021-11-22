@@ -4,43 +4,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import app.playground.entities.entries.DeviationEntry
-import app.playground.entities.entries.TrackEntity
-import app.playground.entities.entries.TrackWithDeviation
+import app.playground.entities.EntityDao
+import app.playground.entities.entities.Deviation
+import app.playground.entities.entities.DeviationTrack
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface DeviationDao {
+abstract class DeviationDao : EntityDao<Deviation>() {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(deviation: DeviationEntry)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTracks(
-        tracks: List<TrackEntity>,
-        deviations: List<DeviationEntry>,
+    abstract suspend fun insertTracks(
+        deviationTracks: List<DeviationTrack>,
+        deviations: List<Deviation>,
     )
 
-    @Query("SELECT deviations.* FROM deviations WHERE deviationId = :id")
-    fun observeDeviation(id: String): Flow<DeviationEntry>
-
-    @Query(
-        """SELECT deviations.* 
-        FROM tracks_deviations tracks 
-        INNER JOIN deviations ON tracks.deviationId = deviations.deviationId 
-        WHERE tracks.track = :track""",
-    )
-    fun observeTrackDeviations(track: String): Flow<List<DeviationEntry>>
-
-    @Query("SELECT * FROM  deviations")
-    fun observeAll(): Flow<List<DeviationEntry>>
-
-    @Transaction
-    @Query(
-        """SELECT * FROM tracks_deviations
-        WHERE track = :track
-        ORDER BY id, nextPage LIMIT :count OFFSET :offset""",
-    )
-    fun observeTrack(track: String, count: Int, offset: Int): Flow<List<TrackWithDeviation>>
+    @Query("SELECT deviations.* FROM deviations WHERE deviationId= :id")
+    abstract fun observeDeviation(id: String): Flow<Deviation>
 }

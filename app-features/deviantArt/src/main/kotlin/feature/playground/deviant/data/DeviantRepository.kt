@@ -6,8 +6,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import api.art.deviant.DeviantArtApi
 import app.playground.core.data.daos.DeviationDao
-import app.playground.entities.entries.DeviationEntry
-import app.playground.entities.entries.TrackWithDeviation
+import app.playground.core.data.daos.DeviationTrackDao
+import app.playground.entities.entities.Deviation
+import app.playground.entities.entities.TrackWithDeviation
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
 import feature.playground.deviant.ui.track.Track
@@ -17,11 +18,12 @@ import javax.inject.Singleton
 
 @Singleton
 class DeviantRepository @Inject constructor(
-    private val deviationDataSource: DeviationDataSource,
     private val deviationDao: DeviationDao,
+    private val deviationTrackDao: DeviationTrackDao,
+    private val deviationDataSource: DeviationDataSource,
 ) {
 
-    fun observeDeviation(id: String): Flow<Result<DeviationEntry>> = deviationDao
+    fun observeDeviation(id: String): Flow<Result<Deviation>> = deviationDao
         .observeDeviation(id)
         .asNetworkBoundResult(
             remote = deviationDataSource.getDeviation(id),
@@ -30,29 +32,20 @@ class DeviantRepository @Inject constructor(
             deviationDao.insert(it)
         }
 
-    fun observePopular(
-        track: Track,
-    ): Flow<Result<List<DeviationEntry>>> = deviationDao
-        .observeTrackDeviations(track = track.toString())
-        .asNetworkBoundResult(
-            remote = deviationDataSource.browseDeviations(track),
-            shouldFetch = { true },
-        ) { response ->
-            val tracks = response.first.map { it.copy(track = track.toString()) }
-            deviationDao.insertTracks(tracks, response.second)
-        }
-
-    fun observeTrack(track: Track): Flow<Result<List<TrackWithDeviation>>> = deviationDao
-        .observeTrack("NEWEST", 100, 0)
+    fun observeTrack(track: Track): Flow<Result<List<TrackWithDeviation>>> = deviationTrackDao
+        .observeDeviations(track = track.toString(), 100, 0)
         .asNetworkBoundResult(
             remote = deviationDataSource.browseDeviations(track = track),
             shouldFetch = { true },
         ) { response ->
             val tracks = response.first.map { it.copy(track = track.toString()) }
-            deviationDao.insertTracks(tracks, response.second)
+            deviationTrackDao.withTransaction {
+                deviationTrackDao.replace(tracks)
+                deviationDao.replace(response.second)
+            }
         }
 
-    // fun observeTrack(track: Track): Flow<PagingData<DeviationEntry>> {
+    // fun observeTrack(deviationTrack: Track): Flow<PagingData<Deviation>> {
     // }
 }
 
@@ -60,7 +53,7 @@ class DeviantRepository @Inject constructor(
 class PageKeyedRemoteMediator(
     private val deviantArtApi: DeviantArtApi,
     private val deviationDao: DeviationDao,
-) : RemoteMediator<Int, DeviationEntry>() {
+) : RemoteMediator<Int, Deviation>() {
 
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
@@ -68,7 +61,7 @@ class PageKeyedRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, DeviationEntry>,
+        state: PagingState<Int, Deviation>,
     ): MediatorResult {
         state.lastItemOrNull()
         // val loadKey = when (loadType) {

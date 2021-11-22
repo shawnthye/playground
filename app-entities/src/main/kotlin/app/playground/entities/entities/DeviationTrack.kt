@@ -1,41 +1,41 @@
-package app.playground.entities.entries
+package app.playground.entities.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import app.playground.entities.Entry
+import app.playground.entities.AppEntity
 import java.util.Objects
 
 @Entity(
-    tableName = "tracks_deviations",
+    tableName = "deviation_tracks",
     indices = [
         Index(value = ["track", "deviationId"], unique = true),
     ],
 )
-data class TrackEntity(
+data class DeviationTrack(
     @PrimaryKey(autoGenerate = true) override val id: Long = 0,
     val track: String,
     val deviationId: String,
     val nextPage: Int,
-) : Entry
+) : AppEntity
 
 data class TrackWithDeviation(
     @Embedded
-    val track: TrackEntity,
+    val deviationTrack: DeviationTrack,
 
     @Relation(parentColumn = "deviationId", entityColumn = "deviationId")
-    val deviation: DeviationEntry,
+    val deviation: Deviation,
 ) {
 
     override fun equals(other: Any?): Boolean = when {
         other === this -> true
         other is TrackWithDeviation -> {
-            track == other.track && deviation == other.deviation
+            deviationTrack == other.deviationTrack && deviation == other.deviation
         }
         else -> false
     }
 
-    override fun hashCode(): Int = Objects.hash(track, deviation)
+    override fun hashCode(): Int = Objects.hash(deviationTrack, deviation)
 }

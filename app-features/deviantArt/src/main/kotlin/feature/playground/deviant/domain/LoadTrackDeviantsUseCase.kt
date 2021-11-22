@@ -1,6 +1,6 @@
 package feature.playground.deviant.domain
 
-import app.playground.entities.entries.TrackWithDeviation
+import app.playground.entities.entities.TrackWithDeviation
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result

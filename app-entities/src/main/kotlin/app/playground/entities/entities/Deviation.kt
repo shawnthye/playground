@@ -1,17 +1,11 @@
-package app.playground.entities.entries
+package app.playground.entities.entities
 
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
-import app.playground.entities.Entry
+import app.playground.entities.AppEntity
 
-@Entity(
-    tableName = "deviations",
-    indices = [
-        Index(value = ["deviationId"], unique = true),
-    ],
-)
-data class DeviationEntry(
+@Entity(tableName = "deviations")
+data class Deviation(
     @PrimaryKey(autoGenerate = true) override val id: Long = 0,
     val deviationId: String,
     val url: String,
@@ -20,4 +14,4 @@ data class DeviationEntry(
     val imageUrl: String,
     val imageHeight: Int,
     val imageWidth: Int,
-) : Entry
+) : AppEntity

@@ -1,17 +1,17 @@
 package app.playground.entities.mappers
 
-import api.art.deviant.model.Deviation
 import api.art.deviant.model.DeviationImage
-import app.playground.entities.entries.DeviationEntry
+import app.playground.entities.entities.Deviation
+import core.playground.Strings.findExtension
 import core.playground.data.Mapper
-import core.playground.findExtension
 import javax.inject.Inject
+import api.art.deviant.model.Deviation as DeviantArtDeviation
 
 class DeviationToEntity
-@Inject constructor() : Mapper<Deviation, DeviationEntry>() {
+@Inject constructor() : Mapper<DeviantArtDeviation, Deviation>() {
     override suspend fun map(
-        from: Deviation,
-    ): DeviationEntry = DeviationEntry(
+        from: DeviantArtDeviation,
+    ): Deviation = Deviation(
         deviationId = from.deviationid,
         url = from.url,
         title = from.title,
@@ -22,10 +22,10 @@ class DeviationToEntity
     )
 }
 
-internal val Deviation.isGif: Boolean
+internal val DeviantArtDeviation.isGif: Boolean
     get() = "gif" == content?.src?.findExtension()
 
-internal fun Deviation.findCover(): DeviationImage? {
+internal fun DeviantArtDeviation.findCover(): DeviationImage? {
     return if (isGif) {
         content ?: thumbs?.lastOrNull() ?: preview
     } else {
@@ -33,6 +33,6 @@ internal fun Deviation.findCover(): DeviationImage? {
     }
 }
 
-internal fun Deviation.findImage(): DeviationImage? {
+internal fun DeviantArtDeviation.findImage(): DeviationImage? {
     return content ?: preview ?: thumbs?.lastOrNull()
 }

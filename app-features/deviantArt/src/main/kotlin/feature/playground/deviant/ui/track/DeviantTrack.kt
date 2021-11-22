@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.entities.entries.TrackWithDeviation
+import app.playground.entities.entities.TrackWithDeviation
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
