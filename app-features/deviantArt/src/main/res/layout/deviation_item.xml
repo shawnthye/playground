@@ -11,13 +11,13 @@
 
     <import type="core.playground.domain.Result" />
 
-    <import type="app.playground.entities.DeviationEntity" />
+    <import type="app.playground.entities.entries.DeviationEntry" />
 
     <import type="kotlin.Unit" />
 
     <variable
       name="deviation"
-      type="DeviationEntity"
+      type="app.playground.entities.entries.DeviationEntry"
       />
 
     <variable

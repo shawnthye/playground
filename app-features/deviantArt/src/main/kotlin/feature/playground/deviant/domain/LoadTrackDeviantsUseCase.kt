@@ -1,6 +1,6 @@
 package feature.playground.deviant.domain
 
-import app.playground.entities.DeviationEntity
+import app.playground.entities.entries.TrackWithDeviation
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result
@@ -13,9 +13,9 @@ import javax.inject.Inject
 class LoadTrackDeviantsUseCase @Inject constructor(
     private val repository: DeviantRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-) : FlowUseCase<Track, List<DeviationEntity>>(dispatcher) {
+) : FlowUseCase<Track, List<TrackWithDeviation>>(dispatcher) {
 
     override fun execute(
         parameters: Track,
-    ): Flow<Result<List<DeviationEntity>>> = repository.observePopular(parameters)
+    ): Flow<Result<List<TrackWithDeviation>>> = repository.observeTrack(parameters)
 }

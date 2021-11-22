@@ -5,8 +5,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import api.art.deviant.DeviantArt
-import app.playground.entities.DeviationEntity
-import app.playground.entities.TrackDeviationEntity
+import app.playground.entities.entries.DeviationEntry
+import app.playground.entities.entries.TrackEntity
 import app.playground.entities.mappers.DeviationToEntity
 import app.playground.entities.mappers.TrackDeviationsToEntity
 import core.playground.domain.Result
@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface DeviationDataSource {
-    fun browseDeviations(track: Track): Flow<Result<Pair<List<TrackDeviationEntity>, List<DeviationEntity>>>>
-    fun getDeviation(id: String): Flow<Result<DeviationEntity>>
+    fun browseDeviations(track: Track): Flow<Result<Pair<List<TrackEntity>, List<DeviationEntry>>>>
+    fun getDeviation(id: String): Flow<Result<DeviationEntry>>
 }
 
 internal class DeviationDataSourceImpl @Inject constructor(
@@ -30,11 +30,11 @@ internal class DeviationDataSourceImpl @Inject constructor(
 
     override fun browseDeviations(
         track: Track,
-    ): Flow<Result<Pair<List<TrackDeviationEntity>, List<DeviationEntity>>>> {
+    ): Flow<Result<Pair<List<TrackEntity>, List<DeviationEntry>>>> {
         return api.browse(track = track.toString().lowercase()).toResult(trackDeviationsToEntity)
     }
 
-    override fun getDeviation(id: String): Flow<Result<DeviationEntity>> = api.deviation(id)
+    override fun getDeviation(id: String): Flow<Result<DeviationEntry>> = api.deviation(id)
         .toResult(deviationToEntity)
 
     suspend fun aaa(): ABC {

@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.entities.DeviationEntity
+import app.playground.entities.entries.DeviationEntry
+import app.playground.entities.entries.TrackWithDeviation
 import feature.playground.deviant.databinding.DeviationItemBinding
 
 class DeviantTrackAdapter(
     private val onClickListener: OnClickListener,
-) : ListAdapter<DeviationEntity, DeviationViewHolder>(Diff) {
+) : ListAdapter<TrackWithDeviation, DeviationViewHolder>(Diff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviationViewHolder {
 
@@ -23,11 +24,11 @@ class DeviantTrackAdapter(
     }
 
     override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position).deviation)
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position).deviationId.hashCode().toLong()
+        return getItem(position).deviation.deviationId.hashCode().toLong()
     }
 
     interface OnClickListener {
@@ -42,21 +43,21 @@ class DeviantTrackAdapter(
 class DeviationViewHolder(
     private val binding: DeviationItemBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(deviation: DeviationEntity) {
+    fun bind(deviation: DeviationEntry) {
         binding.deviation = deviation
         binding.executePendingBindings()
     }
 }
 
-object Diff : DiffUtil.ItemCallback<DeviationEntity>() {
+object Diff : DiffUtil.ItemCallback<TrackWithDeviation>() {
     override fun areItemsTheSame(
-        oldItem: DeviationEntity,
-        newItem: DeviationEntity,
-    ) = oldItem.deviationId == newItem.deviationId
+        oldItem: TrackWithDeviation,
+        newItem: TrackWithDeviation,
+    ) = oldItem.deviation.deviationId == newItem.deviation.deviationId
 
     override fun areContentsTheSame(
-        oldItem: DeviationEntity,
-        newItem: DeviationEntity,
-    ) = oldItem.deviationId == newItem.deviationId &&
-        oldItem.coverUrl == newItem.coverUrl
+        oldItem: TrackWithDeviation,
+        newItem: TrackWithDeviation,
+    ) = oldItem.deviation.deviationId == newItem.deviation.deviationId &&
+        oldItem.deviation.coverUrl == newItem.deviation.coverUrl
 }

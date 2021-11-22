@@ -2,16 +2,16 @@ package app.playground.entities.mappers
 
 import api.art.deviant.model.Deviation
 import api.art.deviant.model.DeviationImage
-import app.playground.entities.DeviationEntity
+import app.playground.entities.entries.DeviationEntry
 import core.playground.data.Mapper
 import core.playground.findExtension
 import javax.inject.Inject
 
 class DeviationToEntity
-@Inject constructor() : Mapper<Deviation, DeviationEntity>() {
+@Inject constructor() : Mapper<Deviation, DeviationEntry>() {
     override suspend fun map(
         from: Deviation,
-    ): DeviationEntity = DeviationEntity(
+    ): DeviationEntry = DeviationEntry(
         deviationId = from.deviationid,
         url = from.url,
         title = from.title,

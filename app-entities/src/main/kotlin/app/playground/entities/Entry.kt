@@ -1,5 +1,5 @@
 package app.playground.entities
 
-interface AppEntity {
+interface Entry {
     val id: Long
 }
