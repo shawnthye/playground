@@ -1,7 +1,7 @@
-package app.playground.entities.mappers
+package app.playground.source.of.truth.mappers
 
 import api.art.deviant.model.DeviationImage
-import app.playground.entities.entities.Deviation
+import app.playground.source.of.truth.database.entities.Deviation
 import core.playground.Strings.findExtension
 import core.playground.data.Mapper
 import javax.inject.Inject

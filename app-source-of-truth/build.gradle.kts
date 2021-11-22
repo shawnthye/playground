@@ -14,12 +14,9 @@ dependencies {
     @Suppress("SpellCheckingInspection")
     implementation(project(":deviantart-api-model"))
 
+    implementation(Libs.Coroutines.core)
     implementation(Libs.Dagger.javaxInject)
 
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions { freeCompilerArgs = emptyList() }
 }

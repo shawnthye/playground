@@ -5,10 +5,10 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import api.art.deviant.DeviantArtApi
-import app.playground.core.data.daos.DeviationDao
-import app.playground.core.data.daos.DeviationTrackDao
-import app.playground.entities.entities.Deviation
-import app.playground.entities.entities.TrackWithDeviation
+import app.playground.source.of.truth.database.daos.DeviationDao
+import app.playground.source.of.truth.database.daos.DeviationTrackDao
+import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
 import feature.playground.deviant.ui.track.Track

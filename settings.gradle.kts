@@ -21,7 +21,7 @@ include("build-dep-constraints")
 
 include(":app")
 include(":app-core")
-include(":app-entities")
+include(":app-source-of-truth")
 include(":deviantart-api")
 include(":deviantart-api-model")
 include(":core")

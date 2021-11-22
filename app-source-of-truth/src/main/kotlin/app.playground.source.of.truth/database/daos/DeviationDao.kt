@@ -1,12 +1,11 @@
-package app.playground.core.data.daos
+package app.playground.source.of.truth.database.daos
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import app.playground.entities.EntityDao
-import app.playground.entities.entities.Deviation
-import app.playground.entities.entities.DeviationTrack
+import app.playground.source.of.truth.database.EntityDao
+import app.playground.source.of.truth.database.entities.Deviation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -14,7 +13,7 @@ abstract class DeviationDao : EntityDao<Deviation>() {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertTracks(
-        deviationTracks: List<DeviationTrack>,
+        deviationTracks: List<app.playground.source.of.truth.database.entities.DeviationTrack>,
         deviations: List<Deviation>,
     )
 

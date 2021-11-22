@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.entities.entities.Deviation
-import app.playground.entities.entities.TrackWithDeviation
 import feature.playground.deviant.databinding.DeviationItemBinding
 
 class DeviantTrackAdapter(
     private val onClickListener: OnClickListener,
-) : ListAdapter<TrackWithDeviation, DeviationViewHolder>(Diff) {
+) : ListAdapter<app.playground.source.of.truth.database.entities.TrackWithDeviation, DeviationViewHolder>(
+    Diff,
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviationViewHolder {
 
@@ -43,21 +43,22 @@ class DeviantTrackAdapter(
 class DeviationViewHolder(
     private val binding: DeviationItemBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(deviation: Deviation) {
+    fun bind(deviation: app.playground.source.of.truth.database.entities.Deviation) {
         binding.deviation = deviation
         binding.executePendingBindings()
     }
 }
 
-object Diff : DiffUtil.ItemCallback<TrackWithDeviation>() {
+object Diff :
+    DiffUtil.ItemCallback<app.playground.source.of.truth.database.entities.TrackWithDeviation>() {
     override fun areItemsTheSame(
-        oldItem: TrackWithDeviation,
-        newItem: TrackWithDeviation,
+        oldItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
+        newItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
     ) = oldItem.deviation.deviationId == newItem.deviation.deviationId
 
     override fun areContentsTheSame(
-        oldItem: TrackWithDeviation,
-        newItem: TrackWithDeviation,
+        oldItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
+        newItem: app.playground.source.of.truth.database.entities.TrackWithDeviation,
     ) = oldItem.deviation.deviationId == newItem.deviation.deviationId &&
         oldItem.deviation.coverUrl == newItem.deviation.coverUrl
 }

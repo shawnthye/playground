@@ -5,10 +5,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import api.art.deviant.DeviantArt
-import app.playground.entities.entities.Deviation
-import app.playground.entities.entities.DeviationTrack
-import app.playground.entities.mappers.DeviationToEntity
-import app.playground.entities.mappers.TrackDeviationsToEntity
 import core.playground.domain.Result
 import core.playground.domain.toResult
 import feature.playground.deviant.ui.track.Track
@@ -16,32 +12,30 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface DeviationDataSource {
-    fun browseDeviations(track: Track): Flow<Result<Pair<List<DeviationTrack>, List<Deviation>>>>
-    fun getDeviation(id: String): Flow<Result<Deviation>>
+    fun browseDeviations(track: Track): Flow<Result<Pair<List<app.playground.source.of.truth.database.entities.DeviationTrack>, List<app.playground.source.of.truth.database.entities.Deviation>>>>
+    fun getDeviation(id: String): Flow<Result<app.playground.source.of.truth.database.entities.Deviation>>
 }
 
 internal class DeviationDataSourceImpl @Inject constructor(
     private val deviantArt: DeviantArt,
-    private val trackDeviationsToEntity: TrackDeviationsToEntity,
-    private val deviationToEntity: DeviationToEntity,
+    private val trackDeviationsToEntity: app.playground.source.of.truth.mappers.TrackDeviationsToEntity,
+    private val deviationToEntity: app.playground.source.of.truth.mappers.DeviationToEntity,
 ) : DeviationDataSource {
 
     private val api by lazy { deviantArt.api }
 
     override fun browseDeviations(
         track: Track,
-    ): Flow<Result<Pair<List<DeviationTrack>, List<Deviation>>>> {
+    ): Flow<Result<Pair<List<app.playground.source.of.truth.database.entities.DeviationTrack>, List<app.playground.source.of.truth.database.entities.Deviation>>>> {
         return api.browse(track = track.toString().lowercase()).toResult(trackDeviationsToEntity)
     }
 
-    override fun getDeviation(id: String): Flow<Result<Deviation>> = api.deviation(id)
-        .toResult(deviationToEntity)
-
-    suspend fun aaa(): ABC {
-        return ABC()
-    }
+    override fun getDeviation(id: String): Flow<Result<app.playground.source.of.truth.database.entities.Deviation>> =
+        api.deviation(id)
+            .toResult(deviationToEntity)
 }
 
+@Suppress("unused")
 @OptIn(ExperimentalPagingApi::class)
 class ABC : RemoteMediator<String, String>() {
     override suspend fun load(

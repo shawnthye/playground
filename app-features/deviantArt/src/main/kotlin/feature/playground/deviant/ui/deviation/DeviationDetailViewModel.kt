@@ -3,7 +3,7 @@ package feature.playground.deviant.ui.deviation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.entities.entities.Deviation
+import app.playground.source.of.truth.database.entities.Deviation
 import core.playground.Reason
 import core.playground.domain.Result
 import core.playground.domain.mapCachedThrowable
@@ -35,13 +35,14 @@ class DeviationDetailViewModel @Inject constructor(
         trySend(Unit) // init loading
     }
 
-    private val loadDeviantResult: StateFlow<Result<Deviation>> = _swipeRefreshing
-        .receiveAsFlow()
-        .flatMapLatest { loadDeviantUseCase(deviantId) }.stateIn(
-            scope = viewModelScope,
-            started = WhileViewSubscribed,
-            initialValue = Result.Loading(),
-        )
+    private val loadDeviantResult: StateFlow<Result<Deviation>> =
+        _swipeRefreshing
+            .receiveAsFlow()
+            .flatMapLatest { loadDeviantUseCase(deviantId) }.stateIn(
+                scope = viewModelScope,
+                started = WhileViewSubscribed,
+                initialValue = Result.Loading(),
+            )
 
     val deviationState = loadDeviantResult.map { it.data }.stateIn(
         scope = viewModelScope,

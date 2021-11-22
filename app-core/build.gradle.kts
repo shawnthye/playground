@@ -40,7 +40,7 @@ dependencies {
     api(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
 
-    implementation(project(":app-entities"))
+    implementation(project(":app-source-of-truth"))
 
     implementation(Libs.timber)
 

@@ -1,11 +1,11 @@
-package app.playground.entities.entities
+package app.playground.source.of.truth.database.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import app.playground.entities.AppEntity
+import app.playground.source.of.truth.database.AppEntity
 import java.util.Objects
 
 @Entity(

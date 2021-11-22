@@ -3,7 +3,6 @@ package feature.playground.deviant.ui.track
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.entities.entities.TrackWithDeviation
 import core.playground.domain.Result
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,21 +31,23 @@ class DeviantTrackViewModel
         trySend(Unit) // init loading
     }
 
-    private val resultState: Flow<Result<List<TrackWithDeviation>>> = _refreshingAction
-        .receiveAsFlow()
-        .flatMapLatest { loadTrackDeviantsUseCase(track) }.stateIn(
+    private val resultState: Flow<Result<List<app.playground.source.of.truth.database.entities.TrackWithDeviation>>> =
+        _refreshingAction
+            .receiveAsFlow()
+            .flatMapLatest { loadTrackDeviantsUseCase(track) }.stateIn(
+                viewModelScope,
+                WhileViewSubscribed,
+                Result.Loading(),
+            )
+
+    val deviationsState: StateFlow<List<app.playground.source.of.truth.database.entities.TrackWithDeviation>> =
+        resultState.map {
+            it.data ?: emptyList()
+        }.stateIn(
             viewModelScope,
             WhileViewSubscribed,
-            Result.Loading(),
+            emptyList(),
         )
-
-    val deviationsState: StateFlow<List<TrackWithDeviation>> = resultState.map {
-        it.data ?: emptyList()
-    }.stateIn(
-        viewModelScope,
-        WhileViewSubscribed,
-        emptyList(),
-    )
 
     val isRefreshing = resultState.map {
         it is Result.Loading

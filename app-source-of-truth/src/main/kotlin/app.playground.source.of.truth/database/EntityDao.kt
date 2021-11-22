@@ -1,4 +1,4 @@
-package app.playground.entities
+package app.playground.source.of.truth.database
 
 import androidx.room.Delete
 import androidx.room.Insert
