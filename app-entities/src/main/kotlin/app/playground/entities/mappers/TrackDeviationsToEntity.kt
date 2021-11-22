@@ -14,7 +14,13 @@ class TrackDeviationsToEntity @Inject constructor(
     ): Pair<List<TrackDeviationEntity>, List<DeviationEntity>> {
         val result = deviationResultToEntity(from)
 
-        val track = result.map { TrackDeviationEntity(deviationId = it.deviationId, track = "") }
+        val track = result.map {
+            TrackDeviationEntity(
+                deviationId = it.deviationId,
+                nextPage = from.next_offset ?: 0,
+                track = "", // we will set the track in other place
+            )
+        }
 
         return Pair(track, result)
     }

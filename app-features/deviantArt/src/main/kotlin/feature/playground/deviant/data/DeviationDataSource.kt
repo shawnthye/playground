@@ -1,5 +1,9 @@
 package feature.playground.deviant.data
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import api.art.deviant.DeviantArt
 import app.playground.entities.DeviationEntity
 import app.playground.entities.TrackDeviationEntity
@@ -32,4 +36,22 @@ internal class DeviationDataSourceImpl @Inject constructor(
 
     override fun getDeviation(id: String): Flow<Result<DeviationEntity>> = api.deviation(id)
         .toResult(deviationToEntity)
+
+    suspend fun aaa(): ABC {
+        return ABC()
+    }
+}
+
+@OptIn(ExperimentalPagingApi::class)
+class ABC : RemoteMediator<String, String>() {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<String, String>,
+    ): MediatorResult {
+        return MediatorResult.Error(throwable = Throwable(""))
+    }
+
+    override suspend fun initialize(): InitializeAction {
+        return super.initialize()
+    }
 }

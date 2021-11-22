@@ -14,4 +14,5 @@ data class TrackDeviationEntity(
     @PrimaryKey(autoGenerate = true) override val id: Long = 0,
     val track: String,
     val deviationId: String,
+    val nextPage: Int,
 ) : AppEntity
