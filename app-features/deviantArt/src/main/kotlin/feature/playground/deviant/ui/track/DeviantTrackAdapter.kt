@@ -2,49 +2,25 @@ package feature.playground.deviant.ui.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.source.of.truth.database.entities.Deviation
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import feature.playground.deviant.databinding.DeviationItemBinding
 
-class DeviantTrackAdapter(
-    private val onClickListener: OnClickListener,
-) : ListAdapter<TrackWithDeviation, DeviationViewHolder>(
-    Diff,
-) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviationViewHolder {
-
-        val binding = DeviationItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false,
-        )
-        binding.onClickListener = onClickListener
-
-        return DeviationViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
-        holder.bind(getItem(position).deviation)
-    }
-
-    override fun getItemId(position: Int): Long {
-        return getItem(position).deviation.deviationId.hashCode().toLong()
-    }
-
-    interface OnClickListener {
-        fun onClicked(id: String)
-    }
+class DeviationViewHolder(
+    parent: ViewGroup,
+    onClickListener: TrackPagingAdapter.OnClickListener,
+    private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
+        LayoutInflater.from(parent.context), parent, false,
+    ),
+) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        setHasStableIds(true)
+        binding.onClickListener = onClickListener
     }
-}
 
-class DeviationViewHolder(
-    private val binding: DeviationItemBinding,
-) : RecyclerView.ViewHolder(binding.root) {
     fun bind(deviation: Deviation) {
         binding.deviation = deviation
         binding.executePendingBindings()
@@ -63,4 +39,33 @@ object Diff :
         newItem: TrackWithDeviation,
     ) = oldItem.deviation.deviationId == newItem.deviation.deviationId &&
         oldItem.deviation.coverUrl == newItem.deviation.coverUrl
+}
+
+class TrackPagingAdapter(
+    private val onClickListener: OnClickListener,
+) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(Diff) {
+
+    interface OnClickListener {
+        fun onClicked(id: String)
+    }
+
+    override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
+        getItem(position)?.deviation?.run {
+            holder.bind(this)
+        }
+    }
+
+    // override fun onBindViewHolder(
+    //     holder: DeviationViewHolder,
+    //     position: Int,
+    //     payloads: MutableList<Any>
+    // ) {
+    //     // payloads.isNotEmpty()
+    //     super.onBindViewHolder(holder, position, payloads)
+    // }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): DeviationViewHolder = DeviationViewHolder(parent, onClickListener)
 }

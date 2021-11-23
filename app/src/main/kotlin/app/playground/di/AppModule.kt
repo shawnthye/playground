@@ -1,5 +1,7 @@
 package app.playground.di
 
+import android.annotation.SuppressLint
+import android.os.Build
 import app.playground.BuildConfig
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import core.playground.ApplicationScope
@@ -13,10 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import timber.log.Timber
@@ -28,7 +28,9 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesTimberTree(): Timber.Tree = Timber.DebugTree()
+    fun providesTimberTree(): Timber.Tree {
+        return DebugTree()
+    }
 
     /**
      * This provide the application task, so coroutine will survive until application killed
@@ -75,7 +77,6 @@ object AppModule {
         //     },
         // )
         addNetworkInterceptor(loggingInterceptor)
-        addNetworkInterceptor(ErrorInterceptor)
     }.build()
 
     @Singleton
@@ -94,10 +95,20 @@ object AppModule {
     ): Converter.Factory = json.asConverterFactory("application/json".toMediaType())
 }
 
-object ErrorInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
+private class DebugTree : Timber.DebugTree() {
+    @SuppressLint("ObsoleteSdkInt")
+    override fun createStackElementTag(element: StackTraceElement): String {
 
-        return response
+        val tag = "Timber:${super.createStackElementTag(element)!!}"
+
+        return if (tag.length <= MAX_TAG_LENGTH || Build.VERSION.SDK_INT >= 26) {
+            tag
+        } else {
+            tag.substring(0, MAX_TAG_LENGTH)
+        }
+    }
+
+    private companion object {
+        private const val MAX_TAG_LENGTH = 23
     }
 }

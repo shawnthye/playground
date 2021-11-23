@@ -14,8 +14,10 @@ import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
 import feature.playground.deviant.ui.track.Track
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.last
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,7 +40,7 @@ class DeviantRepository @Inject constructor(
     fun observeTrack(track: Track): Flow<Result<List<TrackWithDeviation>>> = deviationTrackDao
         .observeDeviations(track = track.toString(), 100, 0)
         .asNetworkBoundResult(
-            remote = deviationDataSource.browseDeviations(track = track),
+            remote = deviationDataSource.browseDeviations(track = track, pageSize = 100),
             shouldFetch = { true },
         ) { response ->
             deviationTrackDao.withTransaction {
@@ -54,16 +56,16 @@ class DeviantRepository @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     fun observeTrack2(track: Track): Flow<PagingData<TrackWithDeviation>> {
         val pager = Pager(
-            config = PagingConfig(pageSize = 100),
+            config = PagingConfig(pageSize = 10, initialLoadSize = 10),
             remoteMediator = PageKeyedRemoteMediator(
                 deviationDataSource = deviationDataSource,
                 deviationTrackDao = deviationTrackDao,
                 deviationDao = deviationDao,
                 track = track,
             ),
-        ) {
-            deviationTrackDao.paging(track = track.toString())
-        }
+
+            pagingSourceFactory = deviationTrackDao::paging2,
+        )
 
         return pager.flow
     }
@@ -85,25 +87,38 @@ class PageKeyedRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, TrackWithDeviation>,
     ): MediatorResult {
-        state.lastItemOrNull()
         val nextPage = when (loadType) {
-            LoadType.REFRESH -> null
-            LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+            LoadType.REFRESH -> {
+                Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
+                null
+            }
+            LoadType.PREPEND -> {
+                Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
+                return MediatorResult.Success(endOfPaginationReached = true)
+            }
             LoadType.APPEND -> {
-                val last = state.lastItemOrNull() ?: return MediatorResult.Success(
-                    endOfPaginationReached = true,
-                )
+                Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
+                val last = state.lastItemOrNull()
 
-                if (last.deviationTrack.nextPage == 0) {
+                if (last?.deviationTrack?.nextPage == 0) {
                     return MediatorResult.Success(endOfPaginationReached = true)
                 } else {
-                    last.deviationTrack.nextPage
+                    last?.deviationTrack?.nextPage
                 }
             }
         }
 
-        return when (val result = deviationDataSource.browseDeviations(track, nextPage).last()) {
+        delay(3000)
+        return when (val result = deviationDataSource.browseDeviations(
+            track = track,
+            pageSize = when (loadType) {
+                LoadType.REFRESH -> state.config.initialLoadSize
+                else -> state.config.pageSize
+            },
+            nextPage = nextPage,
+        ).last()) {
             is Result.Success -> {
+                Timber.i("Result.Success")
                 deviationTrackDao.withTransaction {
                     result.data.map { it.deviationTrack.copy(track = track.toString()) }.run {
                         deviationTrackDao.replace(this)
@@ -115,8 +130,14 @@ class PageKeyedRemoteMediator(
 
                 MediatorResult.Success(endOfPaginationReached = false)
             }
-            is Result.Error -> MediatorResult.Error(result.throwable)
-            else -> MediatorResult.Success(endOfPaginationReached = true)
+            is Result.Error -> {
+                Timber.i("Result.Success")
+                MediatorResult.Error(result.throwable)
+            }
+            else -> {
+                Timber.i("Result else: $result")
+                MediatorResult.Success(endOfPaginationReached = true)
+            }
         }
     }
 }

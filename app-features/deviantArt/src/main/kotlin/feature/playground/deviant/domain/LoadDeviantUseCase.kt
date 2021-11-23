@@ -16,6 +16,5 @@ class LoadDeviantUseCase @Inject constructor(
 
     override fun execute(
         parameters: String,
-    ): Flow<Result<Deviation>> =
-        repository.observeDeviation(parameters)
+    ): Flow<Result<Deviation>> = repository.observeDeviation(parameters)
 }

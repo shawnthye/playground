@@ -19,6 +19,5 @@ class LoadTrackDeviantsUseCase @Inject constructor(
 
     override fun execute(
         parameters: Track,
-    ): Flow<Result<List<TrackWithDeviation>>> =
-        repository.observeTrack(parameters)
+    ): Flow<Result<List<TrackWithDeviation>>> = repository.observeTrack(parameters)
 }

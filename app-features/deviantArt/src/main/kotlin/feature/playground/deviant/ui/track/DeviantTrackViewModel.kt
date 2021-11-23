@@ -3,26 +3,24 @@ package feature.playground.deviant.ui.track
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
-import core.playground.domain.Result
-import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import feature.playground.deviant.domain.LoadTrackDeviantsUseCase
+import feature.playground.deviant.data.DeviantRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class DeviantTrackViewModel
 @Inject constructor(
-    loadTrackDeviantsUseCase: LoadTrackDeviantsUseCase,
+    // loadTrackDeviantsUseCase: LoadTrackDeviantsUseCase,
     savedStateHandle: SavedStateHandle,
-) : ViewModel(), DeviantTrackAdapter.OnClickListener {
+    repository: DeviantRepository,
+) : ViewModel(), TrackPagingAdapter.OnClickListener {
 
     private val safeArgs = DeviantTrackArgs.fromSavedStateHandle(savedStateHandle)
 
@@ -32,31 +30,27 @@ class DeviantTrackViewModel
         trySend(Unit) // init loading
     }
 
-    private val resultState: Flow<Result<List<TrackWithDeviation>>> =
-        _refreshingAction
-            .receiveAsFlow()
-            .flatMapLatest { loadTrackDeviantsUseCase(track) }.stateIn(
-                viewModelScope,
-                WhileViewSubscribed,
-                Result.Loading(),
-            )
+    val resultState: Flow<PagingData<TrackWithDeviation>> = _refreshingAction
+        .receiveAsFlow()
+        .flatMapLatest { repository.observeTrack2(track) }
+        .cachedIn(viewModelScope)
 
-    val deviationsState: StateFlow<List<TrackWithDeviation>> =
-        resultState.map {
-            it.data ?: emptyList()
-        }.stateIn(
-            viewModelScope,
-            WhileViewSubscribed,
-            emptyList(),
-        )
+    // val deviationsState: StateFlow<List<TrackWithDeviation>> =
+    //     resultState.map {
+    //         it.data ?: emptyList()
+    //     }.stateIn(
+    //         viewModelScope,
+    //         WhileViewSubscribed,
+    //         emptyList(),
+    //     )
 
-    val isRefreshing = resultState.map {
-        it is Result.Loading
-    }.stateIn(
-        viewModelScope,
-        WhileViewSubscribed,
-        true,
-    )
+    // val isRefreshing = resultState.map {
+    //     it is Result.Loading
+    // }.stateIn(
+    //     viewModelScope,
+    //     WhileViewSubscribed,
+    //     true,
+    // )
 
     private val _idAction = Channel<String>(capacity = Channel.CONFLATED)
     val idActions = _idAction.receiveAsFlow()

@@ -14,6 +14,7 @@ import javax.inject.Inject
 interface DeviationDataSource {
     fun browseDeviations(
         track: Track,
+        pageSize: Int,
         nextPage: Int? = null,
     ): Flow<Result<List<TrackWithDeviation>>>
 
@@ -30,9 +31,14 @@ internal class DeviationDataSourceImpl @Inject constructor(
 
     override fun browseDeviations(
         track: Track,
+        pageSize: Int,
         nextPage: Int?,
     ): Flow<Result<List<TrackWithDeviation>>> {
-        return api.browse(track = track.toString().lowercase()).toResult(trackDeviationsToEntity)
+        return api.browse(
+            track = track.toString().lowercase(),
+            offset = nextPage,
+            limit = pageSize,
+        ).toResult(trackDeviationsToEntity)
     }
 
     override fun getDeviation(id: String): Flow<Result<Deviation>> =
