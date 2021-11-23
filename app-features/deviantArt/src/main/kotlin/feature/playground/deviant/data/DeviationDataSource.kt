@@ -2,7 +2,7 @@ package feature.playground.deviant.data
 
 import api.art.deviant.DeviantArt
 import app.playground.source.of.truth.database.entities.Deviation
-import app.playground.source.of.truth.database.entities.DeviationTrack
+import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import app.playground.source.of.truth.mappers.DeviationToEntity
 import app.playground.source.of.truth.mappers.TrackDeviationsToEntity
 import core.playground.domain.Result
@@ -12,7 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface DeviationDataSource {
-    fun browseDeviations(track: Track): Flow<Result<Pair<List<DeviationTrack>, List<Deviation>>>>
+    fun browseDeviations(
+        track: Track,
+        nextPage: Int? = null,
+    ): Flow<Result<List<TrackWithDeviation>>>
+
     fun getDeviation(id: String): Flow<Result<Deviation>>
 }
 
@@ -26,7 +30,8 @@ internal class DeviationDataSourceImpl @Inject constructor(
 
     override fun browseDeviations(
         track: Track,
-    ): Flow<Result<Pair<List<DeviationTrack>, List<Deviation>>>> {
+        nextPage: Int?,
+    ): Flow<Result<List<TrackWithDeviation>>> {
         return api.browse(track = track.toString().lowercase()).toResult(trackDeviationsToEntity)
     }
 

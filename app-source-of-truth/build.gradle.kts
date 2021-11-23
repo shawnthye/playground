@@ -17,6 +17,9 @@ dependencies {
     implementation(Libs.Coroutines.core)
     implementation(Libs.Dagger.javaxInject)
 
+    implementation(Libs.AndroidX.Paging.common)
+
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)
+
 }
