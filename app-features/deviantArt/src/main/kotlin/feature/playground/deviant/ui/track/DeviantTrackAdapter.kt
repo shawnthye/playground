@@ -9,38 +9,6 @@ import app.playground.source.of.truth.database.entities.Deviation
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import feature.playground.deviant.databinding.DeviationItemBinding
 
-class DeviationViewHolder(
-    parent: ViewGroup,
-    onClickListener: TrackPagingAdapter.OnClickListener,
-    private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
-        LayoutInflater.from(parent.context), parent, false,
-    ),
-) : RecyclerView.ViewHolder(binding.root) {
-
-    init {
-        binding.onClickListener = onClickListener
-    }
-
-    fun bind(deviation: Deviation) {
-        binding.deviation = deviation
-        binding.executePendingBindings()
-    }
-}
-
-object Diff :
-    DiffUtil.ItemCallback<TrackWithDeviation>() {
-    override fun areItemsTheSame(
-        oldItem: TrackWithDeviation,
-        newItem: TrackWithDeviation,
-    ) = oldItem.deviation.deviationId == newItem.deviation.deviationId
-
-    override fun areContentsTheSame(
-        oldItem: TrackWithDeviation,
-        newItem: TrackWithDeviation,
-    ) = oldItem.deviation.deviationId == newItem.deviation.deviationId &&
-        oldItem.deviation.coverUrl == newItem.deviation.coverUrl
-}
-
 class TrackPagingAdapter(
     private val onClickListener: OnClickListener,
 ) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(Diff) {
@@ -64,8 +32,44 @@ class TrackPagingAdapter(
     //     super.onBindViewHolder(holder, position, payloads)
     // }
 
+    override fun getItemViewType(position: Int): Int {
+        return 10
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
     ): DeviationViewHolder = DeviationViewHolder(parent, onClickListener)
+}
+
+class DeviationViewHolder(
+    parent: ViewGroup,
+    onClickListener: TrackPagingAdapter.OnClickListener,
+    private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
+        LayoutInflater.from(parent.context), parent, false,
+    ),
+) : RecyclerView.ViewHolder(binding.root) {
+
+    init {
+        binding.onClickListener = onClickListener
+    }
+
+    fun bind(deviation: Deviation) {
+        binding.deviation = deviation
+        binding.executePendingBindings()
+    }
+}
+
+object Diff :
+    DiffUtil.ItemCallback<TrackWithDeviation>() {
+    override fun areItemsTheSame(
+        oldItem: TrackWithDeviation,
+        newItem: TrackWithDeviation,
+    ) = oldItem.deviationTrack.deviationId == newItem.deviationTrack.deviationId
+
+    override fun areContentsTheSame(
+        oldItem: TrackWithDeviation,
+        newItem: TrackWithDeviation,
+    ) = oldItem.deviationTrack.deviationId == newItem.deviationTrack.deviationId &&
+        oldItem.deviation.coverUrl == newItem.deviation.coverUrl
 }

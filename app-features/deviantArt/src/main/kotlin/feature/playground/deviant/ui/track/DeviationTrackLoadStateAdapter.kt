@@ -22,6 +22,14 @@ class DeviationTrackLoadStateAdapter(
     ): NetworkStateViewHolder = NetworkStateViewHolder(parent) {
         retry()
     }
+
+    override fun getStateViewType(loadState: LoadState): Int {
+        return 20
+    }
+
+    override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
+        return super.displayLoadStateAsItem(loadState) || loadState is LoadState.NotLoading
+    }
 }
 
 class NetworkStateViewHolder(

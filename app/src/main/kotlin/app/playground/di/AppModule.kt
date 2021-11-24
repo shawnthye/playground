@@ -44,9 +44,12 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor { message ->
+            Timber.tag("Timber:OkHttp").i(message = message)
+        }.apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
     @Singleton
     @Provides

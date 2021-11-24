@@ -10,7 +10,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
@@ -22,6 +24,7 @@ import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviantTrack : DeviantArtNavigationFragment() {
@@ -39,23 +42,38 @@ class DeviantTrack : DeviantArtNavigationFragment() {
         binding = this
         viewModel = model
 
-        val loadStateAdapter = DeviationTrackLoadStateAdapter {
+
+        pagingAdapter = TrackPagingAdapter(model).apply {
+            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT
+        }
+
+        // val header = DeviationTrackLoadStateAdapter {
+        //     Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
+        // }
+
+        val footer = DeviationTrackLoadStateAdapter {
             Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
         }
 
-        pagingAdapter = TrackPagingAdapter(model)
+        pagingAdapter.addLoadStateListener { loadStates ->
+            // header.loadState = loadStates.prepend
+            footer.loadState = loadStates.append
+        }
+
+        val concatAdapter = ConcatAdapter(
+            ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build(),
+            // header,
+            pagingAdapter,
+            footer,
+        )
 
         val space = resources.getDimensionPixelSize(R.dimen.grid_spacing)
         deviations.run {
             itemAnimator = SlideInItemAnimator()
+            // itemAnimator = null
             addItemDecoration(SpaceDecoration(space, space, space, space))
-            val aaa = pagingAdapter.withLoadStateHeaderAndFooter(
-                header = loadStateAdapter,
-                footer = DeviationTrackLoadStateAdapter {
-                    Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
-                },
-            )
-            adapter = aaa
+
+            adapter = concatAdapter
         }
         lifecycleScope.launchWhenCreated {
             model.resultState.collectLatest {
@@ -79,11 +97,11 @@ class DeviantTrack : DeviantArtNavigationFragment() {
         val manager = binding.deviations.layoutManager as GridLayoutManager
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                // Timber.i("${binding.deviations.adapter?.getItemViewType(position)}")
-                return if (0 == binding.deviations.adapter!!.getItemViewType(position)) {
-                    1
-                } else {
+                Timber.i("${(binding.deviations.adapter as ConcatAdapter).getItemViewType(position)}")
+                return if (20 == binding.deviations.adapter!!.getItemViewType(position)) {
                     manager.spanCount
+                } else {
+                    1
                 }
             }
         }

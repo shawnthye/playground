@@ -9,9 +9,6 @@ import androidx.room.Update
 
 abstract class EntityDao<E : AppEntity> {
 
-    @Insert(onConflict = IGNORE)
-    protected abstract suspend fun insertIgnore(entity: E): Long
-
     @Insert
     abstract suspend fun insert(entity: E): Long
 
@@ -20,6 +17,15 @@ abstract class EntityDao<E : AppEntity> {
 
     @Insert
     abstract suspend fun insert(entities: List<E>)
+
+    @Insert(onConflict = IGNORE)
+    abstract suspend fun insertIgnore(entity: E): Long
+
+    @Insert(onConflict = IGNORE)
+    abstract suspend fun insertIgnore(vararg entity: E)
+
+    @Insert(onConflict = IGNORE)
+    abstract suspend fun insertIgnore(entities: List<E>)
 
     @Insert(onConflict = REPLACE)
     abstract suspend fun replace(entity: E): Long
@@ -39,7 +45,7 @@ abstract class EntityDao<E : AppEntity> {
     @Transaction
     open suspend fun withTransaction(tx: suspend () -> Unit) = tx()
 
-    suspend fun upsert(entity: E): Long {
+    private suspend fun upsert(entity: E): Long {
         val id = insertIgnore(entity)
         return if (id == -1L) {
             update(entity)
@@ -54,5 +60,10 @@ abstract class EntityDao<E : AppEntity> {
         entities.forEach {
             upsert(it)
         }
+    }
+
+    @Transaction
+    open suspend fun upsert(vararg entities: E) {
+        upsert(entities.toList())
     }
 }

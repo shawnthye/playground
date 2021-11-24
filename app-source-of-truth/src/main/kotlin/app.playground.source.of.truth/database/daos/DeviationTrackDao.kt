@@ -25,10 +25,6 @@ abstract class DeviationTrackDao : EntityDao<DeviationTrack>() {
     ): Flow<List<TrackWithDeviation>>
 
     @Transaction
-    @Query("SELECT * FROM deviation_tracks WHERE track = :track ORDER BY id, nextPage")
+    @Query("SELECT * FROM deviation_tracks WHERE track = :track ORDER BY id")
     abstract fun paging(track: String): PagingSource<Int, TrackWithDeviation>
-
-    @Transaction
-    @Query("SELECT * FROM deviation_tracks WHERE track = 'NEWEST' ORDER BY id, nextPage")
-    abstract fun paging2(): PagingSource<Int, TrackWithDeviation>
 }

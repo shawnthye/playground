@@ -56,15 +56,14 @@ class DeviantRepository @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     fun observeTrack2(track: Track): Flow<PagingData<TrackWithDeviation>> {
         val pager = Pager(
-            config = PagingConfig(pageSize = 10, initialLoadSize = 10),
+            config = PagingConfig(pageSize = 12, enablePlaceholders = true),
             remoteMediator = PageKeyedRemoteMediator(
                 deviationDataSource = deviationDataSource,
                 deviationTrackDao = deviationTrackDao,
                 deviationDao = deviationDao,
                 track = track,
             ),
-
-            pagingSourceFactory = deviationTrackDao::paging2,
+            pagingSourceFactory = { deviationTrackDao.paging(track = track.toString()) },
         )
 
         return pager.flow
@@ -97,18 +96,26 @@ class PageKeyedRemoteMediator(
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
             LoadType.APPEND -> {
-                Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
-                val last = state.lastItemOrNull()
-
-                if (last?.deviationTrack?.nextPage == 0) {
-                    return MediatorResult.Success(endOfPaginationReached = true)
+                if (state.isEmpty()) {
+                    // database is empty
+                    null
                 } else {
-                    last?.deviationTrack?.nextPage
+                    Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
+                    val last = state.lastItemOrNull() ?: return MediatorResult.Success(
+                        endOfPaginationReached = true,
+                    )
+
+                    if (last.deviationTrack.nextPage == 0) {
+                        return MediatorResult.Success(endOfPaginationReached = true)
+                    } else {
+                        last.deviationTrack.nextPage
+                    }
                 }
             }
         }
 
-        delay(3000)
+        delay(1500)
+        Timber.i("$loadType fetching data with nextPage $nextPage")
         return when (val result = deviationDataSource.browseDeviations(
             track = track,
             pageSize = when (loadType) {
@@ -121,10 +128,10 @@ class PageKeyedRemoteMediator(
                 Timber.i("Result.Success")
                 deviationTrackDao.withTransaction {
                     result.data.map { it.deviationTrack.copy(track = track.toString()) }.run {
-                        deviationTrackDao.replace(this)
+                        deviationTrackDao.insertIgnore(this)
                     }
                     result.data.map { it.deviation }.run {
-                        deviationDao.replace(this)
+                        deviationDao.upsert(this)
                     }
                 }
 
