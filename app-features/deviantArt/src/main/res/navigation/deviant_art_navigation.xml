@@ -15,7 +15,7 @@
 
   <fragment
     android:id="@+id/deviant_track"
-    android:name="feature.playground.deviant.ui.track.DeviantTrack"
+    android:name="feature.playground.deviant.ui.track.DeviantTrackFragment"
     android:label="@string/deviant_art_track_newest"
     tools:layout="@layout/deviant_track">
     <argument

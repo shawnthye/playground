@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DeviantTrack : DeviantArtNavigationFragment() {
+class DeviantTrackFragment : DeviantArtNavigationFragment() {
 
     private val model: DeviantTrackViewModel by viewModels()
 

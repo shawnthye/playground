@@ -22,7 +22,7 @@ class DeviantTrackViewModel
     repository: DeviantRepository,
 ) : ViewModel(), TrackPagingAdapter.OnClickListener {
 
-    private val safeArgs = DeviantTrackArgs.fromSavedStateHandle(savedStateHandle)
+    private val safeArgs = DeviantTrackFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val track = safeArgs.track
 

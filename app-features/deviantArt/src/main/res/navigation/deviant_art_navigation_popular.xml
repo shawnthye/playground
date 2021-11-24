@@ -15,7 +15,7 @@
 
   <fragment
     android:id="@+id/deviant_popular_start"
-    android:name="feature.playground.deviant.ui.track.DeviantTrack"
+    android:name="feature.playground.deviant.ui.track.DeviantTrackFragment"
     android:label="@string/deviant_art_track_hot"
     tools:layout="@layout/deviant_track">
     <argument

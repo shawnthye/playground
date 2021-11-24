@@ -37,22 +37,6 @@ class DeviantRepository @Inject constructor(
             deviationDao.insert(it)
         }
 
-    fun observeTrack(track: Track): Flow<Result<List<TrackWithDeviation>>> = deviationTrackDao
-        .observeDeviations(track = track.toString(), 100, 0)
-        .asNetworkBoundResult(
-            remote = deviationDataSource.browseDeviations(track = track, pageSize = 100),
-            shouldFetch = { true },
-        ) { response ->
-            deviationTrackDao.withTransaction {
-                response.map { it.deviationTrack.copy(track = track.toString()) }.run {
-                    deviationTrackDao.replace(this)
-                }
-                response.map { it.deviation }.run {
-                    deviationDao.replace(this)
-                }
-            }
-        }
-
     @OptIn(ExperimentalPagingApi::class)
     fun observeTrack2(track: Track): Flow<PagingData<TrackWithDeviation>> {
         val pager = Pager(
