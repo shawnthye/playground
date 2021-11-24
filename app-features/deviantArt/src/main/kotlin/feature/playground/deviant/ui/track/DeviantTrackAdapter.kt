@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.source.of.truth.database.entities.Deviation
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationItemBinding
 
 class TrackPagingAdapter(
@@ -33,7 +34,7 @@ class TrackPagingAdapter(
     // }
 
     override fun getItemViewType(position: Int): Int {
-        return 10
+        return R.layout.deviation_item
     }
 
     override fun onCreateViewHolder(

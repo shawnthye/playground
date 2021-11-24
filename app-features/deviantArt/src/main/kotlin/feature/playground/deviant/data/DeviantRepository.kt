@@ -40,7 +40,11 @@ class DeviantRepository @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     fun observeTrack2(track: Track): Flow<PagingData<TrackWithDeviation>> {
         val pager = Pager(
-            config = PagingConfig(pageSize = 12, enablePlaceholders = true),
+            config = PagingConfig(
+                pageSize = 12,
+                initialLoadSize = 12,
+                enablePlaceholders = true,
+            ),
             remoteMediator = PageKeyedRemoteMediator(
                 deviationDataSource = deviationDataSource,
                 deviationTrackDao = deviationTrackDao,

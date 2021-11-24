@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
+import feature.playground.deviant.R
 import feature.playground.deviant.databinding.NetworkStateItemBinding
 
 class DeviationTrackLoadStateAdapter(
@@ -24,7 +25,7 @@ class DeviationTrackLoadStateAdapter(
     }
 
     override fun getStateViewType(loadState: LoadState): Int {
-        return 20
+        return R.layout.network_state_item
     }
 
     override fun displayLoadStateAsItem(loadState: LoadState): Boolean {

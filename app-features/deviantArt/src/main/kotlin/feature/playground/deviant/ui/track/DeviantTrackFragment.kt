@@ -24,7 +24,6 @@ import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviantTrackFragment : DeviantArtNavigationFragment() {
@@ -61,8 +60,9 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
         }
 
         val concatAdapter = ConcatAdapter(
-            ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build(),
-            // header,
+            ConcatAdapter.Config.Builder()
+                .setIsolateViewTypes(false)
+                .build(),
             pagingAdapter,
             footer,
         )
@@ -95,13 +95,14 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val manager = binding.deviations.layoutManager as GridLayoutManager
+        val adapter = binding.deviations.adapter!!
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                Timber.i("${(binding.deviations.adapter as ConcatAdapter).getItemViewType(position)}")
-                return if (20 == binding.deviations.adapter!!.getItemViewType(position)) {
-                    manager.spanCount
-                } else {
-                    1
+
+                return when (adapter.getItemViewType(position)) {
+                    R.layout.network_state_item -> manager.spanCount
+                    R.layout.deviation_item -> 1
+                    else -> throw IllegalStateException("Invalid view type")
                 }
             }
         }
