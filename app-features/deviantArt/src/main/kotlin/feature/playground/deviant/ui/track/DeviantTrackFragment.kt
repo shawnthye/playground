@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
@@ -42,9 +41,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
         viewModel = model
 
 
-        pagingAdapter = TrackPagingAdapter(model).apply {
-            stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT
-        }
+        pagingAdapter = TrackPagingAdapter(model)
 
         // val header = DeviationTrackLoadStateAdapter {
         //     Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
@@ -55,7 +52,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
         }
 
         pagingAdapter.addLoadStateListener { loadStates ->
-            // header.loadState = loadStates.prepend
+            // header.loadState = loadStates.refresh
             footer.loadState = loadStates.append
         }
 
@@ -63,6 +60,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
             ConcatAdapter.Config.Builder()
                 .setIsolateViewTypes(false)
                 .build(),
+            // header,
             pagingAdapter,
             footer,
         )
@@ -100,8 +98,13 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
             override fun getSpanSize(position: Int): Int {
 
                 return when (adapter.getItemViewType(position)) {
-                    R.layout.network_state_item -> manager.spanCount
-                    R.layout.deviation_item -> 1
+                    R.id.load_state_footer_view_type_error,
+                    R.id.load_state_footer_view_type_loading,
+                    R.id.load_state_footer_view_type_empty,
+                    -> manager.spanCount
+
+                    R.layout.deviation_item,
+                    -> 1
                     else -> throw IllegalStateException("Invalid view type")
                 }
             }

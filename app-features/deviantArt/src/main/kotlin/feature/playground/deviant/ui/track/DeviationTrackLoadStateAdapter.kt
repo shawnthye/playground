@@ -25,11 +25,16 @@ class DeviationTrackLoadStateAdapter(
     }
 
     override fun getStateViewType(loadState: LoadState): Int {
-        return R.layout.network_state_item
+        return when (loadState) {
+            is LoadState.Loading -> R.id.load_state_footer_view_type_loading
+            is LoadState.Error -> R.id.load_state_footer_view_type_error
+            is LoadState.NotLoading -> R.id.load_state_footer_view_type_empty
+        }
     }
 
     override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
-        return super.displayLoadStateAsItem(loadState) || loadState is LoadState.NotLoading
+        return super.displayLoadStateAsItem(loadState) ||
+            (loadState is LoadState.NotLoading && !loadState.endOfPaginationReached)
     }
 }
 

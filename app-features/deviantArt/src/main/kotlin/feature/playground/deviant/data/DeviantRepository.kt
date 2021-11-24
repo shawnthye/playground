@@ -14,7 +14,6 @@ import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
 import feature.playground.deviant.ui.track.Track
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.last
 import timber.log.Timber
@@ -41,8 +40,8 @@ class DeviantRepository @Inject constructor(
     fun observeTrack2(track: Track): Flow<PagingData<TrackWithDeviation>> {
         val pager = Pager(
             config = PagingConfig(
-                pageSize = 12,
-                initialLoadSize = 12,
+                pageSize = 10,
+                initialLoadSize = 10,
                 enablePlaceholders = true,
             ),
             remoteMediator = PageKeyedRemoteMediator(
@@ -102,7 +101,6 @@ class PageKeyedRemoteMediator(
             }
         }
 
-        delay(1500)
         Timber.i("$loadType fetching data with nextPage $nextPage")
         return when (val result = deviationDataSource.browseDeviations(
             track = track,
@@ -123,7 +121,8 @@ class PageKeyedRemoteMediator(
                     }
                 }
 
-                MediatorResult.Success(endOfPaginationReached = false)
+
+                MediatorResult.Success(endOfPaginationReached = result.data.isEmpty())
             }
             is Result.Error -> {
                 Timber.i("Result.Success")

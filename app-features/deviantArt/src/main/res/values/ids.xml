@@ -17,4 +17,8 @@
   <item name="alpha" type="id" />
   <item name="scroll_x" type="id" />
   <item name="scroll_y" type="id" />
+
+  <item name="load_state_footer_view_type_loading" type="id" />
+  <item name="load_state_footer_view_type_error" type="id" />
+  <item name="load_state_footer_view_type_empty" type="id" />
 </resources>
