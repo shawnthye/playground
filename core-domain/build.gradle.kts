@@ -37,6 +37,7 @@ dependencies {
     implementation(Libs.timber)
 
     implementation(Libs.Coroutines.core)
+    implementation(Libs.AndroidX.Paging.common)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

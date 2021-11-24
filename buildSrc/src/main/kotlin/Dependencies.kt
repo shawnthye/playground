@@ -127,9 +127,9 @@ object Libs {
         }
 
         object Paging {
-            const val common = "androidx.paging:paging-common"
+            const val common = "androidx.paging:paging-common-ktx"
             const val compose = "androidx.paging:paging-compose"
-            const val runtime = "androidx.paging:paging-runtime"
+            const val runtime = "androidx.paging:paging-runtime-ktx"
         }
 
         object Test {
