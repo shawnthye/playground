@@ -4,8 +4,8 @@ import androidx.annotation.Keep
 import core.playground.Reason
 import core.playground.data.Response.Success
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.transformLatest
 
 /**
  * Common class used by API responses.
@@ -48,6 +48,17 @@ sealed class Response<out T> {
     }
 }
 
+@Throws(
+    Reason.Connection::class,
+    Reason.HttpError::class,
+    IllegalStateException::class,
+)
+suspend inline fun <reified T> Flow<Response<T>>.execute(): T = when (val response = last()) {
+    is Success -> response.body
+    is Response.Error -> throw response.exception
+    is Response.Empty -> throw IllegalStateException("Unable to process")
+}
+
 private fun <T> retrofit2.Response<T>.asHttpError(): Reason.HttpError {
     val body = errorBody()?.string().takeUnless { it.isNullOrBlank() }
     val errorMsg = body ?: message()
@@ -66,17 +77,5 @@ infix fun <From, To> Flow<Response<From>>.applyMapper(
             is Response.Error -> Response.Error(response.exception)
             Response.Empty -> Response.Empty
         }
-    }
-}
-
-inline fun <reified T> Flow<Response<T>>.runOnSucceeded(
-    crossinline onSucceeded: suspend (data: T) -> Unit,
-): Flow<Response<T>> {
-
-    return transformLatest {
-        if (it is Success) {
-            onSucceeded(it.body)
-        }
-        emit(it)
     }
 }

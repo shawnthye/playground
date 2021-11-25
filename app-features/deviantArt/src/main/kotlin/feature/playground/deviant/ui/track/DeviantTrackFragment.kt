@@ -73,7 +73,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
             adapter = concatAdapter
         }
         lifecycleScope.launchWhenCreated {
-            model.resultState.collectLatest { latest ->
+            model.pagingData.collectLatest { latest ->
                 pagingAdapter.submitData(latest)
             }
         }

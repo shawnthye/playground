@@ -8,12 +8,10 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.paging.RemoteMediator.MediatorResult
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.last
 import timber.log.Timber
 
 /**
@@ -26,48 +24,36 @@ abstract class PagingUseCase<in Param, Page>(
     private val coroutineDispatcher: CoroutineDispatcher,
 ) where Page : Pageable<*, *> {
 
-    operator fun invoke(parameters: Param): Flow<PagingData<Page>> {
-
-        @OptIn(ExperimentalPagingApi::class)
-        return Pager(
-            config = config,
-            remoteMediator = PagedRemoteMediator { pageSize, nextPage ->
-                when (val result = doWork(parameters, pageSize, nextPage).last()) {
-                    is Result.Success -> {
-                        if (result.data.isEmpty()) {
-                            MediatorResult.Success(endOfPaginationReached = true)
-                        } else {
-                            MediatorResult.Success(endOfPaginationReached = false)
-                        }
-                    }
-                    is Result.Error -> {
-                        MediatorResult.Error(result.throwable)
-                    }
-                    is Result.Loading -> MediatorResult.Success(endOfPaginationReached = true)
-                }
-            },
-            pagingSourceFactory = { pagingSource(parameters) },
-        ).flow.flowOn(coroutineDispatcher)
-    }
-
     protected open val config = PagingConfig(
         pageSize = 10,
         initialLoadSize = 10,
         enablePlaceholders = true,
     )
 
-    protected abstract fun doWork(
+    operator fun invoke(parameters: Param): Flow<PagingData<Page>> {
+
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = config,
+            remoteMediator = PagedRemoteMediator { pageSize, nextPage ->
+                execute(parameters, pageSize, nextPage)
+            },
+            pagingSourceFactory = { pagingSource(parameters) },
+        ).flow.flowOn(coroutineDispatcher)
+    }
+
+    protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>
+
+    protected abstract suspend fun execute(
         parameters: Param,
         pageSize: Int,
         nextPage: String?,
-    ): Flow<Result<List<Page>>>
-
-    protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>
+    ): Boolean
 }
 
 @OptIn(ExperimentalPagingApi::class)
 private class PagedRemoteMediator<Page>(
-    private val doWork: suspend (pageSize: Int, nextPage: String?) -> MediatorResult,
+    private val doWork: suspend (pageSize: Int, nextPage: String?) -> Boolean,
 ) : RemoteMediator<Int, Page>() where Page : Pageable<*, *> {
 
     override suspend fun initialize(): InitializeAction {
@@ -76,7 +62,6 @@ private class PagedRemoteMediator<Page>(
 
     override suspend fun load(
         loadType: LoadType,
-        //TODO paging state from database doesn't work with relation entity?
         state: PagingState<Int, Page>,
     ): MediatorResult {
         val nextPage = when (loadType) {
@@ -88,7 +73,7 @@ private class PagedRemoteMediator<Page>(
             }
             LoadType.APPEND -> {
                 if (state.isEmpty()) {
-                    // source is empty
+                    // database paging source is empty
                     return MediatorResult.Success(endOfPaginationReached = false)
                 } else {
                     Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.entry?.nextPage}")
@@ -105,12 +90,19 @@ private class PagedRemoteMediator<Page>(
             }
         }
 
-        return doWork(
-            when (loadType) {
-                LoadType.REFRESH -> state.config.initialLoadSize
-                else -> state.config.pageSize
-            },
-            nextPage,
-        )
+        return try {
+            val endOfPaginationReached = !doWork(
+                when (loadType) {
+                    LoadType.REFRESH -> state.config.initialLoadSize
+                    else -> state.config.pageSize
+                },
+                nextPage,
+            )
+
+
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (t: Throwable) {
+            MediatorResult.Error(t)
+        }
     }
 }

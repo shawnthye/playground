@@ -9,7 +9,7 @@ import api.art.deviant.model.Deviation as DeviantArtDeviation
 
 class DeviationToEntity
 @Inject constructor() : Mapper<DeviantArtDeviation, Deviation>() {
-    override suspend fun map(
+    override suspend fun parse(
         from: DeviantArtDeviation,
     ): Deviation = Deviation(
         deviationId = from.deviationid,

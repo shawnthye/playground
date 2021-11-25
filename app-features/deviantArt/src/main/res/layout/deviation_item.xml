@@ -21,8 +21,8 @@
       />
 
     <variable
-      name="onClickListener"
-      type="feature.playground.deviant.ui.track.TrackPagingAdapter.OnClickListener"
+      name="onItemClickListener"
+      type="feature.playground.deviant.ui.track.TrackPagingAdapter.OnItemClickListener"
       />
   </data>
 
@@ -30,7 +30,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground"
-    android:onClick="@{() -> onClickListener.onClicked(deviation.deviationId)}"
+    android:onClick="@{() -> onItemClickListener.onItemClicked(deviation.deviationId)}"
     >
 
     <ImageView

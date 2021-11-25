@@ -1,6 +1,5 @@
 package core.playground.domain
 
-import core.playground.data.Response
 import core.playground.domain.Result.Error
 import core.playground.domain.Result.Success
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +20,7 @@ sealed class Result<out R>(open val data: R?) {
 
     data class Error<out T>(
         val throwable: Throwable,
-        override val data: T?,
+        override val data: T? = null,
     ) : Result<T>(data)
 
     override fun toString(): String {
@@ -73,15 +72,5 @@ inline fun <reified T> Flow<Result<T>>.runOnSucceeded(
             onSucceeded(it.data)
         }
         it
-    }
-}
-
-inline fun <reified T> Flow<Response<T>>.toResult(): Flow<Result<T>> {
-    return mapLatest { response ->
-        when (response) {
-            is Response.Success -> Success(response.body)
-            is Response.Error -> Error(response.exception, null)
-            is Response.Empty -> Error(IllegalStateException("Should not reach here"), null)
-        }
     }
 }

@@ -52,6 +52,7 @@
     <!--refreshing="@{viewModel.isRefreshing &amp;&amp; !viewModel.deviationsState.empty}"-->
 
     <feature.playground.deviant.widget.CoreSwipeRefreshLayout
+      android:id="@+id/swipeRefreshLayout"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +62,7 @@
       >
 
       <!--deviations="@{viewModel.deviationsState}"-->
-      <!--onClickListener="@{viewModel}"-->
+      <!--onItemClickListener="@{viewModel}"-->
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/deviations"
         android:layout_width="0dp"

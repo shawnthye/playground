@@ -27,7 +27,7 @@ abstract class UseCase<in P, R>(private val coroutineDispatcher: CoroutineDispat
             }
         } catch (e: Exception) {
             Timber.e(e)
-            Result.Error(e, null)
+            Result.Error(e)
         }
     }
 

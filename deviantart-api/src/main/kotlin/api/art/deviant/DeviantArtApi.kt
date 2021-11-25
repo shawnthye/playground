@@ -5,6 +5,7 @@ import api.art.deviant.model.DeviationResult
 import core.playground.data.Response
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -35,4 +36,9 @@ interface DeviantArtApi {
     fun deviationWhoFaved(
         @Query("deviationid") id: String,
     ): Flow<Response<Deviation>>
+
+    @POST("deviation/sample/action")
+    fun postSampleAction(
+        @Query("deviationid") id: String,
+    ): Flow<Response<Unit>>
 }

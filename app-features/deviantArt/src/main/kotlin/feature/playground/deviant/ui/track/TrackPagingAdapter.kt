@@ -2,7 +2,9 @@ package feature.playground.deviant.ui.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.source.of.truth.database.entities.Deviation
@@ -11,11 +13,11 @@ import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationItemBinding
 
 class TrackPagingAdapter(
-    private val onClickListener: OnClickListener,
+    private val onItemClickListener: OnItemClickListener,
 ) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(Diff) {
 
-    interface OnClickListener {
-        fun onClicked(id: String)
+    interface OnItemClickListener {
+        fun onItemClicked(id: String)
     }
 
     override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
@@ -24,15 +26,6 @@ class TrackPagingAdapter(
         }
     }
 
-    // override fun onBindViewHolder(
-    //     holder: DeviationViewHolder,
-    //     position: Int,
-    //     payloads: MutableList<Any>
-    // ) {
-    //     // payloads.isNotEmpty()
-    //     super.onBindViewHolder(holder, position, payloads)
-    // }
-
     override fun getItemViewType(position: Int): Int {
         return R.layout.deviation_item
     }
@@ -40,19 +33,19 @@ class TrackPagingAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): DeviationViewHolder = DeviationViewHolder(parent, onClickListener)
+    ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener)
 }
 
 class DeviationViewHolder(
     parent: ViewGroup,
-    onClickListener: TrackPagingAdapter.OnClickListener,
+    onItemClickListener: TrackPagingAdapter.OnItemClickListener,
     private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
         LayoutInflater.from(parent.context), parent, false,
     ),
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
-        binding.onClickListener = onClickListener
+        binding.onItemClickListener = onItemClickListener
     }
 
     fun bind(deviation: Deviation) {
@@ -73,4 +66,17 @@ object Diff :
         newItem: TrackWithDeviation,
     ) = oldItem.entry.deviationId == newItem.entry.deviationId &&
         oldItem.relation.coverUrl == newItem.relation.coverUrl
+}
+
+fun TrackPagingAdapter.withFooter(
+    footer: LoadStateAdapter<*>,
+): ConcatAdapter {
+    addLoadStateListener { loadStates ->
+        footer.loadState = loadStates.prepend
+    }
+    return ConcatAdapter(
+        ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build(),
+        this,
+        footer,
+    )
 }

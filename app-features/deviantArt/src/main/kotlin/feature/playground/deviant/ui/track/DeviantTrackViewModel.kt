@@ -18,19 +18,19 @@ class DeviantTrackViewModel
 @Inject constructor(
     loadTrackDeviantsUseCase: LoadTrackDeviantsUseCase,
     savedStateHandle: SavedStateHandle,
-) : ViewModel(), TrackPagingAdapter.OnClickListener {
+) : ViewModel(), TrackPagingAdapter.OnItemClickListener {
 
     private val safeArgs = DeviantTrackFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val track = safeArgs.track
 
-    val resultState: Flow<PagingData<TrackWithDeviation>> = loadTrackDeviantsUseCase(track)
+    val pagingData: Flow<PagingData<TrackWithDeviation>> = loadTrackDeviantsUseCase(track)
         .cachedIn(viewModelScope)
 
     private val _idAction = Channel<String>(capacity = Channel.CONFLATED)
     val idActions = _idAction.receiveAsFlow()
 
-    override fun onClicked(id: String) {
+    override fun onItemClicked(id: String) {
         _idAction.trySend(id)
     }
 }

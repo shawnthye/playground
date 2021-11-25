@@ -9,7 +9,7 @@ import javax.inject.Inject
 class TrackDeviationsToEntity @Inject constructor(
     private val deviationResultToEntity: DeviationResultToEntity,
 ) : Mapper<DeviationResult, List<TrackWithDeviation>>() {
-    override suspend fun map(
+    override suspend fun parse(
         from: DeviationResult,
     ): List<TrackWithDeviation> {
         val deviations = deviationResultToEntity(from)
