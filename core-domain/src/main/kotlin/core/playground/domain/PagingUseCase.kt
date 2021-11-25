@@ -15,10 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.last
 import timber.log.Timber
 
-// abstract class PagingInteractor<P : PagingInteractor.Parameters<T>, T : Any> : SubjectInteractor<P, PagingData<T>>() {
-//
-// }
-
 /**
  * Executes business logic in its execute method and keep posting updates to the result as
  * [Result<R>].
@@ -35,21 +31,18 @@ abstract class PagingUseCase<in Param, Page>(
         return Pager(
             config = config,
             remoteMediator = PagedRemoteMediator { pageSize, nextPage ->
-                val work = doWork(parameters, pageSize, nextPage)
-
-                when (val result = work.last()) {
-                    is Result.Error -> MediatorResult.Error(result.throwable)
-                    is Result.Loading -> throw IllegalStateException("Should not reach here")
+                when (val result = doWork(parameters, pageSize, nextPage).last()) {
                     is Result.Success -> {
-                        val lastData = result.data.lastOrNull()
-                        if (lastData == null) {
+                        if (result.data.isEmpty()) {
                             MediatorResult.Success(endOfPaginationReached = true)
                         } else {
-                            MediatorResult.Success(
-                                endOfPaginationReached = lastData.entry.nextPage.isNullOrBlank(),
-                            )
+                            MediatorResult.Success(endOfPaginationReached = false)
                         }
                     }
+                    is Result.Error -> {
+                        MediatorResult.Error(result.throwable)
+                    }
+                    is Result.Loading -> MediatorResult.Success(endOfPaginationReached = true)
                 }
             },
             pagingSourceFactory = { pagingSource(parameters) },
@@ -71,13 +64,22 @@ abstract class PagingUseCase<in Param, Page>(
 private class PagedRemoteMediator<Page>(
     private val doWork: suspend (pageSize: Int, nextPage: String?) -> MediatorResult,
 ) : RemoteMediator<Int, Page>() where Page : Pageable<*, *> {
+
+    // override suspend fun initialize(): InitializeAction {
+    //     return InitializeAction.LAUNCH_INITIAL_REFRESH
+    // }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, Page>,
     ): MediatorResult {
         val nextPage = when (loadType) {
-            LoadType.REFRESH -> null
-            LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+            LoadType.REFRESH -> {
+                null
+            }
+            LoadType.PREPEND -> {
+                return MediatorResult.Success(endOfPaginationReached = true)
+            }
             LoadType.APPEND -> {
                 if (state.isEmpty()) {
                     // source is empty
@@ -88,14 +90,14 @@ private class PagedRemoteMediator<Page>(
                         endOfPaginationReached = true,
                     )
 
-                    last.entry.nextPage.takeUnless {
-                        it.isNullOrBlank()
-                    } ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    if (last.entry.nextPage == null) {
+                        return MediatorResult.Success(endOfPaginationReached = true)
+                    } else {
+                        last.entry.nextPage
+                    }
                 }
             }
         }
-
-
 
         return doWork(
             when (loadType) {

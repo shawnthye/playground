@@ -42,12 +42,14 @@ object AppModule {
         @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)
 
+    // HttpLoggingInterceptor { message ->
+    //     Timber.tag("Timber:OkHttp").i(message = message)
+    // }
+
     @Singleton
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor { message ->
-            Timber.tag("Timber:OkHttp").i(message = message)
-        }.apply {
+        HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 

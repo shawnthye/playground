@@ -1,10 +1,13 @@
 package core.playground.domain
 
+import core.playground.data.Response
+import core.playground.domain.Result.Error
 import core.playground.domain.Result.Success
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapLatest
 
 /**
  * A generic class that holds a value with its loading status.
@@ -52,23 +55,33 @@ inline fun <reified T> Result<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>)
     }
 }
 
-inline fun <reified T> Flow<Result<T>>.mapCachedThrowable(): Flow<Result.Error<T>> {
+inline fun <reified T> Flow<Result<T>>.mapCachedThrowable(): Flow<Error<T>> {
     return flatMapLatest { result ->
         flow {
-            if (result is Result.Error && result.data != null) {
+            if (result is Error && result.data != null) {
                 emit(result)
             }
         }
     }
 }
 
-// inline fun <reified T> Flow<Result<T>>.onSucceeded(): Flow<Result.Error<T>> {
-//
-//     return flatMapLatest { result ->
-//         flow {
-//             if (result is Result.Error && result.data != null) {
-//                 emit(result)
-//             }
-//         }
-//     }
-// }
+inline fun <reified T> Flow<Result<T>>.runOnSucceeded(
+    crossinline onSucceeded: suspend (data: T) -> Unit,
+): Flow<Result<T>> {
+    return mapLatest {
+        if (it is Success) {
+            onSucceeded(it.data)
+        }
+        it
+    }
+}
+
+inline fun <reified T> Flow<Response<T>>.toResult(): Flow<Result<T>> {
+    return mapLatest { response ->
+        when (response) {
+            is Response.Success -> Success(response.body)
+            is Response.Error -> Error(response.exception, null)
+            is Response.Empty -> Error(IllegalStateException("Should not reach here"), null)
+        }
+    }
+}

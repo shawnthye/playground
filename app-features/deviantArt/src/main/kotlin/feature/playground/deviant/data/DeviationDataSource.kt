@@ -5,20 +5,21 @@ import app.playground.source.of.truth.database.entities.Deviation
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import app.playground.source.of.truth.mappers.DeviationToEntity
 import app.playground.source.of.truth.mappers.TrackDeviationsToEntity
-import core.playground.domain.Result
-import core.playground.domain.toResult
+import core.playground.data.Response
+import core.playground.data.applyMapper
 import feature.playground.deviant.ui.track.Track
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface DeviationDataSource {
+
+    fun getDeviation(id: String): Flow<Response<Deviation>>
+
     fun browseDeviations(
         track: Track,
         pageSize: Int,
         nextPage: String? = null,
-    ): Flow<Result<List<TrackWithDeviation>>>
-
-    fun getDeviation(id: String): Flow<Result<Deviation>>
+    ): Flow<Response<List<TrackWithDeviation>>>
 }
 
 internal class DeviationDataSourceImpl @Inject constructor(
@@ -29,18 +30,19 @@ internal class DeviationDataSourceImpl @Inject constructor(
 
     private val api by lazy { deviantArt.api }
 
+    override fun getDeviation(
+        id: String,
+    ): Flow<Response<Deviation>> = api.deviation(id).applyMapper(deviationToEntity)
+
     override fun browseDeviations(
         track: Track,
         pageSize: Int,
         nextPage: String?,
-    ): Flow<Result<List<TrackWithDeviation>>> {
+    ): Flow<Response<List<TrackWithDeviation>>> {
         return api.browse(
             track = track.toString().lowercase(),
             offset = nextPage,
             limit = pageSize,
-        ).toResult(trackDeviationsToEntity)
+        ).applyMapper(trackDeviationsToEntity)
     }
-
-    override fun getDeviation(id: String): Flow<Result<Deviation>> =
-        api.deviation(id).toResult(deviationToEntity)
 }

@@ -4,12 +4,12 @@ import app.playground.source.of.truth.database.daos.DeviationDao
 import app.playground.source.of.truth.database.daos.DeviationTrackDao
 import app.playground.source.of.truth.database.entities.Deviation
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import core.playground.data.Response
+import core.playground.data.runOnSucceeded
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
-import core.playground.domain.successOr
 import feature.playground.deviant.ui.track.Track
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,118 +20,32 @@ class DeviantRepository @Inject constructor(
     private val deviationDataSource: DeviationDataSource,
 ) {
 
-    fun observeDeviation(id: String): Flow<Result<Deviation>> = deviationDao
-        .observeDeviation(id)
+    fun observeDeviation2(
+        id: String,
+    ): Flow<Result<Deviation>> = deviationDataSource.getDeviation(id)
         .asNetworkBoundResult(
-            remote = deviationDataSource.getDeviation(id),
+            query = deviationDao.observeDeviation(id),
             shouldFetch = { true },
         ) {
             deviationDao.insert(it)
         }
 
-    fun paging(track: Track) = deviationTrackDao.paging(track.toString())
+    fun trackPagingSource(track: Track) = deviationTrackDao.pagingSource(track.toString())
 
-    fun aaaaa(
+    fun fetchTrackAndCache(
         track: Track,
         pageSize: Int,
         nextPage: String?,
-    ): Flow<Result<List<TrackWithDeviation>>> {
-
-        val aaa = deviationDataSource.browseDeviations(
+    ): Flow<Response<List<TrackWithDeviation>>> {
+        return deviationDataSource.browseDeviations(
             track = track,
             pageSize = pageSize,
             nextPage = nextPage,
-        ).mapLatest { result ->
-
-            result.successOr(null)?.run {
-                deviationTrackDao.withTransaction {
-                    deviationTrackDao.insertIgnore(this.map { it.entry })
-                    deviationDao.upsert(this.map { it.relation })
-                }
+        ).runOnSucceeded {
+            deviationTrackDao.withTransaction {
+                deviationTrackDao.insertIgnore(it.map { it.entry.copy(track = track.toString()) })
+                deviationDao.upsert(it.map { it.relation })
             }
-            result
         }
-
-
-
-        return aaa
     }
 }
-
-// @OptIn(ExperimentalPagingApi::class)
-// class PageKeyedRemoteMediator(
-//     private val deviationDataSource: DeviationDataSource,
-//     private val deviationTrackDao: DeviationTrackDao,
-//     private val deviationDao: DeviationDao,
-//     private val track: Track,
-// ) : RemoteMediator<Int, TrackWithDeviation>() {
-//
-//     override suspend fun initialize(): InitializeAction {
-//         return InitializeAction.LAUNCH_INITIAL_REFRESH
-//     }
-//
-//     override suspend fun load(
-//         loadType: LoadType,
-//         state: PagingState<Int, TrackWithDeviation>,
-//     ): MediatorResult {
-//         val nextPage = when (loadType) {
-//             LoadType.REFRESH -> {
-//                 Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
-//                 null
-//             }
-//             LoadType.PREPEND -> {
-//                 Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
-//                 return MediatorResult.Success(endOfPaginationReached = true)
-//             }
-//             LoadType.APPEND -> {
-//                 if (state.isEmpty()) {
-//                     // database is empty
-//                     null
-//                 } else {
-//                     Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.deviationTrack?.nextPage}")
-//                     val last = state.lastItemOrNull() ?: return MediatorResult.Success(
-//                         endOfPaginationReached = true,
-//                     )
-//
-//                     if (last.deviationTrack.nextPage == 0) {
-//                         return MediatorResult.Success(endOfPaginationReached = true)
-//                     } else {
-//                         last.deviationTrack.nextPage
-//                     }
-//                 }
-//             }
-//         }
-//
-//         Timber.i("$loadType fetching data with nextPage $nextPage")
-//         return when (val result = deviationDataSource.browseDeviations(
-//             track = track,
-//             pageSize = when (loadType) {
-//                 LoadType.REFRESH -> state.config.initialLoadSize
-//                 else -> state.config.pageSize
-//             },
-//             nextPage = nextPage,
-//         ).last()) {
-//             is Result.Success -> {
-//                 Timber.i("Result.Success")
-//                 deviationTrackDao.withTransaction {
-//                     result.data.map { it.deviationTrack.copy(track = track.toString()) }.run {
-//                         deviationTrackDao.insertIgnore(this)
-//                     }
-//                     result.data.map { it.deviation }.run {
-//                         deviationDao.upsert(this)
-//                     }
-//                 }
-//
-//                 MediatorResult.Success(endOfPaginationReached = result.data.isEmpty())
-//             }
-//             is Result.Error -> {
-//                 Timber.i("Result.Success")
-//                 MediatorResult.Error(result.throwable)
-//             }
-//             else -> {
-//                 Timber.i("Result else: $result")
-//                 MediatorResult.Success(endOfPaginationReached = true)
-//             }
-//         }
-//     }
-// }

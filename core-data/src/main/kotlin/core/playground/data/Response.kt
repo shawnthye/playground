@@ -2,6 +2,10 @@ package core.playground.data
 
 import androidx.annotation.Keep
 import core.playground.Reason
+import core.playground.data.Response.Success
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.transformLatest
 
 /**
  * Common class used by API responses.
@@ -49,4 +53,30 @@ private fun <T> retrofit2.Response<T>.asHttpError(): Reason.HttpError {
     val errorMsg = body ?: message()
 
     return Reason.HttpError(code(), errorMsg)
+}
+
+infix fun <From, To> Flow<Response<From>>.applyMapper(
+    mapper: Mapper<From, To>,
+): Flow<Response<To>> {
+    return mapLatest { response ->
+        when (response) {
+            is Success -> {
+                Success(mapper(response.body))
+            }
+            is Response.Error -> Response.Error(response.exception)
+            Response.Empty -> Response.Empty
+        }
+    }
+}
+
+inline fun <reified T> Flow<Response<T>>.runOnSucceeded(
+    crossinline onSucceeded: suspend (data: T) -> Unit,
+): Flow<Response<T>> {
+
+    return transformLatest {
+        if (it is Success) {
+            onSucceeded(it.body)
+        }
+        emit(it)
+    }
 }

@@ -14,22 +14,29 @@ import javax.inject.Inject
 
 class LoadTrackDeviantsUseCase @Inject constructor(
     private val repository: DeviantRepository,
+    private val updateTrackUseCase: UpdateTrackUseCase,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : PagingUseCase<Track, TrackWithDeviation>(
     dispatcher,
 ) {
     override val config: PagingConfig
-        get() = PagingConfig(pageSize = 10, initialLoadSize = 10)
+        get() = PagingConfig(pageSize = 10, initialLoadSize = 10, prefetchDistance = 1)
 
     override fun doWork(
         parameters: Track,
         pageSize: Int,
         nextPage: String?,
     ): Flow<Result<List<TrackWithDeviation>>> {
-        return repository.aaaaa(track = parameters, pageSize = pageSize, nextPage = nextPage)
+        val param = UpdateTrackUseCase.Param(
+            track = parameters,
+            pageSize = pageSize,
+            page = nextPage,
+        )
+
+        return updateTrackUseCase(param)
     }
 
-    override fun pagingSource(parameters: Track): PagingSource<Int, TrackWithDeviation> {
-        return repository.paging(parameters)
-    }
+    override fun pagingSource(
+        parameters: Track,
+    ): PagingSource<Int, TrackWithDeviation> = repository.trackPagingSource(parameters)
 }
