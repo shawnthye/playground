@@ -1,6 +1,5 @@
 package feature.playground.deviant.domain
 
-import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import core.playground.IoDispatcher
@@ -19,21 +18,20 @@ class LoadTrackDeviantsUseCase @Inject constructor(
 ) : PagingUseCase<Track, TrackWithDeviation>(
     dispatcher,
 ) {
-    override val config: PagingConfig
-        get() = PagingConfig(pageSize = 10, initialLoadSize = 10, prefetchDistance = 1)
 
     override fun doWork(
         parameters: Track,
         pageSize: Int,
         nextPage: String?,
     ): Flow<Result<List<TrackWithDeviation>>> {
-        val param = UpdateTrackUseCase.Param(
-            track = parameters,
-            pageSize = pageSize,
-            page = nextPage,
-        )
 
-        return updateTrackUseCase(param)
+        return updateTrackUseCase(
+            UpdateTrackUseCase.Param(
+                track = parameters,
+                pageSize = pageSize,
+                page = nextPage,
+            ),
+        )
     }
 
     override fun pagingSource(

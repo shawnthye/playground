@@ -12,6 +12,7 @@ import androidx.paging.RemoteMediator.MediatorResult
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.last
 import timber.log.Timber
 
@@ -46,10 +47,15 @@ abstract class PagingUseCase<in Param, Page>(
                 }
             },
             pagingSourceFactory = { pagingSource(parameters) },
-        ).flow
+        ).flow.flowOn(coroutineDispatcher)
     }
 
-    protected abstract val config: PagingConfig
+    protected open val config = PagingConfig(
+        pageSize = 10,
+        initialLoadSize = 10,
+        prefetchDistance = 1,
+        // enablePlaceholders = true,
+    )
 
     protected abstract fun doWork(
         parameters: Param,
@@ -65,12 +71,13 @@ private class PagedRemoteMediator<Page>(
     private val doWork: suspend (pageSize: Int, nextPage: String?) -> MediatorResult,
 ) : RemoteMediator<Int, Page>() where Page : Pageable<*, *> {
 
-    // override suspend fun initialize(): InitializeAction {
-    //     return InitializeAction.LAUNCH_INITIAL_REFRESH
-    // }
+    override suspend fun initialize(): InitializeAction {
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
 
     override suspend fun load(
         loadType: LoadType,
+        //TODO paging state from database doesn't work with relation entity?
         state: PagingState<Int, Page>,
     ): MediatorResult {
         val nextPage = when (loadType) {
@@ -83,7 +90,7 @@ private class PagedRemoteMediator<Page>(
             LoadType.APPEND -> {
                 if (state.isEmpty()) {
                     // source is empty
-                    null
+                    return MediatorResult.Success(endOfPaginationReached = false)
                 } else {
                     Timber.i("$loadType, nextPage: ${state.lastItemOrNull()?.entry?.nextPage}")
                     val last = state.lastItemOrNull() ?: return MediatorResult.Success(
