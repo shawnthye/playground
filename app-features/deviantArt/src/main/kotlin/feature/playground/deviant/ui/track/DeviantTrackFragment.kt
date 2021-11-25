@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
@@ -20,6 +20,7 @@ import feature.playground.deviant.ui.DeviantArtNavigationFragment
 import feature.playground.deviant.widget.SlideInItemAnimator
 import feature.playground.deviant.widget.SpaceDecoration
 import feature.playground.deviant.widget.onCreateViewBinding
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,7 +31,6 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
     private val model: DeviantTrackViewModel by viewModels()
 
     private lateinit var binding: DeviantTrackBinding
-    private lateinit var pagingAdapter: TrackPagingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,43 +40,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
         binding = this
         viewModel = model
 
-        pagingAdapter = TrackPagingAdapter(model)
-
-        // val header = DeviationTrackLoadStateAdapter {
-        //     Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
-        // }
-
-        val footer = DeviationTrackLoadStateAdapter {
-            Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show()
-        }
-
-        pagingAdapter.addLoadStateListener { loadStates ->
-            // header.loadState = loadStates.refresh
-            footer.loadState = loadStates.append
-        }
-
-        val concatAdapter = ConcatAdapter(
-            ConcatAdapter.Config.Builder()
-                .setIsolateViewTypes(false)
-                .build(),
-            // header,
-            pagingAdapter,
-            footer,
-        )
-
-        val space = resources.getDimensionPixelSize(R.dimen.grid_spacing)
-        deviations.run {
-            itemAnimator = SlideInItemAnimator()
-            // itemAnimator = null
-            addItemDecoration(SpaceDecoration(space, space, space, space))
-
-            adapter = concatAdapter
-        }
-        lifecycleScope.launchWhenCreated {
-            model.pagingData.collectLatest { latest ->
-                pagingAdapter.submitData(latest)
-            }
-        }
+        bindState(model.pagingData, model)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -86,24 +50,56 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
             }
         }
     }
+}
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val manager = binding.deviations.layoutManager as GridLayoutManager
-        val adapter = binding.deviations.adapter!!
-        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+private fun DeviantTrackBinding.bindState(
+    pagingData: Flow<PagingData<TrackWithDeviation>>,
+    onItemClickListener: TrackPagingAdapter.OnItemClickListener,
+) {
+    val space = deviations.resources.getDimensionPixelSize(R.dimen.grid_spacing)
+    deviations.itemAnimator = SlideInItemAnimator()
+    deviations.addItemDecoration(SpaceDecoration(space, space, space, space))
+
+    val pagingAdapter = TrackPagingAdapter(onItemClickListener)
+
+    deviations.adapter = pagingAdapter.withFooter(
+        DeviationTrackLoadStateAdapter {
+            pagingAdapter.retry()
+        },
+    )
+
+    swipeRefreshLayout.setOnRefreshListener {
+        pagingAdapter.refresh()
+    }
+
+    deviations.adapter = pagingAdapter.withFooter(
+        DeviationTrackLoadStateAdapter {
+            pagingAdapter.retry()
+        },
+    )
+
+    (deviations.layoutManager as GridLayoutManager).run {
+        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
+                val adapter = deviations.adapter!!
 
                 return when (adapter.getItemViewType(position)) {
                     R.id.load_state_footer_view_type_error,
                     R.id.load_state_footer_view_type_loading,
                     R.id.load_state_footer_view_type_empty,
-                    -> manager.spanCount
-
-                    R.layout.deviation_item,
-                    -> 1
+                    -> spanCount
+                    R.layout.deviation_item -> 1
                     else -> throw IllegalStateException("Invalid view type")
                 }
+            }
+        }
+    }
+
+
+    lifecycleOwner!!.lifecycleScope.launch {
+        lifecycleOwner!!.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            pagingData.collectLatest { latest ->
+                pagingAdapter.submitData(latest)
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
+import core.playground.ui.Message
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.NetworkStateItemBinding
 
@@ -59,7 +60,13 @@ class NetworkStateViewHolder(
             progressBar.isVisible = loadState is LoadState.Loading
             retryButton.isVisible = loadState is LoadState.Error
             errorMsg.isVisible = loadState is LoadState.Error
-            errorMsg.text = (loadState as? LoadState.Error)?.error?.message
+
+            if (loadState is LoadState.Error) {
+                errorMsg.text = Message.forError(loadState.error).toString(errorMsg.context)
+            } else {
+                errorMsg.text = null
+            }
+
             executePendingBindings()
         }
     }

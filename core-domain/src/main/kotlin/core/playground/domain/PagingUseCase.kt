@@ -11,6 +11,7 @@ import androidx.paging.RemoteMediator
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
@@ -27,7 +28,8 @@ abstract class PagingUseCase<in Param, Page>(
     protected open val config = PagingConfig(
         pageSize = 10,
         initialLoadSize = 10,
-        enablePlaceholders = true,
+        // enablePlaceholders = true,
+        // prefetchDistance = 10,
     )
 
     operator fun invoke(parameters: Param): Flow<PagingData<Page>> {
@@ -39,7 +41,9 @@ abstract class PagingUseCase<in Param, Page>(
                 execute(parameters, pageSize, nextPage)
             },
             pagingSourceFactory = { pagingSource(parameters) },
-        ).flow.flowOn(coroutineDispatcher)
+        ).flow.flowOn(coroutineDispatcher).catch {
+            Timber.e(it)
+        }
     }
 
     protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>
@@ -102,6 +106,7 @@ private class PagedRemoteMediator<Page>(
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (t: Throwable) {
+            Timber.e(t)
             MediatorResult.Error(t)
         }
     }

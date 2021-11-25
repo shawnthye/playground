@@ -72,7 +72,7 @@ fun TrackPagingAdapter.withFooter(
     footer: LoadStateAdapter<*>,
 ): ConcatAdapter {
     addLoadStateListener { loadStates ->
-        footer.loadState = loadStates.prepend
+        footer.loadState = loadStates.append
     }
     return ConcatAdapter(
         ConcatAdapter.Config.Builder().setIsolateViewTypes(false).build(),
