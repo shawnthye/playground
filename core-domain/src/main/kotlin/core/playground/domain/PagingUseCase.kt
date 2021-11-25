@@ -53,8 +53,7 @@ abstract class PagingUseCase<in Param, Page>(
     protected open val config = PagingConfig(
         pageSize = 10,
         initialLoadSize = 10,
-        prefetchDistance = 1,
-        // enablePlaceholders = true,
+        enablePlaceholders = true,
     )
 
     protected abstract fun doWork(
