@@ -39,7 +39,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <!--goneUnless="@{viewModel.isRefreshing &amp;&amp; viewModel.deviationsState.empty}"-->
-    <!--<ProgressBar-->
+    <!--<ProgressBar android:id="@+id/emptyProgress"-->
     <!--  style="?attr/progressBarStyle"-->
     <!--  android:layout_width="56dp"-->
     <!--  android:layout_height="56dp"-->

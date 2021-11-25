@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
@@ -23,7 +24,10 @@ import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviantTrackFragment : DeviantArtNavigationFragment() {
@@ -68,10 +72,6 @@ private fun DeviantTrackBinding.bindState(
         },
     )
 
-    swipeRefreshLayout.setOnRefreshListener {
-        pagingAdapter.refresh()
-    }
-
     deviations.adapter = pagingAdapter.withFooter(
         DeviationTrackLoadStateAdapter {
             pagingAdapter.retry()
@@ -95,6 +95,30 @@ private fun DeviantTrackBinding.bindState(
         }
     }
 
+
+    swipeRefreshLayout.setOnRefreshListener {
+        pagingAdapter.refresh()
+    }
+
+    lifecycleOwner!!.lifecycleScope.launch {
+        lifecycleOwner!!.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            pagingAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .distinctUntilChanged { _, new -> new.refresh is LoadState.Loading }
+                .collect { loadStates ->
+                    swipeRefreshLayout.isRefreshing =
+                        loadStates.mediator?.refresh is LoadState.Loading
+                }
+        }
+
+        lifecycleOwner!!.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            pagingAdapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
+                .collect {
+                    Timber.i("${it.refresh}")
+                }
+        }
+    }
 
     lifecycleOwner!!.lifecycleScope.launch {
         lifecycleOwner!!.repeatOnLifecycle(Lifecycle.State.CREATED) {
