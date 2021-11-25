@@ -15,7 +15,7 @@ interface DeviationDataSource {
     fun browseDeviations(
         track: Track,
         pageSize: Int,
-        nextPage: Int? = null,
+        nextPage: String? = null,
     ): Flow<Result<List<TrackWithDeviation>>>
 
     fun getDeviation(id: String): Flow<Result<Deviation>>
@@ -32,7 +32,7 @@ internal class DeviationDataSourceImpl @Inject constructor(
     override fun browseDeviations(
         track: Track,
         pageSize: Int,
-        nextPage: Int?,
+        nextPage: String?,
     ): Flow<Result<List<TrackWithDeviation>>> {
         return api.browse(
             track = track.toString().lowercase(),
@@ -42,6 +42,5 @@ internal class DeviationDataSourceImpl @Inject constructor(
     }
 
     override fun getDeviation(id: String): Flow<Result<Deviation>> =
-        api.deviation(id)
-            .toResult(deviationToEntity)
+        api.deviation(id).toResult(deviationToEntity)
 }

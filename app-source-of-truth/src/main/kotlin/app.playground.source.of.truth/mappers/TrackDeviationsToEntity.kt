@@ -16,12 +16,12 @@ class TrackDeviationsToEntity @Inject constructor(
 
         val tracks = deviations.map {
             TrackWithDeviation(
-                deviationTrack = DeviationTrack(
+                entry = DeviationTrack(
                     deviationId = it.deviationId,
-                    nextPage = from.next_offset ?: 0,
+                    nextPage = from.next_offset.toString(),
                     track = "", // we will set the deviation when insert to database
                 ),
-                deviation = it,
+                relation = it,
             )
         }
 

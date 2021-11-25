@@ -40,7 +40,6 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
         binding = this
         viewModel = model
 
-
         pagingAdapter = TrackPagingAdapter(model)
 
         // val header = DeviationTrackLoadStateAdapter {
@@ -74,12 +73,10 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
             adapter = concatAdapter
         }
         lifecycleScope.launchWhenCreated {
-            model.resultState.collectLatest {
-                pagingAdapter.submitData(it)
+            model.resultState.collectLatest { latest ->
+                pagingAdapter.submitData(latest)
             }
         }
-
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

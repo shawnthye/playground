@@ -6,6 +6,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import app.playground.source.of.truth.database.AppEntity
+import core.playground.data.Pageable
+import core.playground.data.PageableEntry
 import java.util.Objects
 
 @Entity(
@@ -18,24 +20,25 @@ data class DeviationTrack(
     @PrimaryKey(autoGenerate = true) override val id: Long = 0,
     val track: String,
     val deviationId: String,
-    val nextPage: Int,
-) : AppEntity
+    override val nextPage: String? = null,
+) : AppEntity, PageableEntry
 
 data class TrackWithDeviation(
+
     @Embedded
-    val deviationTrack: DeviationTrack,
+    override val entry: DeviationTrack,
 
     @Relation(parentColumn = "deviationId", entityColumn = "deviationId")
-    val deviation: Deviation,
-) {
+    override val relation: Deviation,
+) : Pageable<DeviationTrack, Deviation> {
 
     override fun equals(other: Any?): Boolean = when {
         other === this -> true
         other is TrackWithDeviation -> {
-            deviationTrack == other.deviationTrack && deviation == other.deviation
+            entry == other.entry && relation == other.relation
         }
         else -> false
     }
 
-    override fun hashCode(): Int = Objects.hash(deviationTrack, deviation)
+    override fun hashCode(): Int = Objects.hash(entry, relation)
 }

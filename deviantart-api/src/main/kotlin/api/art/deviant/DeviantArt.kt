@@ -21,6 +21,7 @@ class DeviantArt @Inject constructor(
             .addInterceptor(authenticator.interceptor)
             .build()
 
+
         Retrofit.Builder()
             .baseUrl("https://www.deviantart.com/api/v1/oauth2/")
             .client(artClient)

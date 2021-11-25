@@ -19,7 +19,7 @@ class TrackPagingAdapter(
     }
 
     override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
-        getItem(position)?.deviation?.run {
+        getItem(position)?.relation?.run {
             holder.bind(this)
         }
     }
@@ -66,11 +66,11 @@ object Diff :
     override fun areItemsTheSame(
         oldItem: TrackWithDeviation,
         newItem: TrackWithDeviation,
-    ) = oldItem.deviationTrack.deviationId == newItem.deviationTrack.deviationId
+    ) = oldItem.entry.deviationId == newItem.entry.deviationId
 
     override fun areContentsTheSame(
         oldItem: TrackWithDeviation,
         newItem: TrackWithDeviation,
-    ) = oldItem.deviationTrack.deviationId == newItem.deviationTrack.deviationId &&
-        oldItem.deviation.coverUrl == newItem.deviation.coverUrl
+    ) = oldItem.entry.deviationId == newItem.entry.deviationId &&
+        oldItem.relation.coverUrl == newItem.relation.coverUrl
 }

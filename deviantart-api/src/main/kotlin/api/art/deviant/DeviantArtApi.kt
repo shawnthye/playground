@@ -15,7 +15,7 @@ interface DeviantArtApi {
         @Path("track") track: String,
         @Query("q") query: String? = null,
         @Query("mature_content") mature: Boolean = false,
-        @Query("offset") offset: Int? = null,
+        @Query("offset") offset: String? = null,
         @Query("limit") limit: Int,
     ): Flow<Response<DeviationResult>>
 

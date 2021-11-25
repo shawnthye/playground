@@ -61,3 +61,14 @@ inline fun <reified T> Flow<Result<T>>.mapCachedThrowable(): Flow<Result.Error<T
         }
     }
 }
+
+// inline fun <reified T> Flow<Result<T>>.onSucceeded(): Flow<Result.Error<T>> {
+//
+//     return flatMapLatest { result ->
+//         flow {
+//             if (result is Result.Error && result.data != null) {
+//                 emit(result)
+//             }
+//         }
+//     }
+// }
