@@ -14,4 +14,7 @@ abstract class DeviationTrackDao : EntityDao<DeviationTrack>() {
     @Transaction
     @Query("SELECT * FROM deviation_tracks WHERE track = :track ORDER BY id")
     abstract fun pagingSource(track: String): PagingSource<Int, TrackWithDeviation>
+
+    @Query("DELETE FROM deviation_tracks WHERE track = :track")
+    abstract suspend fun deleteTrack(track: String)
 }

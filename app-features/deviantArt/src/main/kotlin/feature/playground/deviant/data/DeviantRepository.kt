@@ -24,6 +24,10 @@ class DeviantRepository @Inject constructor(
         val response = deviationDataSource.browseDeviations(track, pageSize, nextPage).execute()
 
         deviationTrackDao.withTransaction {
+            if (nextPage.isNullOrBlank()) {
+                deviationTrackDao.deleteTrack(track = track.toString())
+            }
+
             deviationTrackDao.insertIgnore(response.map { it.entry.copy(track = track.toString()) })
             deviationDao.upsert(response.map { it.relation })
         }
