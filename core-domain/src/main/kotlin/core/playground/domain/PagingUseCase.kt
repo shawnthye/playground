@@ -11,6 +11,7 @@ import androidx.paging.RemoteMediator
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
 /**
@@ -25,21 +26,28 @@ abstract class PagingUseCase<in Param, Page>(
 
     protected open val config = PagingConfig(
         pageSize = 20,
-        initialLoadSize = 20,
-        // enablePlaceholders = true,
+        initialLoadSize = 60,
+        enablePlaceholders = false,
         // prefetchDistance = 10,
     )
+
+    protected open suspend fun shouldRefreshOnLaunch(): Boolean {
+        return true
+    }
 
     operator fun invoke(parameters: Param): Flow<PagingData<Page>> {
 
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = config,
-            remoteMediator = PagedRemoteMediator { pageSize, nextPage ->
+            remoteMediator = PagedRemoteMediator(
+                shouldRefreshOnLaunch = ::shouldRefreshOnLaunch,
+            ) { pageSize, nextPage ->
                 execute(parameters, pageSize, nextPage)
             },
             pagingSourceFactory = { pagingSource(parameters) },
         ).flow
+            .flowOn(coroutineDispatcher)
     }
 
     protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>
@@ -53,11 +61,16 @@ abstract class PagingUseCase<in Param, Page>(
 
 @OptIn(ExperimentalPagingApi::class)
 private class PagedRemoteMediator<Page>(
+    private val shouldRefreshOnLaunch: suspend () -> Boolean,
     private val doWork: suspend (pageSize: Int, nextPage: String?) -> Boolean,
 ) : RemoteMediator<Int, Page>() where Page : Pageable<*, *> {
 
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return if (shouldRefreshOnLaunch()) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
     }
 
     override suspend fun load(

@@ -45,7 +45,8 @@ abstract class EntityDao<E : AppEntity> {
     @Transaction
     open suspend fun withTransaction(tx: suspend () -> Unit) = tx()
 
-    private suspend fun upsert(entity: E): Long {
+    @Transaction
+    open suspend fun upsert(entity: E): Long {
         val id = insertIgnore(entity)
         return if (id == -1L) {
             update(entity)

@@ -14,6 +14,10 @@ class LoadTrackDeviantsUseCase @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : PagingUseCase<Track, TrackWithDeviation>(dispatcher) {
 
+    override suspend fun shouldRefreshOnLaunch(): Boolean {
+        return true
+    }
+
     override fun pagingSource(
         parameters: Track,
     ): PagingSource<Int, TrackWithDeviation> = repository.trackPagingSource(parameters)

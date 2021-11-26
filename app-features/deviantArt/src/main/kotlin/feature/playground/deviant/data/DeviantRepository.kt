@@ -8,6 +8,7 @@ import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
 import feature.playground.deviant.ui.track.Track
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,6 +26,7 @@ class DeviantRepository @Inject constructor(
 
         deviationTrackDao.withTransaction {
             if (nextPage.isNullOrBlank()) {
+                Timber.i("Delete track")
                 deviationTrackDao.deleteTrack(track = track.toString())
             }
 
