@@ -24,12 +24,13 @@ abstract class PagingUseCase<in Param, Page>(
     private val coroutineDispatcher: CoroutineDispatcher,
 ) where Page : Pageable<*, *> {
 
-    protected open val config = PagingConfig(
-        pageSize = 20,
-        initialLoadSize = 60,
-        enablePlaceholders = false,
-        // prefetchDistance = 10,
-    )
+    protected open fun pageConfig(): PagingConfig {
+        return PagingConfig(
+            pageSize = 20,
+            initialLoadSize = 60,
+            enablePlaceholders = false,
+        )
+    }
 
     protected open suspend fun shouldRefreshOnLaunch(): Boolean {
         return true
@@ -39,7 +40,7 @@ abstract class PagingUseCase<in Param, Page>(
 
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
-            config = config,
+            config = pageConfig(),
             remoteMediator = PagedRemoteMediator(
                 shouldRefreshOnLaunch = ::shouldRefreshOnLaunch,
             ) { pageSize, nextPage ->
@@ -59,6 +60,9 @@ abstract class PagingUseCase<in Param, Page>(
     ): Boolean
 }
 
+/**
+ * This approach has a problem which its won't update the latest
+ */
 @OptIn(ExperimentalPagingApi::class)
 private class PagedRemoteMediator<Page>(
     private val shouldRefreshOnLaunch: suspend () -> Boolean,

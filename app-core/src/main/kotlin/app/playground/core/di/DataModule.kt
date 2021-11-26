@@ -18,16 +18,23 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AppDatabase = Room
-        .databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            DATABASE_NAME,
-        )
-        .fallbackToDestructiveMigration()
-        .fallbackToDestructiveMigrationOnDowngrade()
-        .fallbackToDestructiveMigrationFrom(0)
-        .build()
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ): AppDatabase = Room.inMemoryDatabaseBuilder(
+        context,
+        AppDatabase::class.java,
+    ).build()
+
+    // @Singleton
+    // @Provides
+    // fun provideDatabase(@ApplicationContext context: Context): AppDatabase = Room
+    //     .databaseBuilder(
+    //         context,
+    //         AppDatabase::class.java,
+    //         DATABASE_NAME,
+    //     )
+    //     .fallbackToDestructiveMigration()
+    //     .build()
 
     @Singleton
     @Provides

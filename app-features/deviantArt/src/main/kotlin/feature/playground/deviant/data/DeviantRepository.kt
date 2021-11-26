@@ -21,7 +21,7 @@ class DeviantRepository @Inject constructor(
 
     fun trackPagingSource(track: Track) = deviationTrackDao.pagingSource(track.toString())
 
-    suspend fun suspendFetchTrackAndCache(track: Track, pageSize: Int, nextPage: String?): Boolean {
+    suspend fun fetchTrack(track: Track, pageSize: Int, nextPage: String?): Boolean {
         val response = deviationDataSource.browseDeviations(track, pageSize, nextPage).execute()
 
         deviationTrackDao.withTransaction {
@@ -30,7 +30,7 @@ class DeviantRepository @Inject constructor(
                 deviationTrackDao.deleteTrack(track = track.toString())
             }
 
-            deviationTrackDao.insertIgnore(response.map { it.entry.copy(track = track.toString()) })
+            deviationTrackDao.replace(response.map { it.entry.copy(track = track.toString()) })
             deviationDao.upsert(response.map { it.relation })
         }
 

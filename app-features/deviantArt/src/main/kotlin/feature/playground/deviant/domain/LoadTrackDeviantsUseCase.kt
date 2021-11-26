@@ -23,6 +23,6 @@ class LoadTrackDeviantsUseCase @Inject constructor(
     ): PagingSource<Int, TrackWithDeviation> = repository.trackPagingSource(parameters)
 
     override suspend fun execute(parameters: Track, pageSize: Int, nextPage: String?): Boolean {
-        return repository.suspendFetchTrackAndCache(parameters, pageSize, nextPage)
+        return repository.fetchTrack(parameters, pageSize, nextPage)
     }
 }
