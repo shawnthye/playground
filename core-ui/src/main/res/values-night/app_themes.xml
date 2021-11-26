@@ -20,7 +20,6 @@
 
     <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
-    <!--<item name="elevationOverlayEnabled">false</item>-->
 
     <!--<item name="dividerVertical">@color/deviant_art_list_divider_night</item>-->
   </style>

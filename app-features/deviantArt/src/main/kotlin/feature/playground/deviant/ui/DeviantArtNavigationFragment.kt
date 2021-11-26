@@ -28,7 +28,9 @@ abstract class DeviantArtNavigationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (view !is ViewGroup) return
 
-        navigationHost?.registerToolbarWithNavigation(findToolbar(view)!!)
+        findToolbar(view)?.run {
+            navigationHost?.registerToolbarWithNavigation(this)
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -43,11 +45,18 @@ abstract class DeviantArtNavigationFragment : Fragment() {
 
     private fun findToolbar(view: ViewGroup): MaterialToolbar? {
 
+        if (view.childCount == 0) {
+            return null
+        }
+
         for (child in view.children) {
             if (child is MaterialToolbar) {
                 return child
             } else if (child is ViewGroup) {
-                return findToolbar(child)
+                val toolbar = findToolbar(child)
+                if (toolbar != null) {
+                    return toolbar
+                }
             }
         }
 

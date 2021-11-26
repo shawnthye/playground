@@ -3,6 +3,7 @@ package feature.playground.deviant.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
@@ -24,6 +25,7 @@ class DeviantArt : AppCompatActivity(), NavigationHost {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.deviant_art)
 
         val navHostFragment = supportFragmentManager.findFragmentById(
