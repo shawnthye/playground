@@ -11,8 +11,6 @@ import androidx.paging.RemoteMediator
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
 /**
@@ -41,9 +39,7 @@ abstract class PagingUseCase<in Param, Page>(
                 execute(parameters, pageSize, nextPage)
             },
             pagingSourceFactory = { pagingSource(parameters) },
-        ).flow.flowOn(coroutineDispatcher).catch {
-            Timber.e(it)
-        }
+        ).flow
     }
 
     protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>

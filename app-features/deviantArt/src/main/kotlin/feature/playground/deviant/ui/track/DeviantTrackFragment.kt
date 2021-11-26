@@ -19,6 +19,7 @@ import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviantTrackBinding
 import feature.playground.deviant.ui.DeviantArtNavigationFragment
+import feature.playground.deviant.widget.SlideInItemAnimator
 import feature.playground.deviant.widget.SpaceDecoration
 import feature.playground.deviant.widget.onCreateViewBinding
 import kotlinx.coroutines.flow.Flow
@@ -26,9 +27,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviantTrackFragment : DeviantArtNavigationFragment() {
@@ -62,7 +61,7 @@ private fun DeviantTrackBinding.bindState(
     onItemClickListener: TrackPagingAdapter.OnItemClickListener,
 ) {
     val space = deviations.resources.getDimensionPixelSize(R.dimen.grid_spacing)
-    // deviations.itemAnimator = SlideInItemAnimator()
+    deviations.itemAnimator = SlideInItemAnimator()
     deviations.addItemDecoration(SpaceDecoration(space, space, space, space))
 
     val pagingAdapter = TrackPagingAdapter(onItemClickListener)
@@ -102,16 +101,6 @@ private fun DeviantTrackBinding.bindState(
         }
     }
 
-    pagingAdapter.addLoadStateListener { loadStates ->
-
-        Timber.i("${loadStates.mediator?.refresh}")
-        // deviations.scrollToPosition(0)
-        // (loadState.refresh is LoadState.NotLoading && pagingAdapter.itemCount != 0).run {
-        //
-        // }
-    }
-
-
     swipeRefreshLayout.setOnRefreshListener {
         pagingAdapter.refresh()
     }
@@ -125,18 +114,6 @@ private fun DeviantTrackBinding.bindState(
             .collect { loadStates ->
                 (loadStates.mediator?.refresh is LoadState.Loading).run {
                     swipeRefreshLayout.isRefreshing = this
-                }
-            }
-    }
-
-    owner.lifecycleScope.launchWhenCreated {
-        pagingAdapter.loadStateFlow
-            .distinctUntilChangedBy { it.refresh }
-            .distinctUntilChanged { _, new -> new.refresh is LoadState.Loading }
-            .filter { it.refresh is LoadState.NotLoading }
-            .collect {
-                deviations.post {
-                    deviations.scrollTo(0, 0)
                 }
             }
     }
