@@ -19,7 +19,7 @@
 
 [x] enable junitPlatform
 [x] Jetpack navigation compose
-[x] UseCase
+[x] UseCase, FlowUseCase, PagingUseCase (experimental)
 [x] Domain
 [] Saving api auth token
 [] Dynamic features (Waiting for better Hilt support in the future)

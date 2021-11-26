@@ -3,6 +3,9 @@ package core.playground
 sealed class Reason(original: Throwable?) : RuntimeException(original) {
     data class Connection(val original: Throwable) : Reason(original)
 
+    //TODO: timeout for retry
+    //data class Timeout(val original: Throwable) : Connection(original)
+
     /**
      * SeeAlso [Http status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
      *

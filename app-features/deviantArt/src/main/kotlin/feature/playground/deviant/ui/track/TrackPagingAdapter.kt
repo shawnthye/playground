@@ -59,13 +59,17 @@ object Diff :
     override fun areItemsTheSame(
         oldItem: TrackWithDeviation,
         newItem: TrackWithDeviation,
-    ) = oldItem.entry.deviationId == newItem.entry.deviationId
+    ) = oldItem.entry.id == newItem.entry.id
 
     override fun areContentsTheSame(
         oldItem: TrackWithDeviation,
         newItem: TrackWithDeviation,
     ) = oldItem.entry.deviationId == newItem.entry.deviationId &&
         oldItem.relation.coverUrl == newItem.relation.coverUrl
+
+    // override fun getChangePayload(oldItem: TrackWithDeviation, newItem: TrackWithDeviation): Any? {
+    //     return super.getChangePayload(oldItem, newItem)
+    // }
 }
 
 fun TrackPagingAdapter.withFooter(

@@ -26,8 +26,8 @@ abstract class PagingUseCase<in Param, Page>(
 ) where Page : Pageable<*, *> {
 
     protected open val config = PagingConfig(
-        pageSize = 10,
-        initialLoadSize = 10,
+        pageSize = 20,
+        initialLoadSize = 20,
         // enablePlaceholders = true,
         // prefetchDistance = 10,
     )
