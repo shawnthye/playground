@@ -10,6 +10,7 @@
     <item name="colorSecondaryVariant">@color/deviant_art_brand_variant</item>
     <item name="android:colorBackground">@color/deviant_art_brand_night</item>
     <item name="colorSurface">@color/deviant_art_brand_night</item>
+    <item name="colorSurfaceVariant">@color/deviant_art_brand_night_variant</item>
     <item name="colorError">@color/deviant_art_red_200</item>
 
     <item name="colorOnPrimary">@color/deviant_art_brand_night</item>

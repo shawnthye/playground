@@ -4,6 +4,7 @@
 
   <declare-styleable name="Theme">
     <attr name="materialButtonTextButtonStyle" format="reference" />
+    <attr name="colorSurfaceVariant" format="color" />
 
     <attr name="appBarSize" format="dimension" />
     <attr name="appBarZ" format="dimension" />
@@ -12,5 +13,6 @@
     <attr name="cardZLow" format="dimension" />
     <attr name="cardZ" format="dimension" />
     <attr name="cardZHigh" format="dimension" />
+
   </declare-styleable>
 </resources>

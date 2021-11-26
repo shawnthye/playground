@@ -27,6 +27,7 @@
     <!--text fields.-->
     <item name="android:colorBackground">@color/deviant_art_white_50</item>
     <item name="colorSurface">@color/deviant_art_white_50</item>
+    <item name="colorSurfaceVariant">@color/deviant_art_list_divider_night</item>
     <item name="colorError">@color/deviant_art_red_600</item>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->

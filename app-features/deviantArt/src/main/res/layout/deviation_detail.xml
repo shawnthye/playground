@@ -93,7 +93,7 @@
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toTopOf="parent"
               tools:layout_constraintDimensionRatio="1:1"
-              tools:layout_constraintHeight_max="300dp"
+              tools:layout_constraintHeight="300dp"
               tools:src="@tools:sample/avatars"
               />
           </androidx.constraintlayout.widget.ConstraintLayout>
@@ -103,15 +103,16 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/content_horizontal_margin"
-            android:paddingVertical="@dimen/content_vertical_margin"
             >
 
             <TextView
               style="?textAppearanceHeadline5"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:background="?colorSurfaceVariant"
               android:maxLines="2"
+              android:paddingHorizontal="@dimen/content_horizontal_margin"
+              android:paddingVertical="@dimen/content_vertical_margin"
               android:text="@{viewModel.deviationState.data.title}"
               app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +126,8 @@
               android:layout_height="wrap_content"
               android:gravity="center_vertical"
               android:orientation="horizontal"
-              android:paddingVertical="@dimen/key_line_2"
+              android:paddingHorizontal="@dimen/content_horizontal_margin"
+              android:paddingVertical="@dimen/content_vertical_margin"
               tools:ignore="UseCompoundDrawables"
               >
 
@@ -135,7 +137,8 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:orientation="vertical"
-                android:padding="@dimen/key_line_2"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/key_line_2"
                 >
 
                 <TextView
@@ -168,11 +171,13 @@
 
               <ImageView
                 clipToCircle="@{true}"
+                android:clickable="true"
                 imageUrl="@{viewModel.deviationState.data.authorIconUrl}"
                 placeholder="@{@color/track_placeholder}"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="@{viewModel.deviationState.data.authorName}"
+                android:foreground="?selectableItemBackground"
                 tools:src="@tools:sample/avatars"
                 >
 
