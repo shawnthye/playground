@@ -14,12 +14,20 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import timber.log.Timber
+import java.util.Date
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -90,6 +98,9 @@ object AppModule {
         prettyPrint = BuildConfig.DEBUG
         ignoreUnknownKeys = true
         // explicitNulls = false
+        serializersModule = SerializersModule {
+            contextual(Date::class, DateAsLongSerializer)
+        }
     }
 
     @ExperimentalSerializationApi
@@ -116,4 +127,13 @@ private class DebugTree : Timber.DebugTree() {
     private companion object {
         private const val MAX_TAG_LENGTH = 23
     }
+}
+
+object DateAsLongSerializer : KSerializer<Date> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(
+        "Date", PrimitiveKind.LONG,
+    )
+
+    override fun serialize(encoder: Encoder, value: Date) = encoder.encodeLong(value.time)
+    override fun deserialize(decoder: Decoder): Date = Date(decoder.decodeLong() * 1000L)
 }

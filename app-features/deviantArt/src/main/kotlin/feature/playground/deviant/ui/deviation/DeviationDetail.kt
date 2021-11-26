@@ -35,7 +35,7 @@ class DeviationDetail : DeviantArtNavigationFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.snackbarMessageId.collect {
+                model.snackBarMessageId.collect {
                     Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
                 }
             }

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import app.playground.source.of.truth.database.entities.Deviation
 import core.playground.Reason
 import core.playground.domain.Result
-import core.playground.domain.mapCachedThrowable
+import core.playground.domain.mapLatestError
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.LoadDeviantUseCase
@@ -14,7 +14,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -35,29 +34,26 @@ class DeviationDetailViewModel @Inject constructor(
         trySend(Unit) // init loading
     }
 
-    private val loadDeviantResult: StateFlow<Result<Deviation>> =
-        _swipeRefreshing
-            .receiveAsFlow()
-            .flatMapLatest { loadDeviantUseCase(deviantId) }.stateIn(
-                scope = viewModelScope,
-                started = WhileViewSubscribed,
-                initialValue = Result.Loading(),
-            )
+    private val loadDeviantResult: Flow<Result<Deviation>> = _swipeRefreshing
+        .receiveAsFlow()
+        .flatMapLatest { loadDeviantUseCase(deviantId) }
 
-    val deviationState = loadDeviantResult.map { it.data }.stateIn(
-        scope = viewModelScope,
-        started = WhileViewSubscribed,
-        initialValue = null,
-    )
+    val deviationState: StateFlow<Result<Deviation>> = loadDeviantResult
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileViewSubscribed,
+            initialValue = Result.Loading(),
+        )
 
-    val isLoading = loadDeviantResult.mapLatest { it is Result.Loading }.stateIn(
-        scope = viewModelScope,
-        started = WhileViewSubscribed,
-        initialValue = true,
-    )
+    val isLoading = deviationState.mapLatest { it is Result.Loading }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileViewSubscribed,
+            initialValue = true,
+        )
 
-    val snackbarMessageId: Flow<Int> = loadDeviantResult.mapCachedThrowable().map {
-        when (it.throwable) {
+    val snackBarMessageId: Flow<Int> = deviationState.mapLatestError {
+        when (it) {
             is Reason.Connection -> core.playground.ui.R.string.reason_connection
             else -> core.playground.ui.R.string.reason_unknown
         }

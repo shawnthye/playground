@@ -10,8 +10,10 @@ import kotlinx.serialization.UseSerializers
 @Serializable
 data class User(
     val userid: String,
+
     val username: String,
 
+    @Suppress("SpellCheckingInspection")
     @SerialName("usericon")
     val iconUrl: String,
 )

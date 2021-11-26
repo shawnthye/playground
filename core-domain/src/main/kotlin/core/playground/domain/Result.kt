@@ -54,11 +54,13 @@ inline fun <reified T> Result<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>)
     }
 }
 
-inline fun <reified T> Flow<Result<T>>.mapCachedThrowable(): Flow<Error<T>> {
+inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
+    crossinline transform: suspend (throwable: Throwable) -> R,
+): Flow<R> {
     return flatMapLatest { result ->
         flow {
-            if (result is Error && result.data != null) {
-                emit(result)
+            if (result is Error) {
+                emit(transform(result.throwable))
             }
         }
     }

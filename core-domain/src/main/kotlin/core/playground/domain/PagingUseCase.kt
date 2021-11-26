@@ -60,9 +60,6 @@ abstract class PagingUseCase<in Param, Page>(
     ): Boolean
 }
 
-/**
- * This approach has a problem which its won't update the latest
- */
 @OptIn(ExperimentalPagingApi::class)
 private class PagedRemoteMediator<Page>(
     private val shouldRefreshOnLaunch: suspend () -> Boolean,

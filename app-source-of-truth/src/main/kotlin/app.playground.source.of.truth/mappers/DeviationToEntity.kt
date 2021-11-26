@@ -15,10 +15,15 @@ class DeviationToEntity
         deviationId = from.deviationid,
         url = from.url,
         title = from.title,
+        category = from.category,
         coverUrl = from.findCover()!!.src,
         imageUrl = from.findImage()!!.src,
         imageWidth = from.findImage()?.width ?: 0,
         imageHeight = from.findImage()?.height ?: 0,
+        authorId = from.author.userid,
+        authorName = from.author.username,
+        authorIconUrl = from.author.iconUrl,
+        published = from.published,
     )
 }
 

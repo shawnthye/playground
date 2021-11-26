@@ -38,6 +38,18 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <ProgressBar
+      style="?attr/progressBarStyle"
+      goneUnless="@{viewModel.isLoading &amp;&amp; viewModel.deviationState == null}"
+      android:layout_width="56dp"
+      android:layout_height="56dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/appbar"
+      tools:visibility="gone"
+      />
+
     <feature.playground.deviant.widget.CoreSwipeRefreshLayout
       goneUnless="@{viewModel.deviationState != null}"
       onRefreshListener="@{() -> viewModel.onSwipeRefresh()}"
@@ -68,14 +80,14 @@
 
             <ImageView
               android:id="@+id/image"
-              imageUrl="@{viewModel.deviationState.coverUrl}"
+              imageUrl="@{viewModel.deviationState.data.coverUrl}"
               android:layout_width="match_parent"
               android:layout_height="0dp"
               android:adjustViewBounds="true"
-              android:contentDescription="@{viewModel.deviationState.title}"
+              android:contentDescription="@{viewModel.deviationState.data.title}"
               android:scaleType="fitCenter"
-              app:layout_constraintDimensionRatioHeight="@{viewModel.deviationState.imageHeight}"
-              app:layout_constraintDimensionRatioWidth="@{viewModel.deviationState.imageWidth}"
+              app:layout_constraintDimensionRatioHeight="@{viewModel.deviationState.data.imageHeight}"
+              app:layout_constraintDimensionRatioWidth="@{viewModel.deviationState.data.imageWidth}"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintMaxHeight_percent="@{0.45}"
               app:layout_constraintStart_toStartOf="parent"
@@ -91,12 +103,16 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingHorizontal="@dimen/content_horizontal_margin"
+            android:paddingVertical="@dimen/content_vertical_margin"
             >
 
             <TextView
+              style="?textAppearanceHeadline5"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@{viewModel.deviationState.title}"
+              android:maxLines="2"
+              android:text="@{viewModel.deviationState.data.title}"
               app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintStart_toStartOf="parent"
@@ -104,33 +120,70 @@
               tools:text="@tools:sample/lorem[5]"
               />
 
-            <TextView
-              android:layout_width="wrap_content"
+            <LinearLayout
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:text="@{viewModel.deviationState.deviationId}"
-              app:layout_constraintBottom_toBottomOf="parent"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toTopOf="parent"
-              tools:text="@tools:sample/full_names"
-              />
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingVertical="@dimen/key_line_2"
+              tools:ignore="UseCompoundDrawables"
+              >
+
+              <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical"
+                android:padding="@dimen/key_line_2"
+                >
+
+                <TextView
+                  style="?textAppearanceSubtitle1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:ellipsize="end"
+                  android:maxLines="1"
+                  android:text="@{viewModel.deviationState.data.authorName}"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"
+                  tools:text="@tools:sample/lorem[10]"
+                  />
+
+                <TextView
+                  style="?textAppearanceCaption"
+                  date="@{viewModel.deviationState.data.published}"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:maxLines="1"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"
+                  tools:text="@tools:sample/date/ddmmyy"
+                  />
+              </androidx.appcompat.widget.LinearLayoutCompat>
+
+              <ImageView
+                clipToCircle="@{true}"
+                imageUrl="@{viewModel.deviationState.data.authorIconUrl}"
+                placeholder="@{@color/track_placeholder}"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:contentDescription="@{viewModel.deviationState.data.authorName}"
+                tools:src="@tools:sample/avatars"
+                >
+
+              </ImageView>
+            </LinearLayout>
 
           </LinearLayout>
         </LinearLayout>
 
       </androidx.core.widget.NestedScrollView>
     </feature.playground.deviant.widget.CoreSwipeRefreshLayout>
-
-    <ProgressBar
-      style="?attr/progressBarStyle"
-      goneUnless="@{viewModel.isLoading &amp;&amp; viewModel.deviationState == null}"
-      android:layout_width="56dp"
-      android:layout_height="56dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/appbar"
-      />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
