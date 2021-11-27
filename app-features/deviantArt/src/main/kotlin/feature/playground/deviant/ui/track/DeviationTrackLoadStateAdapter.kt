@@ -33,10 +33,10 @@ class DeviationTrackLoadStateAdapter(
         }
     }
 
-    override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
-        return super.displayLoadStateAsItem(loadState) ||
-            (loadState is LoadState.NotLoading && !loadState.endOfPaginationReached)
-    }
+    // override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
+    //     return super.displayLoadStateAsItem(loadState) ||
+    //         (loadState is LoadState.NotLoading && !loadState.endOfPaginationReached)
+    // }
 }
 
 class NetworkStateViewHolder(

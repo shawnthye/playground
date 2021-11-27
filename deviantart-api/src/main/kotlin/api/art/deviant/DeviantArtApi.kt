@@ -14,7 +14,7 @@ interface DeviantArtApi {
     @GET("browse/{track}")
     fun browse(
         @Path("track") track: String,
-        @Query("q") query: String? = null,
+        @Query("q") query: String? = "anim",
         @Query("mature_content") mature: Boolean = false,
         @Query("offset") offset: String? = null,
         @Query("limit") limit: Int,
