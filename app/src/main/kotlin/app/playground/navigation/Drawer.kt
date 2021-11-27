@@ -28,9 +28,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.playground.R
 import com.google.accompanist.insets.statusBarsPadding
+import core.playground.ui.theme.PlaygroundTheme
 
 @Composable
 internal fun Drawer(
@@ -109,7 +111,10 @@ private fun DrawerButton(
                     tintColor = textIconColor,
                 )
                 Spacer(Modifier.width(16.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Text(
                         text = label,
                         style = MaterialTheme.typography.body2,
@@ -207,3 +212,16 @@ private val MenuItems = listOf(
         iconSecondary = R.drawable.ic_baseline_open_in_new_24,
     ),
 )
+
+@Preview
+@Composable
+fun PreviewNavigationIcon() {
+    PlaygroundTheme {
+        NavigationIcon(
+            icon = ImageVector.vectorResource(id = R.drawable.ic_deviant_art),
+            isSelected = true,
+            contentDescription = null, // decorative
+            tintColor = MaterialTheme.colors.primary,
+        )
+    }
+}
