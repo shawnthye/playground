@@ -15,12 +15,17 @@ class CoreSwipeRefreshLayout @JvmOverloads constructor(
 
         val value = TypedValue()
 
-        if (context.theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, value, true)) {
+        if (context.theme.resolveAttribute(
+                com.google.android.material.R.attr.colorSurface,
+                value,
+                true,
+            )
+        ) {
             setColorSchemeColors(value.data)
         }
 
         if (context.theme.resolveAttribute(
-                com.google.android.material.R.attr.colorSurface,
+                com.google.android.material.R.attr.colorPrimary,
                 value,
                 true,
             )
