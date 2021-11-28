@@ -215,13 +215,14 @@ private val MenuItems = listOf(
 
 @Preview
 @Composable
-fun PreviewNavigationIcon() {
+private fun PreviewDrawer() {
     PlaygroundTheme {
-        NavigationIcon(
+        DrawerButton(
             icon = ImageVector.vectorResource(id = R.drawable.ic_deviant_art),
-            isSelected = true,
-            contentDescription = null, // decorative
-            tintColor = MaterialTheme.colors.primary,
+            subIcon = ImageVector.vectorResource(id = R.drawable.ic_baseline_open_in_new_24),
+            label = stringResource(id = R.string.menu_deviantArt),
+            isSelected = false,
+            action = {},
         )
     }
 }
