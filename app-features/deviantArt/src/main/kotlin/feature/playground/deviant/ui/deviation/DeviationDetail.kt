@@ -30,7 +30,7 @@ import feature.playground.deviant.databinding.DeviationDetailBinding
 import feature.playground.deviant.ui.DeviantArtNavigationFragment
 import feature.playground.deviant.widget.PaletteExtensions.createRipple
 import feature.playground.deviant.widget.onCreateViewBinding
-import feature.playground.deviant.widget.usePalette
+import feature.playground.deviant.widget.usePaletteTransition
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
@@ -41,8 +41,7 @@ class DeviationDetail : DeviantArtNavigationFragment() {
 
     private val model: DeviationDetailViewModel by viewModels()
     private lateinit var binding: DeviationDetailBinding
-    private var defaultToolbarIconColor: Int = Color.TRANSPARENT
-    private var currentToolbarIconColor: Int = defaultToolbarIconColor
+    private var currentToolbarIconColor: Int = Color.TRANSPARENT
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +59,7 @@ class DeviationDetail : DeviantArtNavigationFragment() {
                 true,
             )
         ) {
-            defaultToolbarIconColor = value.data
+            currentToolbarIconColor = value.data
         }
 
     }
@@ -69,52 +68,54 @@ class DeviationDetail : DeviantArtNavigationFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            model.deviationState
-                .mapNotNull { it.data?.imageUrl }
-                .distinctUntilChanged()
-                .collect { url ->
-                    binding.art.load(url) {
-                        usePalette { palette ->
-                            palette?.createRipple(false)?.run {
-                                binding.artLayout.foreground = this
-                            }
-
-                            palette?.applyControlColor()
-                        }
-                    }
-                }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.snackBarMessageId.collect {
                     Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            model.deviationState
+                .mapNotNull { it.data?.imageUrl }
+                /**
+                 * doesn't need to re-load the image if url doesn't change
+                 * we first get from database
+                 */
+                .distinctUntilChanged()
+                .collect { url ->
+                    binding.art.load(url) {
+                        usePaletteTransition { palette ->
+                            palette?.createRipple(false)?.run {
+                                binding.artLayout.foreground = this
+                            }
+
+                            binding.applyControlsColor(palette)
+                        }
+                    }
+                }
+        }
     }
 
     /**
      * TODO: adjust light status bar
      */
-    private fun Palette.applyControlColor() {
-        dominantSwatch?.rgb?.run {
-            binding.appbar.animateSetBackgroundColor(this)
+    private fun DeviationDetailBinding.applyControlsColor(palette: Palette?) {
+        val color = palette?.dominantSwatch?.rgb ?: return
 
-            val luminance = ColorUtils.calculateLuminance(this)
+        appbar.animateSetBackgroundColor(color)
 
-            val color = if (luminance < 0.5) {
-                // dark color image
-                Color.WHITE
-            } else {
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.deviant_art_brand_night,
-                )
-            }
-
-            binding.toolbar.animateSetColor(requireContext(), color)
+        val iconColor = if (ColorUtils.calculateLuminance(color) < 0.5) {
+            // dark color image
+            Color.WHITE
+        } else {
+            ContextCompat.getColor(
+                root.context,
+                R.color.deviant_art_brand_night,
+            )
         }
+
+        toolbar.animateSetColor(root.context, iconColor)
     }
 
     private fun Toolbar.animateSetColor(context: Context, @ColorInt color: Int) {
