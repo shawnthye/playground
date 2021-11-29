@@ -9,18 +9,16 @@ import coil.load
 import coil.request.repeatCount
 
 @BindingAdapter(value = ["imageUrl", "placeholder", "crossFade"], requireAll = false)
-fun imageUrl(
-    imageView: ImageView,
+fun ImageView.imageUrl(
     imageUrl: String?,
     placeholder: Drawable?,
     crossFade: Boolean?,
 ) {
-    imageUri(imageView, imageUrl?.toUri(), placeholder, crossFade)
+    imageUri(imageUrl?.toUri(), placeholder, crossFade)
 }
 
 @BindingAdapter(value = ["imageUri", "placeholder", "crossFade"], requireAll = false)
-fun imageUri(
-    imageView: ImageView,
+fun ImageView.imageUri(
     imageUri: Uri?,
     placeholder: Drawable?,
     crossFade: Boolean?,
@@ -30,14 +28,14 @@ fun imageUri(
 
     when (imageUri) {
         null -> {
-            imageView.load(drawable = placeholder) {
+            load(drawable = placeholder) {
                 if (!crossFadeEnabled) {
                     crossfade(enable = false)
                 }
             }
         }
         else -> {
-            imageView.load(uri = imageUri) {
+            load(uri = imageUri) {
                 placeholder(drawable = placeholder)
                 if (!crossFadeEnabled) {
                     crossfade(enable = false)
