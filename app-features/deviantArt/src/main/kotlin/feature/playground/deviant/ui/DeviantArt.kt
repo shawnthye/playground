@@ -3,7 +3,9 @@ package feature.playground.deviant.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
@@ -46,6 +48,20 @@ class DeviantArt : AppCompatActivity(), NavigationHost {
             val destination = navController.graph[menu.itemId]
             val graph = destination as? NavGraph ?: return@setOnItemReselectedListener
             navController.popBackStack(graph.startDestinationId, false)
+        }
+
+        /**
+         * We apply insets manually,
+         * because we don't want ripple effect to reach outside of it bar
+         * clipPadding will not work, because we wanted the default borderless ripple
+         */
+        ViewCompat.setOnApplyWindowInsetsListener(bottomNavigationView, null)
+        ViewCompat.setOnApplyWindowInsetsListener(
+            findViewById(R.id.bottom_navigation_bar),
+        ) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, systemBars.bottom)
+            insets
         }
     }
 

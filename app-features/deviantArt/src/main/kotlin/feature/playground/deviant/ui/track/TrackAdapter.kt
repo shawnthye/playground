@@ -16,7 +16,7 @@ import coil.request.repeatCount
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationItemBinding
 import feature.playground.deviant.widget.PaletteExtensions.createRipple
-import feature.playground.deviant.widget.withPalette
+import feature.playground.deviant.widget.usePalette
 
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener,
@@ -88,10 +88,9 @@ fun DeviationItemBinding.bingImage(
     imageLayout.foreground = defaultForeground
 
     image.load(uri = url) {
-        allowHardware(false)
         repeatCount(0)
         placeholder(drawable = placeholder)
-        withPalette { palette ->
+        usePalette { palette ->
             imageLayout.foreground = palette?.createRipple(false) ?: defaultForeground
         }
     }

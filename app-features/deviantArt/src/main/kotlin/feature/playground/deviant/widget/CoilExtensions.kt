@@ -37,9 +37,11 @@ private fun Drawable.getBitmap(): Bitmap? {
 }
 
 @OptIn(ExperimentalCoilApi::class)
-internal fun ImageRequest.Builder.withPalette(
+internal fun ImageRequest.Builder.usePalette(
     onGenerated: (Palette?) -> Unit,
 ) {
+    // palette doesn't support HARDWARE
+    allowHardware(false)
     crossfade(false)
     transition(PaletteTransition { onGenerated(it) })
 }

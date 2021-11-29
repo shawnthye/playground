@@ -19,10 +19,21 @@
     app:navGraph="@navigation/deviant_art_bottom_navigation_graph"
     />
 
-  <com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/bottom_nav"
+  <FrameLayout
+    android:id="@+id/bottom_navigation_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:menu="@menu/deviant_art_navigation_menu"
-    />
+    android:background="?colorSurface"
+    android:elevation="?bottomAppBarZ"
+    >
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+      android:id="@+id/bottom_nav"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@android:color/transparent"
+      app:elevation="0dp"
+      app:menu="@menu/deviant_art_navigation_menu"
+      />
+  </FrameLayout>
 </LinearLayout>
