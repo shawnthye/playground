@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.source.of.truth.database.entities.Deviation
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
@@ -19,9 +18,9 @@ import feature.playground.deviant.databinding.DeviationItemBinding
 import feature.playground.deviant.widget.PaletteExtensions.createRipple
 import feature.playground.deviant.widget.withPalette
 
-class TrackPagingAdapter(
+class TrackAdapter(
     private val onItemClickListener: OnItemClickListener,
-) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(Diff) {
+) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(TrackAdapterItemCallback) {
 
     interface OnItemClickListener {
         fun onItemClicked(id: String)
@@ -43,21 +42,7 @@ class TrackPagingAdapter(
     ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener)
 }
 
-object Diff :
-    DiffUtil.ItemCallback<TrackWithDeviation>() {
-    override fun areItemsTheSame(
-        oldItem: TrackWithDeviation,
-        newItem: TrackWithDeviation,
-    ) = oldItem.entry.id == newItem.entry.id
-
-    override fun areContentsTheSame(
-        oldItem: TrackWithDeviation,
-        newItem: TrackWithDeviation,
-    ) = oldItem.entry.deviationId == newItem.entry.deviationId &&
-        oldItem.relation.coverUrl == newItem.relation.coverUrl
-}
-
-fun TrackPagingAdapter.withFooter(
+fun TrackAdapter.withFooter(
     footer: LoadStateAdapter<*>,
 ): ConcatAdapter {
     addLoadStateListener { loadStates ->
@@ -72,7 +57,7 @@ fun TrackPagingAdapter.withFooter(
 
 class DeviationViewHolder(
     parent: ViewGroup,
-    onItemClickListener: TrackPagingAdapter.OnItemClickListener,
+    onItemClickListener: TrackAdapter.OnItemClickListener,
     private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
         LayoutInflater.from(parent.context), parent, false,
     ),

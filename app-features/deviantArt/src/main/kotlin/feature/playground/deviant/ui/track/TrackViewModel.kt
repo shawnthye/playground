@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class DeviantTrackViewModel
+class TrackViewModel
 @Inject constructor(
     loadTrackDeviantsUseCase: LoadTrackDeviantsUseCase,
     savedStateHandle: SavedStateHandle,
-) : ViewModel(), TrackPagingAdapter.OnItemClickListener {
+) : ViewModel(), TrackAdapter.OnItemClickListener {
 
     private val safeArgs = DeviantTrackFragmentArgs.fromSavedStateHandle(savedStateHandle)
 

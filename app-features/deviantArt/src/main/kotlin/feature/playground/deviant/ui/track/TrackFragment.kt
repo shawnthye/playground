@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class DeviantTrackFragment : DeviantArtNavigationFragment() {
 
-    private val model: DeviantTrackViewModel by viewModels()
+    private val model: TrackViewModel by viewModels()
 
     private lateinit var binding: DeviantTrackBinding
 
@@ -58,13 +58,13 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
 
 private fun DeviantTrackBinding.bindState(
     pagingData: Flow<PagingData<TrackWithDeviation>>,
-    onItemClickListener: TrackPagingAdapter.OnItemClickListener,
+    onItemClickListener: TrackAdapter.OnItemClickListener,
 ) {
     val space = deviations.resources.getDimensionPixelSize(R.dimen.grid_spacing)
     deviations.itemAnimator = SlideInItemAnimator()
     deviations.addItemDecoration(SpaceDecoration(space, space, space, space))
 
-    val pagingAdapter = TrackPagingAdapter(onItemClickListener)
+    val pagingAdapter = TrackAdapter(onItemClickListener)
 
     deviations.adapter = pagingAdapter.withFooter(
         DeviationTrackLoadStateAdapter {

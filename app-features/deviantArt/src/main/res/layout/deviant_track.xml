@@ -7,11 +7,11 @@
 
   <data>
 
-    <import type="feature.playground.deviant.ui.track.DeviantTrackViewModel" />
+    <import type="feature.playground.deviant.ui.track.TrackViewModel" />
 
     <variable
       name="viewModel"
-      type="DeviantTrackViewModel"
+      type="TrackViewModel"
       />
   </data>
 

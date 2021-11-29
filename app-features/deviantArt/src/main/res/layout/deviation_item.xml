@@ -22,7 +22,7 @@
 
     <variable
       name="onItemClickListener"
-      type="feature.playground.deviant.ui.track.TrackPagingAdapter.OnItemClickListener"
+      type="feature.playground.deviant.ui.track.TrackAdapter.OnItemClickListener"
       />
   </data>
 
