@@ -83,6 +83,7 @@ dependencies {
 
     implementation(Libs.Coil.coil)
     implementation(Libs.Coil.coilGif)
+    implementation("androidx.palette:palette-ktx:1.0.0")
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
