@@ -1,18 +1,20 @@
 package feature.playground.deviant.di
 
-import dagger.Binds
+import api.art.deviant.DeviantArt
+import api.art.deviant.DeviantArtApi
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import feature.playground.deviant.data.DeviationDataSource
-import feature.playground.deviant.data.DeviationDataSourceImpl
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module
-abstract class DeviantArtModule {
+@Module(includes = [DeviantArtDataModule::class])
+internal object DeviantArtModule {
 
-    @Binds
-    internal abstract fun bindDeviantDataSource(
-        source: DeviationDataSourceImpl,
-    ): DeviationDataSource
+    @Singleton
+    @Provides
+    fun provideDeviantArtApi(deviantArt: DeviantArt): DeviantArtApi {
+        return deviantArt.api
+    }
 }
