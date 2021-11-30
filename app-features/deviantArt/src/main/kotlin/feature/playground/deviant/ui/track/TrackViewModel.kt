@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import core.playground.domain.ExperimentalPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.LoadTrackDeviantsUseCase
 import kotlinx.coroutines.channels.Channel
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingUseCase::class)
 @HiltViewModel
 class TrackViewModel
 @Inject constructor(

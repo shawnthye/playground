@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-) : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState(0))
     val uiState: StateFlow<HomeUiState> = _uiState

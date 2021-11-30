@@ -117,7 +117,6 @@ private class PagedRemoteMediator<Page>(
                 nextPage,
             )
 
-
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (t: Throwable) {
             Timber.e(t)

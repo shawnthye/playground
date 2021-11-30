@@ -75,7 +75,6 @@ fun View.applySystemWindowInsetsPadding(
             0,
         )
 
-
         insets
     }
 }

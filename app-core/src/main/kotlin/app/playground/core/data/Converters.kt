@@ -3,7 +3,7 @@ package app.playground.core.data
 import androidx.room.TypeConverter
 import java.util.Date
 
-//TODO support RFC date time format
+// TODO support RFC date time format
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {

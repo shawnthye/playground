@@ -40,11 +40,11 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
 
     private val model: DeviationDetailViewModel by viewModels()
     private lateinit var binding: DeviationDetailBinding
-    private var currentToolbarIconColor: Int = Color.TRANSPARENT
-
     private val animDurationMs by lazy {
         requireContext().resources.getInteger(android.R.integer.config_shortAnimTime)
     }
+
+    private var currentToolbarIconColor: Int = Color.TRANSPARENT
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +64,6 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
         ) {
             currentToolbarIconColor = value.data
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

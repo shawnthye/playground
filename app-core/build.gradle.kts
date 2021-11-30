@@ -55,5 +55,4 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.ktx)
     kapt(Libs.AndroidX.Room.compiler)
-
 }

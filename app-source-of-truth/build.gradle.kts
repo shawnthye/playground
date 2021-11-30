@@ -21,5 +21,4 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.common)
     kapt(Libs.AndroidX.Room.compiler)
-
 }

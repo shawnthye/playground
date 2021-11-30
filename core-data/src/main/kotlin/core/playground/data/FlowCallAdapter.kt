@@ -46,7 +46,10 @@ class FlowCallAdapter<R>(
                             }
 
                             override fun onFailure(call: Call<R>, throwable: Throwable) {
-                                //TODO: handle okhttp3.internal.http2.StreamResetException: stream was reset: CANCEL
+                                /**
+                                 * TODO: handle okhttp3.internal.http2.StreamResetException: stream was reset: CANCEL
+                                 * see https://github.com/square/okhttp/issues/3955
+                                 */
                                 val error = retrofit.finalizeError(throwable)
                                 continuation.resumeWith(Result.success(Response.create(error)))
                             }
@@ -80,7 +83,6 @@ private fun Retrofit.finalizeError(original: Throwable): Throwable {
             interceptors().clear()
         }
         .build()
-
 
     return try {
         client.newCall(GENERATE_204_REQUEST).execute()

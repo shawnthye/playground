@@ -12,5 +12,7 @@ import feature.playground.deviant.data.DeviationDataSourceImpl
 abstract class DeviantArtModule {
 
     @Binds
-    internal abstract fun bindDeviantDataSource(source: DeviationDataSourceImpl): DeviationDataSource
+    internal abstract fun bindDeviantDataSource(
+        source: DeviationDataSourceImpl,
+    ): DeviationDataSource
 }
