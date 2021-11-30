@@ -9,9 +9,16 @@
 
     <import type="feature.playground.deviant.ui.deviation.DeviationUiModel.Author" />
 
+    <import type="feature.playground.deviant.ui.deviation.DeviationDetailActionListener" />
+
     <variable
       name="model"
       type="Author"
+      />
+
+    <variable
+      name="listener"
+      type="DeviationDetailActionListener"
       />
   </data>
 
@@ -70,8 +77,10 @@
       android:layout_width="64dp"
       android:layout_height="64dp"
       android:clickable="true"
+      android:onClick="@{() -> listener.onAction(model.action)}"
       android:contentDescription="@{model.name}"
       android:foreground="?selectableItemBackground"
+      android:scaleType="centerCrop"
       tools:src="@tools:sample/avatars"
       >
 

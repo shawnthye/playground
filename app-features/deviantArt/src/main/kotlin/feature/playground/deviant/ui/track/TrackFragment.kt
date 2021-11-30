@@ -14,6 +14,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import core.playground.throttledCollectLatest
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.DeviantArtNavigationDirections
 import feature.playground.deviant.R
@@ -48,7 +49,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.idActions.collect {
+                model.idActions.throttledCollectLatest {
                     findNavController().navigate(DeviantArtNavigationDirections.toDeviantDetail(it))
                 }
             }

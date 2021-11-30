@@ -25,10 +25,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class DeviationDetailViewModel @Inject constructor(
+internal class DeviationDetailViewModel @Inject constructor(
     loadDeviantUseCase: LoadDeviantUseCase,
     savedStateHandle: SavedStateHandle,
-) : ViewModel() {
+) : ViewModel(), DeviationDetailActionListener {
 
     private val safeArgs = DeviationDetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
@@ -65,5 +65,12 @@ class DeviationDetailViewModel @Inject constructor(
 
     fun onSwipeRefresh() {
         _actionRefresh.trySend(Unit)
+    }
+
+    private val _action = Channel<DeviationDetailAction>(capacity = Channel.CONFLATED)
+    val action = _action.receiveAsFlow()
+
+    override fun onAction(action: DeviationDetailAction) {
+        _action.trySend(action)
     }
 }

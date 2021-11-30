@@ -11,18 +11,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.palette.graphics.Palette
+import androidx.recyclerview.widget.RecyclerView
+import app.playground.source.of.truth.database.entities.Deviation
 import coil.load
 import com.google.android.material.snackbar.Snackbar
+import core.playground.throttledCollectLatest
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationDetailBinding
@@ -78,8 +83,24 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            model.deviation
-                .mapNotNull { it?.imageUrl }
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.action.throttledCollectLatest {
+                    when (it) {
+                        is DeviationDetailAction.ViewAuthor -> {
+                            AlertDialog.Builder(requireContext())
+                                .setMessage("Action View author id: ${it.id}")
+                                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                                .setCancelable(false)
+                                .show()
+                        }
+                    }
+
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            model.deviation.mapNotNull { it?.imageUrl }
                 /**
                  * doesn't need to re-load the image if url doesn't change
                  * we first get from database
@@ -154,4 +175,22 @@ private fun View.animateSetBackgroundColor(@ColorInt color: Int, duration: Int) 
                 setBackgroundColor(value.animatedValue as Int)
             }
         }.start()
+}
+
+@BindingAdapter(value = ["deviation", "listener"])
+internal fun deviationDetail(
+    recyclerView: RecyclerView,
+    deviation: Deviation?,
+    listener: DeviationDetailActionListener?,
+) {
+    deviation ?: return
+    listener ?: throw IllegalArgumentException("Missing DeviationDetailActionListener")
+
+    if (recyclerView.adapter == null) {
+        recyclerView.adapter = DeviationDetailAdapter(listener)
+    }
+
+    (recyclerView.adapter as DeviationDetailAdapter).apply {
+        submitList(deviation.toUiModel())
+    }
 }

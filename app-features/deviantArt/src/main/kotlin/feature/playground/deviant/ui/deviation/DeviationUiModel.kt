@@ -5,21 +5,31 @@ import app.playground.source.of.truth.database.entities.Deviation
 import feature.playground.deviant.R
 import java.util.Date
 
-internal sealed class DeviationUiModel(@LayoutRes val viewType: Int) {
+internal sealed class DeviationUiModel(
+    @LayoutRes val viewType: Int,
+    val action: DeviationDetailAction? = null,
+) {
     data class Header(
         val title: String,
-    ) : DeviationUiModel(R.layout.deviation_detail_list_header)
+    ) : DeviationUiModel(
+        R.layout.deviation_detail_list_header,
+    )
 
     data class Author(
         val id: String,
         val name: String,
         val published: Date,
         val avatarUrl: String,
-    ) : DeviationUiModel(R.layout.deviation_detail_list_author)
+    ) : DeviationUiModel(
+        R.layout.deviation_detail_list_author,
+        DeviationDetailAction.ViewAuthor(id),
+    )
 
     data class Stats(
         val views: Int,
-    ) : DeviationUiModel(R.layout.deviation_detail_list_header)
+    ) : DeviationUiModel(
+        R.layout.deviation_detail_list_header,
+    )
 }
 
 internal fun Deviation.toUiModel(): List<DeviationUiModel> {

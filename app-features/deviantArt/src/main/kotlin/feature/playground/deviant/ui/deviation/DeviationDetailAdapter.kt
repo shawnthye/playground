@@ -3,7 +3,6 @@ package feature.playground.deviant.ui.deviation
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +11,7 @@ import feature.playground.deviant.databinding.DeviationDetailListAuthorBinding
 import feature.playground.deviant.databinding.DeviationDetailListHeaderBinding
 
 internal class DeviationDetailAdapter(
-    private val lifecycleOwner: LifecycleOwner,
+    private val actionListener: DeviationDetailActionListener,
 ) : ListAdapter<DeviationUiModel, ViewHolder>(Diff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,12 +22,12 @@ internal class DeviationDetailAdapter(
                 DeviationDetailListHeaderBinding.inflate(inflater, parent, false)
             }
             R.layout.deviation_detail_list_author -> {
-                DeviationDetailListAuthorBinding.inflate(inflater, parent, false)
+                DeviationDetailListAuthorBinding.inflate(inflater, parent, false).apply {
+                    listener = actionListener
+                }
             }
             else -> throw IllegalStateException("invalid view type")
         }
-
-        binding.lifecycleOwner = lifecycleOwner
 
         return ViewHolder(binding = binding)
     }
