@@ -49,7 +49,7 @@ internal fun Deviation.toUiModel(): List<DeviationUiModel> {
         avatarUrl = authorIconUrl,
     )
 
-    for (i in 1..10) {
+    for (i in 1..20) {
         list += DeviationUiModel.Author(
             id = authorId,
             name = authorName,
@@ -57,7 +57,6 @@ internal fun Deviation.toUiModel(): List<DeviationUiModel> {
             avatarUrl = authorIconUrl,
         )
     }
-
 
     return list
 }
