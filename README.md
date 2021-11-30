@@ -31,3 +31,5 @@
 - [ ] Network bound resource with Data Mapper or use DataSource approach?
 - [ ] exponential back off retry
 - [ ] Paging 3
+- [ ] Bridge between feature module, concept: Bridge in app-core, feature module implement the
+  bridge itself
