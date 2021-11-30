@@ -17,17 +17,17 @@
 
 ### TODO
 
-[x] enable junitPlatform
-[x] Jetpack navigation compose
-[x] UseCase, FlowUseCase, PagingUseCase (experimental)
-[x] Domain
-[] Saving api auth token
-[] Dynamic features (Waiting for better Hilt support in the future)
-[x] Kotlin json serialization customization to transform all empty/blank string to null
-[] Consider Moshi? **Kotlinx Json** use @file:UseSerializers(NotBlankStringSerializer::
-class), no way to apply in the JsonBuilder like Gson TypeAdapter, see
-also [issue](https://github.com/Kotlin/kotlinx.serialization/issues/507)
-[] Solution to transform DTO to Entity
-[] Network bound resource with Data Mapper or use DataSource approach?
-[] exponential back off retry
-[] Paging 3
+- [x] enable junitPlatform
+- [x] Jetpack navigation compose
+- [x] UseCase, FlowUseCase, PagingUseCase (experimental)
+- [x] Domain
+- [] Saving api auth token
+- [] Dynamic features (Waiting for better Hilt support in the future)
+- [x] Kotlin json serialization customization to transform all empty/blank string to null
+- [] Consider Moshi? **Kotlinx Json** use @file:UseSerializers(NotBlankStringSerializer::
+  class), no way to apply in the JsonBuilder like Gson TypeAdapter, see
+  also [issue](https://github.com/Kotlin/kotlinx.serialization/issues/507)
+- [] Solution to transform DTO to Entity
+- [] Network bound resource with Data Mapper or use DataSource approach?
+- [] exponential back off retry
+- [] Paging 3
