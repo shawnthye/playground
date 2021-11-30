@@ -29,19 +29,4 @@ class DeviantArt @Inject constructor(
             .build()
             .create(DeviantArtApi::class.java)
     }
-
-    fun api(): DeviantArtApi {
-        val artClient = client.newBuilder()
-            .authenticator(authenticator)
-            .addInterceptor(authenticator.interceptor)
-            .build()
-
-        return Retrofit.Builder()
-            .baseUrl("https://www.deviantart.com/api/v1/oauth2/")
-            .client(artClient)
-            .addCallAdapterFactory(FlowCallAdapterFactory())
-            .addConverterFactory(converterFactory)
-            .build()
-            .create(DeviantArtApi::class.java)
-    }
 }
