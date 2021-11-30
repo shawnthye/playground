@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:context=".ui.deviation.DeviationDetailFragment"
+  >
+
+  <data>
+
+    <import type="feature.playground.deviant.ui.deviation.DeviationUiModel.Header" />
+
+    <variable
+      name="model"
+      type="Header"
+      />
+  </data>
+
+  <TextView
+    style="?textAppearanceHeadline5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorSurfaceVariant"
+    android:maxLines="2"
+    android:paddingHorizontal="@dimen/content_horizontal_margin"
+    android:paddingVertical="@dimen/content_vertical_margin"
+    android:text="@{model.title}"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="@tools:sample/lorem[5]"
+    />
+</layout>
