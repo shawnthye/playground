@@ -22,7 +22,7 @@
 
     <ProgressBar
       style="?attr/progressBarStyle"
-      goneUnless="@{viewModel.isLoading &amp;&amp; viewModel.deviationState == null}"
+      goneUnless="@{viewModel.isLoading &amp;&amp; viewModel.deviation == null}"
       android:layout_width="56dp"
       android:layout_height="56dp"
       app:layout_constraintBottom_toBottomOf="parent"
@@ -66,10 +66,10 @@
               android:layout_width="match_parent"
               android:layout_height="0dp"
               android:adjustViewBounds="true"
-              android:contentDescription="@{viewModel.deviationState.data.title}"
+              android:contentDescription="@{viewModel.deviation.title}"
               android:scaleType="fitCenter"
-              app:layout_constraintDimensionRatioHeight="@{viewModel.deviationState.data.imageHeight}"
-              app:layout_constraintDimensionRatioWidth="@{viewModel.deviationState.data.imageWidth}"
+              app:layout_constraintDimensionRatioHeight="@{viewModel.deviation.imageHeight}"
+              app:layout_constraintDimensionRatioWidth="@{viewModel.deviation.imageWidth}"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintMaxHeight_percent="@{0.45}"
               app:layout_constraintStart_toStartOf="parent"
@@ -94,9 +94,9 @@
       </com.google.android.material.appbar.AppBarLayout>
 
       <feature.playground.deviant.widget.CoreSwipeRefreshLayout
-        goneUnless="@{viewModel.deviationState != null}"
+        goneUnless="@{viewModel.deviation != null}"
         onRefreshListener="@{() -> viewModel.onSwipeRefresh()}"
-        refreshing="@{viewModel.deviationState != null &amp;&amp; viewModel.isLoading}"
+        refreshing="@{viewModel.deviation != null &amp;&amp; viewModel.isLoading}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
@@ -126,7 +126,7 @@
               android:maxLines="2"
               android:paddingHorizontal="@dimen/content_horizontal_margin"
               android:paddingVertical="@dimen/content_vertical_margin"
-              android:text="@{viewModel.deviationState.data.title}"
+              android:text="@{viewModel.deviation.title}"
               app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,7 @@
                   android:layout_height="wrap_content"
                   android:ellipsize="end"
                   android:maxLines="1"
-                  android:text="@{viewModel.deviationState.data.authorName}"
+                  android:text="@{viewModel.deviation.authorName}"
                   app:layout_constraintBottom_toBottomOf="parent"
                   app:layout_constraintEnd_toEndOf="parent"
                   app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +170,7 @@
 
                 <TextView
                   style="?textAppearanceCaption"
-                  date="@{viewModel.deviationState.data.published}"
+                  date="@{viewModel.deviation.published}"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:maxLines="1"
@@ -184,12 +184,12 @@
 
               <ImageView
                 clipToCircle="@{true}"
-                imageUrl="@{viewModel.deviationState.data.authorIconUrl}"
+                imageUrl="@{viewModel.deviation.authorIconUrl}"
                 placeholder="@{@color/track_placeholder}"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:clickable="true"
-                android:contentDescription="@{viewModel.deviationState.data.authorName}"
+                android:contentDescription="@{viewModel.deviation.authorName}"
                 android:foreground="?selectableItemBackground"
                 tools:src="@tools:sample/avatars"
                 >

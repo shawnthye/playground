@@ -2,7 +2,6 @@ package feature.playground.deviant.ui.deviation
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -43,6 +42,10 @@ class DeviationDetail : DeviantArtNavigationFragment() {
     private lateinit var binding: DeviationDetailBinding
     private var currentToolbarIconColor: Int = Color.TRANSPARENT
 
+    private val animDurationMs by lazy {
+        requireContext().resources.getInteger(android.R.integer.config_shortAnimTime)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,14 +73,14 @@ class DeviationDetail : DeviantArtNavigationFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.snackBarMessageId.collect {
-                    Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(view, it.toString(requireContext()), Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            model.deviationState
-                .mapNotNull { it.data?.imageUrl }
+            model.deviation
+                .mapNotNull { it?.imageUrl }
                 /**
                  * doesn't need to re-load the image if url doesn't change
                  * we first get from database
@@ -85,7 +88,7 @@ class DeviationDetail : DeviantArtNavigationFragment() {
                 .distinctUntilChanged()
                 .collect { url ->
                     binding.art.load(url) {
-                        usePaletteTransition { palette ->
+                        usePaletteTransition(durationMillis = animDurationMs) { palette ->
                             palette?.createRipple(false)?.run {
                                 binding.artLayout.foreground = this
                             }
@@ -103,7 +106,7 @@ class DeviationDetail : DeviantArtNavigationFragment() {
     private fun DeviationDetailBinding.applyControlsColor(palette: Palette?) {
         val color = palette?.dominantSwatch?.rgb ?: return
 
-        appbar.animateSetBackgroundColor(color)
+        appbar.animateSetBackgroundColor(color, animDurationMs)
 
         val iconColor = if (ColorUtils.calculateLuminance(color) < 0.5) {
             // dark color image
@@ -115,19 +118,17 @@ class DeviationDetail : DeviantArtNavigationFragment() {
             )
         }
 
-        toolbar.animateSetColor(root.context, iconColor)
+        toolbar.animateSetColor(iconColor)
     }
 
-    private fun Toolbar.animateSetColor(context: Context, @ColorInt color: Int) {
+    private fun Toolbar.animateSetColor(@ColorInt color: Int) {
         val icon = navigationIcon ?: return
 
         val from = currentToolbarIconColor
 
         ValueAnimator.ofObject(ArgbEvaluator(), from, color).apply {
             interpolator = DecelerateInterpolator()
-            duration = context.resources.getInteger(
-                android.R.integer.config_shortAnimTime,
-            ).toLong()
+            duration = animDurationMs.toLong()
 
             addUpdateListener { value ->
 
@@ -142,18 +143,16 @@ class DeviationDetail : DeviantArtNavigationFragment() {
     }
 }
 
-private fun View.animateSetBackgroundColor(@ColorInt color: Int) {
+private fun View.animateSetBackgroundColor(@ColorInt color: Int, duration: Int) {
     val from = (background as? ColorDrawable)?.color ?: Color.TRANSPARENT
     setBackgroundColor(from)
 
-    ValueAnimator.ofObject(ArgbEvaluator(), from, color).apply {
-        interpolator = DecelerateInterpolator()
-        duration = context.resources.getInteger(
-            android.R.integer.config_shortAnimTime,
-        ).toLong()
-
-        addUpdateListener { value ->
-            setBackgroundColor(value.animatedValue as Int)
-        }
-    }.start()
+    ValueAnimator.ofObject(ArgbEvaluator(), from, color)
+        .setDuration(duration.toLong())
+        .apply {
+            interpolator = DecelerateInterpolator()
+            addUpdateListener { value ->
+                setBackgroundColor(value.animatedValue as Int)
+            }
+        }.start()
 }

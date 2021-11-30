@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.annotation.ExperimentalCoilApi
+import coil.drawable.CrossfadeDrawable
 import coil.drawable.ScaleDrawable
 import coil.request.ImageRequest
 import coil.request.ImageResult
@@ -38,23 +39,30 @@ private fun Drawable.getBitmap(): Bitmap? {
 
 @OptIn(ExperimentalCoilApi::class)
 internal fun ImageRequest.Builder.usePaletteTransition(
+    crossFade: Boolean = true,
+    durationMillis: Int = CrossfadeDrawable.DEFAULT_DURATION,
     onGenerated: (Palette?) -> Unit,
 ) {
-    // palette doesn't support HARDWARE
-    allowHardware(false)
-    crossfade(false)
-    transition(PaletteTransition { onGenerated(it) })
+
+    allowHardware(false) // palette doesn't support HARDWARE
+    crossfade(false) // we join the cross fade effect in PaletteTransition
+    transition(
+        PaletteTransition(
+            crossFade = crossFade,
+            durationMillis = durationMillis,
+        ) { onGenerated(it) },
+    )
 }
 
 @OptIn(ExperimentalCoilApi::class)
 private class PaletteTransition(
     crossFade: Boolean = true,
+    durationMillis: Int = CrossfadeDrawable.DEFAULT_DURATION,
     private val onGenerated: (Palette?) -> Unit,
 ) : Transition {
-    val delegate = if (crossFade) CrossfadeTransition(200) else Transition.NONE
+    val delegate = if (crossFade) CrossfadeTransition(durationMillis) else Transition.NONE
 
     override suspend fun transition(target: TransitionTarget, result: ImageResult) {
-        delegate.transition(target, result)
 
         val palette = withContext(Dispatchers.IO) {
             result.drawable?.getBitmap()?.let {
@@ -66,7 +74,7 @@ private class PaletteTransition(
                 }
             }
         }
-
         onGenerated(palette)
+        delegate.transition(target, result)
     }
 }

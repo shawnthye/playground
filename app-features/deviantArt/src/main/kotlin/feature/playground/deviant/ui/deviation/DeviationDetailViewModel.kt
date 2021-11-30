@@ -4,18 +4,22 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.source.of.truth.database.entities.Deviation
-import core.playground.Reason
 import core.playground.domain.Result
+import core.playground.domain.data
 import core.playground.domain.mapLatestError
+import core.playground.ui.UiMessage
 import core.playground.ui.WhileViewSubscribed
+import core.playground.ui.asUiMessageOr
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.LoadDeviantUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,36 +34,36 @@ class DeviationDetailViewModel @Inject constructor(
 
     private val deviantId = safeArgs.id.also { Timber.i("deviation $it opened") }
 
-    private val _swipeRefreshing = Channel<Unit>(Channel.CONFLATED).apply {
+    private val _actionRefresh = Channel<Unit>(Channel.CONFLATED).apply {
         trySend(Unit) // init loading
     }
 
-    private val loadDeviantResult: Flow<Result<Deviation>> = _swipeRefreshing
+    private val loadDeviantResult: Flow<Result<Deviation>> = _actionRefresh
         .receiveAsFlow()
         .flatMapLatest { loadDeviantUseCase(deviantId) }
 
-    val deviationState: StateFlow<Result<Deviation>> = loadDeviantResult
+    private val deviationResult: StateFlow<Result<Deviation>> = loadDeviantResult
         .stateIn(
             scope = viewModelScope,
             started = WhileViewSubscribed,
             initialValue = Result.Loading(),
         )
 
-    val isLoading = deviationState.mapLatest { it is Result.Loading }
-        .stateIn(
-            scope = viewModelScope,
-            started = WhileViewSubscribed,
-            initialValue = true,
-        )
+    val deviation: StateFlow<Deviation?> = deviationResult.mapNotNull { result ->
+        result.data
+    }.stateIn(scope = viewModelScope, started = WhileViewSubscribed, initialValue = null)
 
-    val snackBarMessageId: Flow<Int> = deviationState.mapLatestError {
-        when (it) {
-            is Reason.Connection -> core.playground.ui.R.string.reason_connection
-            else -> core.playground.ui.R.string.reason_unknown
+    val isLoading = deviationResult.map {
+        it is Result.Loading
+    }.stateIn(scope = viewModelScope, started = WhileViewSubscribed, initialValue = true)
+
+    val snackBarMessageId: Flow<UiMessage> = deviationResult.mapLatestError { error ->
+        error.asUiMessageOr {
+            UiMessage.String(it.message) // simply return error here here for demo
         }
-    }
+    }.shareIn(viewModelScope, WhileViewSubscribed, 0)
 
     fun onSwipeRefresh() {
-        _swipeRefreshing.trySend(Unit)
+        _actionRefresh.trySend(Unit)
     }
 }

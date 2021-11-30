@@ -1,27 +1,26 @@
 package core.playground.domain
 
 import core.playground.domain.Result.Error
+import core.playground.domain.Result.Loading
 import core.playground.domain.Result.Success
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.mapLatest
 
 /**
  * A generic class that holds a value with its loading status.
  * @param <T>
  */
-sealed class Result<out R>(open val data: R?) {
+sealed class Result<out R> {
 
-    data class Success<out T>(override val data: T) : Result<T>(data)
+    data class Success<out T>(val data: T) : Result<T>()
 
-    data class Loading<out T>(override val data: T? = null) : Result<T>(data)
+    data class Loading<out T>(val data: T? = null) : Result<T>()
 
     data class Error<out T>(
         val throwable: Throwable,
-        override val data: T? = null,
-    ) : Result<T>(data)
+        val data: T? = null,
+    ) : Result<T>()
 
     override fun toString(): String {
         return when (this) {
@@ -38,20 +37,11 @@ sealed class Result<out R>(open val data: R?) {
 val Result<*>.succeeded
     get() = this is Success && data != null
 
+val <T> Result<T>.data: T?
+    get() = (this as? Success)?.data ?: (this as? Loading)?.data ?: (this as? Error)?.data
+
 fun <T> Result<T>.successOr(fallback: T): T {
     return (this as? Success<T>)?.data ?: fallback
-}
-
-// val <T> Result<T>.data: T?
-//     get() = (this as? Success)?.data
-
-/**
- * Updates value of [MutableStateFlow] if [Result] is of type [Success]
- */
-inline fun <reified T> Result<T>.updateOnSuccess(stateFlow: MutableStateFlow<T>) {
-    if (this is Success) {
-        stateFlow.value = data
-    }
 }
 
 inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
@@ -63,16 +53,5 @@ inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
                 emit(transform(result.throwable))
             }
         }
-    }
-}
-
-inline fun <reified T> Flow<Result<T>>.runOnSucceeded(
-    crossinline onSucceeded: suspend (data: T) -> Unit,
-): Flow<Result<T>> {
-    return mapLatest {
-        if (it is Success) {
-            onSucceeded(it.data)
-        }
-        it
     }
 }
