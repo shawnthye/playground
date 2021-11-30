@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.playground.source.of.truth.database.entities.Deviation
 import coil.load
 import com.google.android.material.snackbar.Snackbar
-import core.playground.throttledCollectLatest
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationDetailBinding
@@ -84,7 +83,7 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.action.throttledCollectLatest {
+                model.action.collect {
                     when (it) {
                         is DeviationDetailAction.ViewAuthor -> {
                             AlertDialog.Builder(requireContext())

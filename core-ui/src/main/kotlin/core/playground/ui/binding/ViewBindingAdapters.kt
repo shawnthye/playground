@@ -1,16 +1,22 @@
 package core.playground.ui.binding
 
+import android.annotation.SuppressLint
 import android.graphics.Outline
+import android.view.GestureDetector
+import android.view.HapticFeedbackConstants
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewOutlineProvider
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.BindingAdapter
+import timber.log.Timber
 
 @BindingAdapter("clipToCircle")
-fun View.clipToCircle(clip: Boolean) {
-    clipToOutline = clip
-    outlineProvider = if (clip) CircularOutlineProvider else null
+fun View.clipToCircle(clipped: Boolean) {
+    clipToOutline = clipped
+    outlineProvider = if (clipped) CircularOutlineProvider else null
 }
 
 object CircularOutlineProvider : ViewOutlineProvider() {
@@ -76,5 +82,43 @@ fun View.applySystemWindowInsetsPadding(
         )
 
         insets
+    }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+@BindingAdapter("onSingleTap")
+fun View.setSingleTapListener(action: () -> Unit) {
+    isClickable = true
+    val detector = GestureDetectorCompat(
+        context,
+        NoDoubleTapClickListener {
+            performClick()
+            performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            action()
+        },
+    )
+
+    setOnTouchListener { _, event ->
+        detector.onTouchEvent(event)
+        false
+    }
+}
+
+class NoDoubleTapClickListener(val singleTapped: () -> Unit) :
+    GestureDetector.SimpleOnGestureListener() {
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onDoubleTap(e: MotionEvent?): Boolean {
+        Timber.i("Double Tap detected, forfeited")
+        return false
+    }
+
+    override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        Timber.i("Single Tap detected")
+        singleTapped()
+        return true
     }
 }

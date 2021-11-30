@@ -28,9 +28,9 @@
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/imageLayout"
+    onSingleTap="@{() -> onItemClickListener.onItemClicked(deviation.deviationId)}"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:onClick="@{() -> onItemClickListener.onItemClicked(deviation.deviationId)}"
     >
 
     <ImageView
