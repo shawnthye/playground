@@ -30,7 +30,7 @@ class DeviationDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val safeArgs = DeviationDetailArgs.fromSavedStateHandle(savedStateHandle)
+    private val safeArgs = DeviationDetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val deviantId = safeArgs.id.also { Timber.i("deviation $it opened") }
 

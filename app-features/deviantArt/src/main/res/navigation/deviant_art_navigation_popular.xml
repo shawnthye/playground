@@ -27,7 +27,7 @@
 
   <fragment
     android:id="@+id/deviation_detail"
-    android:name="feature.playground.deviant.ui.deviation.DeviationDetail"
+    android:name="feature.playground.deviant.ui.deviation.DeviationDetailFragment"
     tools:layout="@layout/deviation_detail">
     <argument
       android:name="id"

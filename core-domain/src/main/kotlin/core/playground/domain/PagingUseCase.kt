@@ -14,12 +14,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
+@RequiresOptIn
+annotation class ExperimentalPagingUseCase
+
 /**
  * Executes business logic in its execute method and keep posting updates to the result as
  * [Result<R>].
  * Handling an exception (emit [Result.Error] to the result) is the sub-classes responsibility.
  *
  */
+@ExperimentalPagingUseCase
 abstract class PagingUseCase<in Param, Page>(
     private val coroutineDispatcher: CoroutineDispatcher,
 ) where Page : Pageable<*, *> {

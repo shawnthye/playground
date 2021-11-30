@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DeviationDetail : DeviantArtNavigationFragment() {
+class DeviationDetailFragment : DeviantArtNavigationFragment() {
 
     private val model: DeviationDetailViewModel by viewModels()
     private lateinit var binding: DeviationDetailBinding
