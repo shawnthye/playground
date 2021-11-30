@@ -72,7 +72,7 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.snackBarMessageId.collect {
-                    Snackbar.make(view, it.toString(requireContext()), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(view, it.string(requireContext()), Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

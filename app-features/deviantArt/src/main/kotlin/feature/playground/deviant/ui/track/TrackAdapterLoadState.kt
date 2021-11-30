@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import core.playground.ui.UiMessage
+import core.playground.ui.asUiMessage
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.NetworkStateItemBinding
 
@@ -70,7 +70,7 @@ class NetworkStateViewHolder(
             errorMsg.isVisible = loadState is LoadState.Error
 
             if (loadState is LoadState.Error) {
-                errorMsg.text = UiMessage.forError(loadState.error).toString(errorMsg.context)
+                errorMsg.text = loadState.error.asUiMessage().string(errorMsg.context)
             } else {
                 errorMsg.text = null
             }
