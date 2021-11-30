@@ -6,5 +6,8 @@ plugins {
     `kotlin-dsl`
 }
 
-kotlin {
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
