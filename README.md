@@ -33,3 +33,5 @@
 - [ ] Paging 3
 - [ ] Bridge between feature module, concept: Bridge in app-core, feature module implement the
   bridge itself
+- [ ] More Unit Tests
+- [ ] Robolectric
