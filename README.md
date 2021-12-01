@@ -1,5 +1,13 @@
 # Playground
 
+## Core principal
+
+- Unidirectional data flow
+- Composition over inheritance
+- Reactive
+- Single source of Truth
+- Platform first approach
+
 ## Choice of Libraries
 
 - `kotlin("plugin.serialization")` for JSON, Moshi can be future consideration if performance is
