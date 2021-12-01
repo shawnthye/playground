@@ -7,6 +7,8 @@
 - Reactive
 - Single source of Truth
 - Platform first approach
+- Clean architecture
+- Modularization
 
 ## Choice of Libraries
 
