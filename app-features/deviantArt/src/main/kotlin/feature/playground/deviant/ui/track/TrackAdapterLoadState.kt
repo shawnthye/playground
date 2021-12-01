@@ -7,6 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import core.playground.ui.asUiMessage
+import core.playground.ui.string
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.NetworkStateItemBinding
 

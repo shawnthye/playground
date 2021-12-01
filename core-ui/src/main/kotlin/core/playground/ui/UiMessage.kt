@@ -8,13 +8,13 @@ sealed class UiMessage {
     data class String(val message: kotlin.String) : UiMessage()
     data class Resource(@StringRes val resourceId: Int) : UiMessage()
     class ResourceFormat(@StringRes val resourceId: Int, vararg val formatArgs: Any) : UiMessage()
+}
 
-    fun string(context: Context): kotlin.String {
-        return when (this) {
-            is String -> message
-            is Resource -> context.getString(resourceId)
-            is ResourceFormat -> context.getString(resourceId, formatArgs)
-        }
+fun UiMessage.string(context: Context): String {
+    return when (this) {
+        is UiMessage.String -> message
+        is UiMessage.Resource -> context.getString(resourceId)
+        is UiMessage.ResourceFormat -> context.getString(resourceId, formatArgs)
     }
 }
 

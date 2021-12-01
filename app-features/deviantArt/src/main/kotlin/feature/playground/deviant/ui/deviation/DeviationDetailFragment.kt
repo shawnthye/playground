@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.playground.source.of.truth.database.entities.Deviation
 import coil.load
 import com.google.android.material.snackbar.Snackbar
+import core.playground.ui.string
 import dagger.hilt.android.AndroidEntryPoint
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationDetailBinding
