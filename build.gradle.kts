@@ -19,7 +19,8 @@ buildscript {
         classpath(kotlin("serialization", version = Versions.KOTLIN))
         classpath(Libs.AndroidX.Navigation.pluginGradle)
         classpath("com.google.gms:google-services:4.3.10")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.0")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
+        @Suppress("SpellCheckingInspection")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -28,8 +29,10 @@ buildscript {
 }
 
 plugins {
+    @Suppress("SpellCheckingInspection")
     id("com.diffplug.spotless") version "6.0.0"
     id("com.github.ben-manes.versions") version "0.39.0"
+    @Suppress("SpellCheckingInspection")
     id("com.osacky.doctor") version "0.7.3" // enable to check performance
     jacoco
 }
@@ -467,5 +470,17 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
         // Otherwise we reject if the candidate is more 'unstable' than our version
         val candidate = DependencyUpdates.versionToRelease(candidate.version)
         candidate.isLessStableThan(current)
+    }
+}
+
+/**
+ * Remove this when there is no usage of data binding
+ * See below for more context
+ * @link https://github.com/google/dagger/tree/dagger-2.40.3#gradle
+ * @link https://github.com/google/dagger/issues/306
+ */
+gradle.projectsEvaluated {
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.addAll(arrayOf("-Xmaxerrs", "500"))
     }
 }

@@ -20,7 +20,7 @@ object Versions {
     const val DAGGER = "2.40.1"
     const val DAGGER_INJECT = "1"
     const val DRAWER_LAYOUT = "1.1.1"
-    const val FIREBASE = "29.0.0"
+    const val FIREBASE = "29.0.1"
     const val FRAGMENT = "1.4.0"
     const val HAMCREST = "2.2"
     const val HILT_NAVIGATION_COMPOSE = "1.0.0-beta01"
