@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -39,6 +40,7 @@ dependencies {
 
     api(platform(project(":build-dep-constraints")))
     annotationProcessor(platform(project(":build-dep-constraints")))
+    ksp(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
 
     implementation(project(":core-data"))
@@ -56,5 +58,5 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.ktx)
     annotationProcessor(Libs.AndroidX.Room.compiler)
-    kapt(Libs.AndroidX.Room.compiler)
+    ksp(Libs.AndroidX.Room.compiler)
 }

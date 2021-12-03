@@ -2,6 +2,7 @@ object Versions {
     const val ACCOMPANIST = "0.21.3-beta"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.3"
+    const val KSP_PLUGIN = "1.6.0-1.0.1"
     const val ANDROID_TEST_CORE = "1.4.0"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
@@ -42,7 +43,7 @@ object Versions {
     const val RECYCLER_VIEW = "1.2.1"
     const val RETROFIT = "2.9.0"
     const val RETROFIT_CONVERTER = "0.8.0"
-    const val ROOM = "2.3.0"
+    const val ROOM = "2.4.0-rc01"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
 }
@@ -65,6 +66,9 @@ object Libs {
     }
 
     object Google {
+        const val pluginKsp =
+            "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.KSP_PLUGIN}"
+
         object Accompanist {
             const val insets = "com.google.accompanist:accompanist-insets"
             const val insetsUi = "com.google.accompanist:accompanist-insets-ui"
@@ -121,9 +125,10 @@ object Libs {
 
         object Room {
             const val common = "androidx.room:room-common"
-            const val runtime = "androidx.room:room-runtime"
             const val compiler = "androidx.room:room-compiler"
             const val ktx = "androidx.room:room-ktx"
+            const val paging = "androidx.room:room-paging"
+            const val runtime = "androidx.room:room-runtime"
         }
 
         object Paging {

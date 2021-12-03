@@ -26,6 +26,7 @@ dependencies {
         api("${Libs.AndroidX.Room.common}:${Versions.ROOM}")
         api("${Libs.AndroidX.Room.compiler}:${Versions.ROOM}")
         api("${Libs.AndroidX.Room.ktx}:${Versions.ROOM}")
+        api("${Libs.AndroidX.Room.paging}:${Versions.ROOM}")
         api("${Libs.AndroidX.Room.runtime}:${Versions.ROOM}")
         api("${Libs.AndroidX.Test.coreKtx}:${Versions.ANDROID_TEST_CORE}")
         api("${Libs.AndroidX.Test.core}:${Versions.ANDROID_TEST_CORE}")

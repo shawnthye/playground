@@ -17,6 +17,7 @@ buildscript {
         classpath(Libs.Dagger.hiltPluginGradle)
         classpath(kotlin("gradle-plugin", version = Versions.KOTLIN))
         classpath(kotlin("serialization", version = Versions.KOTLIN))
+        classpath(Libs.Google.pluginKsp)
         classpath(Libs.AndroidX.Navigation.pluginGradle)
         classpath("com.google.gms:google-services:4.3.10")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
