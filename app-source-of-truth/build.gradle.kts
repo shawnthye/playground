@@ -1,16 +1,35 @@
 plugins {
-    kotlin("jvm")
+    id("com.android.library")
+    kotlin("android")
     kotlin("kapt")
     id("com.google.devtools.ksp")
-    `java-library`
-    id("com.android.lint")
+}
+
+android {
+    compileSdk = BuildOptions.COMPILE_SDK
+
+    defaultConfig {
+        minSdk = BuildOptions.MIN_SDK
+        targetSdk = BuildOptions.COMPILE_SDK
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro",
+            )
+        }
+    }
 }
 
 dependencies {
     api(platform(project(":build-dep-constraints")))
-    annotationProcessor(platform(project(":build-dep-constraints")))
     ksp(platform(project(":build-dep-constraints")))
-    kapt(platform(project(":build-dep-constraints")))
+    // kapt(platform(project(":build-dep-constraints")))
 
     implementation(project(":core"))
     implementation(project(":core-data"))
@@ -23,7 +42,7 @@ dependencies {
     implementation(Libs.AndroidX.Paging.common)
 
     implementation(Libs.AndroidX.Room.common)
+    implementation(Libs.AndroidX.Room.runtime)
     implementation(Libs.AndroidX.Room.paging)
-    annotationProcessor(Libs.AndroidX.Room.compiler)
     ksp(Libs.AndroidX.Room.compiler)
 }

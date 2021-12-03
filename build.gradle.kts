@@ -181,6 +181,11 @@ configure(modules) {
         }
     }
 
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = BuildOptions.JAVA_VERSION.toString()
+        targetCompatibility = BuildOptions.JAVA_VERSION.toString()
+    }
+
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             // Treat all JetBrains warnings as errors
