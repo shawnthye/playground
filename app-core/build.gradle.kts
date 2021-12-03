@@ -38,6 +38,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
     api(platform(project(":build-dep-constraints")))
+    annotationProcessor(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
 
     implementation(project(":core-data"))
@@ -54,5 +55,6 @@ dependencies {
     implementation(Libs.AndroidX.Paging.common)
 
     implementation(Libs.AndroidX.Room.ktx)
+    annotationProcessor(Libs.AndroidX.Room.compiler)
     kapt(Libs.AndroidX.Room.compiler)
 }

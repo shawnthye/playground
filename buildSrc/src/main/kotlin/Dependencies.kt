@@ -121,6 +121,7 @@ object Libs {
 
         object Room {
             const val common = "androidx.room:room-common"
+            const val runtime = "androidx.room:room-runtime"
             const val compiler = "androidx.room:room-compiler"
             const val ktx = "androidx.room:room-ktx"
         }
