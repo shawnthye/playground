@@ -35,17 +35,19 @@ class DeviationTrackLoadStateAdapter(
     }
 
     /**
-     * Enable this will remain the loading position when next page is loaded     *
+     * Enable this will make sure the next page shift up, so user aware the next page is loaded
+     *
+     * Disable this will result in RecyclerView always shift down after next page loaded
      * see this https://github.com/android/architecture-components-samples/issues/1037
      *
      * But this will cause the List not at the top when REFRESH
      *
      * TODO: find other alternative
      */
-    override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
-        return super.displayLoadStateAsItem(loadState) ||
-            (loadState is LoadState.NotLoading && !loadState.endOfPaginationReached)
-    }
+    // override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
+    //     return super.displayLoadStateAsItem(loadState) ||
+    //         (loadState is LoadState.NotLoading && !loadState.endOfPaginationReached)
+    // }
 }
 
 class NetworkStateViewHolder(
