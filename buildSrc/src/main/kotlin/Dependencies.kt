@@ -2,7 +2,6 @@ object Versions {
     const val ACCOMPANIST = "0.21.3-beta"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.3"
-    const val KSP_PLUGIN = "1.6.0-1.0.1"
     const val ANDROID_TEST_CORE = "1.4.0"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
@@ -60,15 +59,11 @@ object Libs {
     }
 
     object JetBrains {
-        const val pluginGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
         const val xJson = "org.jetbrains.kotlinx:kotlinx-serialization-json"
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect"
     }
 
     object Google {
-        const val pluginKsp =
-            "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.KSP_PLUGIN}"
-
         object Accompanist {
             const val insets = "com.google.accompanist:accompanist-insets"
             const val insetsUi = "com.google.accompanist:accompanist-insets-ui"
@@ -161,9 +156,8 @@ object Libs {
         const val dagger = "com.google.dagger:dagger"
         const val daggerCompiler = "com.google.dagger:dagger-compiler"
 
-        const val hiltPluginGradle = "com.google.dagger:hilt-android-gradle-plugin:${
-            Versions.DAGGER
-        }"
+        const val hiltPluginGradle =
+            "com.google.dagger:hilt-android-gradle-plugin:${Versions.DAGGER}"
         const val hilt = "com.google.dagger:hilt-android"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler"
     }

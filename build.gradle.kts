@@ -13,16 +13,12 @@ buildscript {
 
     dependencies {
         classpath(Libs.Android.pluginGradle)
-        classpath(Libs.JetBrains.pluginGradle)
         classpath(Libs.Dagger.hiltPluginGradle)
         classpath(kotlin("gradle-plugin", version = Versions.KOTLIN))
         classpath(kotlin("serialization", version = Versions.KOTLIN))
-        classpath(Libs.Google.pluginKsp)
         classpath(Libs.AndroidX.Navigation.pluginGradle)
         classpath("com.google.gms:google-services:4.3.10")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
-        @Suppress("SpellCheckingInspection")
-        classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -31,10 +27,10 @@ buildscript {
 
 plugins {
     @Suppress("SpellCheckingInspection")
-    id("com.diffplug.spotless") version "6.0.0"
-    id("com.github.ben-manes.versions") version "0.39.0"
+    id("com.diffplug.spotless")
+    id("com.github.ben-manes.versions")
     @Suppress("SpellCheckingInspection")
-    id("com.osacky.doctor") version "0.7.3" // enable to check performance
+    id("com.osacky.doctor")
     jacoco
 }
 

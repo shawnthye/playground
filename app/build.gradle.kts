@@ -7,9 +7,6 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("de.mannodermaus.android-junit5")
-
-    // id("com.google.devtools.ksp") version "1.5.31-1.0.0"
-    // id("idea")
     jacoco
 }
 
