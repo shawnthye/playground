@@ -80,9 +80,15 @@ object Libs {
         const val annotation = "androidx.annotation:annotation"
         const val appcompat = "androidx.appcompat:appcompat"
         const val concurrent = "androidx.concurrent:concurrent-futures"
+
+        @Suppress("SpellCheckingInspection")
         const val constraintLayout = "androidx.constraintlayout:constraintlayout"
         const val core = "androidx.core:core-ktx"
+
+        @Suppress("SpellCheckingInspection")
         const val customView = "androidx.customview:customview"
+
+        @Suppress("SpellCheckingInspection")
         const val drawerLayout = "androidx.drawerlayout:drawerlayout"
         const val fragment = "androidx.fragment:fragment"
         const val fragmentKtx = "androidx.fragment:fragment-ktx"
@@ -106,7 +112,11 @@ object Libs {
 
         object Lifecycle {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx"
+
+            @Suppress("SpellCheckingInspection")
             const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate"
+
+            @Suppress("SpellCheckingInspection")
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx"
         }
 
