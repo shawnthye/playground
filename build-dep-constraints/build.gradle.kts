@@ -85,5 +85,7 @@ dependencies {
         api("${Libs.material}:${Versions.MATERIAL}")
         api("${Libs.okio}:${Versions.OKIO}")
         api("${Libs.timber}:${Versions.TIMBER}")
+        api("${Libs.Apollo.runtime}:${Versions.APOLLO}")
+        api("${Libs.Apollo.coroutines}:${Versions.APOLLO}")
     }
 }

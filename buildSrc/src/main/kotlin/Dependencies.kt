@@ -45,10 +45,13 @@ object Versions {
     const val ROOM = "2.4.0-rc01"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
+    const val APOLLO = "2.5.11"
 }
 
 object Libs {
     const val material = "com.google.android.material:material"
+
+    @Suppress("SpellCheckingInspection")
     const val okio = "com.squareup.okio:okio"
 
     @Suppress("SpellCheckingInspection")
@@ -179,15 +182,15 @@ object Libs {
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     }
 
+    @Suppress("SpellCheckingInspection")
     object OkHttp3 {
         const val bom = "com.squareup.okhttp3:okhttp-bom"
-
-        @Suppress("SpellCheckingInspection")
         const val dnsOverHttp = "com.squareup.okhttp3:okhttp-dnsoverhttps"
         const val logging = "com.squareup.okhttp3:logging-interceptor"
         const val okhttp = "com.squareup.okhttp3:okhttp"
     }
 
+    @Suppress("SpellCheckingInspection")
     object Retrofit2 {
         const val converter = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter"
         const val retrofit = "com.squareup.retrofit2:retrofit"
@@ -200,6 +203,14 @@ object Libs {
         const val coilVideo = "io.coil-kt:coil-video"
 
         const val coilCompose = "io.coil-kt:coil-compose"
+    }
+
+    @Suppress("SpellCheckingInspection")
+    object Apollo {
+        const val pluginGradle = "com.apollographql.apollo:apollo-gradle-plugin:${Versions.APOLLO}"
+
+        const val runtime = "com.apollographql.apollo:apollo-runtime"
+        const val coroutines = "com.apollographql.apollo:apollo-coroutines-support"
     }
 
     object Test {
