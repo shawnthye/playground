@@ -43,6 +43,6 @@ class FlowCallAdapterFactory : Factory() {
             throw IllegalArgumentException("$observableType resource must be parameterized")
         }
         val bodyType = getParameterUpperBound(0, observableType)
-        return FlowCallAdapter<Any>(bodyType, retrofit)
+        return FlowCallAdapter<Any>(bodyType)
     }
 }

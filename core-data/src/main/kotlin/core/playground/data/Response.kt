@@ -56,6 +56,8 @@ sealed class Response<out T> {
 suspend inline fun <reified T> Flow<Response<T>>.execute(): T = when (val response = last()) {
     is Success -> response.body
     is Response.Error -> throw response.exception
+    // TODO: should return null if Empty? or should actually return response instead?
+    //  so the caller decide what to do?
     is Response.Empty -> throw IllegalStateException("Unable to process")
 }
 
