@@ -2,8 +2,8 @@ package core.playground
 
 import java.io.IOException
 
-sealed class Reason(original: Throwable?) : IOException(original) {
-    data class Connection(val original: Throwable) : Reason(original)
+sealed class Reason(message: String, original: Throwable?) : IOException(message, original) {
+    data class Connection(val original: Throwable) : Reason("Connection", original)
 
     // TODO: timeout for retry
     // data class Timeout(val original: Throwable) : Connection(original)
@@ -23,7 +23,7 @@ sealed class Reason(original: Throwable?) : IOException(original) {
      * TODO: maybe different Error for different context?
      * so that client doesn't need to have nested condition to check status code
      */
-    data class HttpError(val code: Int, override val message: String) : Reason(null)
+    data class HttpError(val code: Int, override val message: String) : Reason(message, null)
 
     override fun toString(): String {
         return when (this) {
