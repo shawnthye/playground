@@ -8,8 +8,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * This is just for demo, If we doesn't need to inject anything, we shouldn't need [ViewModel]
+ */
 @HiltViewModel
-class CounterViewModel @Inject constructor() : ViewModel() {
+internal class CounterViewModel @Inject constructor() : ViewModel() {
 
     private val _uiState = MutableStateFlow(CounterUiState(0))
     val uiState: StateFlow<CounterUiState> = _uiState

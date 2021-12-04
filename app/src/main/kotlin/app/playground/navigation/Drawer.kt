@@ -17,9 +17,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -194,7 +194,7 @@ private val MenuItems = listOf(
     MenuItem.VectorIcon(
         screen = Screen.Home,
         label = core.playground.ui.R.string.menu_counter,
-        icon = Icons.Filled.Home,
+        icon = Icons.Filled.Calculate,
     ),
     MenuItem.VectorIcon(
         screen = Screen.Theme,

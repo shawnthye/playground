@@ -1,5 +1,6 @@
-package feature.playground.demos.error
+package feature.playground.demos.error.ui
 
+import android.app.AlertDialog
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,18 +18,42 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.theme.PlaygroundTheme
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.mapNotNull
 
 private val NOOP: () -> Unit = { /* NOOP */ }
 
 @Composable
-fun ErrorDemo(navigateUp: NavigateUp) {
+fun ErrorDemo(
+    navigateUp: NavigateUp,
+) {
+    ErrorDemo(navigateUp = navigateUp, viewModel = hiltViewModel())
+}
+
+@Composable
+internal fun ErrorDemo(
+    navigateUp: NavigateUp,
+    viewModel: ErrorDemoViewModel,
+) {
+
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.throwable) {
+        viewModel.throwable.mapNotNull { it }.collectLatest {
+            AlertDialog.Builder(context)
+                .setMessage(it.message)
+                .show()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -43,7 +68,7 @@ fun ErrorDemo(navigateUp: NavigateUp) {
 
                 Component("FAB") {
                     ExtendedFloatingActionButton(
-                        onClick = NOOP,
+                        onClick = { viewModel.tryOkHttp() },
                         text = { ButtonText() },
                         icon = { IconAdd() },
                     )

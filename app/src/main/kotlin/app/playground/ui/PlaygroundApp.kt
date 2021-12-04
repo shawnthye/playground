@@ -23,7 +23,7 @@ import app.playground.navigation.Screen
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun PlaygroundApp() {
     val navController = rememberAnimatedNavController()

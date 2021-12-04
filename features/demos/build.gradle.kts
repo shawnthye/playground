@@ -59,18 +59,21 @@ dependencies {
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
 
+    implementation(Libs.AndroidX.Lifecycle.runtime)
+    implementation(Libs.AndroidX.Lifecycle.viewModel)
+    implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
+
     implementation(Libs.AndroidX.Compose.ui)
-    implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
+    implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
     implementation(Libs.Google.Accompanist.insets)
 
-    implementation(Libs.AndroidX.Lifecycle.runtime)
-    implementation(Libs.AndroidX.Lifecycle.viewModel)
-    implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
+    implementation(platform(Libs.OkHttp3.bom))
+    implementation(Libs.OkHttp3.okhttp)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

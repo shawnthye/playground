@@ -6,8 +6,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import feature.playground.demos.error.ErrorDemo
-import feature.playground.demos.counter.Home
+import feature.playground.demos.error.ui.ErrorDemo
+import feature.playground.demos.counter.Counter
 import feature.playground.demos.theme.Theme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -60,7 +60,7 @@ internal fun PlaygroundNavGraph(
 @ExperimentalAnimationApi
 private fun NavGraphBuilder.addHomeScreen(navigateUp: NavigateUp) {
     composable(Screen.Home.route) {
-        Home(navigateUp = navigateUp)
+        Counter(navigateUp = navigateUp)
     }
 }
 
