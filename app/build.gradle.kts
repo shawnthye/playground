@@ -115,7 +115,7 @@ dependencies {
     implementation(project(":deviantArt"))
     implementation(project(":productHunt"))
 
-    // TODO: make this only available in Internal Flavor
+    // TODO: make demos only available in Internal Flavor
     implementation(project(":demos"))
 
     implementation(Libs.timber)
