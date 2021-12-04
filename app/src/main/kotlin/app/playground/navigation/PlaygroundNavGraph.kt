@@ -6,8 +6,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import app.playground.ui.home.Home
-import app.playground.ui.theme.Theme
+import feature.playground.demos.error.ErrorDemo
+import feature.playground.demos.counter.Home
+import feature.playground.demos.theme.Theme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -20,6 +21,7 @@ internal sealed class Screen(val route: String) {
     object Theme : Screen("theme")
     object ProductHunt : Screen("product-hunt")
     object DeviantArt : Screen("deviant-art")
+    object ErrorDemo : Screen("error-demo")
 
     companion object {
         val START = Home
@@ -50,6 +52,7 @@ internal fun PlaygroundNavGraph(
     ) {
         addHomeScreen(navigateUp)
         addThemeScreen(navigateUp)
+        addErrorDemoScreen(navigateUp)
         addProductHuntScreen(navigateUp)
     }
 }
@@ -75,6 +78,13 @@ private fun NavGraphBuilder.addProductHuntScreen(navigateUp: NavigateUp) {
         startDestination = Destination.ProductHunt.createRoute(Screen.ProductHunt),
     ) {
         addProductHunt(Screen.ProductHunt, navigateUp)
+    }
+}
+
+@ExperimentalAnimationApi
+private fun NavGraphBuilder.addErrorDemoScreen(navigateUp: NavigateUp) {
+    composable(Screen.ErrorDemo.route) {
+        ErrorDemo(navigateUp = navigateUp)
     }
 }
 

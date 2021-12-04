@@ -18,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -192,22 +193,27 @@ private sealed class MenuItem(
 private val MenuItems = listOf(
     MenuItem.VectorIcon(
         screen = Screen.Home,
-        label = R.string.menu_home,
+        label = core.playground.ui.R.string.menu_counter,
         icon = Icons.Filled.Home,
     ),
     MenuItem.VectorIcon(
         screen = Screen.Theme,
-        label = R.string.menu_theme,
+        label = core.playground.ui.R.string.menu_theme,
         icon = Icons.Filled.Category,
+    ),
+    MenuItem.VectorIcon(
+        screen = Screen.ErrorDemo,
+        label = core.playground.ui.R.string.menu_error_demo,
+        icon = Icons.Filled.Error,
     ),
     MenuItem.ResourceIcon(
         screen = Screen.ProductHunt,
-        label = R.string.menu_product_hunt,
+        label = core.playground.ui.R.string.menu_product_hunt,
         icon = core.playground.ui.R.drawable.ic_producthunt_24,
     ),
     MenuItem.ResourceIcon(
         screen = Screen.DeviantArt,
-        label = R.string.menu_deviantArt,
+        label = feature.playground.deviant.R.string.deviant_art,
         icon = R.drawable.ic_deviant_art,
         iconSecondary = R.drawable.ic_baseline_open_in_new_24,
     ),
@@ -220,7 +226,7 @@ private fun PreviewDrawer() {
         DrawerButton(
             icon = ImageVector.vectorResource(id = R.drawable.ic_deviant_art),
             subIcon = ImageVector.vectorResource(id = R.drawable.ic_baseline_open_in_new_24),
-            label = stringResource(id = R.string.menu_deviantArt),
+            label = stringResource(id = core.playground.ui.R.string.menu_deviantArt),
             isSelected = false,
             action = {},
         )

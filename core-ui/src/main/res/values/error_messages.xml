@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
   <string name="reason_connection">Network unavailable, check your data or wifi connection.</string>
   <string name="reason_unknown">Oops, something went wrong.</string>
 </resources>

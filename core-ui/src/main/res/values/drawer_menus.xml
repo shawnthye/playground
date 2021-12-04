@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+  <string name="menu_counter">Counter</string>
+  <string name="menu_theme">Theme</string>
+  <string name="menu_error_demo">Error Demo</string>
+  <string name="menu_product_hunt">Product Hunt</string>
+  <string name="menu_deviantArt">DeviantArt</string>
+</resources>

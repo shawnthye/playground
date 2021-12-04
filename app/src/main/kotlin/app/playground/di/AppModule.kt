@@ -3,6 +3,8 @@ package app.playground.di
 import android.annotation.SuppressLint
 import android.os.Build
 import app.playground.BuildConfig
+import app.playground.data.DateAsLongSerializer
+import app.playground.data.ReasonInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import core.playground.ApplicationScope
 import core.playground.DefaultDispatcher
@@ -14,12 +16,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import okhttp3.MediaType.Companion.toMediaType
@@ -65,32 +61,16 @@ object AppModule {
     @Provides
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient = OkHttpClient.Builder().apply {
-        // dns(
-        //     object : Dns {
-        //         override fun lookup(hostname: String): List<InetAddress> {
-        //             val publicDNS = listOf(
-        //                 // Google
-        //                 InetAddress.getByName("8.8.8.8"),
-        //                 InetAddress.getByName("8.8.4.4"),
-        //
-        //                 // // Quad9
-        //                 // InetAddress.getByName("9.9.9.9"),
-        //                 // InetAddress.getByName("149.112.112.112"),
-        //                 //
-        //                 // // OpenDns
-        //                 // InetAddress.getByName("208.67.222.222"),
-        //                 // InetAddress.getByName("208.67.220.220"),
-        //             )
-        //
-        //             val defaultDns = InetAddress.getAllByName(hostname).toList()
-        //
-        //             return defaultDns + publicDNS
-        //         }
-        //     },
-        // )
-        addNetworkInterceptor(loggingInterceptor)
-    }.build()
+    ): OkHttpClient {
+        val client = OkHttpClient.Builder()
+            .addNetworkInterceptor(loggingInterceptor)
+            .build()
+
+
+        return client.newBuilder()
+            .addInterceptor(ReasonInterceptor(client))
+            .build()
+    }
 
     @Singleton
     @Provides
@@ -127,13 +107,4 @@ private class DebugTree : Timber.DebugTree() {
     private companion object {
         private const val MAX_TAG_LENGTH = 23
     }
-}
-
-object DateAsLongSerializer : KSerializer<Date> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor(
-        "Date", PrimitiveKind.LONG,
-    )
-
-    override fun serialize(encoder: Encoder, value: Date) = encoder.encodeLong(value.time)
-    override fun deserialize(decoder: Decoder): Date = Date(decoder.decodeLong() * 1000L)
 }

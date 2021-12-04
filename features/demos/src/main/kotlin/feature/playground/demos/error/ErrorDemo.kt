@@ -1,4 +1,4 @@
-package app.playground.ui.theme
+package feature.playground.demos.error
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
@@ -7,18 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -26,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.playground.R
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.theme.PlaygroundTheme
@@ -34,24 +28,18 @@ import core.playground.ui.theme.PlaygroundTheme
 private val NOOP: () -> Unit = { /* NOOP */ }
 
 @Composable
-fun Theme(navigateUp: NavigateUp) {
+fun ErrorDemo(navigateUp: NavigateUp) {
 
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = R.string.menu_theme,
+                titleRes = core.playground.ui.R.string.menu_error_demo,
                 navigationUp = navigateUp,
             )
         },
     ) {
         Box(modifier = Modifier.padding(16.dp)) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                Component("Button") {
-                    Button(onClick = NOOP) { ButtonText() }
-                    TextButton(onClick = NOOP) { ButtonText() }
-
-                    OutlinedButton(onClick = NOOP) { ButtonText() }
-                }
 
                 Component("FAB") {
                     ExtendedFloatingActionButton(
@@ -59,10 +47,6 @@ fun Theme(navigateUp: NavigateUp) {
                         text = { ButtonText() },
                         icon = { IconAdd() },
                     )
-
-                    FloatingActionButton(onClick = NOOP) { IconAdd() }
-
-                    FloatingActionButton(onClick = NOOP, Modifier.size(40.dp)) { IconAdd() }
                 }
             }
         }
@@ -94,7 +78,7 @@ private fun Component(
 
 @Composable
 private fun ButtonText() {
-    Text(text = "Button")
+    Text(text = "TODO")
 }
 
 @Composable
@@ -106,7 +90,7 @@ private fun IconAdd() {
 @Composable
 private fun PreviewLight() {
     PlaygroundTheme {
-        Theme(navigateUp = NOOP)
+        ErrorDemo(navigateUp = NOOP)
     }
 }
 

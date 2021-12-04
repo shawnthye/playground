@@ -115,6 +115,9 @@ dependencies {
     implementation(project(":deviantArt"))
     implementation(project(":productHunt"))
 
+    // TODO: make this only available in Internal Flavor
+    implementation(project(":demos"))
+
     implementation(Libs.timber)
 
     implementation(Libs.Coroutines.core)

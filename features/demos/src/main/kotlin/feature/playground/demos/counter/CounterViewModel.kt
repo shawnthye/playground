@@ -1,4 +1,4 @@
-package app.playground.ui.home
+package feature.playground.demos.counter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,14 +9,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class CounterViewModel @Inject constructor() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState(0))
-    val uiState: StateFlow<HomeUiState> = _uiState
+    private val _uiState = MutableStateFlow(CounterUiState(0))
+    val uiState: StateFlow<CounterUiState> = _uiState
 
     fun onClick() {
         viewModelScope.launch {
-            _uiState.emit(HomeUiState(count = _uiState.value.count + 1))
+            _uiState.emit(CounterUiState(count = _uiState.value.count + 1))
         }
     }
 }

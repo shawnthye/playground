@@ -1,4 +1,4 @@
-package app.playground.ui.home
+package feature.playground.demos.counter
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,19 +17,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import app.playground.R
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
 
 @Composable
-fun Home(viewModel: HomeViewModel = hiltViewModel(), navigateUp: NavigateUp) {
-    val uiState by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(HomeUiState(0))
+fun Home(viewModel: CounterViewModel = hiltViewModel(), navigateUp: NavigateUp) {
+    val uiState by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(CounterUiState(0))
 
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = R.string.menu_home,
+                titleRes = core.playground.ui.R.string.menu_counter,
                 navigationUp = navigateUp,
             )
         },

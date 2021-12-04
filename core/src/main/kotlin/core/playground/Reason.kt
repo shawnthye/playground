@@ -1,6 +1,8 @@
 package core.playground
 
-sealed class Reason(original: Throwable?) : RuntimeException(original) {
+import java.io.IOException
+
+sealed class Reason(original: Throwable?) : IOException(original) {
     data class Connection(val original: Throwable) : Reason(original)
 
     // TODO: timeout for retry

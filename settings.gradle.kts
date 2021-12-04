@@ -56,11 +56,16 @@ include(":testing-core")
 include(":testing-core-android")
 
 // features
+val featuresDir = File(rootDir, "features")
+
 include(":deviantArt").also {
-    project(":deviantArt").projectDir = File(rootDir, "features/deviantArt")
+    project(":deviantArt").projectDir = File(featuresDir, "deviantArt")
 }
 include(":productHunt").also {
-    project(":productHunt").projectDir = File(rootDir, "features/productHunt")
+    project(":productHunt").projectDir = File(featuresDir, "productHunt")
+}
+include(":demos").also {
+    project(":demos").projectDir = File(featuresDir, "demos")
 }
 
 // for testing purpose
