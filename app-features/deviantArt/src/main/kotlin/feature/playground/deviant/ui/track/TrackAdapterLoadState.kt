@@ -36,11 +36,11 @@ class DeviationTrackLoadStateAdapter(
 
     /**
      * Enable this will make sure the next page shift up, so user aware the next page is loaded
+     * But this will cause the List not at the top on REFRESH
      *
      * Disable this will result in RecyclerView always shift down after next page loaded
      * see this https://github.com/android/architecture-components-samples/issues/1037
      *
-     * But this will cause the List not at the top when REFRESH
      *
      * TODO: find other alternative
      */
