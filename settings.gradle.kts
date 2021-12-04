@@ -57,10 +57,10 @@ include(":testing-core-android")
 
 // features
 include(":deviantArt").also {
-    project(":deviantArt").projectDir = File(rootDir, "app-features/deviantArt")
+    project(":deviantArt").projectDir = File(rootDir, "features/deviantArt")
 }
 include(":productHunt").also {
-    project(":productHunt").projectDir = File(rootDir, "app-features/productHunt")
+    project(":productHunt").projectDir = File(rootDir, "features/productHunt")
 }
 
 // for testing purpose
