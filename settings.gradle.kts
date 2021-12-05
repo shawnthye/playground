@@ -22,7 +22,7 @@ pluginManagement {
         id("de.mannodermaus.android-junit5") version "1.8.0.0"
 
         // ktlint
-        id("com.diffplug.spotless") version "6.0.0"
+        id("com.diffplug.spotless") version "6.0.2"
 
         // check outdated dependency
         id("com.github.ben-manes.versions") version "0.39.0"

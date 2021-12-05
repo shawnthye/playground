@@ -1,5 +1,6 @@
 package core.playground.domain
 
+import core.playground.Generated
 import core.playground.data.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
@@ -9,6 +10,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 
+@Generated(
+    comments = "This has 100% coverage, but inline issue, remove inline while working on coverage" +
+        "see this: issue https://github.com/jacoco/jacoco/issues/654",
+)
 inline fun <T> Flow<Response<T>>.asNetworkBoundResult(
     query: Flow<T>,
     noinline shouldFetch: (suspend (cache: T?) -> Boolean)? = null,

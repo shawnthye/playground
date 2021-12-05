@@ -30,7 +30,7 @@ object Versions {
     const val JUPITER = "5.8.1"
     const val KOTLIN = "1.6.0"
     const val KOTLINX_JSON = "1.3.1"
-    const val KTLINT = "0.43.0"
+    const val KTLINT = "0.43.2"
     const val LIFECYCLE = "2.4.0"
     const val MATERIAL = "1.4.0"
     const val MOCKK = "1.12.1"
