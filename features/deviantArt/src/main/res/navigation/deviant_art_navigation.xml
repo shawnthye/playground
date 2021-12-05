@@ -21,7 +21,7 @@
     <argument
       android:name="track"
       android:defaultValue="NEWEST"
-      app:argType="feature.playground.deviant.ui.track.Track"
+      app:argType="app.playground.source.of.truth.database.entities.Track"
       app:nullable="false" />
   </fragment>
 

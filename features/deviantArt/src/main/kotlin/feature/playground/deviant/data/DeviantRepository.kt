@@ -3,10 +3,10 @@ package feature.playground.deviant.data
 import app.playground.source.of.truth.database.daos.DeviationDao
 import app.playground.source.of.truth.database.daos.DeviationTrackDao
 import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.source.of.truth.database.entities.Track
 import core.playground.data.execute
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult
-import feature.playground.deviant.ui.track.Track
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class DeviantRepository @Inject constructor(
                 deviationTrackDao.deleteTrack(track = track.toString())
             }
 
-            deviationTrackDao.replace(response.map { it.entry.copy(track = track.toString()) })
+            deviationTrackDao.replace(response.map { it.entry.copy(track = track) })
             deviationDao.upsert(response.map { it.relation })
         }
 

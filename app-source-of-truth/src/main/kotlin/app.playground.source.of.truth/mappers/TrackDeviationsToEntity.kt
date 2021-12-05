@@ -2,6 +2,7 @@ package app.playground.source.of.truth.mappers
 
 import api.art.deviant.model.DeviationResult
 import app.playground.source.of.truth.database.entities.DeviationTrack
+import app.playground.source.of.truth.database.entities.Track
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import core.playground.data.Mapper
 import javax.inject.Inject
@@ -19,7 +20,7 @@ class TrackDeviationsToEntity @Inject constructor(
                 entry = DeviationTrack(
                     deviationId = it.deviationId,
                     nextPage = from.next_offset.toString(),
-                    track = "", // we will set the deviation when insert to database
+                    track = Track.UNKNOWN, // we will set the deviation when insert to database
                 ),
                 relation = it,
             )

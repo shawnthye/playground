@@ -6,7 +6,7 @@ import core.playground.IoDispatcher
 import core.playground.domain.ExperimentalPagingUseCase
 import core.playground.domain.PagingUseCase
 import feature.playground.deviant.data.DeviantRepository
-import feature.playground.deviant.ui.track.Track
+import app.playground.source.of.truth.database.entities.Track
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 

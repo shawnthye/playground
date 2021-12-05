@@ -7,7 +7,7 @@ import app.playground.source.of.truth.mappers.DeviationToEntity
 import app.playground.source.of.truth.mappers.TrackDeviationsToEntity
 import core.playground.data.Response
 import core.playground.data.applyMapper
-import feature.playground.deviant.ui.track.Track
+import app.playground.source.of.truth.database.entities.Track
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
