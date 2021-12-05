@@ -34,13 +34,16 @@ sealed class Result<out R> {
  * `true` if [Result] is of type [Success] & holds non-null [Success.data].
  */
 val Result<*>.succeeded
-    get() = this is Success && data != null
+    get() = this is Success
 
 val <T> Result<T>.data: T?
     get() = (this as? Success)?.data ?: (this as? Loading)?.data ?: (this as? Error)?.data
 
 fun <T> Result<T>.successOr(fallback: T): T {
-    return (this as? Success<T>)?.data ?: fallback
+    return when (this) {
+        is Success<T> -> data
+        else -> fallback
+    }
 }
 
 @Generated(
