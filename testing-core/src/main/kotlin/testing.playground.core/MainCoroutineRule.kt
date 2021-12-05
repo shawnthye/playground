@@ -1,4 +1,4 @@
-package testing.playground.core
+package core
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +10,17 @@ import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
+import org.junit.jupiter.api.extension.RegisterExtension
 
+/**
+ * Add this JUnit 5 extension to your test class using
+ * [JvmField]
+ * [RegisterExtension]
+ *
+ * // @JvmField
+ * // @RegisterExtension
+ * // val coroutineExtension = MainCoroutineExtension()
+ */
 class MainCoroutineExtension(
     val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher(),
 ) : BeforeEachCallback,

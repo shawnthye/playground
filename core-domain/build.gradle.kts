@@ -33,6 +33,7 @@ dependencies {
     testRuntimeOnly(platform(project(":build-dep-constraints")))
 
     implementation(project(":core-data"))
+    testImplementation(project(":testing-core"))
 
     implementation(Libs.timber)
 

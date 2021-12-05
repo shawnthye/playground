@@ -5,10 +5,10 @@ plugins {
 }
 
 dependencies {
-    testImplementation(platform(project(":build-dep-constraints")))
+    api(platform(project(":build-dep-constraints")))
 
-    testImplementation(platform(Libs.Junit5.bom))
-    testImplementation(Libs.Junit5.jupiterApi)
-    testImplementation(Libs.Coroutines.core)
-    testImplementation(Libs.Coroutines.test)
+    implementation(platform(Libs.Junit5.bom))
+    implementation(Libs.Junit5.jupiterApi)
+    implementation(Libs.Coroutines.core)
+    api(Libs.Coroutines.test)
 }
