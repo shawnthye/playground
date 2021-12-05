@@ -1,6 +1,5 @@
 package core.playground.domain
 
-import core.MainCoroutineExtension
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -11,8 +10,9 @@ import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import testing.playground.core.MainCoroutineExtension
 
-class FlowUseCaseTest {
+internal class FlowUseCaseTest {
 
     @JvmField
     @RegisterExtension

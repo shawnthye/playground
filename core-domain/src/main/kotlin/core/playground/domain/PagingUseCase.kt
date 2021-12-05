@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import core.playground.Generated
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,7 @@ annotation class ExperimentalPagingUseCase
  * Handling an exception (emit [Result.Error] to the result) is the sub-classes responsibility.
  *
  */
+@Generated(comments = "temporary skip for experimental")
 @ExperimentalPagingUseCase
 abstract class PagingUseCase<in Param, Page>(
     private val coroutineDispatcher: CoroutineDispatcher,
@@ -64,6 +66,7 @@ abstract class PagingUseCase<in Param, Page>(
     ): Boolean
 }
 
+@Generated(comments = "temporary skip for experimental")
 @OptIn(ExperimentalPagingApi::class)
 private class PagedRemoteMediator<Page>(
     private val shouldRefreshOnLaunch: suspend () -> Boolean,

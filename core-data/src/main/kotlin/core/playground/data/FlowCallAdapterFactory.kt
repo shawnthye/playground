@@ -23,6 +23,9 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
+/**
+ * TODO: support for Response<Unit> type
+ */
 class FlowCallAdapterFactory : Factory() {
     override fun get(
         returnType: Type,

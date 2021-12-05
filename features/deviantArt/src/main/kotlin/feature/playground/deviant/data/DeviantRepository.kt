@@ -22,7 +22,9 @@ class DeviantRepository @Inject constructor(
     fun trackPagingSource(track: Track) = deviationTrackDao.pagingSource(track.toString())
 
     suspend fun fetchTrack(track: Track, pageSize: Int, nextPage: String?): Boolean {
-        val response = deviationDataSource.browseDeviations(track, pageSize, nextPage).execute()
+        val request = deviationDataSource.browseDeviations(track, pageSize, nextPage)
+
+        val body = request.execute() ?: return false
 
         deviationTrackDao.withTransaction {
             if (nextPage.isNullOrBlank()) {
@@ -30,11 +32,11 @@ class DeviantRepository @Inject constructor(
                 deviationTrackDao.deleteTrack(track = track.toString())
             }
 
-            deviationTrackDao.replace(response.map { it.entry.copy(track = track) })
-            deviationDao.upsert(response.map { it.relation })
+            deviationTrackDao.replace(body.map { it.entry.copy(track = track) })
+            deviationDao.upsert(body.map { it.relation })
         }
 
-        return response.isNotEmpty() && response.last().entry.nextPage.isNullOrBlank().not()
+        return body.isNotEmpty() && body.last().entry.nextPage.isNullOrBlank().not()
     }
 
     fun observeDeviation(id: String): Flow<Result<Deviation>> {

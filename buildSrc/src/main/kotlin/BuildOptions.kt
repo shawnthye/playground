@@ -7,6 +7,7 @@ object BuildOptions {
     const val COMPILE_SDK = 31
 
     // temporary set to 26, check this https://github.com/mannodermaus/android-junit5/issues/225
+    // or move to robolectric
     const val MIN_SDK = 23
 
     val JAVA_VERSION = JavaVersion.VERSION_1_8

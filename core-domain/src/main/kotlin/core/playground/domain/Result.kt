@@ -1,5 +1,6 @@
 package core.playground.domain
 
+import core.playground.Generated
 import core.playground.domain.Result.Error
 import core.playground.domain.Result.Loading
 import core.playground.domain.Result.Success
@@ -17,11 +18,9 @@ sealed class Result<out R> {
 
     data class Loading<out T>(val data: T? = null) : Result<T>()
 
-    data class Error<out T>(
-        val throwable: Throwable,
-        val data: T? = null,
-    ) : Result<T>()
+    data class Error<out T>(val throwable: Throwable, val data: T? = null) : Result<T>()
 
+    @Generated(comments = "for debugging only")
     override fun toString(): String {
         return when (this) {
             is Success<*> -> "Success[data=$data]"
@@ -44,6 +43,10 @@ fun <T> Result<T>.successOr(fallback: T): T {
     return (this as? Success<T>)?.data ?: fallback
 }
 
+@Generated(
+    comments = "This still won't ignore in coverage," +
+        " see this also: issue https://github.com/jacoco/jacoco/issues/654",
+)
 inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
     crossinline transform: suspend (throwable: Throwable) -> R,
 ): Flow<R> {

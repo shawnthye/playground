@@ -53,12 +53,10 @@ sealed class Response<out T> {
     Reason.HttpError::class,
     IllegalStateException::class,
 )
-suspend inline fun <reified T> Flow<Response<T>>.execute(): T = when (val response = last()) {
+suspend inline fun <reified T> Flow<Response<T>>.execute(): T? = when (val response = last()) {
     is Success -> response.body
     is Response.Error -> throw response.exception
-    // TODO: should return null if Empty? or should actually return response instead?
-    //  so the caller decide what to do?
-    is Response.Empty -> throw IllegalStateException("Unable to process")
+    is Response.Empty -> null
 }
 
 private fun <T> retrofit2.Response<T>.asHttpError(): Reason.HttpError {
