@@ -18,4 +18,3 @@ data class DeviationTrack(
     val deviationId: String,
     override val nextPage: String? = null,
 ) : AppEntity, PageableEntry
-

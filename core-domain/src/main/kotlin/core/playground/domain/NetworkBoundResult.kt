@@ -9,13 +9,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import timber.log.Timber
 
-//inline
-fun <T> Flow<Response<T>>.asNetworkBoundResult(
+inline fun <T> Flow<Response<T>>.asNetworkBoundResult(
     query: Flow<T>,
-    // crossinline
-    shouldFetch: (suspend (cache: T?) -> Boolean)? = null,
-    // crossinline
-    saveRemote: suspend (remote: T) -> Unit,
+    noinline shouldFetch: (suspend (cache: T?) -> Boolean)? = null,
+    crossinline saveRemote: suspend (remote: T) -> Unit,
 ): Flow<Result<T>> {
 
     val work: Flow<Result<T>> = transform { response ->

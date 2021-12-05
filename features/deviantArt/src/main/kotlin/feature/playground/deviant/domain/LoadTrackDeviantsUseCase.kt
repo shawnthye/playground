@@ -1,12 +1,12 @@
 package feature.playground.deviant.domain
 
 import androidx.paging.PagingSource
+import app.playground.source.of.truth.database.entities.Track
 import app.playground.source.of.truth.database.entities.TrackWithDeviation
 import core.playground.IoDispatcher
 import core.playground.domain.ExperimentalPagingUseCase
 import core.playground.domain.PagingUseCase
 import feature.playground.deviant.data.DeviantRepository
-import app.playground.source.of.truth.database.entities.Track
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 

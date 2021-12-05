@@ -1,8 +1,8 @@
 package core.playground.domain
 
 import kotlinx.coroutines.CoroutineDispatcher
-import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
 import testing.playground.core.CoroutineTest

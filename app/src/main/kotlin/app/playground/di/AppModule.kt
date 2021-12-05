@@ -66,7 +66,6 @@ object AppModule {
             .addNetworkInterceptor(loggingInterceptor)
             .build()
 
-
         return client.newBuilder()
             .addInterceptor(ReasonInterceptor(client))
             .build()

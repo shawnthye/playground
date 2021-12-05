@@ -6,14 +6,14 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import feature.playground.demos.error.ui.ErrorDemo
-import feature.playground.demos.counter.Counter
-import feature.playground.demos.theme.Theme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import core.playground.ui.alias.NavigateUp
+import feature.playground.demos.counter.Counter
+import feature.playground.demos.error.ui.ErrorDemo
+import feature.playground.demos.theme.Theme
 import feature.playground.producthunt.ProductHunt
 
 internal sealed class Screen(val route: String) {
