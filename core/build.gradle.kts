@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     `java-library`
     id("com.android.lint")
+    jacoco
 }
 
 dependencies {
