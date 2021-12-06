@@ -2,12 +2,9 @@ package core.playground.ui
 
 import org.junit.jupiter.api.Test
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
+// TODO: added Junit4 and Vintage engine
+internal class UiMessageTest {
+
     @Test
     fun addition_isCorrect() {
         // 16:9
