@@ -207,7 +207,7 @@ val coverage by rootProject.tasks.registering(JacocoReport::class) {
     setOnlyIf { true }
 
     doLast {
-        println("Report generated in ${Path.of(outputs.files.asPath, "index.html")}")
+        println("Report generated in file://${Path.of(outputs.files.asPath, "index.html")}")
     }
 }
 
@@ -222,7 +222,7 @@ configure(modules) {
         testLogging {
             events(
                 // TestLogEvent.STARTED,
-                TestLogEvent.PASSED,
+                // TestLogEvent.PASSED,
                 TestLogEvent.SKIPPED,
                 TestLogEvent.FAILED,
             )
