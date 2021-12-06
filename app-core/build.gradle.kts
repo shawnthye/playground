@@ -42,6 +42,7 @@ dependencies {
     kapt(platform(project(":build-dep-constraints")))
 
     implementation(project(":core-data"))
+    implementation(project(":core-domain"))
     implementation(project(":app-source-of-truth"))
 
     implementation(Libs.timber)

@@ -13,7 +13,7 @@ class AddToFavorite(
     private val deviantArt: DeviantArt,
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
 ) : UseCase<String, Unit>(coroutineDispatcher) {
-    override suspend fun execute(parameters: String) {
-        deviantArt.api.postSampleAction(parameters).execute()
+    override suspend fun execute(params: String) {
+        deviantArt.api.postSampleAction(params).execute()
     }
 }

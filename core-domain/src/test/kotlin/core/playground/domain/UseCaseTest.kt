@@ -12,7 +12,7 @@ internal class UseCaseTest : CoroutineTest() {
     @Test
     fun `result return Result#Success`() = runBlockingTest {
         val useCase = object : UseCase<Unit, Unit>(testDispatcher) {
-            override suspend fun execute(parameters: Unit) {
+            override suspend fun execute(params: Unit) {
             }
         }
         val result = useCase(Unit)
@@ -29,7 +29,7 @@ internal class UseCaseTest : CoroutineTest() {
     inner class ExceptionUseCase(
         coroutineDispatcher: CoroutineDispatcher,
     ) : UseCase<Unit, Unit>(coroutineDispatcher) {
-        override suspend fun execute(parameters: Unit) {
+        override suspend fun execute(params: Unit) {
             throw Exception("Test exception")
         }
     }

@@ -13,12 +13,12 @@ import timber.log.Timber
  *
  */
 abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
-    operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
+    operator fun invoke(params: P): Flow<Result<R>> = execute(params)
         .flowOn(coroutineDispatcher)
         .catch { e ->
             Timber.tag("FlowUseCase").e(e)
             emit(Result.Error(e, null))
         }
 
-    protected abstract fun execute(parameters: P): Flow<Result<R>>
+    protected abstract fun execute(params: P): Flow<Result<R>>
 }

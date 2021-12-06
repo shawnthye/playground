@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module(includes = [DeviantArtDataModule::class])
+@Module(includes = [DeviantArtModuleBinds::class])
 internal object DeviantArtModule {
 
     @Singleton

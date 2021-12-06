@@ -28,7 +28,7 @@ internal class FlowUseCaseTest {
     inner class ExceptionUseCase(
         coroutineDispatcher: CoroutineDispatcher,
     ) : FlowUseCase<Unit, Unit>(coroutineDispatcher) {
-        override fun execute(parameters: Unit): Flow<Result<Unit>> = flow {
+        override fun execute(params: Unit): Flow<Result<Unit>> = flow {
             throw Exception("Test exception")
         }
     }
