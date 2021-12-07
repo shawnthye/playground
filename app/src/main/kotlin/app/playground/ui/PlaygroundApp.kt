@@ -18,8 +18,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import app.playground.navigation.DrawerMenu
-import app.playground.navigation.PlaygroundNavGraph
 import app.playground.navigation.DrawerScreen
+import app.playground.navigation.PlaygroundNavGraph
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
 
@@ -62,9 +62,9 @@ internal fun PlaygroundApp() {
                             saveState = true
                         }
                         // Avoid multiple copies of the same destination when
-                        // reselecting the same item
+                        // re-selecting the same item
                         launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
+                        // Restore state when re-selecting a previously selected item
                         restoreState = true
                     }
                 }
@@ -99,6 +99,9 @@ private fun NavController.currentScreenAsState(): State<DrawerScreen> {
                 }
                 destination.hierarchy.any { it.route == DrawerScreen.Theme.route } -> {
                     selectedItem.value = DrawerScreen.Theme
+                }
+                destination.hierarchy.any { it.route == DrawerScreen.ErrorDemo.route } -> {
+                    selectedItem.value = DrawerScreen.ErrorDemo
                 }
                 destination.hierarchy.any { it.route == DrawerScreen.ProductHunt.route } -> {
                     selectedItem.value = DrawerScreen.ProductHunt

@@ -16,13 +16,23 @@ import javax.inject.Singleton
 private const val API_PATH = "api.producthunt.com/v2/api/graphql"
 
 private val SERVER_URL = "https://$API_PATH".toHttpUrl()
+
+@Suppress("SpellCheckingInspection")
 private const val AUTHORIZATION = "Bearer YFvkSRZUDIZFnCnXAmthYqEfXAJj5803JoE8Yk6OLuU"
 
+@MustBeDocumented
+@Retention(value = AnnotationRetention.BINARY)
+@RequiresOptIn(level = RequiresOptIn.Level.WARNING)
+annotation class ExperimentalProductHuntApi
+
 @Singleton
-class ProductHunt @Inject constructor() {
+@ExperimentalProductHuntApi
+class ProductHunt @Inject constructor(
+    client: OkHttpClient,
+) {
 
     private val lazy: ApolloClient by lazy {
-        val okHttpClient = OkHttpClient.Builder()
+        val okHttpClient = client.newBuilder()
             .addInterceptor(AuthorizationInterceptor())
             .build()
 

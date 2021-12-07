@@ -1,6 +1,7 @@
 package app.playground.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -61,8 +62,12 @@ fun ProductHuntApp(navigateUp: NavigateUp) {
                 },
             )
         },
-    ) {
-        ProductHuntNavGraph(navController = navController, navigateUp)
+    ) { innerPadding ->
+        ProductHuntNavGraph(
+            modifier = Modifier.padding(innerPadding),
+            navController = navController,
+            openDrawer = navigateUp,
+        )
     }
 }
 

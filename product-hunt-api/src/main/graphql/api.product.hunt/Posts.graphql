@@ -1,17 +1,16 @@
 query Posts {
-    posts(first: 10) {
-        edges {
-            cursor
-            node {
-                ...postFragment
-            }
-        }
-        pageInfo {
-            hasNextPage
-            startCursor
-            endCursor
-            hasPreviousPage
-        }
+  posts(first: 20) { # max 20 per page
+    edges {
+      cursor
+      node {
+        ...postFragment
+      }
     }
+    pageInfo {
+      hasNextPage
+      startCursor
+      endCursor
+      hasPreviousPage
+    }
+  }
 }
-

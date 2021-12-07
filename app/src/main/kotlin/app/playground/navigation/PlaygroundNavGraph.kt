@@ -35,7 +35,7 @@ private sealed class DrawerDestination(private val route: String) {
     object ProductHunt : DrawerDestination("app")
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun PlaygroundNavGraph(
     navController: NavHostController = rememberAnimatedNavController(),
@@ -57,21 +57,21 @@ internal fun PlaygroundNavGraph(
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addHomeScreen(navigateUp: NavigateUp) {
     composable(DrawerScreen.Home.route) {
         Counter(navigateUp = navigateUp)
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addThemeScreen(navigateUp: NavigateUp) {
     composable(DrawerScreen.Theme.route) {
         Theme(navigateUp = navigateUp)
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addProductHuntScreen(navigateUp: NavigateUp) {
     navigation(
         route = DrawerScreen.ProductHunt.route,
@@ -81,14 +81,14 @@ private fun NavGraphBuilder.addProductHuntScreen(navigateUp: NavigateUp) {
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addErrorDemoScreen(navigateUp: NavigateUp) {
     composable(DrawerScreen.ErrorDemo.route) {
         ErrorDemo(navigateUp = navigateUp)
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addProductHunt(screen: DrawerScreen, navigateUp: NavigateUp) {
     composable(DrawerDestination.ProductHunt.createRoute(screen)) {
         ProductHuntApp(navigateUp = navigateUp)

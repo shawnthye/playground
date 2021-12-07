@@ -4,6 +4,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -51,11 +52,13 @@ internal sealed class Destination(
 @ExperimentalAnimationApi
 @Composable
 fun ProductHuntNavGraph(
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberAnimatedNavController(),
     openDrawer: () -> Unit,
 ) {
 
     AnimatedNavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = Screen.Discover.route,
         enterTransition = { EnterTransition.None },

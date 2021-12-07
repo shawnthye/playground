@@ -1,5 +1,5 @@
 object Versions {
-    const val ACCOMPANIST = "0.21.3-beta"
+    const val ACCOMPANIST = "0.21.4-beta"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.3"
     const val ANDROID_TEST_CORE = "1.4.0"
@@ -9,6 +9,7 @@ object Versions {
     const val ANDROID_TEST_RULES = "1.4.0"
     const val ANDROID_TEST_RUNNER = "1.4.0"
     const val ANNOTATION = "1.3.0"
+    const val APOLLO = "2.5.11"
     const val APPCOMPAT = "1.4.0"
     const val COIL = "1.4.0"
     const val COMPOSE = "1.1.0-beta04"
@@ -45,7 +46,6 @@ object Versions {
     const val ROOM = "2.4.0-rc01"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
-    const val APOLLO = "2.5.11"
 }
 
 object Libs {
@@ -226,6 +226,6 @@ object Libs {
         const val bom = "org.junit:junit-bom"
         const val jupiterApi = "org.junit.jupiter:junit-jupiter-api"
         const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine"
-        const val jupiterParams = "org.junit.jupiter:junit-jupiter-params"
+        // const val jupiterParams = "org.junit.jupiter:junit-jupiter-params"
     }
 }
