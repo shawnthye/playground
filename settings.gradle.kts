@@ -58,14 +58,15 @@ include(":testing-core-android")
 // features
 val featuresDir = File(rootDir, "features")
 
+
+include(":discovery").also {
+    project(":discovery").projectDir = File(featuresDir, "discovery")
+}
 include(":deviantArt").also {
     project(":deviantArt").projectDir = File(featuresDir, "deviantArt")
 }
 include(":productHunt").also {
     project(":productHunt").projectDir = File(featuresDir, "productHunt")
-}
-include(":productHuntPosts").also {
-    project(":productHuntPosts").projectDir = File(featuresDir, "productHuntPosts")
 }
 include(":demos").also {
     project(":demos").projectDir = File(featuresDir, "demos")

@@ -1,4 +1,4 @@
-package feature.playground.producthunt.ui
+package feature.playground.product.hunt.posts.ui
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -7,14 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.components.DrawerAppBar
-import feature.playground.producthunt.R
 
 @Composable
 fun Discover(navigateUp: () -> Unit, openPost: (postId: String) -> Unit) {
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = R.string.menu_discover, navigationUp = navigateUp,
+                titleRes = core.playground.ui.R.string.menu_discover, navigationUp = navigateUp,
             )
         },
     ) {

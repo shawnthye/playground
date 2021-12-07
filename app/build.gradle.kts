@@ -112,6 +112,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core-ui"))
     implementation(project(":app-core"))
+    implementation(project(":discovery"))
     implementation(project(":deviantArt"))
     implementation(project(":productHunt"))
 
