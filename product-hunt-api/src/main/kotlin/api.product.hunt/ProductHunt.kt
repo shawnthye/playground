@@ -20,13 +20,7 @@ private val SERVER_URL = "https://$API_PATH".toHttpUrl()
 @Suppress("SpellCheckingInspection")
 private const val AUTHORIZATION = "Bearer YFvkSRZUDIZFnCnXAmthYqEfXAJj5803JoE8Yk6OLuU"
 
-@MustBeDocumented
-@Retention(value = AnnotationRetention.BINARY)
-@RequiresOptIn(level = RequiresOptIn.Level.WARNING)
-annotation class ExperimentalProductHuntApi
-
 @Singleton
-@ExperimentalProductHuntApi
 class ProductHunt @Inject constructor(
     client: OkHttpClient,
 ) {

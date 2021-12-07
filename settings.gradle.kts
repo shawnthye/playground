@@ -62,6 +62,9 @@ val featuresDir = File(rootDir, "features")
 include(":discovery").also {
     project(":discovery").projectDir = File(featuresDir, "discovery")
 }
+include(":post").also {
+    project(":post").projectDir = File(featuresDir, "post")
+}
 include(":deviantArt").also {
     project(":deviantArt").projectDir = File(featuresDir, "deviantArt")
 }

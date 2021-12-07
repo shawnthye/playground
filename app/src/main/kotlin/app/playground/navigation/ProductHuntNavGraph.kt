@@ -13,9 +13,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import feature.playground.product.hunt.post.ui.Post
 import feature.playground.product.hunt.posts.ui.Discover
 import feature.playground.producthunt.ui.Collections
-import feature.playground.producthunt.ui.Post
 import feature.playground.producthunt.ui.Topics
 import timber.log.Timber
 
