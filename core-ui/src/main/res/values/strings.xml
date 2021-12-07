@@ -1,0 +1,3 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en">
+  <string name="menu_posts">Posts</string>
+</resources>
