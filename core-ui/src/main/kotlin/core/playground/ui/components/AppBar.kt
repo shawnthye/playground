@@ -20,11 +20,12 @@ import androidx.compose.ui.unit.Dp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
 import com.google.accompanist.insets.ui.TopAppBar
+import core.playground.ui.alias.NavigateUp
 
 @Composable
 fun DrawerAppBar(
     @StringRes titleRes: Int = -1,
-    navigationUp: (() -> Unit)? = null,
+    navigationUp: NavigateUp? = null,
 ) {
     AppBar(
         iconVector = Icons.Default.Menu,
@@ -37,7 +38,7 @@ fun DrawerAppBar(
 fun AppBar(
     iconVector: ImageVector = Icons.Filled.ArrowBack,
     @StringRes titleRes: Int = -1,
-    navigationUp: (() -> Unit)? = null,
+    navigationUp: NavigateUp? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable (() -> Unit)? = null,
 ) {
@@ -55,7 +56,7 @@ fun AppBar(
     modifier: Modifier = Modifier,
     iconVector: ImageVector = Icons.Default.ArrowBack,
     title: String? = null,
-    navigationUp: (() -> Unit)? = null,
+    navigationUp: NavigateUp? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable (() -> Unit)? = null,
 ) {

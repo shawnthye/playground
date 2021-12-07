@@ -72,11 +72,11 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.viewModel)
     implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
 
-    implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.Google.Accompanist.navigationAnimation)
 
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
+    implementation(Libs.AndroidX.Hilt.navigationCompose)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
