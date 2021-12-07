@@ -1,0 +1,13 @@
+query Post($id:ID!) {
+    post(id: $id){
+        ...postFragment
+    }
+}
+
+fragment postFragment on Post {
+    id
+    name
+    media {
+        url
+    }
+}

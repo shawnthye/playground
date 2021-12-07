@@ -64,6 +64,9 @@ include(":deviantArt").also {
 include(":productHunt").also {
     project(":productHunt").projectDir = File(featuresDir, "productHunt")
 }
+include(":productHuntPosts").also {
+    project(":productHuntPosts").projectDir = File(featuresDir, "productHuntPosts")
+}
 include(":demos").also {
     project(":demos").projectDir = File(featuresDir, "demos")
 }
