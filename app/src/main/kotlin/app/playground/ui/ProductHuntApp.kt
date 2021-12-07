@@ -1,4 +1,4 @@
-package feature.playground.producthunt
+package app.playground.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.AppBarDefaults
@@ -28,13 +28,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import app.playground.navigation.ProductHuntNavGraph
+import app.playground.navigation.Screen
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import core.playground.ui.alias.NavigateUp
 
 @ExperimentalAnimationApi
 @Composable
-fun ProductHunt(navigateUp: NavigateUp) {
+fun ProductHuntApp(navigateUp: NavigateUp) {
     val navController = rememberAnimatedNavController()
     val currentScreen by navController.currentScreenAsState()
     val popupDestinationId by navController.popUpDestinationId()

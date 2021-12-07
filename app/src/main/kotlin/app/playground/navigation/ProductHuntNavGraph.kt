@@ -1,4 +1,4 @@
-package feature.playground.producthunt
+package app.playground.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition

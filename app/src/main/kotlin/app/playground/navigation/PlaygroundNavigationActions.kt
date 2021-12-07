@@ -8,7 +8,7 @@ import feature.playground.deviant.ui.DeviantArt
 
 class PlaygroundNavigationActions(navController: NavHostController) {
     val navigateToHome: () -> Unit = {
-        navController.navigate(Screen.Home.route) {
+        navController.navigate(DrawerScreen.Home.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
@@ -24,7 +24,7 @@ class PlaygroundNavigationActions(navController: NavHostController) {
     }
 
     val navigateToTheme: () -> Unit = {
-        navController.navigate(Screen.Theme.route) {
+        navController.navigate(DrawerScreen.Theme.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
@@ -40,7 +40,7 @@ class PlaygroundNavigationActions(navController: NavHostController) {
     }
 
     val navigateToProductHunt: () -> Unit = {
-        navController.navigate(Screen.ProductHunt.route) {
+        navController.navigate(DrawerScreen.ProductHunt.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items

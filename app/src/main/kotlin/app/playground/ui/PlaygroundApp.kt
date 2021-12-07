@@ -17,9 +17,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import app.playground.navigation.Drawer
+import app.playground.navigation.DrawerMenu
 import app.playground.navigation.PlaygroundNavGraph
-import app.playground.navigation.Screen
+import app.playground.navigation.DrawerScreen
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
 
@@ -35,18 +35,18 @@ internal fun PlaygroundApp() {
         drawerState = drawerState,
         drawerContent = {
             val context = LocalContext.current
-            Drawer(selectedScreen = currentScreen) { selected ->
-                if (selected is Screen.DeviantArt) {
+            DrawerMenu(selectedScreen = currentScreen) { selected ->
+                if (selected is DrawerScreen.DeviantArt) {
                     context.startActivity(
                         Intent(
                             context, feature.playground.deviant.ui.DeviantArt::class.java,
                         ),
                     )
-                    return@Drawer
+                    return@DrawerMenu
                 }
 
                 scope.launch {
-                    if (selected !is Screen.DeviantArt) {
+                    if (selected !is DrawerScreen.DeviantArt) {
                         drawerState.close()
                     }
 
@@ -88,20 +88,20 @@ internal fun PlaygroundApp() {
  */
 @Stable
 @Composable
-private fun NavController.currentScreenAsState(): State<Screen> {
-    val selectedItem = remember { mutableStateOf<Screen>(Screen.START) }
+private fun NavController.currentScreenAsState(): State<DrawerScreen> {
+    val selectedItem = remember { mutableStateOf<DrawerScreen>(DrawerScreen.START) }
 
     DisposableEffect(this) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             when {
-                destination.hierarchy.any { it.route == Screen.Home.route } -> {
-                    selectedItem.value = Screen.Home
+                destination.hierarchy.any { it.route == DrawerScreen.Home.route } -> {
+                    selectedItem.value = DrawerScreen.Home
                 }
-                destination.hierarchy.any { it.route == Screen.Theme.route } -> {
-                    selectedItem.value = Screen.Theme
+                destination.hierarchy.any { it.route == DrawerScreen.Theme.route } -> {
+                    selectedItem.value = DrawerScreen.Theme
                 }
-                destination.hierarchy.any { it.route == Screen.ProductHunt.route } -> {
-                    selectedItem.value = Screen.ProductHunt
+                destination.hierarchy.any { it.route == DrawerScreen.ProductHunt.route } -> {
+                    selectedItem.value = DrawerScreen.ProductHunt
                 }
             }
         }

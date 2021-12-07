@@ -36,9 +36,9 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.theme.PlaygroundTheme
 
 @Composable
-internal fun Drawer(
-    selectedScreen: Screen,
-    onNavigationSelected: (destination: Screen) -> Unit,
+internal fun DrawerMenu(
+    selectedScreen: DrawerScreen,
+    onNavigationSelected: (destination: DrawerScreen) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -173,18 +173,18 @@ private fun NavigationIcon(
 }
 
 private sealed class MenuItem(
-    val screen: Screen,
+    val screen: DrawerScreen,
     @StringRes val label: Int,
 ) {
     class ResourceIcon(
-        screen: Screen,
+        screen: DrawerScreen,
         @StringRes label: Int,
         @DrawableRes val icon: Int,
         @DrawableRes val iconSecondary: Int? = null,
     ) : MenuItem(screen, label)
 
     class VectorIcon(
-        screen: Screen,
+        screen: DrawerScreen,
         @StringRes label: Int,
         val icon: ImageVector,
     ) : MenuItem(screen, label)
@@ -192,27 +192,27 @@ private sealed class MenuItem(
 
 private val MenuItems = listOf(
     MenuItem.VectorIcon(
-        screen = Screen.Home,
+        screen = DrawerScreen.Home,
         label = core.playground.ui.R.string.menu_counter,
         icon = Icons.Filled.Calculate,
     ),
     MenuItem.VectorIcon(
-        screen = Screen.Theme,
+        screen = DrawerScreen.Theme,
         label = core.playground.ui.R.string.menu_theme,
         icon = Icons.Filled.Category,
     ),
     MenuItem.VectorIcon(
-        screen = Screen.ErrorDemo,
+        screen = DrawerScreen.ErrorDemo,
         label = core.playground.ui.R.string.menu_error_demo,
         icon = Icons.Filled.Error,
     ),
     MenuItem.ResourceIcon(
-        screen = Screen.ProductHunt,
+        screen = DrawerScreen.ProductHunt,
         label = core.playground.ui.R.string.menu_product_hunt,
         icon = core.playground.ui.R.drawable.ic_producthunt_24,
     ),
     MenuItem.ResourceIcon(
-        screen = Screen.DeviantArt,
+        screen = DrawerScreen.DeviantArt,
         label = feature.playground.deviant.R.string.deviant_art,
         icon = R.drawable.ic_deviant_art,
         iconSecondary = R.drawable.ic_baseline_open_in_new_24,
