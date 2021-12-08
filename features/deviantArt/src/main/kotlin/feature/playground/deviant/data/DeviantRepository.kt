@@ -1,9 +1,9 @@
 package feature.playground.deviant.data
 
-import app.playground.source.of.truth.database.daos.DeviationDao
-import app.playground.source.of.truth.database.daos.DeviationTrackDao
-import app.playground.source.of.truth.database.entities.Deviation
-import app.playground.source.of.truth.database.entities.Track
+import app.playground.store.database.daos.DeviationDao
+import app.playground.store.database.daos.DeviationTrackDao
+import app.playground.store.database.entities.Deviation
+import app.playground.store.database.entities.Track
 import core.playground.data.execute
 import core.playground.domain.Result
 import core.playground.domain.asNetworkBoundResult

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import app.playground.store.database.entities.TrackWithDeviation
 import core.playground.domain.ExperimentalPagingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.deviant.domain.LoadTrackDeviantsUseCase

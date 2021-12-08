@@ -1,12 +1,12 @@
-package app.playground.source.of.truth.database.daos
+package app.playground.store.database.daos
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import app.playground.source.of.truth.database.EntityDao
-import app.playground.source.of.truth.database.entities.DeviationTrack
-import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import app.playground.store.database.EntityDao
+import app.playground.store.database.entities.DeviationTrack
+import app.playground.store.database.entities.TrackWithDeviation
 
 @Dao
 abstract class DeviationTrackDao : EntityDao<DeviationTrack>() {

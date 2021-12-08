@@ -1,4 +1,4 @@
-package app.playground.source.of.truth.database.entities
+package app.playground.store.database.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation

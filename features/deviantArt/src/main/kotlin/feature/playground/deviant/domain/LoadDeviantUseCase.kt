@@ -1,6 +1,6 @@
 package feature.playground.deviant.domain
 
-import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.store.database.entities.Deviation
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result

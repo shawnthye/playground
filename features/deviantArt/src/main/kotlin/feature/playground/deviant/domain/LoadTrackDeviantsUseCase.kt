@@ -1,8 +1,8 @@
 package feature.playground.deviant.domain
 
 import androidx.paging.PagingSource
-import app.playground.source.of.truth.database.entities.Track
-import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import app.playground.store.database.entities.Track
+import app.playground.store.database.entities.TrackWithDeviation
 import core.playground.IoDispatcher
 import core.playground.domain.ExperimentalPagingUseCase
 import core.playground.domain.PagingUseCase

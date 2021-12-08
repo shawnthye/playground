@@ -1,9 +1,9 @@
-package app.playground.source.of.truth.database.daos
+package app.playground.store.database.daos
 
 import androidx.room.Dao
 import androidx.room.Query
-import app.playground.source.of.truth.database.EntityDao
-import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.store.database.EntityDao
+import app.playground.store.database.entities.Deviation
 import kotlinx.coroutines.flow.Flow
 
 @Dao

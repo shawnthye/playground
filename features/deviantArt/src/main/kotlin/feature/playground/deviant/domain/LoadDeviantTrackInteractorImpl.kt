@@ -1,7 +1,7 @@
 package feature.playground.deviant.domain
 
 import app.playground.core.interactors.LoadDeviantTrackInteractor
-import app.playground.source.of.truth.database.entities.Track
+import app.playground.store.database.entities.Track
 import core.playground.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import timber.log.Timber

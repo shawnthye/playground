@@ -1,11 +1,11 @@
 package feature.playground.deviant.data
 
 import api.art.deviant.DeviantArtApi
-import app.playground.source.of.truth.database.entities.Deviation
-import app.playground.source.of.truth.database.entities.Track
-import app.playground.source.of.truth.database.entities.TrackWithDeviation
-import app.playground.source.of.truth.mappers.DeviationToEntity
-import app.playground.source.of.truth.mappers.TrackDeviationsToEntity
+import app.playground.store.database.entities.Deviation
+import app.playground.store.database.entities.Track
+import app.playground.store.database.entities.TrackWithDeviation
+import app.playground.store.mappers.DeviationToEntity
+import app.playground.store.mappers.TrackDeviationsToEntity
 import core.playground.data.Response
 import core.playground.data.applyMapper
 import kotlinx.coroutines.flow.Flow

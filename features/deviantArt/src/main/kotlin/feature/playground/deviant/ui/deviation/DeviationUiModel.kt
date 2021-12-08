@@ -1,7 +1,7 @@
 package feature.playground.deviant.ui.deviation
 
 import androidx.annotation.LayoutRes
-import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.store.database.entities.Deviation
 import feature.playground.deviant.R
 import java.util.Date
 

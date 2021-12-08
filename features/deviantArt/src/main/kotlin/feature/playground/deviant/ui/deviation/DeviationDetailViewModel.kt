@@ -3,7 +3,7 @@ package feature.playground.deviant.ui.deviation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.store.database.entities.Deviation
 import core.playground.domain.Result
 import core.playground.domain.Result.Error
 import core.playground.domain.Result.Loading

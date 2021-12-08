@@ -24,7 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.store.database.entities.Deviation
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import core.playground.ui.string

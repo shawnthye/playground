@@ -1,8 +1,8 @@
-package app.playground.source.of.truth.database.entities
+package app.playground.store.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import app.playground.source.of.truth.database.AppEntity
+import app.playground.store.database.AppEntity
 import java.util.Date
 
 @Entity(tableName = "deviations")

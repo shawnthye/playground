@@ -21,7 +21,7 @@
     <argument
       android:name="track"
       android:defaultValue="HOT"
-      app:argType="app.playground.source.of.truth.database.entities.Track"
+      app:argType="app.playground.store.database.entities.Track"
       app:nullable="false" />
   </fragment>
 

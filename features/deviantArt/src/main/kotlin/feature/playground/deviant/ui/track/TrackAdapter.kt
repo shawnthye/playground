@@ -8,8 +8,8 @@ import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
-import app.playground.source.of.truth.database.entities.Deviation
-import app.playground.source.of.truth.database.entities.TrackWithDeviation
+import app.playground.store.database.entities.Deviation
+import app.playground.store.database.entities.TrackWithDeviation
 import coil.annotation.ExperimentalCoilApi
 import coil.load
 import coil.request.repeatCount

@@ -3,10 +3,10 @@ package app.playground.core.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import app.playground.source.of.truth.database.daos.DeviationDao
-import app.playground.source.of.truth.database.daos.DeviationTrackDao
-import app.playground.source.of.truth.database.entities.Deviation
-import app.playground.source.of.truth.database.entities.DeviationTrack
+import app.playground.store.database.daos.DeviationDao
+import app.playground.store.database.daos.DeviationTrackDao
+import app.playground.store.database.entities.Deviation
+import app.playground.store.database.entities.DeviationTrack
 
 @Database(
     version = 1,

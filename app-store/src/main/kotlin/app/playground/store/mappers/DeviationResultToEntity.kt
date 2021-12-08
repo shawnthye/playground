@@ -1,7 +1,7 @@
-package app.playground.source.of.truth.mappers
+package app.playground.store.mappers
 
 import api.art.deviant.model.DeviationResult
-import app.playground.source.of.truth.database.entities.Deviation
+import app.playground.store.database.entities.Deviation
 import core.playground.data.Mapper
 import javax.inject.Inject
 

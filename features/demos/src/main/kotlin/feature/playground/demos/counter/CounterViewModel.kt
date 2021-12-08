@@ -3,7 +3,7 @@ package feature.playground.demos.counter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.core.interactors.LoadDeviantTrackInteractor
-import app.playground.source.of.truth.database.entities.Track
+import app.playground.store.database.entities.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
