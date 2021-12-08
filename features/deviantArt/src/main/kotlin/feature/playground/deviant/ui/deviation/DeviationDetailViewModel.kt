@@ -8,7 +8,7 @@ import core.playground.domain.Result
 import core.playground.domain.Result.Error
 import core.playground.domain.Result.Loading
 import core.playground.domain.data
-import core.playground.domain.mapLatestError
+import core.playground.domain.mapOnError
 import core.playground.ui.UiMessage
 import core.playground.ui.WhileViewSubscribed
 import core.playground.ui.asUiMessage
@@ -42,17 +42,15 @@ internal class DeviationDetailViewModel @Inject constructor(
         trySend(Unit) // init loading
     }
 
-    private val loadDeviantResult: Flow<Result<Deviation>> = _actionRefresh.receiveAsFlow()
+    private val result: Flow<Result<Deviation>> = _actionRefresh.receiveAsFlow()
         .flatMapLatest { loadDeviantUseCase(deviantId) }
-
-    private val deviationResult: Flow<Result<Deviation>> = loadDeviantResult
         .stateIn(viewModelScope, WhileViewSubscribed, Loading())
 
-    val deviation: StateFlow<Deviation?> = deviationResult.mapNotNull { result ->
+    val deviation: StateFlow<Deviation?> = result.mapNotNull { result ->
         result.data
     }.stateIn(scope = viewModelScope, started = WhileViewSubscribed, initialValue = null)
 
-    val isLoading = deviationResult.mapLatest {
+    val isLoading = result.mapLatest {
         it is Loading
     }.stateIn(scope = viewModelScope, started = WhileViewSubscribed, initialValue = false)
 
@@ -60,19 +58,19 @@ internal class DeviationDetailViewModel @Inject constructor(
      * This is just for demo purpose that how we can present an empty state error message
      * Since we are using NetworkBoundResult and the data also backed by the Track Fragment screen
      */
-    val errorMessage = deviationResult.filter {
+    val errorMessage = result.filter {
         it is Error && it.data == null
-    }.mapLatestError { error ->
+    }.mapOnError { error ->
         error.asUiMessage()
     }.stateIn(viewModelScope, WhileViewSubscribed, null)
 
-    val snackBarMessageId: Flow<UiMessage> = deviationResult.filter {
+    val snackBarMessageId: Flow<UiMessage> = result.filter {
         /**
          * We don't use snack bar when the content is empty
          * @see [errorMessage]
          */
         it.data != null
-    }.mapLatestError { error ->
+    }.mapOnError { error ->
         error.asUiMessageOr {
             UiMessage.String(it.message) // simply return error here here for demo
         }
@@ -81,7 +79,8 @@ internal class DeviationDetailViewModel @Inject constructor(
         WhileViewSubscribed,
         /**
          * because we transform this data from StateFlow,
-         * so we have to use [shareIn] with replay 0, so that the
+         * we use [shareIn] with replay 0,
+         * so that the SnackBar won't be visible again when orientation, resume, etc happened
          */
         0,
     )

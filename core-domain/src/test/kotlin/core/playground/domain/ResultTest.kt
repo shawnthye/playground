@@ -3,8 +3,8 @@ package core.playground.domain
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.lastOrNull
-import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
@@ -87,13 +87,13 @@ internal class ResultTest : CoroutineTest() {
 
         val successFlow = flow<Result<*>> {
             emit(Result.Success(Any()))
-        }.mapLatestError { it }
+        }.mapOnError { it }
 
         assertThat(successFlow.lastOrNull(), `is`(nullValue()))
 
         val errorFlow = flow<Result<*>> {
             emit(Result.Error(Throwable(message = null), Any()))
-        }.mapLatestError {
+        }.mapOnError {
             it
         }
 

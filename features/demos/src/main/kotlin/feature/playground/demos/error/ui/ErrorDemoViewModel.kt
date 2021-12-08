@@ -1,7 +1,7 @@
 package feature.playground.demos.error.ui
 
 import androidx.lifecycle.ViewModel
-import core.playground.domain.mapLatestError
+import core.playground.domain.mapOnError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.demos.error.domain.OkHttpUseCase
 import feature.playground.demos.error.domain.Response204UseCase
@@ -31,7 +31,7 @@ internal class ErrorDemoViewModel @Inject constructor(
         it
     }
 
-    val throwable = result.mapLatestError { it }
+    val throwable = result.mapOnError { it }
 
     fun tryOkHttp() {
         uiAction.trySend(ErrorUiAction.Okhttp)

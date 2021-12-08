@@ -51,7 +51,7 @@ fun <T> Result<T>.successOr(fallback: T): T {
     comments = "This still won't ignore in coverage," +
         " see this also: issue https://github.com/jacoco/jacoco/issues/654",
 )
-inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
+inline fun <reified T, R> Flow<Result<T>>.mapOnError(
     crossinline transform: suspend (throwable: Throwable) -> R,
 ): Flow<R> {
     return transform { result ->
