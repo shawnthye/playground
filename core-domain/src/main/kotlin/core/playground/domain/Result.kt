@@ -6,8 +6,8 @@ import core.playground.domain.Result.Error
 import core.playground.domain.Result.Loading
 import core.playground.domain.Result.Success
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.transform
 
 /**
  * A generic class that holds a value with its loading status.
@@ -54,23 +54,19 @@ fun <T> Result<T>.successOr(fallback: T): T {
 inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
     crossinline transform: suspend (throwable: Throwable) -> R,
 ): Flow<R> {
-    return flatMapLatest { result ->
-        flow {
-            if (result is Error) {
-                emit(transform(result.throwable))
-            }
+    return transform { result ->
+        if (result is Error) {
+            emit(transform(result.throwable))
         }
     }
 }
 
 inline fun <reified T> Flow<Response<T>>.toResult(): Flow<Result<T>> {
-    return flatMapLatest { response ->
-        flow {
-            when (response) {
-                is Response.Success -> emit(Success(response.body))
-                is Response.Empty -> emit(Success(Unit as T))
-                is Response.Error -> Error(response.exception, data = null)
-            }
+    return mapLatest { response ->
+        when (response) {
+            is Response.Success -> Success(response.body)
+            is Response.Empty -> Success(Unit as T)
+            is Response.Error -> Error(response.exception, data = null)
         }
     }
 }

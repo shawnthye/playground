@@ -2,16 +2,36 @@ package core.playground.ui.binding
 
 import android.annotation.SuppressLint
 import android.graphics.Outline
+import android.graphics.Rect
+import android.os.Build
+import android.util.DisplayMetrics
 import android.view.GestureDetector
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewOutlineProvider
+import android.view.WindowManager
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.BindingAdapter
 import timber.log.Timber
+
+@BindingAdapter("goneUnless")
+fun goneUnless(view: View, visible: Boolean) {
+    view.visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("goneOnNothing")
+fun goneOnNothing(view: View, thing: Any?) {
+    val visible = when (thing) {
+        is String -> thing.isNotBlank()
+        else -> thing != null
+    }
+
+    view.visibility = if (visible) View.VISIBLE else View.GONE
+}
 
 @BindingAdapter("clipToCircle")
 fun View.clipToCircle(clipped: Boolean) {
@@ -121,4 +141,48 @@ class NoDoubleTapClickListener(val singleTapped: () -> Unit) :
         singleTapped()
         return true
     }
+}
+
+@BindingAdapter(
+    value = ["layout_constraintDimensionRatioWidth", "layout_constraintDimensionRatioHeight"],
+    requireAll = true,
+)
+fun constraintDimensionRatio(
+    view: View,
+    layout_constraintDimensionRatioWidth: Int,
+    layout_constraintDimensionRatioHeight: Int,
+) {
+    val params = view.layoutParams as? ConstraintLayout.LayoutParams
+        ?: throw IllegalArgumentException("view's parent must be Constraint Layout")
+
+    params.dimensionRatio =
+        "$layout_constraintDimensionRatioWidth:$layout_constraintDimensionRatioHeight"
+
+    view.layoutParams = params
+}
+
+/**
+ * Note: the limitation of this is we can't get the parent layout width,
+ * this calculate base on the entire screen size
+ */
+@BindingAdapter("layout_constraintMaxHeight_percent")
+fun constraintDimensionRatio(view: View, layout_constraintMaxHeight_percent: Double) {
+    val params = view.layoutParams as? ConstraintLayout.LayoutParams
+        ?: throw IllegalArgumentException("view's parent must be Constraint Layout")
+
+    val screenHeight = view.currentWindowMetricsBounds().height()
+
+    params.matchConstraintMaxHeight = (screenHeight * layout_constraintMaxHeight_percent).toInt()
+}
+
+private fun View.currentWindowMetricsBounds(): Rect {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        return context.getSystemService(WindowManager::class.java).currentWindowMetrics.bounds
+    }
+
+    val metrics = DisplayMetrics()
+    @Suppress("DEPRECATION")
+    ViewCompat.getDisplay(this)?.getMetrics(metrics)
+    return Rect(0, 0, metrics.widthPixels, metrics.heightPixels)
 }

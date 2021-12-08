@@ -38,12 +38,11 @@ class DeviantRepository @Inject constructor(
     }
 
     fun observeDeviation(id: String): Flow<Result<Deviation>> {
-        return deviationDataSource.getDeviation(id)
-            .asNetworkBoundResult(
-                query = deviationDao.observeDeviation(id),
-                shouldFetch = { true },
-            ) {
-                deviationDao.insert(it)
-            }
+        return deviationDataSource.getDeviation(id).asNetworkBoundResult(
+            query = deviationDao.observeDeviation(id),
+            shouldFetch = { true },
+        ) {
+            deviationDao.insert(it)
+        }
     }
 }

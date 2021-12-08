@@ -44,7 +44,7 @@ fun SwipeRefreshLayout.onRefreshListener(listener: SwipeRefreshLayout.OnRefreshL
 fun SwipeRefreshLayout.refreshing(refreshing: Boolean) {
     if (!refreshing) {
         // set a delay for canceling the indicator, cause of network is too fast
-        postDelayed({ isRefreshing = refreshing }, 800)
+        postDelayed({ isRefreshing = refreshing }, 500)
     } else {
         isRefreshing = refreshing
     }

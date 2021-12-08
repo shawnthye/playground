@@ -54,6 +54,8 @@ dependencies {
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.insetsUi)
 
+    implementation(Libs.AndroidX.constraintLayout)
+
     testImplementation(Libs.AndroidX.Test.coreKtx)
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
