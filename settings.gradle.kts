@@ -44,7 +44,7 @@ include("build-dep-constraints")
 
 include(":app")
 include(":app-core")
-include(":app-source-of-truth")
+include(":app-store")
 include(":deviantart-api")
 include(":product-hunt-api")
 include(":deviantart-api-model")

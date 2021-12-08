@@ -43,7 +43,7 @@ dependencies {
 
     implementation(project(":core-data"))
     implementation(project(":core-domain"))
-    implementation(project(":app-source-of-truth"))
+    implementation(project(":app-store"))
 
     implementation(Libs.timber)
 

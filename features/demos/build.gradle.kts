@@ -44,7 +44,7 @@ dependencies {
     testRuntimeOnly(platform(project(":build-dep-constraints")))
 
     implementation(project(":app-core"))
-    implementation(project(":app-source-of-truth"))
+    implementation(project(":app-store"))
     implementation(project(":core"))
     implementation(project(":core-data"))
     implementation(project(":core-domain"))
