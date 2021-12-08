@@ -6,6 +6,7 @@ import core.playground.data.Response.Success
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.mapLatest
+import retrofit2.HttpException
 
 /**
  * Common class used by API responses.
@@ -28,6 +29,14 @@ sealed class Response<out T> {
      */
     object Empty : Response<Nothing>()
 
+    override fun toString(): String {
+        return when (this) {
+            is Success -> "Success[body=$body]"
+            is Error -> "Error[exception=$exception]"
+            Empty -> "Empty"
+        }
+    }
+
     internal companion object {
         fun <T> create(error: Throwable): Error<T> {
             return Error(error)
@@ -36,10 +45,10 @@ sealed class Response<out T> {
         fun <T> create(response: retrofit2.Response<T>): Response<T> {
             return if (response.isSuccessful) {
                 val body = response.body()
-                if (body == null || response.code() == 204) {
-                    Empty
-                } else {
+                if (null != body && 204 != response.code()) {
                     Success(body)
+                } else {
+                    Empty
                 }
             } else {
                 Error(response.asHttpError())
@@ -63,7 +72,7 @@ private fun <T> retrofit2.Response<T>.asHttpError(): Reason.HttpError {
     val body = errorBody()?.string().takeUnless { it.isNullOrBlank() }
     val errorMsg = body ?: message()
 
-    return Reason.HttpError(code(), errorMsg)
+    return Reason.HttpError(code(), errorMsg, HttpException(this))
 }
 
 infix fun <From, To> Flow<Response<From>>.applyMapper(

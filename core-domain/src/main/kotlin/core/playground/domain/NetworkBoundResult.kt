@@ -19,7 +19,6 @@ inline fun <T> Flow<Response<T>>.asNetworkBoundResult(
     noinline shouldFetch: (suspend (cache: T?) -> Boolean)? = null,
     crossinline saveRemote: suspend (remote: T) -> Unit,
 ): Flow<Result<T>> {
-
     val work: Flow<Result<T>> = transform { response ->
         when (response) {
             is Response.Success -> {

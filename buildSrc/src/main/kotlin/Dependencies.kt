@@ -72,6 +72,9 @@ object Libs {
             const val insetsUi = "com.google.accompanist:accompanist-insets-ui"
             const val navigationAnimation =
                 "com.google.accompanist:accompanist-navigation-animation"
+
+            @Suppress("SpellCheckingInspection")
+            const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh"
         }
     }
 

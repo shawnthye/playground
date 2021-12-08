@@ -71,7 +71,9 @@ internal fun ErrorDemo(
                 }
 
                 Component {
-                    Button(onClick = { viewModel.tryOkHttp() }) { Text(text = "Retrofit") }
+                    Button(onClick = { viewModel.try204Response() }) {
+                        Text(text = "Flow<Response<Unit>> for 204")
+                    }
                 }
             }
         }

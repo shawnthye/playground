@@ -1,6 +1,7 @@
 package core.playground.domain
 
 import core.playground.Generated
+import core.playground.data.Response
 import core.playground.domain.Result.Error
 import core.playground.domain.Result.Loading
 import core.playground.domain.Result.Success
@@ -57,6 +58,18 @@ inline fun <reified T, R> Flow<Result<T>>.mapLatestError(
         flow {
             if (result is Error) {
                 emit(transform(result.throwable))
+            }
+        }
+    }
+}
+
+inline fun <reified T> Flow<Response<T>>.toResult(): Flow<Result<T>> {
+    return flatMapLatest { response ->
+        flow {
+            when (response) {
+                is Response.Success -> emit(Success(response.body))
+                is Response.Empty -> emit(Success(Unit as T))
+                is Response.Error -> Error(response.exception, data = null)
             }
         }
     }

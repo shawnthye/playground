@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
@@ -39,12 +41,20 @@ internal fun Discover(
     openPost: (postId: String) -> Unit,
 ) {
     val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(DiscoverState.EMPTY)
-    Discover(state = state, navigateUp = navigateUp, openPost = openPost)
+    Discover(
+        state = state,
+        onSwipeRefresh = {
+            viewModel.onRefresh()
+        },
+        navigateUp = navigateUp,
+        openPost = openPost,
+    )
 }
 
 @Composable
 internal fun Discover(
     state: DiscoverState,
+    onSwipeRefresh: () -> Unit,
     navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
 ) {
@@ -63,25 +73,30 @@ internal fun Discover(
             return@Scaffold
         }
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = paddingValues,
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = state.refreshing),
+            onRefresh = onSwipeRefresh,
         ) {
-            items(state.posts.size) { position ->
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = paddingValues,
+            ) {
+                items(state.posts.size) { position ->
 
-                val post = state.posts[position]
+                    val post = state.posts[position]
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            openPost(post.id)
-                        }
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                ) {
-                    Text(text = "No. ${position + 1}, id: ${post.id}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Name: ${post.name}")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                openPost(post.id)
+                            }
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                    ) {
+                        Text(text = "No. ${position + 1}, id: ${post.id}")
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(text = "Name: ${post.name}")
+                    }
                 }
             }
         }

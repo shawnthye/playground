@@ -18,13 +18,13 @@ internal class DiscoverViewModel @Inject constructor(
     loadPostsUseCase: LoadPostsUseCase,
 ) : ViewModel() {
 
-    private val actionRefresh = Channel<Unit>(Channel.CONFLATED).apply {
-        trySend(Unit)
-    }
+    private val actionRefresh = Channel<Unit>(Channel.CONFLATED).apply { trySend(Unit) }
 
     private val refresh = actionRefresh.receiveAsFlow()
 
-    private val postsResult = refresh.flatMapLatest { loadPostsUseCase(Unit) }
+    private val postsResult = refresh.flatMapLatest { loadPostsUseCase(Unit) }.stateIn(
+        viewModelScope, WhileViewSubscribed, Result.Loading(),
+    )
 
     val state = postsResult.map {
         when (it) {
@@ -38,4 +38,8 @@ internal class DiscoverViewModel @Inject constructor(
         }
 
     }.stateIn(viewModelScope, WhileViewSubscribed, DiscoverState.EMPTY)
+
+    fun onRefresh() {
+        actionRefresh.trySend(Unit)
+    }
 }

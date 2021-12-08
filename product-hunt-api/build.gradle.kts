@@ -11,6 +11,7 @@ dependencies {
     testImplementation(platform(project(":build-dep-constraints")))
     testRuntimeOnly(platform(project(":build-dep-constraints")))
 
+    implementation(project(":core"))
     implementation(project(":core-data"))
 
     implementation(Libs.Dagger.javaxInject)

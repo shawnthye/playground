@@ -2,12 +2,13 @@ package feature.playground.product.hunt.posts.data
 
 import api.product.hunt.PostsQuery
 import api.product.hunt.ProductHuntGraphQL
-import com.apollographql.apollo.coroutines.await
+import api.product.hunt.asFlow
+import core.playground.domain.toResult
 import javax.inject.Inject
 
 internal class DiscoverRepository
 @Inject constructor(
     private val graphql: ProductHuntGraphQL,
 ) {
-    suspend fun queryPosts() = graphql.query(PostsQuery()).await()
+    fun queryPosts() = graphql.query(PostsQuery()).asFlow().toResult()
 }

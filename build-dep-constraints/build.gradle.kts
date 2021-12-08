@@ -68,6 +68,7 @@ dependencies {
         api("${Libs.Google.Accompanist.insetsUi}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.insets}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.navigationAnimation}:${Versions.ACCOMPANIST}")
+        api("${Libs.Google.Accompanist.swipeRefresh}:${Versions.ACCOMPANIST}")
         api("${Libs.JetBrains.reflect}:${Versions.KOTLIN}")
         api("${Libs.JetBrains.xJson}:${Versions.KOTLINX_JSON}")
         api("${Libs.Junit5.androidCore}:${Versions.JUNIT5_ANDROID_TEST}")

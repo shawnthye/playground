@@ -27,7 +27,11 @@ sealed class Reason(
      * TODO: maybe different Error for different context?
      * so that client doesn't need to have nested condition to check status code
      */
-    class HttpError(val code: Int, message: String) : Reason(message, null)
+    class HttpError(
+        val code: Int,
+        message: String,
+        cause: Throwable? = null,
+    ) : Reason(message, cause)
 
     @Generated(comments = "For debugging purpose")
     override fun toString(): String {

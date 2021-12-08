@@ -4,9 +4,11 @@ import api.product.hunt.PostQuery
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result
+import core.playground.domain.toResult
 import feature.playground.product.hunt.post.data.PostRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -20,15 +22,11 @@ internal class LoadPostUseCase
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
     private val repository: PostRepository,
 ) : FlowUseCase<POST_ID, PostQuery.Data>(coroutineDispatcher) {
-    override fun execute(params: POST_ID): Flow<Result<PostQuery.Data>> = flow {
+
+    override fun execute(
+        params: POST_ID,
+    ): Flow<Result<PostQuery.Data>> = flow {
         emit(Result.Loading())
-
-        val query = repository.queryPost(params)
-
-        if (query.errors.isNullOrEmpty().not()) {
-            emit(Result.Error(Exception(query.errors!!.joinToString("\n") { it.message })))
-        }
-
-        emit(Result.Success(query.data!!))
+        emitAll(repository.queryPost(params).toResult())
     }
 }

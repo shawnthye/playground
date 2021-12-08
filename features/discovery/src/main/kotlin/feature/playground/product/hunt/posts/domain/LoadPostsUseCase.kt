@@ -7,6 +7,7 @@ import core.playground.domain.Result
 import feature.playground.product.hunt.posts.data.DiscoverRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -15,15 +16,10 @@ internal class LoadPostsUseCase
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
     private val discoverRepository: DiscoverRepository,
 ) : FlowUseCase<Unit, PostsQuery.Data>(coroutineDispatcher) {
-    override fun execute(params: Unit): Flow<Result<PostsQuery.Data>> = flow {
+    override fun execute(
+        params: Unit,
+    ): Flow<Result<PostsQuery.Data>> = flow {
         emit(Result.Loading())
-
-        val query = discoverRepository.queryPosts()
-
-        if (query.errors.isNullOrEmpty().not()) {
-            emit(Result.Error(Exception(query.errors!!.joinToString("\n") { it.message })))
-        }
-
-        emit(Result.Success(query.data!!))
+        emitAll(discoverRepository.queryPosts())
     }
 }
