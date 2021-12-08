@@ -10,9 +10,7 @@ import core.playground.domain.asNetworkBoundResult
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class DeviantRepository @Inject constructor(
     private val deviationDao: DeviationDao,
     private val deviationTrackDao: DeviationTrackDao,
