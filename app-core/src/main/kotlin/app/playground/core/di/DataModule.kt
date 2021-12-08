@@ -36,6 +36,10 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun providePostDao(database: AppDatabase) = database.postDao()
+
+    @Singleton
+    @Provides
     fun provideDeviationDao(database: AppDatabase) = database.deviationDao()
 
     @Singleton

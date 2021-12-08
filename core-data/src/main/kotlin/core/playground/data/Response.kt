@@ -75,7 +75,7 @@ private fun <T> retrofit2.Response<T>.asHttpError(): Reason.HttpError {
     return Reason.HttpError(code(), errorMsg, HttpException(this))
 }
 
-infix fun <From, To> Flow<Response<From>>.applyMapper(
+infix fun <From, To> Flow<Response<From>>.withMapper(
     mapper: Mapper<From, To>,
 ): Flow<Response<To>> {
     return mapLatest { response ->

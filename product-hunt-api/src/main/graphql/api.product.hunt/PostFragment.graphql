@@ -1,4 +1,4 @@
-fragment post on Post {
+fragment postFields on Post {
   id
   createdAt
   thumbnail {

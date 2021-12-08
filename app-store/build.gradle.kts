@@ -35,6 +35,7 @@ dependencies {
     implementation(project(":core-data"))
     @Suppress("SpellCheckingInspection")
     implementation(project(":deviantart-api-model"))
+    compileOnly(project(":product-hunt-api"))
 
     implementation(Libs.Coroutines.core)
     implementation(Libs.Dagger.javaxInject)

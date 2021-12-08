@@ -1,12 +1,23 @@
 package feature.playground.product.hunt.post.data
 
-import api.product.hunt.PostQuery
-import api.product.hunt.ProductHuntGraphQL
+import app.playground.store.database.daos.PostDao
+import app.playground.store.database.entities.Post
+import app.playground.store.database.entities.PostId
+import core.playground.domain.Result
+import core.playground.domain.asNetworkBoundResult
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class PostRepository
 @Inject constructor(
-    private val graphql: ProductHuntGraphQL,
+    private val postDao: PostDao,
+    private val postDataSource: PostDataSource,
 ) {
-    fun queryPost(id: String) = graphql.query(PostQuery(id))
+    fun observePost(id: PostId): Flow<Result<Post>> {
+        return postDataSource.queryPost(id).asNetworkBoundResult(
+            query = postDao.observePost(id),
+        ) {
+            postDao.replace(it)
+        }
+    }
 }

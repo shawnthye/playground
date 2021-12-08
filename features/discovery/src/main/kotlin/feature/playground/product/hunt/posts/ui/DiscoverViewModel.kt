@@ -30,7 +30,7 @@ internal class DiscoverViewModel @Inject constructor(
         when (it) {
             is Result.Success -> {
                 DiscoverState(
-                    posts = it.data.posts.edges.map { edge -> edge.node.fragments.post },
+                    posts = it.data.posts.edges.map { edge -> edge.node.fragments.postFields },
                 )
             }
             is Result.Error -> TODO()

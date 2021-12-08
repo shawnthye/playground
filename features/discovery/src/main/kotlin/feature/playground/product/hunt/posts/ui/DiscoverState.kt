@@ -1,9 +1,9 @@
 package feature.playground.product.hunt.posts.ui
 
-import api.product.hunt.fragment.Post
+import api.product.hunt.fragment.PostFields
 
 internal data class DiscoverState(
-    val posts: List<Post> = emptyList(),
+    val posts: List<PostFields> = emptyList(),
     val refreshing: Boolean = false,
 ) {
     companion object {

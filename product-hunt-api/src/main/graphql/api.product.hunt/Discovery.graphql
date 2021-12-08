@@ -3,11 +3,11 @@ query Discovery {
     edges {
       cursor
       node {
-        ...post
+        ...postFields
       }
     }
     pageInfo {
-      ...page
+      ...pageFields
     }
   }
   topics(first: 10, order: NEWEST) {
@@ -23,7 +23,7 @@ query Discovery {
       }
     }
     pageInfo {
-      ...page
+      ...pageFields
     }
   }
 }

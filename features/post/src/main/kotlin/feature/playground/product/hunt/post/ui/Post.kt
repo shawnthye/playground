@@ -11,7 +11,6 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.AppBar
 import core.playground.ui.rememberFlowWithLifecycle
-import feature.playground.product.hunt.posts.ui.PostViewModel
 
 @Composable
 fun Post(navigateUp: NavigateUp) {

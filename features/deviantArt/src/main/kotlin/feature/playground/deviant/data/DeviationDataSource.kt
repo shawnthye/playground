@@ -7,7 +7,7 @@ import app.playground.store.database.entities.TrackWithDeviation
 import app.playground.store.mappers.DeviationToEntity
 import app.playground.store.mappers.TrackDeviationsToEntity
 import core.playground.data.Response
-import core.playground.data.applyMapper
+import core.playground.data.withMapper
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -30,7 +30,7 @@ internal class DeviationDataSourceImpl @Inject constructor(
 
     override fun getDeviation(
         id: String,
-    ): Flow<Response<Deviation>> = deviantArtApi.deviation(id).applyMapper(deviationToEntity)
+    ): Flow<Response<Deviation>> = deviantArtApi.deviation(id).withMapper(deviationToEntity)
 
     override fun browseDeviations(
         track: Track,
@@ -41,6 +41,6 @@ internal class DeviationDataSourceImpl @Inject constructor(
             track = track.toString().lowercase(),
             offset = nextPage,
             limit = pageSize,
-        ).applyMapper(trackDeviationsToEntity)
+        ).withMapper(trackDeviationsToEntity)
     }
 }

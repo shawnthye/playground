@@ -3,14 +3,11 @@ query Posts {
     edges {
       cursor
       node {
-        ...post
+        ...postFields
       }
     }
     pageInfo {
-      hasNextPage
-      startCursor
-      endCursor
-      hasPreviousPage
+      ...pageFields
     }
   }
 }
