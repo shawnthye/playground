@@ -32,7 +32,7 @@ internal class PostViewModel @Inject constructor(
     private val result = refresh.flatMapLatest { loadPostUseCase(id) }
 
     val state = result.map {
-        it.data?.post?.fragments?.postFragment
+        it.data?.post?.fragments?.post
 
     }.stateIn(viewModelScope, WhileViewSubscribed, null)
 }

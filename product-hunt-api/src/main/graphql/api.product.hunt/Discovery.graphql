@@ -1,0 +1,29 @@
+query Discovery {
+  posts(first: 20, featured: true) { # max 20 per page
+    edges {
+      cursor
+      node {
+        ...post
+      }
+    }
+    pageInfo {
+      ...page
+    }
+  }
+  topics(first: 10, order: NEWEST) {
+    edges {
+      ... on TopicEdge {
+        node {
+          ... on Topic{
+            id
+            image
+            createdAt
+          }
+        }
+      }
+    }
+    pageInfo {
+      ...page
+    }
+  }
+}

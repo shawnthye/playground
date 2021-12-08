@@ -1,0 +1,13 @@
+fragment post on Post {
+  id
+  createdAt
+  thumbnail {
+    type
+    url
+  }
+  name
+  media {
+    type
+    url
+  }
+}
