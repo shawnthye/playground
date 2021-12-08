@@ -21,11 +21,11 @@ private val SERVER_URL = "https://$API_PATH".toHttpUrl()
 private const val AUTHORIZATION = "Bearer YFvkSRZUDIZFnCnXAmthYqEfXAJj5803JoE8Yk6OLuU"
 
 @Singleton
-class ProductHunt @Inject constructor(
+class ProductHuntGraphQL @Inject constructor(
     client: OkHttpClient,
 ) {
 
-    private val lazy: ApolloClient by lazy {
+    private val graphql: ApolloClient by lazy {
         val okHttpClient = client.newBuilder()
             .addInterceptor(AuthorizationInterceptor())
             .build()
@@ -38,11 +38,11 @@ class ProductHunt @Inject constructor(
 
     fun <D : Operation.Data, T, V : Operation.Variables> query(
         query: Query<D, T, V>,
-    ): ApolloQueryCall<T> = lazy.query(query)
+    ): ApolloQueryCall<T> = graphql.query(query)
 
     fun <D : Operation.Data, T, V : Operation.Variables> mutate(
         mutation: Mutation<D, T, V>,
-    ): ApolloMutationCall<T> = lazy.mutate(mutation)
+    ): ApolloMutationCall<T> = graphql.mutate(mutation)
 
     // fun <D : Operation.Data, T, V : Operation.Variables> mutate(
     //     mutation: Mutation<D, T, V>,
