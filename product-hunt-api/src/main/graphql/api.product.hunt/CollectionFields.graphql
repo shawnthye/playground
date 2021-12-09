@@ -1,0 +1,8 @@
+fragment collectionFields on Collection {
+  id
+  createdAt
+  name
+  coverImage
+  featuredAt
+  followersCount
+}

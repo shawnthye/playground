@@ -1,0 +1,7 @@
+fragment topicFields on Topic {
+  id
+  createdAt
+  name
+  image
+  postsCount
+}

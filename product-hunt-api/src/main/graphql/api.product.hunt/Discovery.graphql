@@ -12,14 +12,18 @@ query Discovery {
   }
   topics(first: 10, order: NEWEST) {
     edges {
-      ... on TopicEdge {
-        node {
-          ... on Topic{
-            id
-            image
-            createdAt
-          }
-        }
+      node {
+        ...topicFields
+      }
+    }
+    pageInfo {
+      ...pageFields
+    }
+  }
+  collections(first: 10) {
+    edges{
+      node{
+        coverImage
       }
     }
     pageInfo {
