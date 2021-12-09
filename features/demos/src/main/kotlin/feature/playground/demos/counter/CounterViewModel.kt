@@ -7,6 +7,8 @@ import app.playground.store.database.entities.Track
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,12 +21,12 @@ internal class CounterViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CounterUiState(0))
-    val uiState: StateFlow<CounterUiState> = _uiState
+    val uiState: StateFlow<CounterUiState> = _uiState.asStateFlow()
 
     fun onClick() {
         viewModelScope.launch {
             deviantTrackInteractor(Track.HOT)
-            _uiState.emit(CounterUiState(count = _uiState.value.count + 1))
+            _uiState.update { it.copy(count = it.count + 1) }
         }
     }
 }
