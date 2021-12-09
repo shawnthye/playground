@@ -1,14 +1,17 @@
 package feature.playground.product.hunt.posts.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
@@ -21,11 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import app.playground.store.database.entities.Post
+import coil.compose.rememberImagePainter
+import coil.request.repeatCount
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
+import timber.log.Timber
 
 @Composable
 fun Discover(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
@@ -106,17 +112,31 @@ fun List(
 
                 val post = posts[position]
 
-                Column(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
                             openPost(post.postId)
                         }
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                        .padding(horizontal = 18.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = "No. ${position + 1}, id: ${post.id}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Name: ${post.name}")
+                    Timber.i(post.thumbnailUrl)
+                    Image(
+                        painter = rememberImagePainter(data = post.thumbnailUrl) {
+                            repeatCount(0)
+                        },
+                        contentDescription = post.name,
+                        modifier = Modifier
+                            .size(56.dp)
+                            .padding(end = 8.dp),
+                    )
+
+                    Column {
+                        Text(text = "No. ${position + 1}, id: ${post.id}")
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(text = "Name: ${post.name}")
+                    }
                 }
             }
         }

@@ -55,8 +55,12 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
+
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.swipeRefresh)
+
+    implementation(Libs.Coil.coilGif)
+    implementation(Libs.Coil.coilCompose)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
     implementation(Libs.AndroidX.Lifecycle.viewModel)
