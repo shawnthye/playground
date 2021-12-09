@@ -18,8 +18,8 @@ interface DeviantArtApi {
         @Path("track") track: String,
         @Query("q") query: String? = "anim",
         @Query("mature_content") mature: Boolean = false,
-        @Query("offset") offset: String? = null,
         @Query("limit") limit: Int,
+        @Query("offset") offset: String? = null,
     ): Flow<Response<DeviationResult>>
 
     @Suppress("SpellCheckingInspection")
