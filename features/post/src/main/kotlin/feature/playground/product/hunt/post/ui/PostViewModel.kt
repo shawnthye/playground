@@ -27,9 +27,7 @@ internal class PostViewModel @Inject constructor(
         trySend(Unit)
     }
 
-    private val refresh = actionRefresh.receiveAsFlow()
-
-    private val result = refresh.flatMapLatest { loadPostUseCase(id) }
+    private val result = actionRefresh.receiveAsFlow().flatMapLatest { loadPostUseCase(id) }
 
     val state = result.map {
         it.data

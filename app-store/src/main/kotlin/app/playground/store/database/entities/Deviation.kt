@@ -1,11 +1,17 @@
 package app.playground.store.database.entities
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import app.playground.store.database.AppEntity
 import java.util.Date
 
-@Entity(tableName = "deviations")
+@Entity(
+    tableName = "deviations",
+    indices = [
+        Index(value = ["deviationId"], unique = true),
+    ],
+)
 data class Deviation(
     @PrimaryKey(autoGenerate = true) override val id: Long = 0,
     val deviationId: String,
