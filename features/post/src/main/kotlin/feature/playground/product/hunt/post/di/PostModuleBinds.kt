@@ -9,8 +9,9 @@ import feature.playground.product.hunt.post.data.PostDataSourceImpl
 
 @InstallIn(ViewModelComponent::class)
 @Module
-internal abstract class PostBinds {
+internal abstract class PostModuleBinds {
 
+    @Suppress("unused")
     @Binds
     internal abstract fun bindPostDataSource(impl: PostDataSourceImpl): PostDataSource
 }

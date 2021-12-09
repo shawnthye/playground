@@ -53,7 +53,7 @@ class DeviantArt : AppCompatActivity(), NavigationHost {
         /**
          * We apply insets manually,
          * because we don't want ripple effect to reach outside of it bar
-         * clipPadding will not work, because we wanted the default borderless ripple
+         * clipPadding does not work, we wanted the default borderless ripple
          */
         ViewCompat.setOnApplyWindowInsetsListener(bottomNavigationView, null)
         ViewCompat.setOnApplyWindowInsetsListener(
@@ -74,7 +74,7 @@ class DeviantArt : AppCompatActivity(), NavigationHost {
         if (bottomNavigationView.selectedItemId != bottomNavigationView.menu[0].itemId) {
             val previousDestination = navController.previousBackStackEntry?.destination ?: run {
                 /**
-                 * on the root, left it to default [onBackPressed]
+                 * on the root, leave it to default [onBackPressed]
                  */
                 return super.onBackPressed()
             }

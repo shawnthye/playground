@@ -16,6 +16,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.rememberInsetsPaddingValues
@@ -60,6 +61,8 @@ fun AppBar(
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
     actions: @Composable (() -> Unit)? = null,
 ) {
+
+    val safeTitle = title?.takeUnless { it.isBlank() } ?: ""
     /**
      * [ElevationOverlay] is auto apply in Night Mode.
      * But we wanted a more paper like experience even in Night Mode
@@ -68,7 +71,14 @@ fun AppBar(
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         TopAppBar(
             modifier = modifier,
-            title = { Text(text = title ?: "", color = MaterialTheme.colors.onSurface) },
+            title = {
+                Text(
+                    text = safeTitle,
+                    color = MaterialTheme.colors.onSurface,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                )
+            },
             navigationIcon = {
                 IconButton(onClick = { navigationUp?.invoke() }) {
                     Icon(

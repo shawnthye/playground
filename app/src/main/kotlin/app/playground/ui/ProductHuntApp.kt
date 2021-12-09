@@ -29,35 +29,31 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import app.playground.navigation.ProductHuntNavGraph
 import app.playground.navigation.Screen
+import app.playground.navigation.findCurrentTopRoute
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import core.playground.ui.alias.NavigateUp
 
 @ExperimentalAnimationApi
 @Composable
-fun ProductHuntApp(navigateUp: NavigateUp) {
+internal fun ProductHuntApp(navigateUp: NavigateUp) {
     val navController = rememberAnimatedNavController()
     val currentScreen by navController.currentScreenAsState()
-    val popupDestinationId by navController.popUpDestinationId()
 
     Scaffold(
         bottomBar = {
             ProductHuntBottomNavigation(
                 selectedScreen = currentScreen,
                 onNavigationSelected = { selected ->
-                    navController.navigate(selected.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(popupDestinationId) { saveState = true }
-
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
+                    when (selected) {
+                        currentScreen -> navController.popBackStack(
+                            route = navController.findCurrentTopRoute(selected),
+                            inclusive = false,
+                        )
+                        else -> navController.navigateTo(screen = selected)
                     }
                 },
             )
@@ -67,7 +63,27 @@ fun ProductHuntApp(navigateUp: NavigateUp) {
             modifier = Modifier.padding(innerPadding),
             navController = navController,
             openDrawer = navigateUp,
+            onSelectedDefaultScreen = {
+                navController.navigateTo(screen = it)
+            },
         )
+    }
+}
+
+private fun NavController.navigateTo(screen: Screen) {
+    navigate(screen.route) {
+        // Pop up to the start destination of the graph to
+        // avoid building up a large stack of destinations
+        // on the back stack as users select items
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+
+        // Avoid multiple copies of the same destination when
+        // re-selecting the same item
+        launchSingleTop = true
+        // Restore state when re-selecting a previously selected item
+        restoreState = true
     }
 }
 
@@ -78,7 +94,7 @@ fun ProductHuntApp(navigateUp: NavigateUp) {
 @Stable
 @Composable
 private fun NavController.currentScreenAsState(): State<Screen> {
-    val selectedItem = remember { mutableStateOf<Screen>(Screen.Discover) }
+    val selectedItem = remember { mutableStateOf<Screen>(Screen.DEFAULT) }
 
     DisposableEffect(this) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
@@ -136,29 +152,6 @@ private fun ProductHuntBottomNavigation(
             }
         }
     }
-}
-
-@Stable
-@Composable
-private fun NavController.popUpDestinationId(): State<Int> {
-    val popUpDestinationId = remember { mutableStateOf(currentDestination?.id ?: -1) }
-
-    DisposableEffect(this) {
-        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-            when {
-                destination.hierarchy.any { it.route == Screen.Discover.route } -> {
-                    popUpDestinationId.value = destination.id
-                }
-            }
-        }
-        addOnDestinationChangedListener(listener)
-
-        onDispose {
-            removeOnDestinationChangedListener(listener)
-        }
-    }
-
-    return popUpDestinationId
 }
 
 private data class ProductHuntNavigationItem(

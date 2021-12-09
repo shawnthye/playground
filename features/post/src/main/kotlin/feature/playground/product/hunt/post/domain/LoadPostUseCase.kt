@@ -20,7 +20,5 @@ internal class LoadPostUseCase
 
     override fun execute(
         params: PostId,
-    ): Flow<Result<Post>> = flow {
-        emitAll(repository.observePost(params))
-    }
+    ): Flow<Result<Post>> = repository.observePost(params)
 }

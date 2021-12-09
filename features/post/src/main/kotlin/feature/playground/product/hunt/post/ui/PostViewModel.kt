@@ -4,13 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.store.database.entities.PostId
+import core.playground.domain.Result.Loading
 import core.playground.domain.data
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import feature.playground.product.hunt.post.domain.LoadPostUseCase
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
@@ -21,16 +24,27 @@ internal class PostViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    val id: PostId = savedStateHandle.get<String>("postId")!!
+    private val id: PostId = savedStateHandle.get<PostId>("postId")!!
 
     private val actionRefresh = Channel<Unit>(Channel.CONFLATED).apply {
         trySend(Unit)
     }
 
-    private val result = actionRefresh.receiveAsFlow().flatMapLatest { loadPostUseCase(id) }
+    private val result = actionRefresh.receiveAsFlow().flatMapLatest {
+        loadPostUseCase(id)
+    }.stateIn(
+        viewModelScope, WhileViewSubscribed, Loading(),
+    )
 
-    val state = result.map {
-        it.data
+    val refreshing: Flow<Boolean> = result.map { it is Loading }.stateIn(
+        viewModelScope, WhileViewSubscribed, true,
+    )
 
-    }.stateIn(viewModelScope, WhileViewSubscribed, null)
+    val uiState = result.mapLatest { it.data }.stateIn(
+        viewModelScope, WhileViewSubscribed, null,
+    )
+
+    fun refresh() {
+        actionRefresh.trySend(Unit)
+    }
 }

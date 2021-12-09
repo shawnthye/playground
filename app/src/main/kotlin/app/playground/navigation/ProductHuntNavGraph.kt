@@ -1,10 +1,21 @@
 package app.playground.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,7 +23,6 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import feature.playground.product.hunt.post.ui.Post
 import feature.playground.product.hunt.posts.ui.Discover
 import feature.playground.producthunt.ui.Collections
@@ -28,6 +38,10 @@ internal sealed class Screen(val route: String) {
     object Discover : Screen("$PRODUCT_HUNT/discover")
     object Topics : Screen("$PRODUCT_HUNT/topics")
     object Collections : Screen("$PRODUCT_HUNT/collections")
+
+    companion object {
+        val DEFAULT by lazy { Discover }
+    }
 }
 
 internal sealed class Destination(
@@ -51,11 +65,14 @@ internal sealed class Destination(
 
 @ExperimentalAnimationApi
 @Composable
-fun ProductHuntNavGraph(
+internal fun ProductHuntNavGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberAnimatedNavController(),
+    navController: NavHostController,
     openDrawer: () -> Unit,
+    onSelectedDefaultScreen: (Screen) -> Unit,
 ) {
+
+    val shouldControlBack by navController.shouldControlBack(default = Screen.Discover)
 
     AnimatedNavHost(
         modifier = modifier,
@@ -70,6 +87,54 @@ fun ProductHuntNavGraph(
         addTopicsScreen(navController, openDrawer)
         addCollectionsScreen(navController, openDrawer)
     }
+
+    BackHandler(enabled = shouldControlBack) {
+        onSelectedDefaultScreen(Screen.DEFAULT)
+    }
+}
+
+
+
+@Stable
+@Composable
+private fun NavController.shouldControlBack(default: Screen): State<Boolean> {
+    val state = remember { mutableStateOf(false) }
+
+    var defaultAtTopLevel by remember { mutableStateOf(true) }
+
+    DisposableEffect(this) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            val route = destination.route
+            val tops = findChildTopRoutes()
+
+            if (destination.hierarchy.any { it.route == default.route }) {
+                defaultAtTopLevel = when {
+                    tops.any { it == route } -> {
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            val shouldControl = when {
+                destination.hierarchy.any { it.route == default.route } && defaultAtTopLevel -> false
+                tops.any { it == route } -> true
+                else -> false
+            }
+
+            Timber.i("defaultAtTopLevel: $defaultAtTopLevel")
+            Timber.i("shouldControl: $shouldControl")
+
+            state.value = shouldControl
+        }
+        addOnDestinationChangedListener(listener)
+
+        onDispose {
+            removeOnDestinationChangedListener(listener)
+        }
+    }
+
+    return state
 }
 
 @ExperimentalAnimationApi
@@ -136,7 +201,7 @@ private fun NavGraphBuilder.addTopics(
     screen: Screen,
     openDrawer: () -> Unit,
 ) {
-    Timber.i(navController.toString())
+    navController.toString()
     composable(Destination.Topics.createRoute(screen)) {
         Topics(openDrawer) { postId ->
             navController.navigate(Destination.Post.createRoute(screen, postId))
@@ -150,7 +215,7 @@ private fun NavGraphBuilder.addCollections(
     screen: Screen,
     openDrawer: () -> Unit,
 ) {
-    Timber.i(navController.toString())
+    navController.toString()
     composable(Destination.Collections.createRoute(screen)) {
         Collections(openDrawer)
     }
@@ -161,7 +226,7 @@ private fun NavGraphBuilder.addPost(
     navController: NavHostController,
     screen: Screen,
 ) {
-    Timber.i(navController.toString())
+    navController.toString()
     composable(
         route = Destination.Post.createRoute(screen),
         arguments = listOf(
