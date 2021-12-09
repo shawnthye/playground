@@ -17,14 +17,14 @@ import feature.playground.demos.error.ui.ErrorDemo
 import feature.playground.demos.theme.Theme
 
 internal sealed class DrawerScreen(val route: String) {
+    object ProductHunt : DrawerScreen("product-hunt")
     object Home : DrawerScreen("home")
     object Theme : DrawerScreen("theme")
-    object ProductHunt : DrawerScreen("product-hunt")
     object DeviantArt : DrawerScreen("deviant-art")
     object ErrorDemo : DrawerScreen("error-demo")
 
     companion object {
-        val START = Home
+        val START by lazy { ProductHunt }
     }
 }
 
@@ -44,16 +44,16 @@ internal fun PlaygroundNavGraph(
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = DrawerScreen.Home.route,
+        startDestination = DrawerScreen.START.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None },
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
     ) {
+        addProductHuntScreen(navigateUp)
         addHomeScreen(navigateUp)
         addThemeScreen(navigateUp)
         addErrorDemoScreen(navigateUp)
-        addProductHuntScreen(navigateUp)
     }
 }
 

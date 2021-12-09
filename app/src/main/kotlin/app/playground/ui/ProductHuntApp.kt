@@ -94,7 +94,7 @@ private fun NavController.navigateTo(screen: Screen) {
 @Stable
 @Composable
 private fun NavController.currentScreenAsState(): State<Screen> {
-    val selectedItem = remember { mutableStateOf<Screen>(Screen.DEFAULT) }
+    val selectedItem = remember { mutableStateOf<Screen>(Screen.START) }
 
     DisposableEffect(this) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->

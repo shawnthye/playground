@@ -191,6 +191,11 @@ private sealed class MenuItem(
 }
 
 private val MenuItems = listOf(
+    MenuItem.ResourceIcon(
+        screen = DrawerScreen.ProductHunt,
+        label = core.playground.ui.R.string.menu_product_hunt,
+        icon = core.playground.ui.R.drawable.ic_producthunt_24,
+    ),
     MenuItem.VectorIcon(
         screen = DrawerScreen.Home,
         label = core.playground.ui.R.string.menu_counter,
@@ -205,11 +210,6 @@ private val MenuItems = listOf(
         screen = DrawerScreen.ErrorDemo,
         label = core.playground.ui.R.string.menu_error_demo,
         icon = Icons.Filled.Error,
-    ),
-    MenuItem.ResourceIcon(
-        screen = DrawerScreen.ProductHunt,
-        label = core.playground.ui.R.string.menu_product_hunt,
-        icon = core.playground.ui.R.drawable.ic_producthunt_24,
     ),
     MenuItem.ResourceIcon(
         screen = DrawerScreen.DeviantArt,

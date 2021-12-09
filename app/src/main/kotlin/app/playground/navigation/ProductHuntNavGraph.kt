@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -40,7 +39,7 @@ internal sealed class Screen(val route: String) {
     object Collections : Screen("$PRODUCT_HUNT/collections")
 
     companion object {
-        val DEFAULT by lazy { Discover }
+        val START by lazy { Discover }
     }
 }
 
@@ -89,7 +88,7 @@ internal fun ProductHuntNavGraph(
     }
 
     BackHandler(enabled = shouldControlBack) {
-        onSelectedDefaultScreen(Screen.DEFAULT)
+        onSelectedDefaultScreen(Screen.START)
     }
 }
 
