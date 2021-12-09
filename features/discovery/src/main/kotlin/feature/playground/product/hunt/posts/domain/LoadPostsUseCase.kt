@@ -1,6 +1,6 @@
 package feature.playground.product.hunt.posts.domain
 
-import api.product.hunt.PostsQuery
+import app.playground.store.database.entities.Post
 import core.playground.IoDispatcher
 import core.playground.domain.FlowUseCase
 import core.playground.domain.Result
@@ -15,10 +15,10 @@ internal class LoadPostsUseCase
 @Inject constructor(
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
     private val discoverRepository: DiscoverRepository,
-) : FlowUseCase<Unit, PostsQuery.Data>(coroutineDispatcher) {
+) : FlowUseCase<Unit, List<Post>>(coroutineDispatcher) {
     override fun execute(
         params: Unit,
-    ): Flow<Result<PostsQuery.Data>> = flow {
+    ): Flow<Result<List<Post>>> = flow {
         emit(Result.Loading())
         emitAll(discoverRepository.queryPosts())
     }

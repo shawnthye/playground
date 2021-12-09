@@ -3,6 +3,7 @@ package feature.playground.product.hunt.posts.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import app.playground.store.database.entities.Post
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import core.playground.ui.alias.NavigateUp
@@ -40,7 +42,7 @@ internal fun Discover(
     navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
 ) {
-    val state by rememberFlowWithLifecycle(viewModel.state).collectAsState(DiscoverState.EMPTY)
+    val state by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(DiscoveryUiState.EMPTY)
     Discover(
         state = state,
         onSwipeRefresh = {
@@ -53,7 +55,7 @@ internal fun Discover(
 
 @Composable
 internal fun Discover(
-    state: DiscoverState,
+    state: DiscoveryUiState,
     onSwipeRefresh: () -> Unit,
     navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
@@ -70,42 +72,55 @@ internal fun Discover(
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(Modifier.padding())
             }
-            return@Scaffold
-        }
-
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshing = state.refreshing),
-            onRefresh = onSwipeRefresh,
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+        } else {
+            List(
+                refreshing = state.refreshing,
+                posts = state.posts,
+                onSwipeRefresh = onSwipeRefresh,
                 contentPadding = paddingValues,
-            ) {
-                items(state.posts.size) { position ->
-
-                    val post = state.posts[position]
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                openPost(post.id)
-                            }
-                            .padding(horizontal = 16.dp, vertical = 12.dp),
-                    ) {
-                        Text(text = "No. ${position + 1}, id: ${post.id}")
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(text = "Name: ${post.name}")
-                    }
-                }
+            ) { postId ->
+                openPost(postId)
             }
         }
+
     }
 }
 
 @Composable
-fun List() {
-    
+fun List(
+    contentPadding: PaddingValues,
+    refreshing: Boolean,
+    posts: List<Post>,
+    onSwipeRefresh: () -> Unit,
+    openPost: (postId: String) -> Unit,
+) {
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshing),
+        onRefresh = onSwipeRefresh,
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = contentPadding,
+        ) {
+            items(posts.size) { position ->
+
+                val post = posts[position]
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            openPost(post.postId)
+                        }
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                ) {
+                    Text(text = "No. ${position + 1}, id: ${post.id}")
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(text = "Name: ${post.name}")
+                }
+            }
+        }
+    }
 }
 
 

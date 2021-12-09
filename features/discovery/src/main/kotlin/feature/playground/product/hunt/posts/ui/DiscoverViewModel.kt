@@ -26,18 +26,9 @@ internal class DiscoverViewModel @Inject constructor(
         viewModelScope, WhileViewSubscribed, Result.Loading(),
     )
 
-    val state = postsResult.map {
-        when (it) {
-            is Result.Success -> {
-                DiscoverState(
-                    posts = it.data.posts.edges.map { edge -> edge.node.fragments.postFields },
-                )
-            }
-            is Result.Error -> TODO()
-            is Result.Loading -> DiscoverState(refreshing = true)
-        }
-
-    }.stateIn(viewModelScope, WhileViewSubscribed, DiscoverState.EMPTY)
+    val uiState = postsResult.map {
+        it.toUiState()
+    }.stateIn(viewModelScope, WhileViewSubscribed, DiscoveryUiState.EMPTY)
 
     fun onRefresh() {
         actionRefresh.trySend(Unit)
