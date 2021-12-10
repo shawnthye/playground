@@ -3,11 +3,13 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="app.playground">
 
+  <!--Note: we use large heap because of this is an image very heavy showcase-->
   <application
     android:name=".PlaygroundApplication"
     android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/playground_app_name"
+    android:largeHeap="true"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="false"
     android:theme="@style/Playground"

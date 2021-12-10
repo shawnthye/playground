@@ -1,6 +1,5 @@
 package feature.playground.product.hunt.posts.data
 
-import api.product.hunt.DiscoveryQuery
 import api.product.hunt.PostsQuery
 import api.product.hunt.ProductHuntGraphQL
 import app.playground.store.mappers.PostsQueryToPosts
@@ -14,6 +13,4 @@ internal class DiscoverRepository
     private val postsQueryToPosts: PostsQueryToPosts,
 ) {
     fun queryPosts() = graphql.query(PostsQuery()).withMapper(postsQueryToPosts).toResult()
-
-    fun query() = graphql.query(DiscoveryQuery()).toResult()
 }

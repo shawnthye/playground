@@ -8,6 +8,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.decode.VideoFrameDecoder
+import coil.util.DebugLogger
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,18 +27,19 @@ class PlaygroundApplication : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader = ImageLoader
         .Builder(this)
+        .availableMemoryPercentage(0.75)
         .componentRegistry {
-            val context = this@PlaygroundApplication
-            add(SvgDecoder(context))
+            add(SvgDecoder(applicationContext))
             add(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    ImageDecoderDecoder(context)
+                    ImageDecoderDecoder(applicationContext)
                 } else {
                     GifDecoder()
                 },
             )
-            add(VideoFrameDecoder(context))
+            add(VideoFrameDecoder(applicationContext))
         }
         .crossfade(resources.getInteger(android.R.integer.config_shortAnimTime))
+        .logger(if (BuildConfig.DEBUG.not()) null else DebugLogger())
         .build()
 }

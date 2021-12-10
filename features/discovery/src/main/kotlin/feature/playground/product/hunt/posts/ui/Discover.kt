@@ -31,7 +31,6 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
-import timber.log.Timber
 
 @Composable
 fun Discover(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
@@ -121,7 +120,6 @@ fun List(
                         .padding(horizontal = 18.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Timber.i(post.thumbnailUrl)
                     Image(
                         painter = rememberImagePainter(data = post.thumbnailUrl) {
                             repeatCount(0)
