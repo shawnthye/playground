@@ -59,6 +59,12 @@ dependencies {
     implementation(Libs.Google.Accompanist.insetsUi)
 
     implementation(Libs.AndroidX.constraintLayout)
+    implementation(Libs.AndroidX.swipeRefresh)
+    implementation("androidx.palette:palette-ktx:1.0.0")
+    implementation(Libs.material)
+
+    implementation(Libs.Coil.coil)
+    implementation(Libs.Coil.coilGif)
 
     testImplementation(Libs.AndroidX.Test.coreKtx)
     testImplementation(platform(Libs.Junit5.bom))

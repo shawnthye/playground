@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import feature.playground.deviant.ui.DeviantArt
+import feature.playground.deviant.art.ui.DeviantArt
 
 class PlaygroundNavigationActions(navController: NavHostController) {
     val navigateToHome: () -> Unit = {

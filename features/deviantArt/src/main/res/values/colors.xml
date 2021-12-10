@@ -46,6 +46,4 @@
   <color name="deviant_art_list_divider_day">#1f000000</color>
   <color name="deviant_art_list_divider_night">#1fffffff</color>
 
-  <color name="track_placeholder">#ff191919</color>
-
 </resources>

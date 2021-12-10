@@ -30,7 +30,9 @@ internal class DiscoverViewModel @Inject constructor(
         viewModelScope, WhileViewSubscribed, Result.Loading(),
     )
 
-    private val cache = result.filter { it is Success }.map {
+    private val cache = result.filter {
+        it is Success
+    }.map {
         it.data
     }.stateIn(viewModelScope, WhileViewSubscribed, null)
 

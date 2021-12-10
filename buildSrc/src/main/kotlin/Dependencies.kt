@@ -102,6 +102,7 @@ object Libs {
 
         @Suppress("SpellCheckingInspection")
         const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout"
+        const val palette = "androidx.palette:palette-ktx"
 
         object Compose {
             const val material = "androidx.compose.material:material"
@@ -129,8 +130,10 @@ object Libs {
         object Navigation {
             const val pluginGradle =
                 "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.NAVIGATION}"
+            const val common = "androidx.navigation:navigation-common-ktx"
             const val compose = "androidx.navigation:navigation-compose"
             const val fragment = "androidx.navigation:navigation-fragment-ktx"
+            const val runtime = "androidx.navigation:navigation-runtime-ktx"
             const val ui = "androidx.navigation:navigation-ui-ktx"
         }
 

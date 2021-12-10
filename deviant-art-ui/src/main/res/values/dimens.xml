@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+  <dimen name="z_app_bar">4dp</dimen>
+  <dimen name="z_bottom_app_bar">8dp</dimen>
+
+  <dimen name="z_card_low">1dp</dimen>
+  <dimen name="z_card">2dp</dimen>
+  <dimen name="z_card_high">4dp</dimen>
+
+  <dimen name="key_line_0">2dp</dimen>
+  <dimen name="key_line_1">4dp</dimen>
+  <dimen name="key_line_2">8dp</dimen>
+  <dimen name="key_line_4">16dp</dimen>
+  <dimen name="key_line_5">24dp</dimen>
+
+  <dimen name="spacing_normal">@dimen/key_line_2</dimen>
+  <dimen name="spacing_large">@dimen/key_line_4</dimen>
+
+  <!-- Default screen margins/padding, per the Android Design guidelines. -->
+  <dimen name="content_horizontal_margin">@dimen/key_line_4</dimen>
+  <dimen name="content_vertical_margin">@dimen/key_line_4</dimen>
+
+  <dimen name="component_label_horizontal_margin">@dimen/key_line_4</dimen>
+  <dimen name="elevation_default_top_app_bar">4dp</dimen>
+
+  <dimen name="grid_spacing">1dp</dimen>
+</resources>

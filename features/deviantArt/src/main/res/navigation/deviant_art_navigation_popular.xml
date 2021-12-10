@@ -7,15 +7,9 @@
   app:route="@string/deviant_art_track_hot"
   app:startDestination="@id/deviant_popular_start">
 
-  <action
-    android:id="@+id/to_deviant_detail"
-    app:destination="@id/deviation_detail"
-    app:popUpTo="@id/deviation_detail"
-    app:popUpToInclusive="true" />
-
   <fragment
     android:id="@+id/deviant_popular_start"
-    android:name="feature.playground.deviant.ui.track.DeviantTrackFragment"
+    android:name="feature.playground.deviant.art.track.ui.DeviantTrackFragment"
     android:label="@string/deviant_art_track_hot"
     tools:layout="@layout/deviant_track">
     <argument
@@ -27,10 +21,6 @@
 
   <fragment
     android:id="@+id/deviation_detail"
-    android:name="feature.playground.deviant.ui.deviation.DeviationDetailFragment"
-    tools:layout="@layout/deviation_detail">
-    <argument
-      android:name="id"
-      app:argType="string" />
-  </fragment>
+    android:name="feature.playground.deviant.art.deviation.ui.DeviationDetailFragment"
+    tools:layout="@layout/deviation_detail" />
 </navigation>

@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.mapLatest
 import retrofit2.HttpException
 
+typealias FlowResponse<T> = Flow<Response<T>>
+
 /**
  * Common class used by API responses.
  * @param <T> the type of the response object

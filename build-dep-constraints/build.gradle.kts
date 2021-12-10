@@ -17,8 +17,10 @@ dependencies {
         api("${Libs.AndroidX.Lifecycle.viewModelSavedState}:${Versions.LIFECYCLE}")
         api("${Libs.AndroidX.Lifecycle.viewModel}:${Versions.LIFECYCLE}")
         api("${Libs.AndroidX.Lifecycle.viewModel}:${Versions.LIFECYCLE}")
+        api("${Libs.AndroidX.Navigation.common}:${Versions.NAVIGATION}")
         api("${Libs.AndroidX.Navigation.compose}:${Versions.NAVIGATION}")
         api("${Libs.AndroidX.Navigation.fragment}:${Versions.NAVIGATION}")
+        api("${Libs.AndroidX.Navigation.runtime}:${Versions.NAVIGATION}")
         api("${Libs.AndroidX.Navigation.ui}:${Versions.NAVIGATION}")
         api("${Libs.AndroidX.Paging.common}:${Versions.PAGING}")
         api("${Libs.AndroidX.Paging.compose}:${Versions.PAGING_COMPOSE}")
@@ -50,6 +52,8 @@ dependencies {
         api("${Libs.AndroidX.fragment}:${Versions.FRAGMENT}")
         api("${Libs.AndroidX.recyclerView}:${Versions.RECYCLER_VIEW}")
         api("${Libs.AndroidX.swipeRefresh}:${Versions.SWIPE_REFRESH}")
+        api("${Libs.Apollo.coroutines}:${Versions.APOLLO}")
+        api("${Libs.Apollo.runtime}:${Versions.APOLLO}")
         api("${Libs.Coil.coilCompose}:${Versions.COIL}")
         api("${Libs.Coil.coilGif}:${Versions.COIL}")
         api("${Libs.Coil.coilSvg}:${Versions.COIL}")
@@ -86,7 +90,5 @@ dependencies {
         api("${Libs.material}:${Versions.MATERIAL}")
         api("${Libs.okio}:${Versions.OKIO}")
         api("${Libs.timber}:${Versions.TIMBER}")
-        api("${Libs.Apollo.runtime}:${Versions.APOLLO}")
-        api("${Libs.Apollo.coroutines}:${Versions.APOLLO}")
     }
 }

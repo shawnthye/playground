@@ -65,14 +65,23 @@ include(":discovery").also {
 include(":post").also {
     project(":post").projectDir = File(featuresDir, "post")
 }
-include(":deviantArt").also {
-    project(":deviantArt").projectDir = File(featuresDir, "deviantArt")
-}
 include(":productHunt").also {
     project(":productHunt").projectDir = File(featuresDir, "productHunt")
 }
 include(":demos").also {
     project(":demos").projectDir = File(featuresDir, "demos")
+}
+
+// deviant art feature
+include(":deviant-art-ui")
+include(":deviantArt").also {
+    project(":deviantArt").projectDir = File(featuresDir, "deviantArt")
+}
+include(":deviantArtTrack").also {
+    project(":deviantArtTrack").projectDir = File(featuresDir, "deviantArtTrack")
+}
+include(":deviantArtDeviation").also {
+    project(":deviantArtDeviation").projectDir = File(featuresDir, "deviantArtDeviation")
 }
 
 // for testing purpose

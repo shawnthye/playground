@@ -213,7 +213,7 @@ private val MenuItems = listOf(
     ),
     MenuItem.ResourceIcon(
         screen = DrawerScreen.DeviantArt,
-        label = feature.playground.deviant.R.string.deviant_art,
+        label = feature.playground.deviant.art.R.string.deviant_art,
         icon = R.drawable.ic_deviant_art,
         iconSecondary = R.drawable.ic_baseline_open_in_new_24,
     ),

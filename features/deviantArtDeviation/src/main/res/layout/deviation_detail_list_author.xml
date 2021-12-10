@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:context=".ui.deviation.DeviationDetailFragment"
+  >
+
+  <data>
+
+    <import type="feature.playground.deviant.art.deviation.ui.DeviationUiModel.Author" />
+
+    <import type="feature.playground.deviant.art.deviation.ui.DeviationDetailActionListener" />
+
+    <variable
+      name="model"
+      type="Author"
+      />
+
+    <variable
+      name="listener"
+      type="DeviationDetailActionListener"
+      />
+  </data>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/content_horizontal_margin"
+    android:paddingVertical="@dimen/content_vertical_margin"
+    tools:ignore="UseCompoundDrawables"
+    >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:gravity="end"
+      android:orientation="vertical"
+      android:paddingStart="0dp"
+      android:paddingEnd="@dimen/key_line_2"
+      >
+
+      <TextView
+        style="?textAppearanceSubtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@{model.name}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem[10]"
+        />
+
+      <TextView
+        style="?textAppearanceCaption"
+        date="@{model.published}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/date/ddmmyy"
+        />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ImageView
+      clipToCircle="@{true}"
+      imageUrl="@{model.avatarUrl}"
+      onSingleTap="@{() -> listener.onAction(model.action)}"
+      placeholder="@{@color/track_placeholder}"
+      android:layout_width="64dp"
+      android:layout_height="64dp"
+      android:contentDescription="@{model.name}"
+      android:foreground="?selectableItemBackground"
+      android:scaleType="centerCrop"
+      tools:src="@tools:sample/avatars"
+      >
+
+    </ImageView>
+  </LinearLayout>
+</layout>

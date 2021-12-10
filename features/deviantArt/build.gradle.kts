@@ -53,6 +53,9 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":deviantart-api-model"))
     implementation(project(":deviantart-api"))
+    implementation(project(":deviant-art-ui"))
+    implementation(project(":deviantArtTrack"))
+    implementation(project(":deviantArtDeviation"))
 
     implementation(Libs.timber)
 

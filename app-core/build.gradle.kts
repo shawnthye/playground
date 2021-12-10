@@ -53,6 +53,8 @@ dependencies {
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
 
+    implementation(Libs.AndroidX.Navigation.runtime)
+
     implementation(Libs.AndroidX.Paging.common)
 
     implementation(Libs.AndroidX.Room.ktx)

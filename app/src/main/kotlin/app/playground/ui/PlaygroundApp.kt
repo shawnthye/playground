@@ -39,7 +39,7 @@ internal fun PlaygroundApp() {
                 if (selected is DrawerScreen.DeviantArt) {
                     context.startActivity(
                         Intent(
-                            context, feature.playground.deviant.ui.DeviantArt::class.java,
+                            context, feature.playground.deviant.art.ui.DeviantArt::class.java,
                         ),
                     )
                     return@DrawerMenu
