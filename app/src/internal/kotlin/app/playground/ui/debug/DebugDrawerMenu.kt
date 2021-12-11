@@ -4,10 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,29 +38,24 @@ internal fun DebugDrawerMenu(
     selectedScreen: DebugScreen,
     onNavigationSelected: (destination: DebugScreen) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .statusBarsPadding()
-            .fillMaxSize(),
-    ) {
-        MenuItems.map { menuItem ->
-            val icon = when (menuItem) {
-                is MenuItem.ResourceIcon -> ImageVector.vectorResource(id = menuItem.icon)
-                is MenuItem.VectorIcon -> menuItem.icon
-            }
+    Spacer(modifier = Modifier.statusBarsPadding())
+    MenuItems.map { menuItem ->
+        val icon = when (menuItem) {
+            is MenuItem.ResourceIcon -> ImageVector.vectorResource(id = menuItem.icon)
+            is MenuItem.VectorIcon -> menuItem.icon
+        }
 
-            val iconSecondary = (menuItem as? MenuItem.ResourceIcon)
-                ?.iconSecondary
-                ?.let { ImageVector.vectorResource(id = it) }
+        val iconSecondary = (menuItem as? MenuItem.ResourceIcon)
+            ?.iconSecondary
+            ?.let { ImageVector.vectorResource(id = it) }
 
-            DrawerButton(
-                icon = icon,
-                subIcon = iconSecondary,
-                label = stringResource(id = menuItem.label),
-                isSelected = selectedScreen == menuItem.screen,
-            ) {
-                onNavigationSelected(menuItem.screen)
-            }
+        DrawerButton(
+            icon = icon,
+            subIcon = iconSecondary,
+            label = stringResource(id = menuItem.label),
+            isSelected = selectedScreen == menuItem.screen,
+        ) {
+            onNavigationSelected(menuItem.screen)
         }
     }
 }

@@ -32,12 +32,12 @@ import timber.log.Timber
 /**
  * This match the root drawer route
  */
-private const val PRODUCT_HUNT = "product-hunt/app"
+private const val PREFIX = "app"
 
 internal sealed class Screen(val route: String) {
-    object Discover : Screen("$PRODUCT_HUNT/discover")
-    object Topics : Screen("$PRODUCT_HUNT/topics")
-    object Collections : Screen("$PRODUCT_HUNT/collections")
+    object Discover : Screen("$PREFIX/discover")
+    object Topics : Screen("$PREFIX/topics")
+    object Collections : Screen("$PREFIX/collections")
 
     companion object {
         val START by lazy { Discover }

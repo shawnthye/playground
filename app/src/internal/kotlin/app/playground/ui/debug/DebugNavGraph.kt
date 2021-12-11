@@ -8,7 +8,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import core.playground.ui.alias.NavigateUp
 import feature.playground.demos.counter.Counter
@@ -27,13 +26,6 @@ internal sealed class DebugScreen(val route: String) {
     }
 }
 
-private sealed class DrawerDestination(private val route: String) {
-
-    fun createRoute(screen: DebugScreen) = "${screen.route}/$route"
-
-    object Content : DrawerDestination("app")
-}
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 internal fun DebugNavGraph(
@@ -42,6 +34,12 @@ internal fun DebugNavGraph(
     content: @Composable () -> Unit,
 ) {
 
+    /**
+     * We can't have nested NavHost in compose
+     * TODO: find alternative like
+     * - BottomSheet(Can BottomSheet has dynamic content?)
+     * - New Activity?
+     */
     AnimatedNavHost(
         navController = navController,
         startDestination = DebugScreen.START.route,
@@ -73,11 +71,8 @@ private fun NavGraphBuilder.addThemeScreen(navigateUp: NavigateUp) {
 
 @OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addContentScreen(content: @Composable () -> Unit) {
-    navigation(
-        route = DebugScreen.Content.route,
-        startDestination = DrawerDestination.Content.createRoute(DebugScreen.Content),
-    ) {
-        addContent(DebugScreen.Content, content)
+    composable(DebugScreen.Content.route) {
+        content()
     }
 }
 
@@ -85,15 +80,5 @@ private fun NavGraphBuilder.addContentScreen(content: @Composable () -> Unit) {
 private fun NavGraphBuilder.addErrorDemoScreen(navigateUp: NavigateUp) {
     composable(DebugScreen.ErrorDemo.route) {
         ErrorDemo(navigateUp = navigateUp)
-    }
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-private fun NavGraphBuilder.addContent(
-    screen: DebugScreen,
-    content: @Composable () -> Unit,
-) {
-    composable(DrawerDestination.Content.createRoute(screen)) {
-        content()
     }
 }
