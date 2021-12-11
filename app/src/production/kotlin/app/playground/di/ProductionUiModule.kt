@@ -12,6 +12,8 @@ class ProductionUiModule {
 
     @Provides
     fun providesAppContainer(): AppContainer {
-        return AppContainer.DEFAULT
+        return Default
     }
 }
+
+internal object Default : AppContainer

@@ -22,7 +22,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProvideWindowInsets(consumeWindowInsets = false) {
                 PlaygroundTheme {
-                    container.App()
+                    container.Provide {
+                        PlaygroundApp()
+                    }
                 }
             }
         }

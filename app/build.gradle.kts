@@ -47,6 +47,7 @@ android {
             dimension = "default"
             signingConfig = signingConfigs.getByName("internal")
             applicationIdSuffix = ".internal"
+            isDefault = true
         }
         create("production") {
             dimension = "default"

@@ -23,7 +23,7 @@ import feature.playground.deviant.ui.DeviantArt
 import kotlinx.coroutines.launch
 
 @Composable
-fun DebugDrawer() {
+fun DebugDrawer(content: @Composable () -> Unit) {
 
     @OptIn(ExperimentalAnimationApi::class)
     val navController = rememberAnimatedNavController()
@@ -78,7 +78,9 @@ fun DebugDrawer() {
                     drawerState.open()
                 }
             },
-        )
+        ) {
+            content()
+        }
     }
 }
 
@@ -94,8 +96,8 @@ private fun NavController.currentScreenAsState(): State<DebugScreen> {
     DisposableEffect(this) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
             when {
-                destination.hierarchy.any { it.route == DebugScreen.Home.route } -> {
-                    selectedItem.value = DebugScreen.Home
+                destination.hierarchy.any { it.route == DebugScreen.Counter.route } -> {
+                    selectedItem.value = DebugScreen.Counter
                 }
                 destination.hierarchy.any { it.route == DebugScreen.Theme.route } -> {
                     selectedItem.value = DebugScreen.Theme
@@ -103,8 +105,8 @@ private fun NavController.currentScreenAsState(): State<DebugScreen> {
                 destination.hierarchy.any { it.route == DebugScreen.ErrorDemo.route } -> {
                     selectedItem.value = DebugScreen.ErrorDemo
                 }
-                destination.hierarchy.any { it.route == DebugScreen.ProductHunt.route } -> {
-                    selectedItem.value = DebugScreen.ProductHunt
+                destination.hierarchy.any { it.route == DebugScreen.Content.route } -> {
+                    selectedItem.value = DebugScreen.Content
                 }
             }
         }

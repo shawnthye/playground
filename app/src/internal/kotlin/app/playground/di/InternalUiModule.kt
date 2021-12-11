@@ -13,6 +13,6 @@ class InternalUiModule {
 
     @Provides
     fun providesAppContainer(): AppContainer {
-        return DebugAppContainer
+        return DebugAppContainer()
     }
 }

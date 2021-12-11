@@ -6,7 +6,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import app.playground.ui.PlaygroundApp
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -17,14 +16,14 @@ import feature.playground.demos.error.ui.ErrorDemo
 import feature.playground.demos.theme.Theme
 
 internal sealed class DebugScreen(val route: String) {
-    object ProductHunt : DebugScreen("product-hunt")
-    object Home : DebugScreen("home")
+    object Content : DebugScreen("product-hunt")
+    object Counter : DebugScreen("counter")
     object Theme : DebugScreen("theme")
     object DeviantArt : DebugScreen("deviant-art")
     object ErrorDemo : DebugScreen("error-demo")
 
     companion object {
-        val START by lazy { ProductHunt }
+        val START by lazy { Content }
     }
 }
 
@@ -32,7 +31,7 @@ private sealed class DrawerDestination(private val route: String) {
 
     fun createRoute(screen: DebugScreen) = "${screen.route}/$route"
 
-    object ProductHunt : DrawerDestination("app")
+    object Content : DrawerDestination("app")
 }
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -40,6 +39,7 @@ private sealed class DrawerDestination(private val route: String) {
 internal fun DebugNavGraph(
     navController: NavHostController = rememberAnimatedNavController(),
     navigateUp: NavigateUp,
+    content: @Composable () -> Unit,
 ) {
 
     AnimatedNavHost(
@@ -50,7 +50,7 @@ internal fun DebugNavGraph(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
     ) {
-        addProductHuntScreen()
+        addContentScreen(content)
         addHomeScreen(navigateUp)
         addThemeScreen(navigateUp)
         addErrorDemoScreen(navigateUp)
@@ -59,7 +59,7 @@ internal fun DebugNavGraph(
 
 @OptIn(ExperimentalAnimationApi::class)
 private fun NavGraphBuilder.addHomeScreen(navigateUp: NavigateUp) {
-    composable(DebugScreen.Home.route) {
+    composable(DebugScreen.Counter.route) {
         Counter(navigateUp = navigateUp)
     }
 }
@@ -72,12 +72,12 @@ private fun NavGraphBuilder.addThemeScreen(navigateUp: NavigateUp) {
 }
 
 @OptIn(ExperimentalAnimationApi::class)
-private fun NavGraphBuilder.addProductHuntScreen() {
+private fun NavGraphBuilder.addContentScreen(content: @Composable () -> Unit) {
     navigation(
-        route = DebugScreen.ProductHunt.route,
-        startDestination = DrawerDestination.ProductHunt.createRoute(DebugScreen.ProductHunt),
+        route = DebugScreen.Content.route,
+        startDestination = DrawerDestination.Content.createRoute(DebugScreen.Content),
     ) {
-        addProductHunt(DebugScreen.ProductHunt)
+        addContent(DebugScreen.Content, content)
     }
 }
 
@@ -89,8 +89,11 @@ private fun NavGraphBuilder.addErrorDemoScreen(navigateUp: NavigateUp) {
 }
 
 @OptIn(ExperimentalAnimationApi::class)
-private fun NavGraphBuilder.addProductHunt(screen: DebugScreen) {
-    composable(DrawerDestination.ProductHunt.createRoute(screen)) {
-        PlaygroundApp()
+private fun NavGraphBuilder.addContent(
+    screen: DebugScreen,
+    content: @Composable () -> Unit,
+) {
+    composable(DrawerDestination.Content.createRoute(screen)) {
+        content()
     }
 }

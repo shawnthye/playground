@@ -192,12 +192,12 @@ private sealed class MenuItem(
 
 private val MenuItems = listOf(
     MenuItem.ResourceIcon(
-        screen = DebugScreen.ProductHunt,
+        screen = DebugScreen.Content,
         label = core.playground.ui.R.string.menu_product_hunt,
         icon = core.playground.ui.R.drawable.ic_producthunt_24,
     ),
     MenuItem.VectorIcon(
-        screen = DebugScreen.Home,
+        screen = DebugScreen.Counter,
         label = core.playground.ui.R.string.menu_counter,
         icon = Icons.Filled.Calculate,
     ),
