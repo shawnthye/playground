@@ -11,11 +11,11 @@ import core.playground.ui.components.DrawerAppBar
 import feature.playground.producthunt.R
 
 @Composable
-fun Topics(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
+fun Topics(openPost: (postId: String) -> Unit) {
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = R.string.menu_topics, navigationUp = navigateUp,
+                titleRes = R.string.menu_topics,
             )
         },
     ) {

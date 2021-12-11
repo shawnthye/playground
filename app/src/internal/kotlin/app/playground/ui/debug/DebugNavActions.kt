@@ -1,4 +1,4 @@
-package app.playground.navigation
+package app.playground.ui.debug
 
 import android.content.Context
 import android.content.Intent
@@ -6,9 +6,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import feature.playground.deviant.ui.DeviantArt
 
-class PlaygroundNavigationActions(navController: NavHostController) {
+class DebugNavActions(navController: NavHostController) {
     val navigateToHome: () -> Unit = {
-        navController.navigate(DrawerScreen.Home.route) {
+        navController.navigate(DebugScreen.Home.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
@@ -24,7 +24,7 @@ class PlaygroundNavigationActions(navController: NavHostController) {
     }
 
     val navigateToTheme: () -> Unit = {
-        navController.navigate(DrawerScreen.Theme.route) {
+        navController.navigate(DebugScreen.Theme.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
@@ -40,7 +40,7 @@ class PlaygroundNavigationActions(navController: NavHostController) {
     }
 
     val navigateToProductHunt: () -> Unit = {
-        navController.navigate(DrawerScreen.ProductHunt.route) {
+        navController.navigate(DebugScreen.ProductHunt.route) {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items

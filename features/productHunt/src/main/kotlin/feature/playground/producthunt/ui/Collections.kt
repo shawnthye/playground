@@ -5,16 +5,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.insets.statusBarsPadding
-import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import feature.playground.producthunt.R
 
 @Composable
-fun Collections(navigateUp: NavigateUp) {
+fun Collections() {
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = R.string.menu_collections, navigationUp = navigateUp,
+                titleRes = R.string.menu_collections,
             )
         },
     ) {

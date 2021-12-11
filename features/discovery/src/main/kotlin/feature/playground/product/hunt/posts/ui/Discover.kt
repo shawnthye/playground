@@ -28,15 +28,13 @@ import coil.compose.rememberImagePainter
 import coil.request.repeatCount
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
 
 @Composable
-fun Discover(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
+fun Discover(openPost: (postId: String) -> Unit) {
     Discover(
         viewModel = hiltViewModel(),
-        navigateUp = navigateUp,
         openPost = openPost,
     )
 }
@@ -44,7 +42,6 @@ fun Discover(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
 @Composable
 internal fun Discover(
     viewModel: DiscoverViewModel,
-    navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
 ) {
     val state by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(DiscoveryUiState.EMPTY)
@@ -53,7 +50,6 @@ internal fun Discover(
         onSwipeRefresh = {
             viewModel.onRefresh()
         },
-        navigateUp = navigateUp,
         openPost = openPost,
     )
 }
@@ -62,14 +58,13 @@ internal fun Discover(
 internal fun Discover(
     state: DiscoveryUiState,
     onSwipeRefresh: () -> Unit,
-    navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
 ) {
 
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = core.playground.ui.R.string.menu_discover, navigationUp = navigateUp,
+                titleRes = core.playground.ui.R.string.menu_discover,
             )
         },
     ) { paddingValues ->
