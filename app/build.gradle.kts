@@ -115,11 +115,8 @@ dependencies {
     implementation(project(":app-core"))
     implementation(project(":discovery"))
     implementation(project(":post"))
-    implementation(project(":deviantArt"))
     implementation(project(":productHunt"))
-
-    // TODO: make demos only available in Internal Flavor
-    "internalImplementation"(project(":demos"))
+    
     "internalImplementation"(project(":debug"))
 
     implementation(Libs.timber)

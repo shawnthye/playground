@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
  * So its depend on the system itself,
  * which is good for us without thinking what should be the delay
  *
- * User can also see the ripple effect because of this
+ * User can also see the full ripple effect because of built-in double tap detector
  */
 @OptIn(ExperimentalFoundationApi::class)
 fun Modifier.tappable(onTap: () -> Unit) = combinedClickable(

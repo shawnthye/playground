@@ -40,6 +40,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
+    implementation(project(":demos"))
+    implementation(project(":deviantArt"))
 
     implementation(Libs.timber)
 

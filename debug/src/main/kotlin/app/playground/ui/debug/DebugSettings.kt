@@ -204,13 +204,13 @@ private fun ColumnScope.StatRowWithAction(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.caption,
+                    style = MaterialTheme.typography.overline,
                     color = MaterialTheme.colors.onSurface,
                 )
                 Text(
                     text = text,
                     modifier = Modifier.alpha(0.6f),
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.caption,
                     color = MaterialTheme.colors.onSurface,
                 )
             }
