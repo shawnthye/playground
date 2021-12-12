@@ -21,6 +21,8 @@
     <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
 
+    <item name="colorStatusBar">@color/brand_night</item>
+
     <!--<item name="dividerVertical">@color/deviant_art_list_divider_night</item>-->
   </style>
 </resources>

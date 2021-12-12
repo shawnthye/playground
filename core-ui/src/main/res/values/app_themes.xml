@@ -35,7 +35,7 @@
   <style name="Base.Theme" parent="Platform.Theme.Playground" />
 
   <style name="Platform.Theme.Playground" parent="android:Theme.Material.Light.NoActionBar">
-
+    <item name="colorStatusBar">@color/brand_light</item>
     <!--
     This is the status bar color for API below 23, usually the theme primary color,
     Note: the status bar icons will be always white

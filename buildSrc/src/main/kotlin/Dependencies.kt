@@ -124,6 +124,7 @@ object Libs {
 
             @Suppress("SpellCheckingInspection")
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx"
+            const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose"
         }
 
         object Navigation {
@@ -200,6 +201,7 @@ object Libs {
     }
 
     object Coil {
+        const val coilBase = "io.coil-kt:coil-base"
         const val coil = "io.coil-kt:coil"
         const val coilSvg = "io.coil-kt:coil-svg"
         const val coilGif = "io.coil-kt:coil-gif"

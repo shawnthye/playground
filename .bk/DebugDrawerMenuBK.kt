@@ -34,7 +34,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.theme.PlaygroundTheme
 
 @Composable
-internal fun DebugDrawerMenu(
+internal fun DebugDrawerMenuBK(
     selectedScreen: DebugScreen,
     onNavigationSelected: (destination: DebugScreen) -> Unit,
 ) {

@@ -119,7 +119,8 @@ dependencies {
     implementation(project(":productHunt"))
 
     // TODO: make demos only available in Internal Flavor
-    implementation(project(":demos"))
+    "internalImplementation"(project(":demos"))
+    "internalImplementation"(project(":debug"))
 
     implementation(Libs.timber)
 
@@ -132,6 +133,7 @@ dependencies {
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
     implementation(Libs.AndroidX.Lifecycle.viewModel)
+    implementation(Libs.AndroidX.Lifecycle.viewModelCompose)
 
     implementation(Libs.Dagger.dagger)
     implementation(Libs.Dagger.hilt)
