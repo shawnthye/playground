@@ -37,6 +37,8 @@ dependencies {
     testImplementation(platform(project(":build-dep-constraints")))
     testRuntimeOnly(platform(project(":build-dep-constraints")))
 
+    implementation(project(":core"))
+    implementation(project(":core-domain"))
     implementation(project(":core-ui"))
 
     implementation(Libs.timber)
@@ -62,6 +64,10 @@ dependencies {
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
 
     implementation(Libs.Google.Accompanist.insets)
+
+    implementation(platform(Libs.OkHttp3.bom))
+    implementation(Libs.OkHttp3.okhttp)
+    implementation(Libs.OkHttp3.logging)
 
     implementation(Libs.Coil.coil)
 

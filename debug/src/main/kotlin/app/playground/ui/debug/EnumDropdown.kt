@@ -39,6 +39,14 @@ internal fun <E : Enum<*>> EnumDropdown(
     var expended by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf(options.indexOf(default)) }
 
+    /**
+     * TODO: custom view for Dropdown, maybe make it like Chip pattern?
+     * the OutlinedTextField has too many problem
+     * - we can't totally disable long press, with tries, still buggy,
+     *   you can try long press, you will still see something weird
+     * - on scrolling, the dropdown show up :facepalm
+     * - the enabled can't totally disable pressed, but with simple hack, which is currently doing
+     */
     ExposedDropdownMenuBox(
         modifier = modifier.padding(bottom = 8.dp),
         expanded = expended,

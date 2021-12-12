@@ -1,7 +1,7 @@
 package feature.playground.product.hunt.posts.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,6 +30,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
+import core.playground.ui.tappable
 
 @Composable
 fun Discover(openPost: (postId: String) -> Unit) {
@@ -86,8 +87,9 @@ internal fun Discover(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun List(
+private fun List(
     contentPadding: PaddingValues,
     refreshing: Boolean,
     posts: List<Post>,
@@ -103,15 +105,12 @@ fun List(
             contentPadding = contentPadding,
         ) {
             items(posts.size) { position ->
-
                 val post = posts[position]
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            openPost(post.postId)
-                        }
+                        .tappable { openPost(post.postId) }
                         .padding(horizontal = 18.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -135,5 +134,3 @@ fun List(
         }
     }
 }
-
-

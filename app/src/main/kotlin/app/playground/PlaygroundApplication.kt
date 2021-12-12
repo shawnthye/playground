@@ -8,7 +8,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.decode.VideoFrameDecoder
-import coil.util.DebugLogger
+import coil.util.Logger
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,6 +18,10 @@ class PlaygroundApplication : Application(), ImageLoaderFactory {
 
     @Inject
     lateinit var tree: Timber.Tree
+
+    @JvmField
+    @Inject
+    var coilLogger: Logger? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -40,6 +44,10 @@ class PlaygroundApplication : Application(), ImageLoaderFactory {
             add(VideoFrameDecoder(applicationContext))
         }
         .crossfade(resources.getInteger(android.R.integer.config_shortAnimTime))
-        .logger(if (BuildConfig.DEBUG.not()) null else DebugLogger())
+        .apply {
+            if (coilLogger != null) {
+                logger(coilLogger)
+            }
+        }
         .build()
 }

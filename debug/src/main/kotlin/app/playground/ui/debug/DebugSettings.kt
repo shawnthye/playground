@@ -40,19 +40,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.DebugIcon.ResourceIcon
 import app.playground.ui.debug.DebugIcon.VectorIcon
-import coil.Coil
-import coil.imageLoader
-import coil.request.CachePolicy
+import app.playground.ui.debug.data.CoilLogLevel
+import app.playground.ui.debug.data.Server
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
 import core.playground.ui.theme.PlaygroundTheme
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.Locale
 
 @Composable
-internal fun ColumnScope.DebugDrawerMenu(
+internal fun ColumnScope.DebugSettings(
+    buildVersionName: String,
+    buildVersionCode: String,
+    buildType: String,
     model: DebugViewModel = viewModel(),
 ) {
 
@@ -66,97 +70,95 @@ internal fun ColumnScope.DebugDrawerMenu(
 
         Header()
 
-        SubHeader(title = "Network", icon = VectorIcon(Icons.Outlined.Cloud)) {
+        DebugNetwork()
 
-        }
+        DebugCoil(model = model)
 
-        DebugCoil(
-            stats = model.coilUiStats,
-            refresh = {
-                model.coilRefreshStats()
-            },
-            trimMemory = {
-                model.coilTrimMemory()
-            },
+        BuildStats(
+            stats = mapOf(
+                "Name" to buildVersionName,
+                "Code" to buildVersionCode,
+                "Type" to buildType,
+            ),
         )
 
-        SubHeader(title = "Build", icon = VectorIcon(Icons.Filled.Construction)) {
+        DeviceStats(stats = model.deviceStats)
+    }
+}
+
+@Composable
+private fun ColumnScope.DebugNetwork() {
+
+    SubHeader(title = "Network", icon = VectorIcon(Icons.Outlined.Cloud)) { padding ->
+        EnumDropdown(
+            modifier = Modifier.padding(padding),
+            label = "Server - Not implemented",
+            options = Server.values().asList(),
+            default = Server.PRODUCTION,
+        ) {
         }
 
-        SubHeader(title = "Device", icon = VectorIcon(Icons.Filled.Devices)) { padding ->
-            Row(modifier = Modifier.padding(padding)) {
-                Column(modifier = Modifier.padding(end = 16.dp)) {
-                    DEVICE_STATS.keys.map {
-                        Text(text = it)
-                    }
-                }
-
-                Column(modifier = Modifier.weight(1f)) {
-                    DEVICE_STATS.values.map {
-                        Text(text = it)
-                    }
-                }
-            }
+        EnumDropdown(
+            modifier = Modifier.padding(padding),
+            label = "Logging - Not implemented",
+            options = HttpLoggingInterceptor.Level.values().asList(),
+            default = HttpLoggingInterceptor.Level.BODY,
+        ) {
         }
     }
 }
 
-val DEVICE_STATS = mapOf(
-    "Make" to "Unknown",
-    "Model" to "Android SDK build for x86",
-    "Resolution" to "1794x1080",
-    "Density" to "420pi (420)",
-    "Release" to "11",
-    "API" to "30",
-)
-
-private val COIL_CACHE_POLICIES = CachePolicy.values().asList()
-
 @Composable
-private fun ColumnScope.DebugCoil(stats: CoilUiStats, refresh: () -> Unit, trimMemory: () -> Unit) {
-
-    val context = LocalContext.current
+private fun ColumnScope.DebugCoil(
+    model: DebugViewModel,
+) {
+    val stats = model.coilUiStats
 
     val current = Formatter.formatFileSize(LocalContext.current, stats.sizeBytes.toLong())
     val total = Formatter.formatFileSize(LocalContext.current, stats.maxSizeBytes.toLong())
     val percentage = "%.2f".format(
         Locale.ENGLISH,
         (1f * stats.sizeBytes / stats.maxSizeBytes) * 100,
-    )
+    ).uppercase(Locale.ENGLISH)
 
     SubHeader(
         title = "Coil",
         icon = ResourceIcon(R.drawable.debug_coil_kt),
     ) { padding ->
-        val defaults = context.imageLoader.defaults
         EnumDropdown(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(padding),
             label = "Memory cache",
-            options = COIL_CACHE_POLICIES,
-            default = defaults.memoryCachePolicy,
+            options = stats.policies,
+            default = stats.memoryCachePolicy,
         ) {
-            context.imageLoader.shutdown()
-            Coil.setImageLoader(context.imageLoader.newBuilder().memoryCachePolicy(it).build())
+            model.coilUpdateMemoryCachePolicy(it)
         }
         EnumDropdown(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(padding),
             label = "Disk cache",
-            options = COIL_CACHE_POLICIES,
-            default = defaults.diskCachePolicy,
+            options = stats.policies,
+            default = stats.diskCachePolicy,
         ) {
-            context.imageLoader.shutdown()
-            Coil.setImageLoader(context.imageLoader.newBuilder().diskCachePolicy(it).build())
+            model.coilUpdateDiskCachePolicy(it)
         }
 
         EnumDropdown(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            label = "Network cache",
-            options = COIL_CACHE_POLICIES,
-            default = defaults.networkCachePolicy,
+            modifier = Modifier.padding(padding),
+            label = "Network cache - Not implemented",
+            options = stats.policies,
+            default = stats.networkCachePolicy,
             enabled = false,
         ) {
-            context.imageLoader.shutdown()
-            Coil.setImageLoader(context.imageLoader.newBuilder().networkCachePolicy(it).build())
+            model.coilUpdateNetworkCachePolicy(it)
+        }
+
+        EnumDropdown(
+            modifier = Modifier.padding(padding),
+            label = "Logging",
+            options = CoilLogLevel.values().asList(),
+            default = CoilLogLevel.DEBUG,
+        ) {
+            model.coilSetLogLevel(it)
         }
 
         StatRowWithAction(
@@ -164,10 +166,10 @@ private fun ColumnScope.DebugCoil(stats: CoilUiStats, refresh: () -> Unit, trimM
             title = "Memory Usage",
             text = "$current/$total ($percentage%)",
             actionLeft = {
-                refresh()
+                model.coilRefreshStats()
             },
             actionRight = {
-                trimMemory()
+                model.coilTrimMemory()
             },
         )
 
@@ -243,6 +245,20 @@ private fun ColumnScope.StatRowWithAction(
 }
 
 @Composable
+fun ColumnScope.BuildStats(stats: Map<String, String>) {
+    SubHeader(title = "Build", icon = VectorIcon(Icons.Filled.Construction)) { padding ->
+        StatsTable(modifier = Modifier.padding(padding), stats = stats)
+    }
+}
+
+@Composable
+fun ColumnScope.DeviceStats(stats: Map<String, String>) {
+    SubHeader(title = "Device", icon = VectorIcon(Icons.Filled.Devices)) { padding ->
+        StatsTable(modifier = Modifier.padding(padding), stats = stats)
+    }
+}
+
+@Composable
 private fun ColumnScope.Header() {
     Row(
         modifier = Modifier
@@ -250,7 +266,10 @@ private fun ColumnScope.Header() {
             .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = "Debug Settings", style = MaterialTheme.typography.h6)
+        Text(
+            text = "Debug Settings",
+            style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.5.sp),
+        )
         Icon(imageVector = Icons.Default.BugReport, contentDescription = "")
     }
 }
@@ -281,7 +300,7 @@ private fun ColumnScope.SubHeader(
     ) {
         Text(
             modifier = Modifier.padding(end = 4.dp),
-            text = title.uppercase(), style = MaterialTheme.typography.h5,
+            text = title.uppercase(), style = MaterialTheme.typography.h6,
         )
 
         val iconModifier = Modifier

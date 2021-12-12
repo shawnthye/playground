@@ -47,6 +47,7 @@ android {
             dimension = "default"
             signingConfig = signingConfigs.getByName("internal")
             applicationIdSuffix = ".internal"
+            versionNameSuffix = "-internal"
             isDefault = true
         }
         create("production") {
@@ -59,7 +60,6 @@ android {
         debug {
             isMinifyEnabled = false
             isTestCoverageEnabled = true
-            versionNameSuffix = "-debug"
             configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
                 mappingFileUploadEnabled = false
                 nativeSymbolUploadEnabled = false
