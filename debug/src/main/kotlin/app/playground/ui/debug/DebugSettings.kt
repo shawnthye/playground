@@ -4,6 +4,8 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.text.format.Formatter
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -14,12 +16,12 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -39,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -202,34 +205,48 @@ private fun ColumnScope.StatRowWithAction(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 0.dp),
         ) {
-            Column(
-                Modifier
-                    .padding(horizontal = 16.dp)
-                    .weight(1f),
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .clickable {
+                        actionLeft()
+                    },
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.overline,
-                    color = MaterialTheme.colors.onSurface,
-                )
-                Text(
-                    text = text,
-                    modifier = Modifier.alpha(0.6f),
-                    style = MaterialTheme.typography.caption,
-                    color = MaterialTheme.colors.onSurface,
-                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 16.dp),
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.overline,
+                        color = MaterialTheme.colors.onSurface,
+                    )
+                    Text(
+                        text = text,
+                        modifier = Modifier.alpha(0.6f),
+                        style = MaterialTheme.typography.caption,
+                        color = MaterialTheme.colors.onSurface,
+                    )
+                }
+
+
+                Box(
+                    modifier = Modifier.size(
+                        LocalViewConfiguration.current.minimumTouchTargetSize,
+                    ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Refresh,
+                        contentDescription = "Clear Memory",
+                    )
+                }
             }
-            IconButton(
-                modifier = Modifier.padding(2.dp),
-                onClick = { actionLeft() },
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Refresh,
-                    contentDescription = "Clear Memory",
-                )
-            }
+
 
             Divider(
                 modifier = Modifier
@@ -238,9 +255,15 @@ private fun ColumnScope.StatRowWithAction(
                     .width(1.dp),
             )
 
-            IconButton(
-                modifier = Modifier.padding(2.dp),
-                onClick = { actionRight() },
+            Box(
+                modifier = Modifier
+                    .size(
+                        LocalViewConfiguration.current.minimumTouchTargetSize,
+                    )
+                    .clickable {
+                        actionRight()
+                    },
+                contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.Filled.CleaningServices,

@@ -16,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -30,7 +31,7 @@ internal val Context.debugDataStore: DataStore<Preferences> by preferencesDataSt
 )
 
 @Singleton
-internal class DebugStorage @Inject constructor(
+class DebugStorage @Inject constructor(
     httpLoggingInterceptor: HttpLoggingInterceptor,
     coilLogger: Logger?,
     @ApplicationContext context: Context,
@@ -52,6 +53,8 @@ internal class DebugStorage @Inject constructor(
     suspend fun clear() {
         store.edit { it.clear() }
     }
+
+    val httpServer: Flow<Server> = flow { emit(Server.PRODUCTION) }
 
     val httpLoggingLevel: Flow<HttpLogingLevel> = store.data.map {
         HttpLogingLevel.values().find { level ->
