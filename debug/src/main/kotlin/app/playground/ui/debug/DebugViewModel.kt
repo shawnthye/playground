@@ -10,7 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.ui.debug.data.CoilLogLevel
-import app.playground.ui.debug.data.DebugPreferenceStorage
+import app.playground.ui.debug.data.DebugStorage
 import coil.Coil
 import coil.ImageLoader
 import coil.imageLoader
@@ -25,12 +25,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class DebugViewModel @Inject constructor(
-    private val storage: DebugPreferenceStorage,
+    private val storage: DebugStorage,
     private val app: Application,
 ) : ViewModel() {
 
     val httpLoggingLevel = storage.httpLoggingLevel.stateIn(
-        viewModelScope, WhileViewSubscribed, DebugPreferenceStorage.Defaults.OkhttpLoggingLevel,
+        viewModelScope, WhileViewSubscribed, DebugStorage.Defaults.OkhttpLoggingLevel,
     )
 
     fun updateHttpLoggingLevel(level: HttpLoggingInterceptor.Level) {
@@ -43,7 +43,7 @@ internal class DebugViewModel @Inject constructor(
     val coilUiStats by _coilUiStats
 
     val coilLogging = storage.coilLogging.stateIn(
-        viewModelScope, WhileViewSubscribed, DebugPreferenceStorage.Defaults.CoilLoggingLevel,
+        viewModelScope, WhileViewSubscribed, DebugStorage.Defaults.CoilLoggingLevel,
     )
 
     fun coilRefreshStats() {

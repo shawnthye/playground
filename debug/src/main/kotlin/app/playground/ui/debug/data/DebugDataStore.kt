@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import app.playground.ui.debug.data.DebugPreferenceStorage.PreferencesKeys.PREF_COIL_LOGGING
-import app.playground.ui.debug.data.DebugPreferenceStorage.PreferencesKeys.PREF_OKHTTP_LOGGING
+import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_COIL_LOGGING
+import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_OKHTTP_LOGGING
 import coil.Coil
 import coil.imageLoader
 import coil.util.Logger
@@ -30,7 +30,7 @@ internal val Context.debugDataStore: DataStore<Preferences> by preferencesDataSt
 )
 
 @Singleton
-internal class DebugPreferenceStorage @Inject constructor(
+internal class DebugStorage @Inject constructor(
     httpLoggingInterceptor: HttpLoggingInterceptor,
     coilLogger: Logger?,
     @ApplicationContext context: Context,
