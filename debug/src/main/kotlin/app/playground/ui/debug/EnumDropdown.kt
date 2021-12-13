@@ -37,12 +37,11 @@ internal fun <E : Enum<*>> EnumDropdown(
     modifier: Modifier = Modifier,
     label: String,
     options: List<E>,
-    default: E,
+    selected: E,
     enabled: Boolean = true,
     onValueChange: OnValueChange<E> = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(options.indexOf(default)) }
     var width by remember { mutableStateOf(0) }
 
     val density = LocalDensity.current
@@ -63,9 +62,12 @@ internal fun <E : Enum<*>> EnumDropdown(
                 enabled = enabled,
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(text = label, style = MaterialTheme.typography.overline)
                     Text(
-                        text = options[selected].readableName,
+                        text = label,
+                        style = MaterialTheme.typography.overline,
+                    )
+                    Text(
+                        text = selected.readableName,
                         style = MaterialTheme.typography.caption,
                     )
                 }
@@ -85,21 +87,21 @@ internal fun <E : Enum<*>> EnumDropdown(
                 expanded = expanded, onDismissRequest = { expanded = false },
                 modifier = Modifier.width(with(density) { width.toDp() }),
             ) {
-                options.mapIndexed { index, option ->
+                options.map { option ->
                     DropdownMenuItem(
                         onClick = {
-                            val changed = selected != index
-                            selected = index
+                            val changed = selected != option
+                            // selected = index
                             expanded = false
                             if (changed) {
-                                onValueChange(options[selected])
+                                onValueChange(option)
                             }
                         },
                     ) {
                         Text(
                             text = option.readableName,
                             style = MaterialTheme.typography.caption,
-                            fontWeight = if (index != selected) {
+                            fontWeight = if (option != selected) {
                                 FontWeight.Light
                             } else {
                                 FontWeight.SemiBold
@@ -119,7 +121,7 @@ private fun PreviewDropDown() {
         EnumDropdown(
             label = "Logging",
             options = HttpLoggingInterceptor.Level.values().asList(),
-            default = HttpLoggingInterceptor.Level.BODY,
+            selected = HttpLoggingInterceptor.Level.BODY,
         )
     }
 }

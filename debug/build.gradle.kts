@@ -54,6 +54,8 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.viewModel)
     implementation(Libs.AndroidX.Lifecycle.viewModelCompose)
 
+    implementation(Libs.AndroidX.DataStore.preferences)
+
     implementation(Libs.Dagger.dagger)
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)

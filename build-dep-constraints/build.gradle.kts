@@ -10,6 +10,8 @@ dependencies {
         api("${Libs.AndroidX.Compose.uiToolingPreview}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTooling}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.ui}:${Versions.COMPOSE}")
+        api("${Libs.AndroidX.DataStore.preferencesCore}:${Versions.DATA_STORE}")
+        api("${Libs.AndroidX.DataStore.preferences}:${Versions.DATA_STORE}")
         api("${Libs.AndroidX.Hilt.navigationCompose}:${Versions.HILT_NAVIGATION_COMPOSE}")
         api("${Libs.AndroidX.Lifecycle.runtime}:${Versions.LIFECYCLE}")
         api("${Libs.AndroidX.Lifecycle.viewModelCompose}:${Versions.LIFECYCLE}")

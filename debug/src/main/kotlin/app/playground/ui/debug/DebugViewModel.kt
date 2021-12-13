@@ -10,24 +10,41 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.ui.debug.data.CoilLogLevel
-import app.playground.ui.debug.domain.SetCoilLogLevelUseCase
+import app.playground.ui.debug.data.DebugPreferenceStorage
 import coil.Coil
 import coil.ImageLoader
 import coil.imageLoader
 import coil.request.CachePolicy
+import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import okhttp3.logging.HttpLoggingInterceptor
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 internal class DebugViewModel @Inject constructor(
+    private val storage: DebugPreferenceStorage,
     private val app: Application,
-    private val setCoilLogLevelUseCase: SetCoilLogLevelUseCase,
 ) : ViewModel() {
+
+    val httpLoggingLevel = storage.httpLoggingLevel.stateIn(
+        viewModelScope, WhileViewSubscribed, DebugPreferenceStorage.Defaults.OkhttpLoggingLevel,
+    )
+
+    fun updateHttpLoggingLevel(level: HttpLoggingInterceptor.Level) {
+        viewModelScope.launch {
+            storage.httpLoggingLevel(level = level)
+        }
+    }
 
     private val _coilUiStats = mutableStateOf(CoilUiStats.create(app.imageLoader))
     val coilUiStats by _coilUiStats
+
+    val coilLogging = storage.coilLogging.stateIn(
+        viewModelScope, WhileViewSubscribed, DebugPreferenceStorage.Defaults.CoilLoggingLevel,
+    )
 
     fun coilRefreshStats() {
         _coilUiStats.value = coilUiStats.copy(
@@ -59,7 +76,7 @@ internal class DebugViewModel @Inject constructor(
 
     fun coilSetLogLevel(level: CoilLogLevel) {
         viewModelScope.launch {
-            setCoilLogLevelUseCase(level)
+            storage.coilLogging(level = level)
         }
     }
 

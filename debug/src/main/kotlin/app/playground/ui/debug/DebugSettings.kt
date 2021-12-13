@@ -32,6 +32,8 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -70,7 +72,7 @@ internal fun ColumnScope.DebugSettings(
 
         Header()
 
-        DebugNetwork()
+        DebugNetwork(model = model)
 
         DebugCoil(model = model)
 
@@ -87,14 +89,17 @@ internal fun ColumnScope.DebugSettings(
 }
 
 @Composable
-private fun ColumnScope.DebugNetwork() {
+private fun ColumnScope.DebugNetwork(model: DebugViewModel) {
+
+    val level by model.httpLoggingLevel.collectAsState()
 
     SubHeader(title = "Network", icon = VectorIcon(Icons.Outlined.Cloud)) { padding ->
+
         EnumDropdown(
             modifier = Modifier.padding(padding),
             label = "Server - Not implemented",
             options = Server.values().asList(),
-            default = Server.PRODUCTION,
+            selected = Server.PRODUCTION,
         ) {
         }
 
@@ -102,8 +107,9 @@ private fun ColumnScope.DebugNetwork() {
             modifier = Modifier.padding(padding),
             label = "Logging - Not implemented",
             options = HttpLoggingInterceptor.Level.values().asList(),
-            default = HttpLoggingInterceptor.Level.BODY,
+            selected = level,
         ) {
+            model.updateHttpLoggingLevel(it)
         }
     }
 }
@@ -112,6 +118,7 @@ private fun ColumnScope.DebugNetwork() {
 private fun ColumnScope.DebugCoil(
     model: DebugViewModel,
 ) {
+    val coilLogLevel by model.coilLogging.collectAsState()
     val stats = model.coilUiStats
 
     val current = Formatter.formatFileSize(LocalContext.current, stats.sizeBytes.toLong())
@@ -129,7 +136,7 @@ private fun ColumnScope.DebugCoil(
             modifier = Modifier.padding(padding),
             label = "Memory cache",
             options = stats.policies,
-            default = stats.memoryCachePolicy,
+            selected = stats.memoryCachePolicy,
         ) {
             model.coilUpdateMemoryCachePolicy(it)
         }
@@ -137,7 +144,7 @@ private fun ColumnScope.DebugCoil(
             modifier = Modifier.padding(padding),
             label = "Disk cache",
             options = stats.policies,
-            default = stats.diskCachePolicy,
+            selected = stats.diskCachePolicy,
         ) {
             model.coilUpdateDiskCachePolicy(it)
         }
@@ -146,7 +153,7 @@ private fun ColumnScope.DebugCoil(
             modifier = Modifier.padding(padding),
             label = "Network cache - Not implemented",
             options = stats.policies,
-            default = stats.networkCachePolicy,
+            selected = stats.networkCachePolicy,
             enabled = false,
         ) {
             model.coilUpdateNetworkCachePolicy(it)
@@ -156,7 +163,7 @@ private fun ColumnScope.DebugCoil(
             modifier = Modifier.padding(padding),
             label = "Logging",
             options = CoilLogLevel.values().asList(),
-            default = CoilLogLevel.DEBUG,
+            selected = coilLogLevel,
         ) {
             model.coilSetLogLevel(it)
         }
