@@ -7,7 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
 
-class OkHttpUseCase @Inject constructor(
+internal class OkHttpUseCase @Inject constructor(
     private val okhttp: OkHttpClient,
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
 ) : UseCase<Unit, Unit>(coroutineDispatcher) {

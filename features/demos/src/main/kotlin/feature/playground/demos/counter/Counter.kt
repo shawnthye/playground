@@ -22,7 +22,7 @@ import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
 
 @Composable
-fun Counter(navigateUp: NavigateUp) {
+internal fun Counter(navigateUp: NavigateUp) {
     Counter(
         viewModel = hiltViewModel(),
         navigateUp = navigateUp,
@@ -30,7 +30,7 @@ fun Counter(navigateUp: NavigateUp) {
 }
 
 @Composable
-internal fun Counter(viewModel: CounterViewModel, navigateUp: NavigateUp) {
+private fun Counter(viewModel: CounterViewModel, navigateUp: NavigateUp) {
     val uiState by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(CounterUiState(0))
 
     Scaffold(

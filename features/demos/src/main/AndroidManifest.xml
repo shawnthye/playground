@@ -7,6 +7,9 @@
       android:name=".Demos"
       android:documentLaunchMode="intoExisting"
       android:exported="false"
+      android:icon="@drawable/ic_demo_launcher"
+      android:label="Demos"
+      android:roundIcon="@drawable/ic_demo_launcher_round"
       android:theme="@style/Playground.Launch" />
   </application>
 </manifest>

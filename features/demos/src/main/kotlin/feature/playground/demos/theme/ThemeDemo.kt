@@ -34,7 +34,7 @@ import core.playground.ui.theme.PlaygroundTheme
 private val NOOP: () -> Unit = { /* NOOP */ }
 
 @Composable
-fun Theme(navigateUp: NavigateUp) {
+internal fun Theme(navigateUp: NavigateUp) {
 
     Scaffold(
         topBar = {
