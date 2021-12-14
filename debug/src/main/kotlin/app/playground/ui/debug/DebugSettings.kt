@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Devices
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.outlined.Cloud
+import androidx.compose.material.icons.rounded.Category
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -97,7 +98,7 @@ internal fun ColumnScope.DebugSettings(
             onPress = {
                 Demos.start(context)
             },
-            icon = VectorIcon(Icons.Filled.Dashboard),
+            icon = VectorIcon(Icons.Rounded.Category),
         )
 
         DeviantArtAction()
