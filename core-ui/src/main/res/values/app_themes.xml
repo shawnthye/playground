@@ -5,6 +5,7 @@
   <style name="Playground.Launch">
     <item name="android:colorBackground">@color/brand_night</item>
     <item name="android:windowBackground">@drawable/preview_window</item>
+    <item name="colorStatusBar">?android:attr/colorBackground</item>
 
     <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
