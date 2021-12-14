@@ -9,10 +9,10 @@ import dagger.hilt.android.components.ActivityComponent
 
 @InstallIn(ActivityComponent::class)
 @Module
-class InternalUiModule {
+internal object InternalUiModule {
 
     @Provides
     fun providesAppContainer(): AppContainer {
-        return DebugAppContainer()
+        return DebugAppContainer
     }
 }

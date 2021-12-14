@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun DebugDrawer(
     buildVersionName: String,
-    buildVersionCode: String,
+    buildVersionCode: Int,
     buildType: String,
     content: @Composable () -> Unit,
 ) {

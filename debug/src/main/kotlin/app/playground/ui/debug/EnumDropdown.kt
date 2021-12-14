@@ -1,5 +1,6 @@
 package app.playground.ui.debug
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -71,15 +72,12 @@ internal fun <E : Enum<*>> EnumDropdown(
                         style = MaterialTheme.typography.caption,
                     )
                 }
+
+                val degrees by animateFloatAsState(targetValue = if (expanded) 180f else 360f)
                 Icon(
                     Icons.Filled.ArrowDropDown,
                     "Trailing icon for exposed dropdown menu",
-                    Modifier.rotate(
-                        if (expanded)
-                            180f
-                        else
-                            360f,
-                    ),
+                    Modifier.rotate(degrees),
                 )
             }
 

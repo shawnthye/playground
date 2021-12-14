@@ -52,24 +52,23 @@ internal class DebugViewModel @Inject constructor(
             maxSizeBytes = app.imageLoader.memoryCache.maxSize,
             memoryCachePolicy = app.imageLoader.defaults.memoryCachePolicy,
             diskCachePolicy = app.imageLoader.defaults.diskCachePolicy,
-            networkCachePolicy = app.imageLoader.defaults.memoryCachePolicy,
+            networkCachePolicy = app.imageLoader.defaults.networkCachePolicy,
         )
     }
 
     fun coilUpdateMemoryCachePolicy(policy: CachePolicy) {
-        app.imageLoader.shutdown()
+        // app.imageLoader.shutdown()
         Coil.setImageLoader(app.imageLoader.newBuilder().memoryCachePolicy(policy).build())
         coilRefreshStats()
     }
 
     fun coilUpdateDiskCachePolicy(policy: CachePolicy) {
-        app.imageLoader.shutdown()
+        // app.imageLoader.shutdown()
         Coil.setImageLoader(app.imageLoader.newBuilder().diskCachePolicy(policy).build())
         coilRefreshStats()
     }
 
     fun coilUpdateNetworkCachePolicy(policy: CachePolicy) {
-        app.imageLoader.shutdown()
         Coil.setImageLoader(app.imageLoader.newBuilder().networkCachePolicy(policy).build())
         coilRefreshStats()
     }

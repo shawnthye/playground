@@ -14,7 +14,7 @@ private const val DATABASE_NAME = "app_database"
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DatabaseModule {
+internal object DatabaseModule {
 
     @Singleton
     @Provides
@@ -46,3 +46,5 @@ object DatabaseModule {
     @Provides
     fun provideDeviationTrackDao(database: AppDatabase) = database.deviationTrackDao()
 }
+
+

@@ -45,49 +45,6 @@ object AppModule {
     fun providesApplicationScope(
         @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)
-
-    // HttpLoggingInterceptor { message ->
-    //     Timber.tag("Timber:OkHttp").i(message = message)
-    // }
-
-    @Singleton
-    @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
-
-    @Singleton
-    @Provides
-    fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient {
-        val client = OkHttpClient.Builder()
-            .addNetworkInterceptor(loggingInterceptor)
-            .build()
-
-        return client.newBuilder()
-            .addInterceptor(ReasonInterceptor(client))
-            .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideJson(): Json = Json {
-        prettyPrint = BuildConfig.DEBUG
-        ignoreUnknownKeys = true
-        // explicitNulls = false
-        serializersModule = SerializersModule {
-            contextual(Date::class, DateAsLongSerializer)
-        }
-    }
-
-    @ExperimentalSerializationApi
-    @Singleton
-    @Provides
-    fun provideRetrofitConverterFactory(
-        json: Json,
-    ): Converter.Factory = json.asConverterFactory("application/json".toMediaType())
 }
 
 private class DebugTree : Timber.DebugTree() {

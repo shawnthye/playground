@@ -60,7 +60,7 @@ import java.util.Locale
 @Composable
 internal fun ColumnScope.DebugSettings(
     buildVersionName: String,
-    buildVersionCode: String,
+    buildVersionCode: Int,
     buildType: String,
     model: DebugViewModel = viewModel(),
 ) {
@@ -82,7 +82,7 @@ internal fun ColumnScope.DebugSettings(
         BuildStats(
             stats = mapOf(
                 "Name" to buildVersionName,
-                "Code" to buildVersionCode,
+                "Code" to "$buildVersionCode",
                 "Type" to buildType,
             ),
         )
@@ -154,10 +154,10 @@ private fun ColumnScope.DebugCoil(
 
         EnumDropdown(
             modifier = Modifier.padding(padding),
-            label = "Network cache - Not implemented",
+            label = "Network cache",
             options = stats.policies,
             selected = stats.networkCachePolicy,
-            enabled = false,
+            enabled = true,
         ) {
             model.coilUpdateNetworkCachePolicy(it)
         }
