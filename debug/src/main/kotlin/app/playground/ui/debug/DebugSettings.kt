@@ -147,7 +147,6 @@ private fun ColumnScope.ExtraAction(label: String, onPress: () -> Unit, icon: De
     ) {
         Text(text = label)
         if (null != icon) {
-
             val vector = when (icon) {
                 is DebugIcon.ResourceIcon -> ImageVector.vectorResource(id = icon.resId)
                 is VectorIcon -> icon.vector
@@ -160,6 +159,3 @@ private fun ColumnScope.ExtraAction(label: String, onPress: () -> Unit, icon: De
         }
     }
 }
-
-
-

@@ -46,5 +46,3 @@ internal object DatabaseModule {
     @Provides
     fun provideDeviationTrackDao(database: AppDatabase) = database.deviationTrackDao()
 }
-
-

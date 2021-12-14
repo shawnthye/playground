@@ -162,7 +162,6 @@ private fun ColumnScope.StatRowWithAction(
                     )
                 }
 
-
                 Box(
                     modifier = Modifier.size(
                         LocalViewConfiguration.current.minimumTouchTargetSize,
@@ -175,7 +174,6 @@ private fun ColumnScope.StatRowWithAction(
                     )
                 }
             }
-
 
             Divider(
                 modifier = Modifier

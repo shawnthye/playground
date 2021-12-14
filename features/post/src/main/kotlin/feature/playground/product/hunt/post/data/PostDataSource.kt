@@ -23,7 +23,3 @@ internal class PostDataSourceImpl @Inject constructor(
         id: PostId,
     ): Flow<Response<Post>> = graphql.query(PostQuery(id)).withMapper(postQueryToPost)
 }
-
-
-
-

@@ -1,11 +1,6 @@
 package app.playground.di
 
-import android.annotation.SuppressLint
 import android.os.Build
-import app.playground.BuildConfig
-import app.playground.data.DateAsLongSerializer
-import app.playground.data.ReasonInterceptor
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import core.playground.ApplicationScope
 import core.playground.DefaultDispatcher
 import dagger.Module
@@ -15,15 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.modules.SerializersModule
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import timber.log.Timber
-import java.util.Date
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -48,7 +35,6 @@ object AppModule {
 }
 
 private class DebugTree : Timber.DebugTree() {
-    @SuppressLint("ObsoleteSdkInt")
     override fun createStackElementTag(element: StackTraceElement): String {
 
         val tag = "Timber:${super.createStackElementTag(element)!!}"

@@ -114,7 +114,9 @@ private fun NavController.shouldControlBack(default: Screen): State<Boolean> {
             }
 
             val shouldControl = when {
-                destination.hierarchy.any { it.route == default.route } && defaultAtTopLevel -> false
+                destination.hierarchy.any {
+                    it.route == default.route
+                } && defaultAtTopLevel -> false
                 tops.any { it == route } -> true
                 else -> false
             }

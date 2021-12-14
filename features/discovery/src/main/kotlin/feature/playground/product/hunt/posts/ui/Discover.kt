@@ -61,7 +61,6 @@ internal fun Discover(
     onSwipeRefresh: () -> Unit,
     openPost: (postId: String) -> Unit,
 ) {
-
     Scaffold(
         topBar = {
             DrawerAppBar(
@@ -83,7 +82,6 @@ internal fun Discover(
                 openPost(postId)
             }
         }
-
     }
 }
 

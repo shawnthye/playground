@@ -59,6 +59,5 @@ internal fun Post(model: PostViewModel = hiltViewModel(), navigateUp: NavigateUp
                 }
             }
         }
-
     }
 }

@@ -116,7 +116,7 @@ dependencies {
     implementation(project(":discovery"))
     implementation(project(":post"))
     implementation(project(":productHunt"))
-    
+
     "internalImplementation"(project(":debug"))
 
     implementation(Libs.timber)
