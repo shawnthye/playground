@@ -1,63 +1,34 @@
 package app.playground.ui.debug
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.text.format.Formatter
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BugReport
-import androidx.compose.material.icons.filled.CleaningServices
 import androidx.compose.material.icons.filled.Construction
 import androidx.compose.material.icons.filled.Devices
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Cloud
-import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalViewConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.playground.ui.debug.DebugIcon.ResourceIcon
-import app.playground.ui.debug.DebugIcon.VectorIcon
-import app.playground.ui.debug.data.CoilLogLevel
+import app.playground.ui.debug.components.DebugIcon.VectorIcon
+import app.playground.ui.debug.components.SubHeader
 import app.playground.ui.debug.data.Server
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
-import core.playground.ui.theme.PlaygroundTheme
+import feature.playground.deviant.ui.DeviantArt
 import okhttp3.logging.HttpLoggingInterceptor
-import java.util.Locale
 
 @Composable
 internal fun ColumnScope.DebugSettings(
@@ -80,47 +51,12 @@ internal fun ColumnScope.DebugSettings(
             .systemBarsPadding()
             .navigationBarsPadding(),
     ) {
-        Header(applicationName = model.applicationName)
+        DebugSettingsHeader(applicationName = model.applicationName)
         DebugNetwork(model = model)
-        DebugCoil(model = model)
+        DebugSettingsCoil(model = model)
         BuildStats(stats = buildStats)
         DeviceStats(stats = model.deviceStats)
-    }
-}
-
-@Composable
-private fun ColumnScope.Header(applicationName: CharSequence) {
-    Row(
-        modifier = Modifier
-            .align(Alignment.End)
-            .padding(horizontal = 16.dp, vertical = 20.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = applicationName.toString(),
-                style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.5.sp),
-            )
-            Text(
-                text = "Debug Settings",
-                style = MaterialTheme.typography.overline.copy(letterSpacing = 1.5.sp),
-            )
-        }
-        Icon(
-            imageVector = Icons.Default.BugReport,
-            contentDescription = "",
-            modifier = Modifier.size(40.dp),
-        )
-    }
-}
-
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-@Composable
-private fun PreviewHeader() {
-    PlaygroundTheme {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Header("Application Name")
-        }
+        DeviantArtAction()
     }
 }
 
@@ -151,171 +87,6 @@ private fun ColumnScope.DebugNetwork(model: DebugViewModel) {
 }
 
 @Composable
-private fun ColumnScope.DebugCoil(
-    model: DebugViewModel,
-) {
-    val coilLogLevel by model.coilLogging.collectAsState()
-    val stats = model.coilUiStats
-
-    val current = Formatter.formatFileSize(LocalContext.current, stats.sizeBytes.toLong())
-    val total = Formatter.formatFileSize(LocalContext.current, stats.maxSizeBytes.toLong())
-    val percentage = "%.2f".format(
-        Locale.ENGLISH,
-        (1f * stats.sizeBytes / stats.maxSizeBytes) * 100,
-    ).uppercase(Locale.ENGLISH)
-
-    SubHeader(
-        title = "Coil - image",
-        icon = ResourceIcon(R.drawable.debug_coil_kt),
-    ) { padding ->
-        StatRowWithAction(
-            modifier = Modifier.padding(padding),
-            title = "Memory Usage",
-            text = "$current/$total ($percentage%)",
-            actionLeft = {
-                model.coilRefreshStats()
-            },
-            actionRight = {
-                model.coilTrimMemory()
-            },
-        )
-
-        Row(Modifier.padding(padding), horizontalArrangement = Arrangement.SpaceBetween) {
-            EnumDropdown(
-                modifier = Modifier
-                    .width(IntrinsicSize.Min)
-                    .weight(1f),
-                label = "Memory",
-                options = stats.policies,
-                selected = stats.memoryCachePolicy,
-            ) {
-                model.coilUpdateMemoryCachePolicy(it)
-            }
-
-            Spacer(modifier = Modifier.width(6.dp))
-
-            EnumDropdown(
-                modifier = Modifier
-                    .width(IntrinsicSize.Min)
-                    .weight(1f),
-                label = "Disk",
-                options = stats.policies,
-                selected = stats.diskCachePolicy,
-            ) {
-                model.coilUpdateDiskCachePolicy(it)
-            }
-        }
-
-        EnumDropdown(
-            modifier = Modifier.padding(padding),
-            label = "Network",
-            options = stats.policies,
-            selected = stats.networkCachePolicy,
-            enabled = true,
-        ) {
-            model.coilUpdateNetworkCachePolicy(it)
-        }
-
-        EnumDropdown(
-            modifier = Modifier.padding(padding),
-            label = "Logging",
-            options = CoilLogLevel.values().asList(),
-            selected = coilLogLevel,
-        ) {
-            model.coilSetLogLevel(it)
-        }
-    }
-}
-
-@Composable
-private fun ColumnScope.StatRowWithAction(
-    modifier: Modifier,
-    title: String,
-    text: String,
-    actionLeft: () -> Unit = {},
-    actionRight: () -> Unit = {},
-) {
-    Surface(
-        modifier = modifier
-            .padding(bottom = 4.dp)
-            .align(Alignment.Start)
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min),
-        shape = MaterialTheme.shapes.small,
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.25f),
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Row(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .clickable {
-                        actionLeft()
-                    },
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 16.dp),
-                ) {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.overline,
-                        color = MaterialTheme.colors.onSurface,
-                    )
-                    Text(
-                        text = text,
-                        modifier = Modifier.alpha(0.6f),
-                        style = MaterialTheme.typography.caption,
-                        color = MaterialTheme.colors.onSurface,
-                    )
-                }
-
-
-                Box(
-                    modifier = Modifier.size(
-                        LocalViewConfiguration.current.minimumTouchTargetSize,
-                    ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Refresh,
-                        contentDescription = "Clear Memory",
-                    )
-                }
-            }
-
-
-            Divider(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(vertical = 8.dp)
-                    .width(1.dp),
-            )
-
-            Box(
-                modifier = Modifier
-                    .size(
-                        LocalViewConfiguration.current.minimumTouchTargetSize,
-                    )
-                    .clickable {
-                        actionRight()
-                    },
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.CleaningServices,
-                    contentDescription = "Clear Memory",
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun ColumnScope.BuildStats(stats: Map<String, String>) {
     SubHeader(title = "Build", icon = VectorIcon(Icons.Filled.Construction)) { padding ->
         StatsTable(modifier = Modifier.padding(padding), stats = stats)
@@ -330,82 +101,24 @@ fun ColumnScope.DeviceStats(stats: Map<String, String>) {
 }
 
 @Composable
-private fun ColumnScope.SubHeader(
-    title: String,
-    icon: DebugIcon,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
-    content: @Composable ColumnScope.(innerPadding: PaddingValues) -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .padding(contentPadding),
-        verticalAlignment = Alignment.CenterVertically,
+fun ColumnScope.DeviantArtAction(modifier: Modifier = Modifier) {
+
+    val context = LocalContext.current
+
+    TextButton(
+        modifier = modifier
+            .align(Alignment.End)
+            .padding(horizontal = 16.dp),
+        onClick = { DeviantArt.start(context) },
     ) {
-        Text(
-            modifier = Modifier.padding(end = 4.dp),
-            text = title.uppercase(), style = MaterialTheme.typography.h6,
+        Text(text = "Deviant Art")
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_open_in_new_24),
+            contentDescription = null,
+            tint = colorResource(id = core.playground.ui.R.color.brandDeviantArt),
         )
-
-        val iconModifier = Modifier
-            .fillMaxHeight()
-            .padding(vertical = 4.dp)
-            .aspectRatio(1f)
-        when (icon) {
-            is ResourceIcon -> Image(
-                modifier = iconModifier,
-                painter = painterResource(id = R.drawable.debug_coil_kt),
-                contentDescription = null,
-            )
-            is VectorIcon -> Icon(
-                modifier = iconModifier,
-                imageVector = icon.vector,
-                contentDescription = null,
-            )
-        }
-    }
-    Divider(
-        modifier = Modifier
-            .padding(contentPadding)
-            .padding(top = 2.dp, bottom = 4.dp),
-        color = MaterialTheme.colors.onSurface,
-        thickness = 2.dp,
-    )
-    content(contentPadding)
-    Spacer(modifier = Modifier.height(12.dp))
-}
-
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-@Composable
-private fun PreviewSubHeader() {
-    PlaygroundTheme {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            SubHeader(
-                title = "Preview",
-                icon = VectorIcon(Icons.Outlined.Construction),
-            ) { padding ->
-                StatRowWithAction(
-                    modifier = Modifier.padding(padding),
-                    title = "Memory",
-                    text = "value",
-                )
-            }
-
-            SubHeader(
-                title = "Preview",
-                icon = ResourceIcon(R.drawable.debug_coil_kt),
-            ) { padding ->
-                StatRowWithAction(
-                    modifier = Modifier.padding(padding),
-                    title = "Memory",
-                    text = "value",
-                )
-            }
-        }
     }
 }
 
-private sealed class DebugIcon {
-    data class ResourceIcon(@DrawableRes val resId: Int) : DebugIcon()
-    data class VectorIcon(val vector: ImageVector) : DebugIcon()
-}
+
+

@@ -22,6 +22,7 @@ android {
 
     buildFeatures {
         compose = true
+        dataBinding = true // because of DeviantArt using data binding
     }
 
     composeOptions {
