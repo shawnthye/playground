@@ -10,7 +10,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Devices
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
@@ -36,6 +38,11 @@ import core.playground.ui.theme.contentHorizontalPadding
 import feature.playground.deviant.ui.DeviantArt
 import okhttp3.logging.HttpLoggingInterceptor
 
+internal enum class BottomSheetContent {
+    FEATURE_FLAGS,
+    DEMOS
+}
+
 @Composable
 internal fun ColumnScope.DebugSettings(
     buildVersionName: String,
@@ -43,6 +50,7 @@ internal fun ColumnScope.DebugSettings(
     buildType: String,
     model: DebugViewModel = viewModel(),
     coilModel: DebugCoilViewModel = viewModel(),
+    openBottomSheet: (BottomSheetContent) -> Unit,
 ) {
 
     val buildStats = mapOf(
@@ -75,6 +83,21 @@ internal fun ColumnScope.DebugSettings(
         BuildStats(stats = buildStats)
         DeviceStats(stats = model.deviceStats)
         ExtraAction(
+            label = "Feature Flags",
+            onPress = {
+                openBottomSheet(BottomSheetContent.FEATURE_FLAGS)
+            },
+            icon = VectorIcon(Icons.Filled.Flag),
+        )
+        ExtraAction(
+            label = "Theme Demos",
+            onPress = {
+                openBottomSheet(BottomSheetContent.DEMOS)
+            },
+            icon = VectorIcon(Icons.Filled.Dashboard),
+        )
+        DeviantArtAction()
+        ExtraAction(
             label = "Reset",
             onPress = {
                 model.resetDebugSettings()
@@ -82,7 +105,6 @@ internal fun ColumnScope.DebugSettings(
             },
             icon = VectorIcon(Icons.Filled.RestartAlt),
         )
-        DeviantArtAction()
     }
 }
 
