@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class Response204UseCase @Inject constructor(
+internal class Response204UseCase @Inject constructor(
     private val deviantArt: DeviantArt,
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
 ) : FlowUseCase<Unit, Unit>(coroutineDispatcher) {

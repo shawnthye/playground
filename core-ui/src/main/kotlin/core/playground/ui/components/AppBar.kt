@@ -36,8 +36,19 @@ fun DrawerAppBar(
 }
 
 @Composable
+fun TopAppBar(
+    @StringRes titleRes: Int = -1,
+) {
+    AppBar(
+        iconVector = null,
+        titleRes = titleRes,
+        navigationUp = null,
+    )
+}
+
+@Composable
 fun AppBar(
-    iconVector: ImageVector = Icons.Filled.ArrowBack,
+    iconVector: ImageVector? = Icons.Filled.ArrowBack,
     @StringRes titleRes: Int = -1,
     navigationUp: NavigateUp? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
@@ -55,7 +66,7 @@ fun AppBar(
 @Composable
 fun AppBar(
     modifier: Modifier = Modifier,
-    iconVector: ImageVector = Icons.Default.ArrowBack,
+    iconVector: ImageVector? = Icons.Default.ArrowBack,
     title: String? = null,
     navigationUp: NavigateUp? = null,
     elevation: Dp = AppBarDefaults.TopAppBarElevation,
@@ -79,13 +90,15 @@ fun AppBar(
                     maxLines = 1,
                 )
             },
-            navigationIcon = {
-                IconButton(onClick = { navigationUp?.invoke() }) {
-                    Icon(
-                        imageVector = iconVector,
-                        contentDescription = "",
-                        tint = MaterialTheme.colors.onSurface,
-                    )
+            navigationIcon = iconVector?.let {
+                {
+                    IconButton(onClick = { navigationUp?.invoke() }) {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = "",
+                            tint = MaterialTheme.colors.onSurface,
+                        )
+                    }
                 }
             },
             actions = {

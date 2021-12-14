@@ -21,27 +21,25 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import core.playground.ui.alias.NavigateUp
-import core.playground.ui.components.AppBar
+import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.theme.PlaygroundTheme
 
 private val NOOP: () -> Unit = { /* NOOP */ }
 
 @Composable
-fun Theme(navigateUp: NavigateUp) {
+internal fun Theme(navigateUp: NavigateUp) {
 
     Scaffold(
         topBar = {
-            AppBar(
+            DrawerAppBar(
                 titleRes = core.playground.ui.R.string.menu_theme,
                 navigationUp = navigateUp,
-                iconVector = Icons.Filled.KeyboardArrowDown,
             )
         },
     ) {

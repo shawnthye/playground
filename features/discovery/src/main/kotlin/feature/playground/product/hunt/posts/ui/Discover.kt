@@ -28,7 +28,7 @@ import coil.compose.rememberImagePainter
 import coil.request.repeatCount
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import core.playground.ui.components.DrawerAppBar
+import core.playground.ui.components.TopAppBar
 import core.playground.ui.rememberFlowWithLifecycle
 import core.playground.ui.tappable
 
@@ -62,11 +62,7 @@ internal fun Discover(
     openPost: (postId: String) -> Unit,
 ) {
     Scaffold(
-        topBar = {
-            DrawerAppBar(
-                titleRes = core.playground.ui.R.string.menu_discover,
-            )
-        },
+        topBar = { TopAppBar(titleRes = core.playground.ui.R.string.menu_discover) },
     ) { paddingValues ->
         if (state.refreshing && state.posts.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

@@ -35,14 +35,14 @@ import kotlinx.coroutines.flow.mapNotNull
 private val NOOP: () -> Unit = { /* NOOP */ }
 
 @Composable
-fun ErrorDemo(
+internal fun ErrorDemo(
     navigateUp: NavigateUp,
 ) {
     ErrorDemo(navigateUp = navigateUp, viewModel = hiltViewModel())
 }
 
 @Composable
-internal fun ErrorDemo(
+private fun ErrorDemo(
     navigateUp: NavigateUp,
     viewModel: ErrorDemoViewModel,
 ) {

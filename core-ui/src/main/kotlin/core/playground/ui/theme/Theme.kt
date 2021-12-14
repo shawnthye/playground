@@ -3,6 +3,7 @@ package core.playground.ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
@@ -11,12 +12,18 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 
+typealias Icons = Icons.Rounded
+
 @Composable
 fun PlaygroundTheme(
     useDarkColors: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    MaterialTheme(colors = if (useDarkColors) PlaygroundDarkColors else PlaygroundLightColors) {
+    MaterialTheme(
+        colors = if (useDarkColors) PlaygroundDarkColors else PlaygroundLightColors,
+        typography = PlaygroundTypography,
+        shapes = PlaygroundShapes,
+    ) {
         CompositionLocalProvider(
             LocalRippleTheme provides PlaygroundRippleTheme,
             content = content,

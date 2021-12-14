@@ -72,6 +72,7 @@ internal fun <E : Enum<*>> EnumDropdown(
                 Text(
                     text = selected.readableName,
                     style = MaterialTheme.typography.caption,
+                    fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
