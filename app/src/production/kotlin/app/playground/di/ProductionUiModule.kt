@@ -8,12 +8,12 @@ import dagger.hilt.android.components.ActivityComponent
 
 @InstallIn(ActivityComponent::class)
 @Module
-class ProductionUiModule {
+internal object ProductionUiModule {
 
     @Provides
     fun providesAppContainer(): AppContainer {
-        return Default
+        return DefaultAppContainer
     }
 }
 
-internal object Default : AppContainer
+private object DefaultAppContainer : AppContainer
