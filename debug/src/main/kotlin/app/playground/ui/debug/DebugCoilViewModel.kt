@@ -3,9 +3,6 @@ package app.playground.ui.debug
 import android.app.Application
 import android.content.ComponentCallbacks2
 import android.content.Context
-import android.content.res.Resources
-import android.os.Build
-import android.util.DisplayMetrics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.ui.debug.data.CoilLogLevel
@@ -14,6 +11,7 @@ import coil.Coil
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.request.DefaultRequestOptions
+import coil.util.CoilUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +22,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import java.util.Locale
+import timber.log.Timber
 import javax.inject.Inject
 
 internal sealed class CoilAction {
@@ -48,6 +46,7 @@ internal class DebugCoilViewModel @Inject constructor(
 
     private val _actions = Channel<CoilAction>(capacity = Channel.CONFLATED).apply {
         receiveAsFlow().onEach { action ->
+            Timber.i("action: $action")
             when (action) {
                 is CoilAction.UpdateDiskPolicy -> {
                     _coilUiStats.update { it.copy(diskCachePolicy = action.policy) }
@@ -61,9 +60,12 @@ internal class DebugCoilViewModel @Inject constructor(
                 is CoilAction.UpdateLogLevel -> storage.coilLogging(action.logLevel)
                 CoilAction.Refresh -> _coilUiStats.tryEmit(CoilUiStats.from(app))
                 CoilAction.TrimMemory -> {
+                    //TODO: move this to IO UseCase
                     app.imageLoader.memoryCache.clear()
-                    app.imageLoader.bitmapPool.clear()
                     app.imageLoader.bitmapPool.trimMemory(ComponentCallbacks2.TRIM_MEMORY_COMPLETE)
+                    app.imageLoader.bitmapPool.clear()
+                    CoilUtils.createDefaultCache(app).directory.deleteRecursively()
+                    Runtime.getRuntime().gc()
                     trySend(CoilAction.Refresh)
                 }
                 CoilAction.Reset -> _coilUiStats.tryEmit(
@@ -111,6 +113,11 @@ internal data class CoilUiStats(
     val logLevel: CoilLogLevel = DebugStorage.Defaults.CoilLoggingLevel,
 ) {
     companion object {
+
+        /**
+         * TODO: we might consider below link for memory information
+         * https://stackoverflow.com/questions/3170691/how-to-get-current-memory-usage-in-android/19267315#19267315
+         */
         fun from(context: Context): CoilUiStats = CoilUiStats(
             memorySizeBytes = context.imageLoader.memoryCache.size,
             memoryMaxSizeBytes = context.imageLoader.memoryCache.maxSize,
@@ -120,35 +127,3 @@ internal data class CoilUiStats(
         )
     }
 }
-
-private val readableMaker
-    get() = Build.MANUFACTURER.replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
-    }
-
-private val readableModel get() = Build.MODEL.orEmpty().ifBlank { "UNKNOWN" }
-
-private val Resources.readableResolution
-    get() = "${displayMetrics.heightPixels}x${displayMetrics.widthPixels}"
-
-private val Resources.densityBucket
-    get() = when (displayMetrics.densityDpi) {
-        DisplayMetrics.DENSITY_LOW -> "ldpi"
-        DisplayMetrics.DENSITY_MEDIUM -> "mdpi"
-        DisplayMetrics.DENSITY_HIGH -> "hdpi"
-        DisplayMetrics.DENSITY_XHIGH -> "xhdpi"
-        DisplayMetrics.DENSITY_XXHIGH -> "xxhdpi"
-        DisplayMetrics.DENSITY_XXXHIGH -> "xxxhdpi"
-        DisplayMetrics.DENSITY_TV -> "tvdpi"
-        else -> "${displayMetrics.densityDpi}"
-    }
-
-private val Application.deviceStats: Map<String, String>
-    get() = mapOf(
-        "Make" to readableMaker,
-        "Model" to readableModel,
-        "Resolution" to resources.readableResolution,
-        "Density" to "${resources.displayMetrics.densityDpi} (${resources.densityBucket})",
-        "Release" to Build.VERSION.RELEASE.orEmpty().ifBlank { "UNKNOWN" },
-        "API" to "${Build.VERSION.SDK_INT}",
-    )

@@ -6,15 +6,18 @@ import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalElevationOverlay
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ModalDrawer
+import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.launch
@@ -35,7 +38,8 @@ fun DebugDrawer(
     val scope = rememberCoroutineScope()
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         ModalBottomSheetLayout(
-            // sheetBackgroundColor = MaterialTheme.colors.surface,
+            sheetBackgroundColor = Color.Transparent,
+            sheetContentColor = contentColorFor(backgroundColor = MaterialTheme.colors.surface),
             sheetState = bottomSheetState,
             sheetContent = {
                 bottomSheet()

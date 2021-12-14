@@ -42,12 +42,12 @@ internal fun DebugTheme(
     useDarkColors: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+    // copy the main shape from default theme
     PlaygroundTheme(useDarkColors = useDarkColors) {
         MaterialTheme(
             colors = if (isSystemInDarkTheme()) DebugDarkColors else DebugLightColors,
             typography = MaterialTheme.typography,
             shapes = MaterialTheme.shapes,
-
             content = content,
         )
     }

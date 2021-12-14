@@ -66,6 +66,14 @@ internal fun ColumnScope.DebugSettings(
     ) {
         DebugSettingsHeader(applicationName = model.applicationName)
 
+        ExtraAction(
+            label = "Feature Flags",
+            onPress = {
+                showFeatureFlags()
+            },
+            icon = VectorIcon(Icons.Filled.Flag),
+        )
+
         EnumDropdown(
             modifier = Modifier
                 .contentHorizontalPadding()
@@ -77,16 +85,13 @@ internal fun ColumnScope.DebugSettings(
         }
 
         DebugNetwork(model = model)
+
         DebugCoil(model = coilModel)
+
         BuildStats(stats = buildStats)
+
         DeviceStats(stats = model.deviceStats)
-        ExtraAction(
-            label = "Feature Flags",
-            onPress = {
-                showFeatureFlags()
-            },
-            icon = VectorIcon(Icons.Filled.Flag),
-        )
+
         ExtraAction(
             label = "Demos",
             onPress = {
@@ -94,7 +99,9 @@ internal fun ColumnScope.DebugSettings(
             },
             icon = VectorIcon(Icons.Filled.Dashboard),
         )
+
         DeviantArtAction()
+
         ExtraAction(
             label = "Reset",
             onPress = {
