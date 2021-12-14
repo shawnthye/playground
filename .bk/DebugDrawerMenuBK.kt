@@ -1,13 +1,11 @@
-package app.playground.navigation
+package app.playground.ui.debug
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,33 +34,28 @@ import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.theme.PlaygroundTheme
 
 @Composable
-internal fun DrawerMenu(
-    selectedScreen: DrawerScreen,
-    onNavigationSelected: (destination: DrawerScreen) -> Unit,
+internal fun DebugDrawerMenuBK(
+    selectedScreen: DebugScreen,
+    onNavigationSelected: (destination: DebugScreen) -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .statusBarsPadding()
-            .fillMaxSize(),
-    ) {
-        MenuItems.map { menuItem ->
-            val icon = when (menuItem) {
-                is MenuItem.ResourceIcon -> ImageVector.vectorResource(id = menuItem.icon)
-                is MenuItem.VectorIcon -> menuItem.icon
-            }
+    Spacer(modifier = Modifier.statusBarsPadding())
+    MenuItems.map { menuItem ->
+        val icon = when (menuItem) {
+            is MenuItem.ResourceIcon -> ImageVector.vectorResource(id = menuItem.icon)
+            is MenuItem.VectorIcon -> menuItem.icon
+        }
 
-            val iconSecondary = (menuItem as? MenuItem.ResourceIcon)
-                ?.iconSecondary
-                ?.let { ImageVector.vectorResource(id = it) }
+        val iconSecondary = (menuItem as? MenuItem.ResourceIcon)
+            ?.iconSecondary
+            ?.let { ImageVector.vectorResource(id = it) }
 
-            DrawerButton(
-                icon = icon,
-                subIcon = iconSecondary,
-                label = stringResource(id = menuItem.label),
-                isSelected = selectedScreen == menuItem.screen,
-            ) {
-                onNavigationSelected(menuItem.screen)
-            }
+        DrawerButton(
+            icon = icon,
+            subIcon = iconSecondary,
+            label = stringResource(id = menuItem.label),
+            isSelected = selectedScreen == menuItem.screen,
+        ) {
+            onNavigationSelected(menuItem.screen)
         }
     }
 }
@@ -173,18 +166,18 @@ private fun NavigationIcon(
 }
 
 private sealed class MenuItem(
-    val screen: DrawerScreen,
+    val screen: DebugScreen,
     @StringRes val label: Int,
 ) {
     class ResourceIcon(
-        screen: DrawerScreen,
+        screen: DebugScreen,
         @StringRes label: Int,
         @DrawableRes val icon: Int,
         @DrawableRes val iconSecondary: Int? = null,
     ) : MenuItem(screen, label)
 
     class VectorIcon(
-        screen: DrawerScreen,
+        screen: DebugScreen,
         @StringRes label: Int,
         val icon: ImageVector,
     ) : MenuItem(screen, label)
@@ -192,27 +185,27 @@ private sealed class MenuItem(
 
 private val MenuItems = listOf(
     MenuItem.ResourceIcon(
-        screen = DrawerScreen.ProductHunt,
+        screen = DebugScreen.Content,
         label = core.playground.ui.R.string.menu_product_hunt,
         icon = core.playground.ui.R.drawable.ic_producthunt_24,
     ),
     MenuItem.VectorIcon(
-        screen = DrawerScreen.Home,
+        screen = DebugScreen.Counter,
         label = core.playground.ui.R.string.menu_counter,
         icon = Icons.Filled.Calculate,
     ),
     MenuItem.VectorIcon(
-        screen = DrawerScreen.Theme,
+        screen = DebugScreen.Theme,
         label = core.playground.ui.R.string.menu_theme,
         icon = Icons.Filled.Category,
     ),
     MenuItem.VectorIcon(
-        screen = DrawerScreen.ErrorDemo,
+        screen = DebugScreen.ErrorDemo,
         label = core.playground.ui.R.string.menu_error_demo,
         icon = Icons.Filled.Error,
     ),
     MenuItem.ResourceIcon(
-        screen = DrawerScreen.DeviantArt,
+        screen = DebugScreen.DeviantArt,
         label = feature.playground.deviant.R.string.deviant_art,
         icon = R.drawable.ic_deviant_art,
         iconSecondary = R.drawable.ic_baseline_open_in_new_24,

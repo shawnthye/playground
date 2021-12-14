@@ -20,6 +20,7 @@ class ReasonInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         return try {
             chain.proceed(chain.request())
+            // TODO: implement http error
         } catch (e: Throwable) {
             throw okhttp.wrapThrowable(e)
         }

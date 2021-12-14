@@ -1,7 +1,7 @@
 package feature.playground.product.hunt.posts.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,15 +28,14 @@ import coil.compose.rememberImagePainter
 import coil.request.repeatCount
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import core.playground.ui.alias.NavigateUp
 import core.playground.ui.components.DrawerAppBar
 import core.playground.ui.rememberFlowWithLifecycle
+import core.playground.ui.tappable
 
 @Composable
-fun Discover(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
+fun Discover(openPost: (postId: String) -> Unit) {
     Discover(
         viewModel = hiltViewModel(),
-        navigateUp = navigateUp,
         openPost = openPost,
     )
 }
@@ -44,7 +43,6 @@ fun Discover(navigateUp: NavigateUp, openPost: (postId: String) -> Unit) {
 @Composable
 internal fun Discover(
     viewModel: DiscoverViewModel,
-    navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
 ) {
     val state by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(DiscoveryUiState.EMPTY)
@@ -53,7 +51,6 @@ internal fun Discover(
         onSwipeRefresh = {
             viewModel.onRefresh()
         },
-        navigateUp = navigateUp,
         openPost = openPost,
     )
 }
@@ -62,14 +59,12 @@ internal fun Discover(
 internal fun Discover(
     state: DiscoveryUiState,
     onSwipeRefresh: () -> Unit,
-    navigateUp: NavigateUp,
     openPost: (postId: String) -> Unit,
 ) {
-
     Scaffold(
         topBar = {
             DrawerAppBar(
-                titleRes = core.playground.ui.R.string.menu_discover, navigationUp = navigateUp,
+                titleRes = core.playground.ui.R.string.menu_discover,
             )
         },
     ) { paddingValues ->
@@ -87,12 +82,12 @@ internal fun Discover(
                 openPost(postId)
             }
         }
-
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun List(
+private fun List(
     contentPadding: PaddingValues,
     refreshing: Boolean,
     posts: List<Post>,
@@ -108,15 +103,12 @@ fun List(
             contentPadding = contentPadding,
         ) {
             items(posts.size) { position ->
-
                 val post = posts[position]
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            openPost(post.postId)
-                        }
+                        .tappable { openPost(post.postId) }
                         .padding(horizontal = 18.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -140,5 +132,3 @@ fun List(
         }
     }
 }
-
-

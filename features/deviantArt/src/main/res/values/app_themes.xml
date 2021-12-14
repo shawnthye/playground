@@ -115,6 +115,8 @@
     <!-- Work around to remove DrawerLayout status bar color -->
     <item name="colorPrimaryDark">@null</item>
 
+    <item name="colorStatusBar">?android:attr/colorBackground</item>
+
     <item name="android:statusBarColor">@color/deviant_art_status_bar_color</item>
     <!--    <item name="android:windowLightStatusBar">true</item>-->
     <item name="android:navigationBarColor">@color/deviant_art_status_bar_color</item>

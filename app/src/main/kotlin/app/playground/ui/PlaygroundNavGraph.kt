@@ -1,4 +1,4 @@
-package app.playground.navigation
+package app.playground.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.EnterTransition
@@ -19,6 +19,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import app.playground.navigation.findChildTopRoutes
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -31,12 +32,12 @@ import timber.log.Timber
 /**
  * This match the root drawer route
  */
-private const val PRODUCT_HUNT = "product-hunt/app"
+private const val PREFIX = "app"
 
 internal sealed class Screen(val route: String) {
-    object Discover : Screen("$PRODUCT_HUNT/discover")
-    object Topics : Screen("$PRODUCT_HUNT/topics")
-    object Collections : Screen("$PRODUCT_HUNT/collections")
+    object Discover : Screen("$PREFIX/discover")
+    object Topics : Screen("$PREFIX/topics")
+    object Collections : Screen("$PREFIX/collections")
 
     companion object {
         val START by lazy { Discover }
@@ -57,17 +58,16 @@ internal sealed class Destination(
         fun createRoute(screen: Screen, postId: String) = "${screen.route}/posts/$postId"
     }
 
-    object Topic : Destination("topics/{postId}") {
+    object Topic : Destination("topics/{topicId}") {
         fun createRoute(screen: Screen, topicId: String) = "${screen.route}/topics/$topicId"
     }
 }
 
 @ExperimentalAnimationApi
 @Composable
-internal fun ProductHuntNavGraph(
+internal fun PlaygroundNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    openDrawer: () -> Unit,
     onSelectedDefaultScreen: (Screen) -> Unit,
 ) {
 
@@ -82,17 +82,15 @@ internal fun ProductHuntNavGraph(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
     ) {
-        addDiscoverScreen(navController, openDrawer)
-        addTopicsScreen(navController, openDrawer)
-        addCollectionsScreen(navController, openDrawer)
+        addDiscoverScreen(navController)
+        addTopicsScreen(navController)
+        addCollectionsScreen(navController)
     }
 
     BackHandler(enabled = shouldControlBack) {
         onSelectedDefaultScreen(Screen.START)
     }
 }
-
-
 
 @Stable
 @Composable
@@ -116,7 +114,9 @@ private fun NavController.shouldControlBack(default: Screen): State<Boolean> {
             }
 
             val shouldControl = when {
-                destination.hierarchy.any { it.route == default.route } && defaultAtTopLevel -> false
+                destination.hierarchy.any {
+                    it.route == default.route
+                } && defaultAtTopLevel -> false
                 tops.any { it == route } -> true
                 else -> false
             }
@@ -139,14 +139,13 @@ private fun NavController.shouldControlBack(default: Screen): State<Boolean> {
 @ExperimentalAnimationApi
 private fun NavGraphBuilder.addDiscoverScreen(
     navController: NavHostController,
-    openDrawer: () -> Unit,
 ) {
     val screen = Screen.Discover
     navigation(
         route = screen.route,
         startDestination = Destination.Discover.createRoute(screen),
     ) {
-        addDiscover(navController, screen, openDrawer)
+        addDiscover(navController, screen)
         addPost(navController, screen)
     }
 }
@@ -154,14 +153,13 @@ private fun NavGraphBuilder.addDiscoverScreen(
 @ExperimentalAnimationApi
 private fun NavGraphBuilder.addTopicsScreen(
     navController: NavHostController,
-    openDrawer: () -> Unit,
 ) {
     val screen = Screen.Topics
     navigation(
         route = screen.route,
         startDestination = Destination.Topics.createRoute(screen),
     ) {
-        addTopics(navController, screen, openDrawer)
+        addTopics(navController, screen)
         addPost(navController, screen)
     }
 }
@@ -169,14 +167,13 @@ private fun NavGraphBuilder.addTopicsScreen(
 @ExperimentalAnimationApi
 private fun NavGraphBuilder.addCollectionsScreen(
     navController: NavHostController,
-    openDrawer: () -> Unit,
 ) {
     val screen = Screen.Collections
     navigation(
         route = screen.route,
         startDestination = Destination.Collections.createRoute(screen),
     ) {
-        addCollections(navController, screen, openDrawer)
+        addCollections(navController, screen)
         addPost(navController, screen)
     }
 }
@@ -185,10 +182,9 @@ private fun NavGraphBuilder.addCollectionsScreen(
 private fun NavGraphBuilder.addDiscover(
     navController: NavHostController,
     screen: Screen,
-    openDrawer: () -> Unit,
 ) {
     composable(Destination.Discover.createRoute(screen)) {
-        Discover(openDrawer) { postId ->
+        Discover { postId ->
             navController.navigate(Destination.Post.createRoute(screen, postId))
         }
     }
@@ -198,11 +194,10 @@ private fun NavGraphBuilder.addDiscover(
 private fun NavGraphBuilder.addTopics(
     navController: NavHostController,
     screen: Screen,
-    openDrawer: () -> Unit,
 ) {
     navController.toString()
     composable(Destination.Topics.createRoute(screen)) {
-        Topics(openDrawer) { postId ->
+        Topics { postId ->
             navController.navigate(Destination.Post.createRoute(screen, postId))
         }
     }
@@ -212,11 +207,10 @@ private fun NavGraphBuilder.addTopics(
 private fun NavGraphBuilder.addCollections(
     navController: NavHostController,
     screen: Screen,
-    openDrawer: () -> Unit,
 ) {
     navController.toString()
     composable(Destination.Collections.createRoute(screen)) {
-        Collections(openDrawer)
+        Collections()
     }
 }
 

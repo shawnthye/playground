@@ -20,6 +20,7 @@ object Versions {
     const val CUSTOM_VIEW = "1.1.0"
     const val DAGGER = "2.40.5"
     const val DAGGER_INJECT = "1"
+    const val DATA_STORE = "1.0.0"
     const val DRAWER_LAYOUT = "1.1.1"
     const val FIREBASE = "29.0.1"
     const val FRAGMENT = "1.4.0"
@@ -124,6 +125,7 @@ object Libs {
 
             @Suppress("SpellCheckingInspection")
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx"
+            const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose"
         }
 
         object Navigation {
@@ -146,6 +148,11 @@ object Libs {
             const val common = "androidx.paging:paging-common-ktx"
             const val compose = "androidx.paging:paging-compose"
             const val runtime = "androidx.paging:paging-runtime-ktx"
+        }
+
+        object DataStore {
+            const val preferencesCore = "androidx.datastore:datastore-preferences-core"
+            const val preferences = "androidx.datastore:datastore-preferences"
         }
 
         object Test {
@@ -200,6 +207,7 @@ object Libs {
     }
 
     object Coil {
+        const val coilBase = "io.coil-kt:coil-base"
         const val coil = "io.coil-kt:coil"
         const val coilSvg = "io.coil-kt:coil-svg"
         const val coilGif = "io.coil-kt:coil-gif"

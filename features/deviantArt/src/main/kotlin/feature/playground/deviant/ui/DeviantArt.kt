@@ -1,5 +1,7 @@
 package feature.playground.deviant.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -101,5 +103,13 @@ class DeviantArt : AppCompatActivity(), NavigationHost {
 
     override fun registerToolbarWithNavigation(toolbar: Toolbar) {
         toolbar.setupWithNavController(navController, appBarConfiguration)
+    }
+
+    companion object {
+
+        fun start(context: Context) {
+            val starter = Intent(context, DeviantArt::class.java)
+            context.startActivity(starter)
+        }
     }
 }

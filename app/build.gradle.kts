@@ -47,6 +47,8 @@ android {
             dimension = "default"
             signingConfig = signingConfigs.getByName("internal")
             applicationIdSuffix = ".internal"
+            versionNameSuffix = "-internal"
+            isDefault = true
         }
         create("production") {
             dimension = "default"
@@ -58,7 +60,6 @@ android {
         debug {
             isMinifyEnabled = false
             isTestCoverageEnabled = true
-            versionNameSuffix = "-debug"
             configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
                 mappingFileUploadEnabled = false
                 nativeSymbolUploadEnabled = false
@@ -114,11 +115,9 @@ dependencies {
     implementation(project(":app-core"))
     implementation(project(":discovery"))
     implementation(project(":post"))
-    implementation(project(":deviantArt"))
     implementation(project(":productHunt"))
 
-    // TODO: make demos only available in Internal Flavor
-    implementation(project(":demos"))
+    "internalImplementation"(project(":debug"))
 
     implementation(Libs.timber)
 
@@ -131,6 +130,7 @@ dependencies {
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
     implementation(Libs.AndroidX.Lifecycle.viewModel)
+    implementation(Libs.AndroidX.Lifecycle.viewModelCompose)
 
     implementation(Libs.Dagger.dagger)
     implementation(Libs.Dagger.hilt)

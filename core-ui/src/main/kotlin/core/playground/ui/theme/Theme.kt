@@ -17,7 +17,10 @@ fun PlaygroundTheme(
     content: @Composable () -> Unit,
 ) {
     MaterialTheme(colors = if (useDarkColors) PlaygroundDarkColors else PlaygroundLightColors) {
-        CompositionLocalProvider(LocalRippleTheme provides PlaygroundRippleTheme, content = content)
+        CompositionLocalProvider(
+            LocalRippleTheme provides PlaygroundRippleTheme,
+            content = content,
+        )
     }
 }
 

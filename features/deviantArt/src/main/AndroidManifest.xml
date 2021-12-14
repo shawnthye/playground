@@ -5,6 +5,7 @@
   <application>
     <activity
       android:name=".ui.DeviantArt"
+      android:documentLaunchMode="intoExisting"
       android:exported="false"
       android:theme="@style/DeviantArt" />
   </application>
