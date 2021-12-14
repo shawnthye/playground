@@ -5,12 +5,14 @@ import android.text.format.Formatter
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,6 +67,12 @@ internal fun ColumnScope.DebugSettings(
     model: DebugViewModel = viewModel(),
 ) {
 
+    val buildStats = mapOf(
+        "Name" to buildVersionName,
+        "Code" to "$buildVersionCode",
+        "Type" to buildType,
+    )
+
     Column(
         modifier = Modifier
             .weight(1f)
@@ -72,21 +80,10 @@ internal fun ColumnScope.DebugSettings(
             .systemBarsPadding()
             .navigationBarsPadding(),
     ) {
-
         Header(applicationName = model.applicationName)
-
         DebugNetwork(model = model)
-
         DebugCoil(model = model)
-
-        BuildStats(
-            stats = mapOf(
-                "Name" to buildVersionName,
-                "Code" to "$buildVersionCode",
-                "Type" to buildType,
-            ),
-        )
-
+        BuildStats(stats = buildStats)
         DeviceStats(stats = model.deviceStats)
     }
 }
@@ -96,7 +93,7 @@ private fun ColumnScope.Header(applicationName: CharSequence) {
     Row(
         modifier = Modifier
             .align(Alignment.End)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
+            .padding(horizontal = 16.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(horizontalAlignment = Alignment.End) {
@@ -106,7 +103,7 @@ private fun ColumnScope.Header(applicationName: CharSequence) {
             )
             Text(
                 text = "Debug Settings",
-                style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.5.sp),
+                style = MaterialTheme.typography.overline.copy(letterSpacing = 1.5.sp),
             )
         }
         Icon(
@@ -168,29 +165,50 @@ private fun ColumnScope.DebugCoil(
     ).uppercase(Locale.ENGLISH)
 
     SubHeader(
-        title = "Coil",
+        title = "Coil - image",
         icon = ResourceIcon(R.drawable.debug_coil_kt),
     ) { padding ->
-        EnumDropdown(
+        StatRowWithAction(
             modifier = Modifier.padding(padding),
-            label = "Memory cache",
-            options = stats.policies,
-            selected = stats.memoryCachePolicy,
-        ) {
-            model.coilUpdateMemoryCachePolicy(it)
-        }
-        EnumDropdown(
-            modifier = Modifier.padding(padding),
-            label = "Disk cache",
-            options = stats.policies,
-            selected = stats.diskCachePolicy,
-        ) {
-            model.coilUpdateDiskCachePolicy(it)
+            title = "Memory Usage",
+            text = "$current/$total ($percentage%)",
+            actionLeft = {
+                model.coilRefreshStats()
+            },
+            actionRight = {
+                model.coilTrimMemory()
+            },
+        )
+
+        Row(Modifier.padding(padding), horizontalArrangement = Arrangement.SpaceBetween) {
+            EnumDropdown(
+                modifier = Modifier
+                    .width(IntrinsicSize.Min)
+                    .weight(1f),
+                label = "Memory",
+                options = stats.policies,
+                selected = stats.memoryCachePolicy,
+            ) {
+                model.coilUpdateMemoryCachePolicy(it)
+            }
+
+            Spacer(modifier = Modifier.width(6.dp))
+
+            EnumDropdown(
+                modifier = Modifier
+                    .width(IntrinsicSize.Min)
+                    .weight(1f),
+                label = "Disk",
+                options = stats.policies,
+                selected = stats.diskCachePolicy,
+            ) {
+                model.coilUpdateDiskCachePolicy(it)
+            }
         }
 
         EnumDropdown(
             modifier = Modifier.padding(padding),
-            label = "Network cache",
+            label = "Network",
             options = stats.policies,
             selected = stats.networkCachePolicy,
             enabled = true,
@@ -206,19 +224,6 @@ private fun ColumnScope.DebugCoil(
         ) {
             model.coilSetLogLevel(it)
         }
-
-        StatRowWithAction(
-            modifier = Modifier.padding(padding),
-            title = "Memory Usage",
-            text = "$current/$total ($percentage%)",
-            actionLeft = {
-                model.coilRefreshStats()
-            },
-            actionRight = {
-                model.coilTrimMemory()
-            },
-        )
-
     }
 }
 
@@ -232,7 +237,7 @@ private fun ColumnScope.StatRowWithAction(
 ) {
     Surface(
         modifier = modifier
-            .padding(top = 4.dp)
+            .padding(bottom = 4.dp)
             .align(Alignment.Start)
             .fillMaxWidth()
             .height(IntrinsicSize.Min),
@@ -334,8 +339,7 @@ private fun ColumnScope.SubHeader(
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Min)
-            .padding(contentPadding)
-            .padding(top = 24.dp),
+            .padding(contentPadding),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -368,6 +372,7 @@ private fun ColumnScope.SubHeader(
         thickness = 2.dp,
     )
     content(contentPadding)
+    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Preview(uiMode = UI_MODE_NIGHT_YES)
