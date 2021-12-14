@@ -71,7 +71,7 @@ internal fun ColumnScope.DebugSettings(
         }
 
         DebugNetwork(model = model)
-        DebugSettingsCoil(model = coilModel)
+        DebugCoil(model = coilModel)
         BuildStats(stats = buildStats)
         DeviceStats(stats = model.deviceStats)
         ExtraAction(

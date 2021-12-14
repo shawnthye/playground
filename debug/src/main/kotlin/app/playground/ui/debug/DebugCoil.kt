@@ -40,17 +40,13 @@ import app.playground.ui.debug.data.CoilLogLevel
 import java.util.Locale
 
 @Composable
-internal fun ColumnScope.DebugSettingsCoil(
+internal fun ColumnScope.DebugCoil(
     model: DebugCoilViewModel = viewModel(),
 ) {
     val stats by model.coilUiStats.collectAsState()
-
-    val current = Formatter.formatFileSize(LocalContext.current, stats.sizeBytes.toLong())
-    val total = Formatter.formatFileSize(LocalContext.current, stats.maxSizeBytes.toLong())
-    val percentage = "%.2f".format(
-        Locale.ENGLISH,
-        (1f * stats.sizeBytes / stats.maxSizeBytes) * 100,
-    ).uppercase(Locale.ENGLISH)
+    val current = Formatter.formatFileSize(LocalContext.current, stats.memorySizeBytes.toLong())
+    val total = Formatter.formatFileSize(LocalContext.current, stats.memoryMaxSizeBytes.toLong())
+    val percentage = "%.2f".format(Locale.ENGLISH, stats.memoryPercentage)
 
     SubHeader(
         title = "Coil - image",
@@ -59,7 +55,7 @@ internal fun ColumnScope.DebugSettingsCoil(
         StatRowWithAction(
             modifier = Modifier.padding(padding),
             title = "Memory Usage",
-            text = "$current/$total ($percentage%)",
+            text = "$current/$total (${percentage}%)".uppercase(Locale.ENGLISH),
             actionLeft = {
                 model.submitAction(CoilAction.Refresh)
             },

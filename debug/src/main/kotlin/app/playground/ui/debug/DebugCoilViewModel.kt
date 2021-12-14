@@ -105,14 +105,15 @@ internal data class CoilUiStats(
     val memoryCachePolicy: CachePolicy,
     val diskCachePolicy: CachePolicy,
     val networkCachePolicy: CachePolicy,
-    val sizeBytes: Int,
-    val maxSizeBytes: Int,
+    val memorySizeBytes: Int,
+    val memoryMaxSizeBytes: Int,
+    val memoryPercentage: Float = (1f * memorySizeBytes / memoryMaxSizeBytes) * 100,
     val logLevel: CoilLogLevel = DebugStorage.Defaults.CoilLoggingLevel,
 ) {
     companion object {
         fun from(context: Context): CoilUiStats = CoilUiStats(
-            sizeBytes = context.imageLoader.memoryCache.size,
-            maxSizeBytes = context.imageLoader.memoryCache.maxSize,
+            memorySizeBytes = context.imageLoader.memoryCache.size,
+            memoryMaxSizeBytes = context.imageLoader.memoryCache.maxSize,
             memoryCachePolicy = context.imageLoader.defaults.memoryCachePolicy,
             diskCachePolicy = context.imageLoader.defaults.diskCachePolicy,
             networkCachePolicy = context.imageLoader.defaults.networkCachePolicy,

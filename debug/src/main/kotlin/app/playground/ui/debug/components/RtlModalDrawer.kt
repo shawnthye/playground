@@ -8,7 +8,6 @@ import androidx.compose.material.ModalDrawer
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -18,8 +17,6 @@ import kotlinx.coroutines.launch
 fun RtlModalDrawer(
     drawerState: DrawerState = rememberDrawerState(DrawerValue.Closed),
     drawer: @Composable ColumnScope.() -> Unit,
-    onOpened: () -> Unit,
-    onClosed: () -> Unit,
     content: @Composable () -> Unit,
 ) {
 
@@ -40,18 +37,6 @@ fun RtlModalDrawer(
                 }
             },
         )
-    }
-
-    LaunchedEffect(drawerState.isOpen) {
-        if (drawerState.isOpen) {
-            onOpened()
-        }
-    }
-
-    LaunchedEffect(drawerState.isClosed) {
-        if (drawerState.isClosed) {
-            onClosed()
-        }
     }
 
     BackHandler(drawerState.isOpen) {

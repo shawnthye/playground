@@ -9,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.components.RtlModalDrawer
 import kotlinx.coroutines.delay
-import timber.log.Timber
 
 @Composable
 fun DebugDrawer(
@@ -22,7 +21,18 @@ fun DebugDrawer(
     val coilModel: DebugCoilViewModel = viewModel()
     val seenDrawer by model.seenDrawer.collectAsState()
 
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val drawerState = rememberDrawerState(
+        DrawerValue.Closed,
+        confirmStateChange = {
+            if (it == DrawerValue.Closed) {
+                model.seenDrawer()
+            }
+            if (it == DrawerValue.Open) {
+                coilModel.submitAction(CoilAction.Refresh)
+            }
+            true
+        },
+    )
 
     RtlModalDrawer(
         drawerState = drawerState,
@@ -35,13 +45,10 @@ fun DebugDrawer(
                 coilModel = coilModel,
             )
         },
-        onOpened = { coilModel.submitAction(CoilAction.Refresh) },
-        onClosed = { model.seenDrawer() },
         content = { content() },
     )
 
     LaunchedEffect(seenDrawer) {
-        Timber.i("$seenDrawer")
         if (!seenDrawer && drawerState.isClosed) {
             delay(400)
             drawerState.open()
