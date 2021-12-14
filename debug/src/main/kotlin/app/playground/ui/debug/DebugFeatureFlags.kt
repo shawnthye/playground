@@ -16,9 +16,7 @@ import com.google.accompanist.insets.statusBarsHeight
 @Composable
 fun DebugFeatureFlags() {
     LazyColumn {
-        item {
-            Spacer(modifier = Modifier.statusBarsHeight())
-        }
+        item { Spacer(modifier = Modifier.statusBarsHeight()) }
         items(50) {
             ListItem(
                 text = { Text("Coming soon $it") },

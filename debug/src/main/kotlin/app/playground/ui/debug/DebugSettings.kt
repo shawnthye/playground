@@ -35,6 +35,7 @@ import app.playground.ui.debug.data.DebugEnvironment
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
 import core.playground.ui.theme.contentHorizontalPadding
+import feature.playground.demos.theme.Theme
 import feature.playground.deviant.ui.DeviantArt
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -50,7 +51,7 @@ internal fun ColumnScope.DebugSettings(
     buildType: String,
     model: DebugViewModel = viewModel(),
     coilModel: DebugCoilViewModel = viewModel(),
-    openBottomSheet: (BottomSheetContent) -> Unit,
+    openBottomSheet: (BottomSheetView) -> Unit,
 ) {
 
     val buildStats = mapOf(
@@ -85,14 +86,14 @@ internal fun ColumnScope.DebugSettings(
         ExtraAction(
             label = "Feature Flags",
             onPress = {
-                openBottomSheet(BottomSheetContent.FEATURE_FLAGS)
+                openBottomSheet { DebugFeatureFlags() }
             },
             icon = VectorIcon(Icons.Filled.Flag),
         )
         ExtraAction(
             label = "Theme Demos",
             onPress = {
-                openBottomSheet(BottomSheetContent.DEMOS)
+                openBottomSheet { Theme(it) }
             },
             icon = VectorIcon(Icons.Filled.Dashboard),
         )

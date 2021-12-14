@@ -8,7 +8,7 @@ object DebugAppContainer : AppContainer {
 
     @Composable
     override fun Provide(content: @Composable () -> Unit) {
-        DebugDrawer(
+        DebugLayout(
             buildVersionName = BuildConfig.VERSION_NAME,
             buildVersionCode = BuildConfig.VERSION_CODE,
             buildType = BuildConfig.BUILD_TYPE,
