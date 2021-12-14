@@ -1,32 +1,36 @@
-package app.playground.ui
+package feature.playground.demos
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import core.playground.ui.theme.PlaygroundTheme
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import feature.playground.demos.theme.Theme
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var container: AppContainer
-
+class Demos : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(core.playground.ui.R.style.Playground)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ProvideWindowInsets(consumeWindowInsets = false) {
-                container.Provide {
-                    PlaygroundTheme {
-                        PlaygroundApp()
+                PlaygroundTheme {
+                    Theme {
+
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+
+        fun start(context: Context) {
+            val starter = Intent(context, Demos::class.java)
+            context.startActivity(starter)
         }
     }
 }

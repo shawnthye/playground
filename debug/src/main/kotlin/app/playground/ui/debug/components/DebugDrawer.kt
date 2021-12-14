@@ -35,14 +35,15 @@ fun DebugDrawer(
     val scope = rememberCoroutineScope()
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         ModalBottomSheetLayout(
+            // sheetBackgroundColor = MaterialTheme.colors.surface,
             sheetState = bottomSheetState,
             sheetContent = {
-
                 bottomSheet()
             },
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                 ModalDrawer(
+                    // drawerBackgroundColor = MaterialTheme.colors.surface,
                     drawerState = drawerState,
                     drawerContent = {
                         CompositionLocalProvider(LocalLayoutDirection provides systemLayoutDirection) {

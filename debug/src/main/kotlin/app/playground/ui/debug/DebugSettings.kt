@@ -35,14 +35,9 @@ import app.playground.ui.debug.data.DebugEnvironment
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
 import core.playground.ui.theme.contentHorizontalPadding
-import feature.playground.demos.theme.Theme
+import feature.playground.demos.Demos
 import feature.playground.deviant.ui.DeviantArt
 import okhttp3.logging.HttpLoggingInterceptor
-
-internal enum class BottomSheetContent {
-    FEATURE_FLAGS,
-    DEMOS
-}
 
 @Composable
 internal fun ColumnScope.DebugSettings(
@@ -51,7 +46,7 @@ internal fun ColumnScope.DebugSettings(
     buildType: String,
     model: DebugViewModel = viewModel(),
     coilModel: DebugCoilViewModel = viewModel(),
-    openBottomSheet: (BottomSheetView) -> Unit,
+    showFeatureFlags: () -> Unit,
 ) {
 
     val buildStats = mapOf(
@@ -59,6 +54,8 @@ internal fun ColumnScope.DebugSettings(
         "Code" to "$buildVersionCode",
         "Type" to buildType,
     )
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -86,14 +83,14 @@ internal fun ColumnScope.DebugSettings(
         ExtraAction(
             label = "Feature Flags",
             onPress = {
-                openBottomSheet { DebugFeatureFlags() }
+                showFeatureFlags()
             },
             icon = VectorIcon(Icons.Filled.Flag),
         )
         ExtraAction(
-            label = "Theme Demos",
+            label = "Demos",
             onPress = {
-                openBottomSheet { Theme(it) }
+                Demos.start(context)
             },
             icon = VectorIcon(Icons.Filled.Dashboard),
         )
