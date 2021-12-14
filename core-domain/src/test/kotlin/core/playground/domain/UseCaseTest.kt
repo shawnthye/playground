@@ -1,5 +1,6 @@
 package core.playground.domain
 
+/* ktlint-disable import-ordering */
 import kotlinx.coroutines.CoroutineDispatcher
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.instanceOf

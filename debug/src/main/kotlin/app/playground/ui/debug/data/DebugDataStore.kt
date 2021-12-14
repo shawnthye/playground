@@ -1,8 +1,6 @@
 package app.playground.ui.debug.data
 
 import android.content.Context
-import android.content.Intent
-import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -28,7 +26,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.system.exitProcess
 import okhttp3.logging.HttpLoggingInterceptor.Level as HttpLogingLevel
 
 internal val Context.debugDataStore: DataStore<Preferences> by preferencesDataStore(

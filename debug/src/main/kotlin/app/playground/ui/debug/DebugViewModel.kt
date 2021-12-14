@@ -67,6 +67,11 @@ internal class DebugViewModel @Inject constructor(
         viewModelScope.launch {
             val shouldRestart = environment.value != Defaults.Environment
             storage.clear()
+            Toast.makeText(
+                app,
+                "Debug settings has reset to default",
+                Toast.LENGTH_SHORT,
+            ).show()
             if (shouldRestart) {
                 app.restart()
             }
