@@ -2,6 +2,7 @@ package app.playground.ui.debug.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ExperimentalMaterialApi
@@ -11,15 +12,14 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.ModalDrawer
-import androidx.compose.material.contentColorFor
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -38,8 +38,6 @@ fun DebugDrawer(
     val scope = rememberCoroutineScope()
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         ModalBottomSheetLayout(
-            sheetBackgroundColor = Color.Transparent,
-            sheetContentColor = contentColorFor(backgroundColor = MaterialTheme.colors.surface),
             sheetState = bottomSheetState,
             sheetContent = {
                 bottomSheet()
@@ -55,6 +53,10 @@ fun DebugDrawer(
                             content = { drawer() },
                         )
                     },
+                    drawerShape = MaterialTheme.shapes.large.copy(
+                        topStart = CornerSize(0.dp),
+                        bottomStart = CornerSize(0.dp),
+                    ),
                     content = {
                         CompositionLocalProvider(
                             LocalLayoutDirection provides systemLayoutDirection,

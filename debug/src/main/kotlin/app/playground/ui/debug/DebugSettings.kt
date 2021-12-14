@@ -2,20 +2,21 @@ package app.playground.ui.debug
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
-import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Devices
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.rounded.Category
+import androidx.compose.material.icons.rounded.Flag
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -67,23 +68,7 @@ internal fun ColumnScope.DebugSettings(
     ) {
         DebugSettingsHeader(applicationName = model.applicationName)
 
-        ExtraAction(
-            label = "Feature Flags",
-            onPress = {
-                showFeatureFlags()
-            },
-            icon = VectorIcon(Icons.Filled.Flag),
-        )
-
-        EnumDropdown(
-            modifier = Modifier
-                .contentHorizontalPadding()
-                .padding(bottom = 16.dp),
-            label = "Environment - Not implemented",
-            options = DebugEnvironment.values().asList(),
-            selected = DebugEnvironment.PRODUCTION,
-        ) {
-        }
+        DebugEnvironment(model = model, showFeatureFlags = showFeatureFlags)
 
         DebugNetwork(model = model)
 
@@ -95,22 +80,52 @@ internal fun ColumnScope.DebugSettings(
 
         ExtraAction(
             label = "Demos",
-            onPress = {
-                Demos.start(context)
-            },
             icon = VectorIcon(Icons.Rounded.Category),
+            onPress = { Demos.start(context) },
         )
 
         DeviantArtAction()
 
         ExtraAction(
             label = "Reset",
+            icon = VectorIcon(Icons.Filled.RestartAlt),
             onPress = {
                 model.resetDebugSettings()
                 coilModel.submitAction(CoilAction.Reset)
             },
-            icon = VectorIcon(Icons.Filled.RestartAlt),
         )
+    }
+}
+
+@Composable
+private fun ColumnScope.DebugEnvironment(model: DebugViewModel, showFeatureFlags: () -> Unit) {
+
+    val environment by model.environment.collectAsState()
+
+    EnumDropdown(
+        modifier = Modifier
+            .contentHorizontalPadding()
+            .padding(bottom = 0.dp),
+        label = "Environment - Not implemented",
+        options = DebugEnvironment.values().asList(),
+        selected = environment,
+    ) {
+        model.updateEnvironment(it)
+    }
+
+    OutlinedButton(
+        modifier = Modifier
+            .contentHorizontalPadding()
+            .fillMaxWidth()
+            .align(Alignment.Start)
+            .padding(bottom = 16.dp),
+        onClick = showFeatureFlags,
+    ) {
+        Text(
+            modifier = Modifier.weight(1f),
+            text = "Feature Flags",
+        )
+        Icon(imageVector = Icons.Rounded.Flag, contentDescription = "Show Feature Flags")
     }
 }
 

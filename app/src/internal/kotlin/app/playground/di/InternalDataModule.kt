@@ -1,13 +1,19 @@
 package app.playground.di
 
 import android.app.Application
+import app.playground.ui.debug.data.DebugEnvironment
+import app.playground.ui.debug.data.DebugStorage
 import coil.ImageLoader
 import coil.util.DebugLogger
 import coil.util.Logger
+import core.playground.ApplicationScope
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
@@ -20,13 +26,22 @@ object InternalDataModule {
 
     @Singleton
     @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+    fun providesDebugEnvironment(
+        @ApplicationScope scope: CoroutineScope,
+        debugStorage: DebugStorage,
+    ): DebugEnvironment = runBlocking(scope.coroutineContext) {
+        debugStorage.environment.first()
+    }
+
+    @Singleton
+    @Provides
+    fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(
+    fun providesOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
         return DataModule.createOkHttp(logging = loggingInterceptor)
