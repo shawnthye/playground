@@ -50,14 +50,16 @@ fun DebugDrawer(
                     // drawerBackgroundColor = MaterialTheme.colors.surface,
                     drawerState = drawerState,
                     drawerContent = {
-                        CompositionLocalProvider(LocalLayoutDirection provides systemLayoutDirection) {
-                            drawer()
-                        }
+                        CompositionLocalProvider(
+                            LocalLayoutDirection provides systemLayoutDirection,
+                            content = { drawer() },
+                        )
                     },
                     content = {
-                        CompositionLocalProvider(LocalLayoutDirection provides systemLayoutDirection) {
-                            content()
-                        }
+                        CompositionLocalProvider(
+                            LocalLayoutDirection provides systemLayoutDirection,
+                            content = { content() },
+                        )
                     },
                 )
             }

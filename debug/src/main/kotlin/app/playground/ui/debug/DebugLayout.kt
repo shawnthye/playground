@@ -1,6 +1,5 @@
 package app.playground.ui.debug
 
-import android.widget.Toast
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetValue
@@ -14,11 +13,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.components.DebugDrawer
 import app.playground.ui.debug.theme.DebugTheme
-import core.playground.ui.alias.NavigateUp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-internal typealias BottomSheetView = @Composable (NavigateUp) -> Unit
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -56,21 +52,14 @@ fun DebugLayout(
                     buildType = buildType,
                     model = model,
                     coilModel = coilModel,
-                    showFeatureFlags = {
-                        scope.launch {
-                            bottomSheetState.show()
-                        }
-                    },
+                    showFeatureFlags = { scope.launch { bottomSheetState.show() } },
                 )
             },
             bottomSheetState = bottomSheetState,
-            bottomSheet = {
-                DebugFeatureFlags()
-            },
+            bottomSheet = { DebugFeatureFlags() },
             content = { content() },
         )
     }
-
 
     LaunchedEffect(seenDrawer) {
         if (!seenDrawer && drawerState.isClosed) {

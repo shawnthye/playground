@@ -19,7 +19,6 @@ class Demos : ComponentActivity() {
             ProvideWindowInsets(consumeWindowInsets = false) {
                 PlaygroundTheme {
                     Theme {
-
                     }
                 }
             }

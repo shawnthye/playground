@@ -60,7 +60,7 @@ internal class DebugCoilViewModel @Inject constructor(
                 is CoilAction.UpdateLogLevel -> storage.coilLogging(action.logLevel)
                 CoilAction.Refresh -> _coilUiStats.tryEmit(CoilUiStats.from(app))
                 CoilAction.TrimMemory -> {
-                    //TODO: move this to IO UseCase
+                    // TODO: move this to IO UseCase
                     app.imageLoader.memoryCache.clear()
                     app.imageLoader.bitmapPool.trimMemory(ComponentCallbacks2.TRIM_MEMORY_COMPLETE)
                     app.imageLoader.bitmapPool.clear()

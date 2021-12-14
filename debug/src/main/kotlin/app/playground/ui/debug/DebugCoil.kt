@@ -55,7 +55,7 @@ internal fun ColumnScope.DebugCoil(
         StatRowWithAction(
             modifier = Modifier.padding(padding),
             title = "Memory Usage",
-            text = "$current/$total (${percentage}%)".uppercase(Locale.ENGLISH),
+            text = "$current/$total ($percentage%)".uppercase(Locale.ENGLISH),
             actionLeft = {
                 model.submitAction(CoilAction.Refresh)
             },
