@@ -39,6 +39,10 @@ fun DebugDrawer(
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         ModalBottomSheetLayout(
             sheetState = bottomSheetState,
+            sheetShape = MaterialTheme.shapes.large.copy(
+                bottomStart = CornerSize(0.dp),
+                bottomEnd = CornerSize(0.dp),
+            ),
             sheetContent = {
                 bottomSheet()
             },
