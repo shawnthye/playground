@@ -11,22 +11,28 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
 import androidx.compose.material.icons.filled.Devices
+import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.playground.ui.debug.components.DebugIcon
 import app.playground.ui.debug.components.DebugIcon.VectorIcon
+import app.playground.ui.debug.components.EnumDropdown
+import app.playground.ui.debug.components.StatsTable
 import app.playground.ui.debug.components.SubHeader
-import app.playground.ui.debug.data.Server
+import app.playground.ui.debug.data.DebugEnvironment
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
+import core.playground.ui.theme.contentHorizontalPadding
 import feature.playground.deviant.ui.DeviantArt
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -36,6 +42,7 @@ internal fun ColumnScope.DebugSettings(
     buildVersionCode: Int,
     buildType: String,
     model: DebugViewModel = viewModel(),
+    coilModel: DebugCoilViewModel = viewModel(),
 ) {
 
     val buildStats = mapOf(
@@ -46,16 +53,35 @@ internal fun ColumnScope.DebugSettings(
 
     Column(
         modifier = Modifier
-            .weight(1f)
+            .align(Alignment.End)
             .verticalScroll(state = rememberScrollState())
             .systemBarsPadding()
             .navigationBarsPadding(),
     ) {
         DebugSettingsHeader(applicationName = model.applicationName)
+
+        EnumDropdown(
+            modifier = Modifier
+                .contentHorizontalPadding()
+                .padding(bottom = 16.dp),
+            label = "Environment - Not implemented",
+            options = DebugEnvironment.values().asList(),
+            selected = DebugEnvironment.PRODUCTION,
+        ) {
+        }
+
         DebugNetwork(model = model)
-        DebugSettingsCoil(model = model)
+        DebugSettingsCoil(model = coilModel)
         BuildStats(stats = buildStats)
         DeviceStats(stats = model.deviceStats)
+        ExtraAction(
+            label = "Reset",
+            onPress = {
+                model.resetDebugSettings()
+                coilModel.submitAction(CoilAction.Reset)
+            },
+            icon = VectorIcon(Icons.Filled.RestartAlt),
+        )
         DeviantArtAction()
     }
 }
@@ -66,18 +92,9 @@ private fun ColumnScope.DebugNetwork(model: DebugViewModel) {
     val level by model.httpLoggingLevel.collectAsState()
 
     SubHeader(title = "Network", icon = VectorIcon(Icons.Outlined.Cloud)) { padding ->
-
         EnumDropdown(
             modifier = Modifier.padding(padding),
-            label = "Server - Not implemented",
-            options = Server.values().asList(),
-            selected = Server.PRODUCTION,
-        ) {
-        }
-
-        EnumDropdown(
-            modifier = Modifier.padding(padding),
-            label = "Logging - Not implemented",
+            label = "Logging",
             options = HttpLoggingInterceptor.Level.values().asList(),
             selected = level,
         ) {
@@ -113,10 +130,34 @@ fun ColumnScope.DeviantArtAction(modifier: Modifier = Modifier) {
     ) {
         Text(text = "Deviant Art")
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_open_in_new_24),
+            imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_open_in_new_24),
             contentDescription = null,
             tint = colorResource(id = core.playground.ui.R.color.brandDeviantArt),
         )
+    }
+}
+
+@Composable
+private fun ColumnScope.ExtraAction(label: String, onPress: () -> Unit, icon: DebugIcon?) {
+    TextButton(
+        modifier = Modifier
+            .align(Alignment.End)
+            .padding(horizontal = 16.dp),
+        onClick = onPress,
+    ) {
+        Text(text = label)
+        if (null != icon) {
+
+            val vector = when (icon) {
+                is DebugIcon.ResourceIcon -> ImageVector.vectorResource(id = icon.resId)
+                is VectorIcon -> icon.vector
+            }
+
+            Icon(
+                imageVector = vector,
+                contentDescription = null,
+            )
+        }
     }
 }
 

@@ -32,17 +32,18 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.components.DebugIcon
+import app.playground.ui.debug.components.EnumDropdown
 import app.playground.ui.debug.components.SubHeader
 import app.playground.ui.debug.data.CoilLogLevel
 import java.util.Locale
 
 @Composable
 internal fun ColumnScope.DebugSettingsCoil(
-    model: DebugViewModel,
+    model: DebugCoilViewModel = viewModel(),
 ) {
-    val coilLogLevel by model.coilLogging.collectAsState()
-    val stats = model.coilUiStats
+    val stats by model.coilUiStats.collectAsState()
 
     val current = Formatter.formatFileSize(LocalContext.current, stats.sizeBytes.toLong())
     val total = Formatter.formatFileSize(LocalContext.current, stats.maxSizeBytes.toLong())
@@ -60,10 +61,10 @@ internal fun ColumnScope.DebugSettingsCoil(
             title = "Memory Usage",
             text = "$current/$total ($percentage%)",
             actionLeft = {
-                model.coilRefreshStats()
+                model.submitAction(CoilAction.Refresh)
             },
             actionRight = {
-                model.coilTrimMemory()
+                model.submitAction(CoilAction.TrimMemory)
             },
         )
 
@@ -76,7 +77,7 @@ internal fun ColumnScope.DebugSettingsCoil(
                 options = stats.policies,
                 selected = stats.memoryCachePolicy,
             ) {
-                model.coilUpdateMemoryCachePolicy(it)
+                model.submitAction(CoilAction.UpdateMemoryPolicy(it))
             }
 
             Spacer(modifier = Modifier.width(6.dp))
@@ -89,7 +90,7 @@ internal fun ColumnScope.DebugSettingsCoil(
                 options = stats.policies,
                 selected = stats.diskCachePolicy,
             ) {
-                model.coilUpdateDiskCachePolicy(it)
+                model.submitAction(CoilAction.UpdateDiskPolicy(it))
             }
         }
 
@@ -100,16 +101,16 @@ internal fun ColumnScope.DebugSettingsCoil(
             selected = stats.networkCachePolicy,
             enabled = true,
         ) {
-            model.coilUpdateNetworkCachePolicy(it)
+            model.submitAction(CoilAction.UpdateNetworkPolicy(it))
         }
 
         EnumDropdown(
             modifier = Modifier.padding(padding),
             label = "Logging",
             options = CoilLogLevel.values().asList(),
-            selected = coilLogLevel,
+            selected = stats.logLevel,
         ) {
-            model.coilSetLogLevel(it)
+            model.submitAction(CoilAction.UpdateLogLevel(it))
         }
     }
 }

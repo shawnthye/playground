@@ -1,4 +1,4 @@
-package app.playground.ui.debug
+package app.playground.ui.debug.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

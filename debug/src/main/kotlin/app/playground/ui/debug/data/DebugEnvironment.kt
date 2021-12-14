@@ -1,6 +1,6 @@
 package app.playground.ui.debug.data
 
-enum class Server {
+enum class DebugEnvironment {
     PRODUCTION,
     STAGING,
     MOCK,

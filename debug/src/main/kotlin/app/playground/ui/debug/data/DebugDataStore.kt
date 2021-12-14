@@ -3,11 +3,13 @@ package app.playground.ui.debug.data
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_COIL_LOGGING
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_OKHTTP_LOGGING
+import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_SEEN_DRAWER
 import coil.Coil
 import coil.imageLoader
 import coil.util.Logger
@@ -40,13 +42,14 @@ class DebugStorage @Inject constructor(
 
     private val store = context.debugDataStore
 
-    object PreferencesKeys {
+    private object PreferencesKeys {
+        val PREF_SEEN_DRAWER = booleanPreferencesKey("pref_seen_drawer")
         val PREF_OKHTTP_LOGGING = stringPreferencesKey("pref_okhttp_logging")
         val PREF_COIL_LOGGING = stringPreferencesKey("pref_coil_logging")
     }
 
     object Defaults {
-        val OkhttpLoggingLevel = HttpLogingLevel.HEADERS
+        val OkhttpLoggingLevel = HttpLogingLevel.NONE
         val CoilLoggingLevel = CoilLogLevel.NONE
     }
 
@@ -54,7 +57,15 @@ class DebugStorage @Inject constructor(
         store.edit { it.clear() }
     }
 
-    val httpServer: Flow<Server> = flow { emit(Server.PRODUCTION) }
+    val seenDrawer: Flow<Boolean> = store.data.map {
+        it[PREF_SEEN_DRAWER] ?: false
+    }.distinctUntilChanged()
+
+    suspend fun seenDrawer() {
+        store.edit { it[PREF_SEEN_DRAWER] = true }
+    }
+
+    val httpServer: Flow<DebugEnvironment> = flow { emit(DebugEnvironment.PRODUCTION) }
 
     val httpLoggingLevel: Flow<HttpLogingLevel> = store.data.map {
         HttpLogingLevel.values().find { level ->

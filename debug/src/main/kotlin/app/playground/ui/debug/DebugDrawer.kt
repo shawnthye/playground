@@ -1,17 +1,15 @@
 package app.playground.ui.debug
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.material.DrawerValue
-import androidx.compose.material.ModalDrawer
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
+import app.playground.ui.debug.components.RtlModalDrawer
+import kotlinx.coroutines.delay
+import timber.log.Timber
 
 @Composable
 fun DebugDrawer(
@@ -20,54 +18,33 @@ fun DebugDrawer(
     buildType: String,
     content: @Composable () -> Unit,
 ) {
+    val model: DebugViewModel = viewModel()
+    val coilModel: DebugCoilViewModel = viewModel()
+    val seenDrawer by model.seenDrawer.collectAsState()
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
-    val viewModel: DebugViewModel = viewModel()
+    RtlModalDrawer(
+        drawerState = drawerState,
+        drawer = {
+            DebugSettings(
+                buildVersionName = buildVersionName,
+                buildVersionCode = buildVersionCode,
+                buildType = buildType,
+                model = model,
+                coilModel = coilModel,
+            )
+        },
+        onOpened = { coilModel.submitAction(CoilAction.Refresh) },
+        onClosed = { model.seenDrawer() },
+        content = { content() },
+    )
 
-    val systemLayoutDirection = LocalLayoutDirection.current
-
-    LayoutDirectionProvider(LayoutDirection.Rtl) {
-        ModalDrawer(
-            drawerContent = {
-                LayoutDirectionProvider(systemLayoutDirection) {
-                    DebugSettings(
-                        buildVersionName = buildVersionName,
-                        buildVersionCode = buildVersionCode,
-                        buildType = buildType,
-                        model = viewModel,
-                    )
-                }
-            },
-            drawerState = drawerState,
-        ) {
-            LayoutDirectionProvider(systemLayoutDirection) {
-                content()
-            }
+    LaunchedEffect(seenDrawer) {
+        Timber.i("$seenDrawer")
+        if (!seenDrawer && drawerState.isClosed) {
+            delay(400)
+            drawerState.open()
         }
-    }
-
-
-    LaunchedEffect(drawerState.isOpen) {
-        if (drawerState.isOpen) {
-            viewModel.coilRefreshStats()
-        }
-    }
-
-    BackHandler(drawerState.isOpen) {
-        scope.launch {
-            drawerState.close()
-        }
-    }
-}
-
-@Composable
-fun LayoutDirectionProvider(
-    direction: LayoutDirection = LocalLayoutDirection.current,
-    content: @Composable () -> Unit,
-) {
-    CompositionLocalProvider(LocalLayoutDirection provides direction) {
-        content()
     }
 }

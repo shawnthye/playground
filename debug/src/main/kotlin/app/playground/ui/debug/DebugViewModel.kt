@@ -1,20 +1,12 @@
 package app.playground.ui.debug
 
 import android.app.Application
-import android.content.ComponentCallbacks2
 import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.ui.debug.data.CoilLogLevel
 import app.playground.ui.debug.data.DebugStorage
-import coil.Coil
-import coil.ImageLoader
-import coil.imageLoader
-import coil.request.CachePolicy
 import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.stateIn
@@ -26,10 +18,22 @@ import javax.inject.Inject
 @HiltViewModel
 internal class DebugViewModel @Inject constructor(
     private val storage: DebugStorage,
-    private val app: Application,
+    app: Application,
 ) : ViewModel() {
 
     val applicationName = app.applicationInfo.loadLabel(app.packageManager)
+
+    val seenDrawer = storage.seenDrawer.stateIn(
+        viewModelScope, WhileViewSubscribed, true,
+    )
+
+    fun seenDrawer() {
+        if (!seenDrawer.value) {
+            viewModelScope.launch {
+                storage.seenDrawer()
+            }
+        }
+    }
 
     val httpLoggingLevel = storage.httpLoggingLevel.stateIn(
         viewModelScope, WhileViewSubscribed, DebugStorage.Defaults.OkhttpLoggingLevel,
@@ -41,72 +45,12 @@ internal class DebugViewModel @Inject constructor(
         }
     }
 
-    private val _coilUiStats = mutableStateOf(CoilUiStats.create(app.imageLoader))
-    val coilUiStats by _coilUiStats
-
-    val coilLogging = storage.coilLogging.stateIn(
-        viewModelScope, WhileViewSubscribed, DebugStorage.Defaults.CoilLoggingLevel,
-    )
-
-    fun coilRefreshStats() {
-        _coilUiStats.value = coilUiStats.copy(
-            sizeBytes = app.imageLoader.memoryCache.size,
-            maxSizeBytes = app.imageLoader.memoryCache.maxSize,
-            memoryCachePolicy = app.imageLoader.defaults.memoryCachePolicy,
-            diskCachePolicy = app.imageLoader.defaults.diskCachePolicy,
-            networkCachePolicy = app.imageLoader.defaults.networkCachePolicy,
-        )
-    }
-
-    fun coilUpdateMemoryCachePolicy(policy: CachePolicy) {
-        // app.imageLoader.shutdown()
-        Coil.setImageLoader(app.imageLoader.newBuilder().memoryCachePolicy(policy).build())
-        coilRefreshStats()
-    }
-
-    fun coilUpdateDiskCachePolicy(policy: CachePolicy) {
-        // app.imageLoader.shutdown()
-        Coil.setImageLoader(app.imageLoader.newBuilder().diskCachePolicy(policy).build())
-        coilRefreshStats()
-    }
-
-    fun coilUpdateNetworkCachePolicy(policy: CachePolicy) {
-        Coil.setImageLoader(app.imageLoader.newBuilder().networkCachePolicy(policy).build())
-        coilRefreshStats()
-    }
-
-    fun coilSetLogLevel(level: CoilLogLevel) {
-        viewModelScope.launch {
-            storage.coilLogging(level = level)
-        }
-    }
-
-    fun coilTrimMemory() {
-        app.imageLoader.memoryCache.clear()
-        app.imageLoader.bitmapPool.clear()
-        app.imageLoader.bitmapPool.trimMemory(ComponentCallbacks2.TRIM_MEMORY_COMPLETE)
-        coilRefreshStats()
-    }
-
     val deviceStats: Map<String, String> = app.deviceStats
-}
 
-internal data class CoilUiStats(
-    val policies: List<CachePolicy> = CachePolicy.values().asList(),
-    val memoryCachePolicy: CachePolicy,
-    val diskCachePolicy: CachePolicy,
-    val networkCachePolicy: CachePolicy,
-    val sizeBytes: Int,
-    val maxSizeBytes: Int,
-) {
-    companion object {
-        fun create(coil: ImageLoader): CoilUiStats = CoilUiStats(
-            sizeBytes = coil.memoryCache.size,
-            maxSizeBytes = coil.memoryCache.maxSize,
-            memoryCachePolicy = coil.defaults.memoryCachePolicy,
-            diskCachePolicy = coil.defaults.diskCachePolicy,
-            networkCachePolicy = coil.defaults.networkCachePolicy,
-        )
+    fun resetDebugSettings() {
+        viewModelScope.launch {
+            storage.clear()
+        }
     }
 }
 
