@@ -73,7 +73,7 @@ internal fun ColumnScope.DebugSettings(
             .navigationBarsPadding(),
     ) {
 
-        Header()
+        Header(applicationName = model.applicationName)
 
         DebugNetwork(model = model)
 
@@ -88,6 +88,42 @@ internal fun ColumnScope.DebugSettings(
         )
 
         DeviceStats(stats = model.deviceStats)
+    }
+}
+
+@Composable
+private fun ColumnScope.Header(applicationName: CharSequence) {
+    Row(
+        modifier = Modifier
+            .align(Alignment.End)
+            .padding(horizontal = 16.dp, vertical = 24.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = applicationName.toString(),
+                style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.5.sp),
+            )
+            Text(
+                text = "Debug Settings",
+                style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.5.sp),
+            )
+        }
+        Icon(
+            imageVector = Icons.Default.BugReport,
+            contentDescription = "",
+            modifier = Modifier.size(40.dp),
+        )
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun PreviewHeader() {
+    PlaygroundTheme {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Header("Application Name")
+        }
     }
 }
 
@@ -285,32 +321,6 @@ fun ColumnScope.BuildStats(stats: Map<String, String>) {
 fun ColumnScope.DeviceStats(stats: Map<String, String>) {
     SubHeader(title = "Device", icon = VectorIcon(Icons.Filled.Devices)) { padding ->
         StatsTable(modifier = Modifier.padding(padding), stats = stats)
-    }
-}
-
-@Composable
-private fun ColumnScope.Header() {
-    Row(
-        modifier = Modifier
-            .align(Alignment.Start)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = "Debug Settings",
-            style = MaterialTheme.typography.subtitle1.copy(letterSpacing = 1.5.sp),
-        )
-        Icon(imageVector = Icons.Default.BugReport, contentDescription = "")
-    }
-}
-
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-@Composable
-private fun PreviewHeader() {
-    PlaygroundTheme {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Header()
-        }
     }
 }
 

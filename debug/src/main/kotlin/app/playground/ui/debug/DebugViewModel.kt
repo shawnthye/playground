@@ -29,6 +29,8 @@ internal class DebugViewModel @Inject constructor(
     private val app: Application,
 ) : ViewModel() {
 
+    val applicationName = app.applicationInfo.loadLabel(app.packageManager)
+
     val httpLoggingLevel = storage.httpLoggingLevel.stateIn(
         viewModelScope, WhileViewSubscribed, DebugStorage.Defaults.OkhttpLoggingLevel,
     )

@@ -47,65 +47,63 @@ internal fun <E : Enum<*>> EnumDropdown(
 
     val density = LocalDensity.current
 
-    Column {
-        Box(
-            modifier = modifier
-                .padding(bottom = 4.dp)
-                .onGloballyPositioned {
-                    width = it.size.width
-                },
+    Box(
+        modifier = modifier
+            .padding(bottom = 4.dp)
+            .onGloballyPositioned {
+                width = it.size.width
+            },
+    ) {
+
+        OutlinedButton(
+            onClick = {
+                expanded = true
+            },
+            enabled = enabled,
         ) {
-
-            OutlinedButton(
-                onClick = {
-                    expanded = true
-                },
-                enabled = enabled,
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = label,
-                        style = MaterialTheme.typography.overline,
-                    )
-                    Text(
-                        text = selected.readableName,
-                        style = MaterialTheme.typography.caption,
-                    )
-                }
-
-                val degrees by animateFloatAsState(targetValue = if (expanded) 180f else 360f)
-                Icon(
-                    Icons.Filled.ArrowDropDown,
-                    "Trailing icon for exposed dropdown menu",
-                    Modifier.rotate(degrees),
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.overline,
+                )
+                Text(
+                    text = selected.readableName,
+                    style = MaterialTheme.typography.caption,
                 )
             }
 
-            DropdownMenu(
-                expanded = expanded, onDismissRequest = { expanded = false },
-                modifier = Modifier.width(with(density) { width.toDp() }),
-            ) {
-                options.map { option ->
-                    DropdownMenuItem(
-                        onClick = {
-                            val changed = selected != option
-                            // selected = index
-                            expanded = false
-                            if (changed) {
-                                onValueChange(option)
-                            }
+            val degrees by animateFloatAsState(targetValue = if (expanded) 180f else 360f)
+            Icon(
+                Icons.Filled.ArrowDropDown,
+                "Trailing icon for exposed dropdown menu",
+                Modifier.rotate(degrees),
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded, onDismissRequest = { expanded = false },
+            modifier = Modifier.width(with(density) { width.toDp() }),
+        ) {
+            options.map { option ->
+                DropdownMenuItem(
+                    onClick = {
+                        val changed = selected != option
+                        // selected = index
+                        expanded = false
+                        if (changed) {
+                            onValueChange(option)
+                        }
+                    },
+                ) {
+                    Text(
+                        text = option.readableName,
+                        style = MaterialTheme.typography.caption,
+                        fontWeight = if (option != selected) {
+                            FontWeight.Light
+                        } else {
+                            FontWeight.SemiBold
                         },
-                    ) {
-                        Text(
-                            text = option.readableName,
-                            style = MaterialTheme.typography.caption,
-                            fontWeight = if (option != selected) {
-                                FontWeight.Light
-                            } else {
-                                FontWeight.SemiBold
-                            },
-                        )
-                    }
+                    )
                 }
             }
         }
