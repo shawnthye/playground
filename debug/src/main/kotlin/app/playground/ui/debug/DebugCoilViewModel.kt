@@ -1,17 +1,16 @@
 package app.playground.ui.debug
 
 import android.app.Application
-import android.content.ComponentCallbacks2
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.ui.debug.data.CoilLogLevel
 import app.playground.ui.debug.data.DebugStorage
+import app.playground.ui.debug.domain.CoilTrimMemoryUseCase
 import coil.Coil
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.request.DefaultRequestOptions
-import coil.util.CoilUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,62 +24,30 @@ import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import javax.inject.Inject
 
-internal sealed class CoilAction {
-    data class UpdateLogLevel(val logLevel: CoilLogLevel) : CoilAction()
-    data class UpdateMemoryPolicy(val policy: CachePolicy) : CoilAction()
-    data class UpdateDiskPolicy(val policy: CachePolicy) : CoilAction()
-    data class UpdateNetworkPolicy(val policy: CachePolicy) : CoilAction()
-    object TrimMemory : CoilAction()
-    object Refresh : CoilAction()
-    object Reset : CoilAction()
+internal sealed class CoilUiAction {
+    data class UpdateLogLevel(val logLevel: CoilLogLevel) : CoilUiAction()
+    data class UpdateMemoryPolicy(val policy: CachePolicy) : CoilUiAction()
+    data class UpdateDiskPolicy(val policy: CachePolicy) : CoilUiAction()
+    data class UpdateNetworkPolicy(val policy: CachePolicy) : CoilUiAction()
+    object TrimMemory : CoilUiAction()
+    object Refresh : CoilUiAction()
+    object Reset : CoilUiAction()
 }
 
 @HiltViewModel
 internal class DebugCoilViewModel @Inject constructor(
     private val storage: DebugStorage,
     private val app: Application,
+    private val coilTrimMemoryUseCase: CoilTrimMemoryUseCase,
 ) : ViewModel() {
 
     private val _coilUiStats = MutableStateFlow(CoilUiStats.from(app))
     val coilUiStats = _coilUiStats.asStateFlow()
 
-    private val _actions = Channel<CoilAction>(capacity = Channel.CONFLATED).apply {
-        receiveAsFlow().onEach { action ->
-            Timber.i("action: $action")
-            when (action) {
-                is CoilAction.UpdateDiskPolicy -> {
-                    _coilUiStats.update { it.copy(diskCachePolicy = action.policy) }
-                }
-                is CoilAction.UpdateMemoryPolicy -> {
-                    _coilUiStats.update { it.copy(memoryCachePolicy = action.policy) }
-                }
-                is CoilAction.UpdateNetworkPolicy -> {
-                    _coilUiStats.update { it.copy(networkCachePolicy = action.policy) }
-                }
-                is CoilAction.UpdateLogLevel -> storage.coilLogging(action.logLevel)
-                CoilAction.Refresh -> _coilUiStats.tryEmit(CoilUiStats.from(app))
-                CoilAction.TrimMemory -> {
-                    // TODO: move this to IO UseCase
-                    app.imageLoader.memoryCache.clear()
-                    app.imageLoader.bitmapPool.trimMemory(ComponentCallbacks2.TRIM_MEMORY_COMPLETE)
-                    app.imageLoader.bitmapPool.clear()
-                    CoilUtils.createDefaultCache(app).directory.deleteRecursively()
-                    Runtime.getRuntime().gc()
-                    trySend(CoilAction.Refresh)
-                }
-                CoilAction.Reset -> _coilUiStats.tryEmit(
-                    CoilUiStats.from(app).copy(
-                        memoryCachePolicy = DefaultRequestOptions.INSTANCE.memoryCachePolicy,
-                        diskCachePolicy = DefaultRequestOptions.INSTANCE.diskCachePolicy,
-                        networkCachePolicy = DefaultRequestOptions.INSTANCE.networkCachePolicy,
-                    ),
-                )
-            }
-        }.launchIn(viewModelScope)
-    }
+    private val actions = Channel<CoilUiAction>(capacity = Channel.CONFLATED)
 
-    fun submitAction(action: CoilAction) {
-        _actions.trySend(action)
+    fun submitAction(action: CoilUiAction) {
+        actions.trySend(action)
     }
 
     init {
@@ -98,6 +65,34 @@ internal class DebugCoilViewModel @Inject constructor(
 
         storage.coilLogging.onEach { level ->
             _coilUiStats.update { it.copy(logLevel = level) }
+        }.launchIn(viewModelScope)
+
+        actions.receiveAsFlow().onEach { action ->
+            Timber.i("action: $action")
+            when (action) {
+                is CoilUiAction.UpdateDiskPolicy -> {
+                    _coilUiStats.update { it.copy(diskCachePolicy = action.policy) }
+                }
+                is CoilUiAction.UpdateMemoryPolicy -> {
+                    _coilUiStats.update { it.copy(memoryCachePolicy = action.policy) }
+                }
+                is CoilUiAction.UpdateNetworkPolicy -> {
+                    _coilUiStats.update { it.copy(networkCachePolicy = action.policy) }
+                }
+                is CoilUiAction.UpdateLogLevel -> storage.coilLogging(action.logLevel)
+                CoilUiAction.Refresh -> _coilUiStats.tryEmit(CoilUiStats.from(app))
+                CoilUiAction.TrimMemory -> {
+                    coilTrimMemoryUseCase(Unit)
+                    actions.trySend(CoilUiAction.Refresh)
+                }
+                CoilUiAction.Reset -> _coilUiStats.tryEmit(
+                    CoilUiStats.from(app).copy(
+                        memoryCachePolicy = DefaultRequestOptions.INSTANCE.memoryCachePolicy,
+                        diskCachePolicy = DefaultRequestOptions.INSTANCE.diskCachePolicy,
+                        networkCachePolicy = DefaultRequestOptions.INSTANCE.networkCachePolicy,
+                    ),
+                )
+            }
         }.launchIn(viewModelScope)
     }
 }

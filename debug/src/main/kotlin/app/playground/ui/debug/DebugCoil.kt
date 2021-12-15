@@ -57,10 +57,10 @@ internal fun ColumnScope.DebugCoil(
             title = "Memory Usage",
             text = "$current/$total ($percentage%)".uppercase(Locale.ENGLISH),
             actionLeft = {
-                model.submitAction(CoilAction.Refresh)
+                model.submitAction(CoilUiAction.Refresh)
             },
             actionRight = {
-                model.submitAction(CoilAction.TrimMemory)
+                model.submitAction(CoilUiAction.TrimMemory)
             },
         )
 
@@ -73,7 +73,7 @@ internal fun ColumnScope.DebugCoil(
                 options = stats.policies,
                 selected = stats.memoryCachePolicy,
             ) {
-                model.submitAction(CoilAction.UpdateMemoryPolicy(it))
+                model.submitAction(CoilUiAction.UpdateMemoryPolicy(it))
             }
 
             Spacer(modifier = Modifier.width(6.dp))
@@ -86,7 +86,7 @@ internal fun ColumnScope.DebugCoil(
                 options = stats.policies,
                 selected = stats.diskCachePolicy,
             ) {
-                model.submitAction(CoilAction.UpdateDiskPolicy(it))
+                model.submitAction(CoilUiAction.UpdateDiskPolicy(it))
             }
         }
 
@@ -97,7 +97,7 @@ internal fun ColumnScope.DebugCoil(
             selected = stats.networkCachePolicy,
             enabled = true,
         ) {
-            model.submitAction(CoilAction.UpdateNetworkPolicy(it))
+            model.submitAction(CoilUiAction.UpdateNetworkPolicy(it))
         }
 
         EnumDropdown(
@@ -106,7 +106,7 @@ internal fun ColumnScope.DebugCoil(
             options = CoilLogLevel.values().asList(),
             selected = stats.logLevel,
         ) {
-            model.submitAction(CoilAction.UpdateLogLevel(it))
+            model.submitAction(CoilUiAction.UpdateLogLevel(it))
         }
     }
 }

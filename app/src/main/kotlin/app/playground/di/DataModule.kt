@@ -62,7 +62,7 @@ object DataModule {
         okhttp: OkHttpClient,
     ): ImageLoader = ImageLoader
         .Builder(context)
-        .availableMemoryPercentage(0.75)
+        .availableMemoryPercentage(0.50)
         .callFactory { okhttp.newBuilder().cache(CoilUtils.createDefaultCache(context)).build() }
         .componentRegistry {
             add(SvgDecoder(context))

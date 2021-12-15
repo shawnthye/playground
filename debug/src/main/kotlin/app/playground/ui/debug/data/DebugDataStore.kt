@@ -26,7 +26,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import okhttp3.logging.HttpLoggingInterceptor.Level as HttpLogingLevel
 
 internal val Context.debugDataStore: DataStore<Preferences> by preferencesDataStore(
     name = "DEBUG_DATA_STORE",
@@ -51,7 +50,7 @@ class DebugStorage @Inject constructor(
 
     object Defaults {
         val Environment = DebugEnvironment.PRODUCTION
-        val OkhttpLoggingLevel = HttpLogingLevel.NONE
+        val OkhttpLoggingLevel = HttpLogging.NONE
         val CoilLoggingLevel = CoilLogLevel.NONE
     }
 
@@ -79,15 +78,15 @@ class DebugStorage @Inject constructor(
         store.edit { it[PREF_ENVIRONMENT] = environment.name }
     }
 
-    val httpLoggingLevel: Flow<HttpLogingLevel> = store.data.map {
-        HttpLogingLevel
+    val httpLoggingLevel: Flow<HttpLogging> = store.data.map {
+        HttpLogging
             .values()
             .find { level ->
                 level.name == it[PREF_OKHTTP_LOGGING]
             } ?: Defaults.OkhttpLoggingLevel
     }.distinctUntilChanged()
 
-    suspend fun httpLoggingLevel(level: HttpLogingLevel) {
+    suspend fun httpLoggingLevel(level: HttpLogging) {
         store.edit { it[PREF_OKHTTP_LOGGING] = level.name }
     }
 

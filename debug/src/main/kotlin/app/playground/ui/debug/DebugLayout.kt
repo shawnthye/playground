@@ -7,13 +7,12 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.components.DebugDrawer
 import app.playground.ui.debug.theme.DebugTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -26,7 +25,6 @@ fun DebugLayout(
 ) {
     val model: DebugViewModel = viewModel()
     val coilModel: DebugCoilViewModel = viewModel()
-    val seenDrawer by model.seenDrawer.collectAsState()
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
 
@@ -37,7 +35,7 @@ fun DebugLayout(
                 model.seenDrawer()
             }
             if (it == DrawerValue.Open) {
-                coilModel.submitAction(CoilAction.Refresh)
+                coilModel.submitAction(CoilUiAction.Refresh)
             }
             true
         },
@@ -61,10 +59,13 @@ fun DebugLayout(
         )
     }
 
-    LaunchedEffect(seenDrawer) {
-        if (!seenDrawer && drawerState.isClosed) {
-            delay(400)
-            drawerState.open()
+    LaunchedEffect(Unit) {
+        model.seenDrawer.collectLatest { seen ->
+            if (!seen && drawerState.isClosed) {
+                delay(400)
+                drawerState.open()
+            }
+
         }
     }
 }

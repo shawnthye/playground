@@ -34,12 +34,12 @@ import app.playground.ui.debug.components.EnumDropdown
 import app.playground.ui.debug.components.StatsTable
 import app.playground.ui.debug.components.SubHeader
 import app.playground.ui.debug.data.DebugEnvironment
+import app.playground.ui.debug.data.HttpLogging
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
 import core.playground.ui.theme.contentHorizontalPadding
 import feature.playground.demos.Demos
 import feature.playground.deviant.ui.DeviantArt
-import okhttp3.logging.HttpLoggingInterceptor
 
 @Composable
 internal fun ColumnScope.DebugSettings(
@@ -91,7 +91,7 @@ internal fun ColumnScope.DebugSettings(
             icon = VectorIcon(Icons.Filled.RestartAlt),
             onPress = {
                 model.resetDebugSettings()
-                coilModel.submitAction(CoilAction.Reset)
+                coilModel.submitAction(CoilUiAction.Reset)
             },
         )
     }
@@ -138,7 +138,7 @@ private fun ColumnScope.DebugNetwork(model: DebugViewModel) {
         EnumDropdown(
             modifier = Modifier.padding(padding),
             label = "Logging",
-            options = HttpLoggingInterceptor.Level.values().asList(),
+            options = HttpLogging.values().asList(),
             selected = level,
         ) {
             model.updateHttpLoggingLevel(it)

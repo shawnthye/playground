@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import okhttp3.logging.HttpLoggingInterceptor
+import app.playground.ui.debug.data.HttpLogging
 
 private typealias OnValueChange<T> = (T) -> Unit
 
@@ -122,8 +122,8 @@ private fun PreviewDropDown() {
     Column {
         EnumDropdown(
             label = "Logging",
-            options = HttpLoggingInterceptor.Level.values().asList(),
-            selected = HttpLoggingInterceptor.Level.BODY,
+            options = HttpLogging.values().asList(),
+            selected = HttpLogging.BODY,
         )
     }
 }
