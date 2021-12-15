@@ -48,7 +48,6 @@ internal fun ColumnScope.DebugSettings(
     buildType: String,
     model: DebugViewModel = viewModel(),
     coilModel: DebugCoilViewModel = viewModel(),
-    showFeatureFlags: () -> Unit,
 ) {
 
     val buildStats = mapOf(
@@ -68,7 +67,7 @@ internal fun ColumnScope.DebugSettings(
     ) {
         DebugSettingsHeader(applicationName = model.applicationName)
 
-        DebugEnvironment(model = model, showFeatureFlags = showFeatureFlags)
+        DebugEnvironment(model = model)
 
         DebugNetwork(model = model)
 
@@ -98,7 +97,7 @@ internal fun ColumnScope.DebugSettings(
 }
 
 @Composable
-private fun ColumnScope.DebugEnvironment(model: DebugViewModel, showFeatureFlags: () -> Unit) {
+private fun ColumnScope.DebugEnvironment(model: DebugViewModel) {
 
     val environment by model.environment.collectAsState()
 
@@ -119,7 +118,7 @@ private fun ColumnScope.DebugEnvironment(model: DebugViewModel, showFeatureFlags
             .fillMaxWidth()
             .align(Alignment.Start)
             .padding(bottom = 16.dp),
-        onClick = showFeatureFlags,
+        onClick = { model.showFeatureFlags() },
     ) {
         Text(
             modifier = Modifier.weight(1f),

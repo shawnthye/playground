@@ -7,13 +7,13 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.components.DebugDrawer
 import app.playground.ui.debug.theme.DebugTheme
+import core.playground.ui.rememberFlowWithLifecycle
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -26,7 +26,6 @@ fun DebugLayout(
     val model: DebugViewModel = viewModel()
     val coilModel: DebugCoilViewModel = viewModel()
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val scope = rememberCoroutineScope()
 
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed,
@@ -50,7 +49,6 @@ fun DebugLayout(
                     buildType = buildType,
                     model = model,
                     coilModel = coilModel,
-                    showFeatureFlags = { scope.launch { bottomSheetState.show() } },
                 )
             },
             bottomSheetState = bottomSheetState,
@@ -66,6 +64,15 @@ fun DebugLayout(
                 drawerState.open()
             }
 
+        }
+    }
+
+    val navigationActions = rememberFlowWithLifecycle(model.navigationActions)
+    LaunchedEffect(navigationActions) {
+        navigationActions.collect {
+            when (it) {
+                DebugNavigationAction.ShowFeatureFlags -> bottomSheetState.show()
+            }
         }
     }
 }

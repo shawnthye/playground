@@ -2,7 +2,6 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("com.android.application")
-    id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
@@ -185,3 +184,5 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.espresso)
     androidTestUtil(Libs.AndroidX.Test.orchestrator)
 }
+
+apply(plugin = "com.google.gms.google-services")

@@ -7,8 +7,9 @@ import core.playground.IoDispatcher
 import core.playground.domain.UseCase
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Inject
 
-internal class CoilTrimMemoryUseCase(
+internal class CoilTrimMemoryUseCase @Inject constructor(
     @ApplicationContext private val context: Context,
     @IoDispatcher dispatcher: CoroutineDispatcher,
 ) : UseCase<Unit, Unit>(dispatcher) {

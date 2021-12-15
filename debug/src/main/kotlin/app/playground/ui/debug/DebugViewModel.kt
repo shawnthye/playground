@@ -3,6 +3,7 @@ package app.playground.ui.debug
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.playground.ui.debug.DebugNavigationAction.ShowFeatureFlags
 import app.playground.ui.debug.DebugUiAction.ResetAllSettings
 import app.playground.ui.debug.DebugUiAction.SeenDrawer
 import app.playground.ui.debug.DebugUiAction.UpdateEnvironment
@@ -48,6 +49,9 @@ internal class DebugViewModel @Inject constructor(
 
     private val actions = Channel<DebugUiAction>(Channel.CONFLATED)
 
+    private val _navigationActions = Channel<DebugNavigationAction>(Channel.CONFLATED)
+    val navigationActions = _navigationActions.receiveAsFlow()
+
     val applicationName = app.applicationInfo.loadLabel(app.packageManager)
     val deviceStats: Map<String, String> = app.deviceStats
 
@@ -85,6 +89,8 @@ internal class DebugViewModel @Inject constructor(
 
     fun resetDebugSettings() = actions.trySend(ResetAllSettings)
 
+    fun showFeatureFlags() = _navigationActions.trySend(ShowFeatureFlags)
+
     init {
         actions.receiveAsFlow().onEach {
             when (it) {
@@ -102,4 +108,8 @@ internal sealed class DebugUiAction {
     data class UpdateEnvironment(val environment: DebugEnvironment) : DebugUiAction()
     data class UpdateHttpLogging(val level: HttpLogging) : DebugUiAction()
     object ResetAllSettings : DebugUiAction()
+}
+
+internal sealed class DebugNavigationAction {
+    object ShowFeatureFlags : DebugNavigationAction()
 }
