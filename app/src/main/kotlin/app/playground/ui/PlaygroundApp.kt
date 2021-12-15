@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
@@ -145,6 +146,9 @@ private fun ProductHuntBottomNavigation(
                         onClick = { onNavigationSelected(item.screen) },
                     )
                 }
+            }
+            if (!MaterialTheme.colors.isLight) {
+                Divider(thickness = 0.6.dp)
             }
         }
     }
