@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 import app.playground.store.database.AppEntity
 import java.util.Date
 
+typealias DeviationId = String
+
 @Entity(
     tableName = "deviations",
     indices = [
@@ -14,7 +16,7 @@ import java.util.Date
 )
 data class Deviation(
     @PrimaryKey(autoGenerate = true) override val id: Long = 0,
-    val deviationId: String,
+    val deviationId: DeviationId,
     val url: String,
     val title: String,
     val category: String,
@@ -26,4 +28,5 @@ data class Deviation(
     val authorName: String,
     val authorIconUrl: String,
     val published: Date,
+    val rippleColor: Int = 0,
 ) : AppEntity

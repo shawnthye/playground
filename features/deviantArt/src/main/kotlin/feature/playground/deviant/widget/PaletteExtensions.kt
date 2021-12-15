@@ -4,27 +4,30 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.RippleDrawable
+import androidx.annotation.ColorInt
 import androidx.palette.graphics.Palette
 
 object PaletteExtensions {
 
-    private fun Palette.toRippleColorStateList(): ColorStateList? {
+    @ColorInt
+    fun Palette.findRippleColor(): Int? {
         val swatch = vibrantSwatch
             ?: lightVibrantSwatch
             ?: darkVibrantSwatch
             ?: mutedSwatch
             ?: lightMutedSwatch
             ?: darkMutedSwatch
-
-        return swatch?.rgb?.let { ColorStateList.valueOf(it) }
+        return swatch?.rgb
     }
 
     fun Palette.createRipple(borderless: Boolean): RippleDrawable? {
-
-        val color = toRippleColorStateList()
-
-        return color?.let {
-            RippleDrawable(it, null, if (borderless) null else ColorDrawable(Color.WHITE))
-        }
+        val color = findRippleColor()
+        return color?.createRipple(borderless)
     }
 }
+
+fun Int.createRipple(borderless: Boolean) = RippleDrawable(
+    ColorStateList.valueOf(this),
+    null,
+    if (borderless) null else ColorDrawable(Color.WHITE),
+)

@@ -45,4 +45,8 @@ class DeviantRepository @Inject constructor(
             deviationDao.insert(it)
         }
     }
+
+    suspend fun updateDeviation(deviation: Deviation) {
+        deviationDao.update(deviation)
+    }
 }

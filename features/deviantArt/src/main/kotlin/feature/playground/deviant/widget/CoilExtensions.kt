@@ -42,8 +42,7 @@ internal fun ImageRequest.Builder.usePaletteTransition(
     crossFade: Boolean = true,
     durationMillis: Int = CrossfadeDrawable.DEFAULT_DURATION,
     onGenerated: (Palette?) -> Unit,
-) {
-
+) = apply {
     allowHardware(false) // palette doesn't support HARDWARE
     crossfade(false) // we join the cross fade effect in PaletteTransition
     transition(

@@ -24,6 +24,11 @@
       name="onItemClickListener"
       type="feature.playground.deviant.ui.track.TrackAdapter.OnItemClickListener"
       />
+
+    <variable
+      name="onPaletteListener"
+      type="feature.playground.deviant.ui.track.TrackAdapter.OnPaletteListener"
+      />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,10 +36,14 @@
     onSingleTap="@{() -> onItemClickListener.onItemClicked(deviation.deviationId)}"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
     >
 
     <ImageView
       android:id="@+id/image"
+      trackImageDeviation="@{deviation}"
+      trackImageOnPaletteListener="@{onPaletteListener}"
+      trackImagePlaceholder="@{@color/track_placeholder}"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:scaleType="centerCrop"

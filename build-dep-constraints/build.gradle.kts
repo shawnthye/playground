@@ -48,6 +48,7 @@ dependencies {
         api("${Libs.AndroidX.drawerLayout}:${Versions.DRAWER_LAYOUT}")
         api("${Libs.AndroidX.fragmentKtx}:${Versions.FRAGMENT}")
         api("${Libs.AndroidX.fragment}:${Versions.FRAGMENT}")
+        api("${Libs.AndroidX.palette}:${Versions.PALETTE}")
         api("${Libs.AndroidX.recyclerView}:${Versions.RECYCLER_VIEW}")
         api("${Libs.AndroidX.swipeRefresh}:${Versions.SWIPE_REFRESH}")
         api("${Libs.Apollo.coroutines}:${Versions.APOLLO}")
@@ -86,7 +87,7 @@ dependencies {
         api("${Libs.Test.hamcrestLibrary}:${Versions.HAMCREST}")
         api("${Libs.Test.junit}:${Versions.JUNIT}")
         api("${Libs.Test.mockk}:${Versions.MOCKK}")
-        api("${Libs.material}:${Versions.MATERIAL}")
+        api("${Libs.Google.material}:${Versions.MATERIAL}")
         api("${Libs.okio}:${Versions.OKIO}")
         api("${Libs.timber}:${Versions.TIMBER}")
     }

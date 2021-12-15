@@ -66,7 +66,7 @@ dependencies {
     implementation(Libs.AndroidX.constraintLayout)
     implementation(Libs.AndroidX.recyclerView)
     implementation(Libs.AndroidX.swipeRefresh)
-    implementation(Libs.material)
+    implementation(Libs.Google.material)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
     implementation(Libs.AndroidX.Lifecycle.viewModel)
@@ -83,7 +83,7 @@ dependencies {
 
     implementation(Libs.Coil.coil)
     implementation(Libs.Coil.coilGif)
-    implementation("androidx.palette:palette-ktx:1.0.0")
+    implementation(Libs.AndroidX.palette)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

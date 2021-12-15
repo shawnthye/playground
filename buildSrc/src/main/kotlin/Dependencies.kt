@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 object Versions {
     const val ACCOMPANIST = "0.21.4-beta"
     const val ACTIVITY = "1.4.0"
@@ -47,15 +49,12 @@ object Versions {
     const val ROOM = "2.4.0"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
+    const val PALETTE = "1.0.0"
 }
 
 object Libs {
-    const val material = "com.google.android.material:material"
 
-    @Suppress("SpellCheckingInspection")
     const val okio = "com.squareup.okio:okio"
-
-    @Suppress("SpellCheckingInspection")
     const val timber = "com.jakewharton.timber:timber"
 
     object Android {
@@ -68,6 +67,8 @@ object Libs {
     }
 
     object Google {
+        const val material = "com.google.android.material:material"
+
         object Accompanist {
             const val insets = "com.google.accompanist:accompanist-insets"
             const val insetsUi = "com.google.accompanist:accompanist-insets-ui"
@@ -80,28 +81,20 @@ object Libs {
     }
 
     object AndroidX {
-
         const val activity = "androidx.activity:activity"
         const val activityCompose = "androidx.activity:activity-compose"
         const val activityKtx = "androidx.activity:activity-ktx"
         const val annotation = "androidx.annotation:annotation"
         const val appcompat = "androidx.appcompat:appcompat"
         const val concurrent = "androidx.concurrent:concurrent-futures"
-
-        @Suppress("SpellCheckingInspection")
         const val constraintLayout = "androidx.constraintlayout:constraintlayout"
         const val core = "androidx.core:core-ktx"
-
-        @Suppress("SpellCheckingInspection")
         const val customView = "androidx.customview:customview"
-
-        @Suppress("SpellCheckingInspection")
         const val drawerLayout = "androidx.drawerlayout:drawerlayout"
-        const val fragment = "androidx.fragment:fragment"
         const val fragmentKtx = "androidx.fragment:fragment-ktx"
+        const val fragment = "androidx.fragment:fragment"
+        const val palette = "androidx.palette:palette-ktx"
         const val recyclerView = "androidx.recyclerview:recyclerview"
-
-        @Suppress("SpellCheckingInspection")
         const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout"
 
         object Compose {

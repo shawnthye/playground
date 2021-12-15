@@ -30,8 +30,8 @@ android {
     }
 
     buildFeatures {
-        compose = true
         dataBinding = true
+        compose = true
     }
 
     composeOptions {
@@ -50,6 +50,8 @@ dependencies {
 
     implementation(Libs.timber)
 
+    implementation(Libs.AndroidX.Lifecycle.runtime)
+
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
@@ -58,6 +60,8 @@ dependencies {
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.insetsUi)
 
+    // data binding
+    implementation(Libs.AndroidX.core)
     implementation(Libs.AndroidX.constraintLayout)
 
     testImplementation(Libs.AndroidX.Test.coreKtx)

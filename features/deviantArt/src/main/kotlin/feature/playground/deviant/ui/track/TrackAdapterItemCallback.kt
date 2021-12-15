@@ -13,5 +13,6 @@ object TrackAdapterItemCallback : DiffUtil.ItemCallback<TrackWithDeviation>() {
         oldItem: TrackWithDeviation,
         newItem: TrackWithDeviation,
     ) = oldItem.entry.deviationId == newItem.entry.deviationId &&
-        oldItem.relation.coverUrl == newItem.relation.coverUrl
+        oldItem.relation.coverUrl == newItem.relation.coverUrl &&
+        oldItem.relation.rippleColor == newItem.relation.rippleColor
 }

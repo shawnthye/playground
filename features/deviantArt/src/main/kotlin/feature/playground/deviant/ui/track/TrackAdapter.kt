@@ -3,33 +3,39 @@ package feature.playground.deviant.ui.track
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.paging.LoadStateAdapter
 import androidx.paging.PagingDataAdapter
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import app.playground.store.database.entities.Deviation
 import app.playground.store.database.entities.TrackWithDeviation
-import coil.annotation.ExperimentalCoilApi
 import coil.load
 import coil.request.repeatCount
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationItemBinding
-import feature.playground.deviant.widget.PaletteExtensions.createRipple
+import feature.playground.deviant.ui.selectableItemBackground
+import feature.playground.deviant.widget.createRipple
 import feature.playground.deviant.widget.usePaletteTransition
+import timber.log.Timber
 
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener,
+    private val onPaletteListener: OnPaletteListener,
 ) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(TrackAdapterItemCallback) {
+
+    interface OnPaletteListener {
+        fun onPaletteReady(deviation: Deviation, palette: Palette)
+    }
 
     interface OnItemClickListener {
         fun onItemClicked(id: String)
     }
 
     override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
-        getItem(position)?.relation?.run {
-            holder.bind(this)
-        }
+        holder.bind(getItem(position)!!.relation)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -39,7 +45,7 @@ class TrackAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener)
+    ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener, onPaletteListener)
 }
 
 fun TrackAdapter.withFooter(
@@ -58,40 +64,44 @@ fun TrackAdapter.withFooter(
 class DeviationViewHolder(
     parent: ViewGroup,
     onItemClickListener: TrackAdapter.OnItemClickListener,
+    onPaletteListener: TrackAdapter.OnPaletteListener,
     private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
         LayoutInflater.from(parent.context), parent, false,
     ),
-    private val placeholder: Drawable? = ContextCompat.getDrawable(
-        parent.context,
-        R.color.track_placeholder,
-    ),
-    private val originalForeground: Drawable? = binding.imageLayout.foreground,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.onItemClickListener = onItemClickListener
+        binding.onPaletteListener = onPaletteListener
     }
 
     fun bind(deviation: Deviation) {
+        Timber.i("deviation.rippleColor - ${deviation.rippleColor}")
+        if (0 != deviation.rippleColor) {
+            binding.imageLayout.foreground = deviation.rippleColor.createRipple(false)
+        } else {
+            binding.imageLayout.foreground = binding.imageLayout.context.selectableItemBackground
+        }
+
         binding.deviation = deviation
-        binding.bingImage(deviation.imageUrl, placeholder, originalForeground)
         binding.executePendingBindings()
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
-fun DeviationItemBinding.bingImage(
-    url: String,
+@BindingAdapter("trackImageDeviation", "trackImagePlaceholder", "trackImageOnPaletteListener")
+fun deviationImage(
+    image: ImageView,
+    deviation: Deviation,
     placeholder: Drawable?,
-    defaultForeground: Drawable?,
+    onPaletteListener: TrackAdapter.OnPaletteListener,
 ) {
-    imageLayout.foreground = defaultForeground
-
-    image.load(uri = url) {
+    image.load(uri = deviation.imageUrl) {
         repeatCount(0)
         placeholder(drawable = placeholder)
-        usePaletteTransition { palette ->
-            imageLayout.foreground = palette?.createRipple(false) ?: defaultForeground
+        if (deviation.rippleColor == 0) {
+            usePaletteTransition { palette ->
+                palette?.also { onPaletteListener.onPaletteReady(deviation, it) }
+            }
         }
     }
 }
