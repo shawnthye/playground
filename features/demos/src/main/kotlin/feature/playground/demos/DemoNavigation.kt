@@ -12,7 +12,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import core.playground.ui.theme.Icons
+import core.playground.ui.theme.ThemeIcons
 import feature.playground.demos.counter.Counter
 import feature.playground.demos.error.ui.ErrorDemo
 import feature.playground.demos.theme.ThemeDemo
@@ -22,9 +22,9 @@ internal enum class DemoScreen(
     val title: String,
     val icon: ImageVector,
 ) {
-    THEMES("themes", "Themes", Icons.Dashboard),
-    ERRORS("errors", "Error", Icons.PriorityHigh),
-    COUNTER("counter", "Counter", Icons.Calculate);
+    THEMES("themes", "Themes", ThemeIcons.Dashboard),
+    ERRORS("errors", "Error", ThemeIcons.PriorityHigh),
+    COUNTER("counter", "Counter", ThemeIcons.Calculate);
 
     companion object {
         val Start by lazy { THEMES }

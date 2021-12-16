@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import core.playground.ui.R
 import core.playground.ui.alias.NavigateUp
-import core.playground.ui.theme.Icons
+import core.playground.ui.theme.ThemeIcons
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -85,7 +85,7 @@ private fun MenuButton(
         ) {
             Icon(
                 modifier = Modifier.rotate(degrees),
-                imageVector = Icons.ArrowDropDown,
+                imageVector = ThemeIcons.ArrowDropDown,
                 contentDescription = "Open Menu",
             )
             Spacer(modifier = Modifier.width(8.dp))

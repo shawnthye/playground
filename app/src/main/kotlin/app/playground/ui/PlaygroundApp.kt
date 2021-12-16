@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import app.playground.navigation.findCurrentTopRoute
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
@@ -57,7 +56,7 @@ internal fun PlaygroundApp() {
             )
         },
     ) { innerPadding ->
-        PlaygroundNavGraph(
+        PlaygroundNavigation(
             modifier = Modifier.padding(innerPadding),
             navController = navController,
             onSelectedDefaultScreen = {

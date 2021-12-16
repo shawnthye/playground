@@ -22,8 +22,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.theme.PlaygroundTheme
+import core.playground.ui.theme.ThemeIcons
 
 private val NOOP: () -> Unit = { /* NOOP */ }
 
@@ -133,7 +133,7 @@ private fun ButtonText() {
 
 @Composable
 private fun IconAdd() {
-    Icon(imageVector = Icons.Filled.Add, contentDescription = null)
+    Icon(imageVector = ThemeIcons.Add, contentDescription = null)
 }
 
 @Preview

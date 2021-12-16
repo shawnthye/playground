@@ -1,8 +1,7 @@
-package app.playground.navigation
+package app.playground.ui
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
-import app.playground.ui.Screen
 
 internal fun NavController.findChildTopRoutes(): List<String> {
     val routes = mutableListOf<String>()

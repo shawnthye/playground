@@ -19,7 +19,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import app.playground.navigation.findChildTopRoutes
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
@@ -65,13 +64,13 @@ internal sealed class Destination(
 
 @ExperimentalAnimationApi
 @Composable
-internal fun PlaygroundNavGraph(
+internal fun PlaygroundNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     onSelectedDefaultScreen: (Screen) -> Unit,
 ) {
 
-    val shouldControlBack by navController.shouldControlBack(default = Screen.Discover)
+    val shouldControlBack by navController.shouldHandleBack(default = Screen.Discover)
 
     AnimatedNavHost(
         modifier = modifier,
@@ -94,7 +93,7 @@ internal fun PlaygroundNavGraph(
 
 @Stable
 @Composable
-private fun NavController.shouldControlBack(default: Screen): State<Boolean> {
+private fun NavController.shouldHandleBack(default: Screen): State<Boolean> {
     val state = remember { mutableStateOf(false) }
 
     var defaultAtTopLevel by remember { mutableStateOf(true) }

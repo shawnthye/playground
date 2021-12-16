@@ -13,7 +13,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 
-typealias Icons = Icons.Rounded
+typealias ThemeIcons = Icons.Rounded
 
 @Composable
 fun PlaygroundTheme(

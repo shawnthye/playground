@@ -1,6 +1,8 @@
 package app.playground
 
 import android.app.Application
+import app.playground.utils.CrashlyticsTree
+import app.playground.utils.DebugTree
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import dagger.hilt.android.HiltAndroidApp
@@ -10,16 +12,21 @@ import javax.inject.Inject
 @HiltAndroidApp
 class PlaygroundApplication : Application(), ImageLoaderFactory {
 
-    @Inject
-    lateinit var tree: Timber.Tree
+    init {
+        // we need Timber as soon as possible
+        if (!BuildConfig.DEBUG) {
+            Timber.plant(CrashlyticsTree)
+        } else {
+            Timber.plant(DebugTree())
+        }
+    }
 
     @Inject
     lateinit var imageLoader: ImageLoader
 
     override fun onCreate() {
+        Timber.i("onCreate()")
         super.onCreate()
-        Timber.plant(tree)
-        Timber.i("timber's tree planted")
     }
 
     override fun newImageLoader(): ImageLoader = imageLoader
