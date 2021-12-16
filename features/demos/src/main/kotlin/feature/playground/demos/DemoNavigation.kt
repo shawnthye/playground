@@ -15,7 +15,7 @@ import com.google.accompanist.navigation.animation.composable
 import core.playground.ui.theme.Icons
 import feature.playground.demos.counter.Counter
 import feature.playground.demos.error.ui.ErrorDemo
-import feature.playground.demos.theme.Theme
+import feature.playground.demos.theme.ThemeDemo
 
 internal enum class DemoScreen(
     val route: String,
@@ -53,7 +53,7 @@ internal fun DemoNavigation(
 @ExperimentalAnimationApi
 private fun NavGraphBuilder.addStart() {
     composable(DemoScreen.THEMES.route) {
-        Theme()
+        ThemeDemo()
     }
 }
 

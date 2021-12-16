@@ -34,9 +34,9 @@ internal fun DemoApp() {
     Scaffold(
         bottomBar = {
             DemoAppBar(
-                expanded = menuState.isVisible,
                 navigateUp = { scope.launch { menuState.navigateUp() } },
                 selected = currentScreen,
+                sheetValue = menuState.currentValue,
             )
         },
     ) { innerPadding ->

@@ -1,10 +1,12 @@
 package feature.playground.demos.theme
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +19,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
@@ -32,7 +35,7 @@ import core.playground.ui.theme.PlaygroundTheme
 private val NOOP: () -> Unit = { /* NOOP */ }
 
 @Composable
-internal fun Theme() {
+internal fun ThemeDemo() {
 
     Scaffold(modifier = Modifier.statusBarsPadding()) {
         Box(modifier = Modifier.padding(16.dp)) {
@@ -55,6 +58,46 @@ internal fun Theme() {
 
                     FloatingActionButton(onClick = NOOP, Modifier.size(40.dp)) { IconAdd() }
                 }
+
+                Component("Shapes") {
+                    Surface(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .clickable { },
+                        color = MaterialTheme.colors.onSurface,
+                        shape = MaterialTheme.shapes.small,
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(
+                                text = "Small",
+                            )
+                        }
+                    }
+
+                    Surface(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .clickable { },
+                        color = MaterialTheme.colors.onSurface,
+                        shape = MaterialTheme.shapes.medium,
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(text = "Medium")
+                        }
+                    }
+
+                    Surface(
+                        modifier = Modifier
+                            .size(96.dp)
+                            .clickable { },
+                        color = MaterialTheme.colors.onSurface,
+                        shape = MaterialTheme.shapes.large,
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(text = "Large")
+                        }
+                    }
+                }
             }
         }
     }
@@ -64,7 +107,7 @@ internal fun Theme() {
 private fun Component(
     title: String,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
+    content: @Composable RowScope.() -> Unit,
 ) {
 
     Text(
@@ -97,7 +140,7 @@ private fun IconAdd() {
 @Composable
 private fun PreviewLight() {
     PlaygroundTheme {
-        Theme()
+        ThemeDemo()
     }
 }
 

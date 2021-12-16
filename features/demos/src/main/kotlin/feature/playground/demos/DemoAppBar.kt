@@ -17,6 +17,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -41,7 +42,7 @@ import core.playground.ui.theme.Icons
 internal fun DemoAppBar(
     navigateUp: NavigateUp,
     selected: DemoScreen,
-    expanded: Boolean,
+    sheetValue: ModalBottomSheetValue,
 ) {
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         Surface(
@@ -53,7 +54,7 @@ internal fun DemoAppBar(
                 elevation = 0.dp,
                 backgroundColor = Color.Transparent,
             ) {
-                MenuButton(navigateUp = navigateUp, expanded = expanded, selected = selected)
+                MenuButton(navigateUp = navigateUp, selected = selected, sheetValue = sheetValue)
             }
             if (!MaterialTheme.colors.isLight) {
                 Divider(thickness = 0.6.dp)
@@ -62,9 +63,20 @@ internal fun DemoAppBar(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun MenuButton(navigateUp: NavigateUp, expanded: Boolean, selected: DemoScreen) {
-    val degrees by animateFloatAsState(targetValue = if (!expanded) 180f else 360f)
+private fun MenuButton(
+    navigateUp: NavigateUp,
+    selected: DemoScreen,
+    sheetValue: ModalBottomSheetValue,
+) {
+    val degrees by animateFloatAsState(
+        targetValue = if (sheetValue != ModalBottomSheetValue.Expanded) {
+            180f
+        } else {
+            360f
+        },
+    )
 
     Spacer(modifier = Modifier.width(4.dp))
     TextButton(onClick = navigateUp) {
@@ -84,7 +96,7 @@ private fun MenuButton(navigateUp: NavigateUp, expanded: Boolean, selected: Demo
             )
 
             AnimatedVisibility(
-                visible = !expanded,
+                visible = sheetValue == ModalBottomSheetValue.Hidden,
                 enter = fadeIn(tween(120)) + expandHorizontally(tween(120)),
                 exit = fadeOut(tween(120)) + shrinkHorizontally(tween(120)),
             ) {
