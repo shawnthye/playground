@@ -8,8 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import core.playground.ui.theme.PlaygroundTheme
-import feature.playground.demos.theme.Theme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Demos : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(core.playground.ui.R.style.Playground)
@@ -18,8 +19,7 @@ class Demos : ComponentActivity() {
         setContent {
             ProvideWindowInsets(consumeWindowInsets = false) {
                 PlaygroundTheme {
-                    Theme {
-                    }
+                    DemoApp()
                 }
             }
         }

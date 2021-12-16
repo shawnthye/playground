@@ -43,7 +43,7 @@ internal fun PlaygroundApp() {
 
     Scaffold(
         bottomBar = {
-            ProductHuntBottomNavigation(
+            PlaygroundBottomNavigation(
                 selectedScreen = currentScreen,
                 onNavigationSelected = { selected ->
                     when (selected) {
@@ -118,7 +118,7 @@ private fun NavController.currentScreenAsState(): State<Screen> {
 }
 
 @Composable
-private fun ProductHuntBottomNavigation(
+private fun PlaygroundBottomNavigation(
     selectedScreen: Screen,
     onNavigationSelected: (selected: Screen) -> Unit,
 ) {

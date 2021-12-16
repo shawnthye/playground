@@ -69,9 +69,13 @@ dependencies {
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.uiTestJunit4)
     implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.materialIconsExtended)
+
+    implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
     implementation(Libs.Google.Accompanist.insets)
+    implementation(Libs.Google.Accompanist.navigationAnimation)
 
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)

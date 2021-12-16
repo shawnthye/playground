@@ -25,27 +25,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import core.playground.ui.alias.NavigateUp
-import core.playground.ui.components.DrawerAppBar
+import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.theme.PlaygroundTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.mapNotNull
 
-private val NOOP: () -> Unit = { /* NOOP */ }
-
 @Composable
-internal fun ErrorDemo(
-    navigateUp: NavigateUp,
-) {
-    ErrorDemo(navigateUp = navigateUp, viewModel = hiltViewModel())
+internal fun ErrorDemo() {
+    ErrorDemo(viewModel = hiltViewModel())
 }
 
 @Composable
-private fun ErrorDemo(
-    navigateUp: NavigateUp,
-    viewModel: ErrorDemoViewModel,
-) {
+private fun ErrorDemo(viewModel: ErrorDemoViewModel) {
 
     var throwable by viewModel.throwable.rememberAsDialogState()
 
@@ -55,14 +47,7 @@ private fun ErrorDemo(
         }
     }
 
-    Scaffold(
-        topBar = {
-            DrawerAppBar(
-                titleRes = core.playground.ui.R.string.menu_error_demo,
-                navigationUp = navigateUp,
-            )
-        },
-    ) {
+    Scaffold(modifier = Modifier.statusBarsPadding()) {
         Box(modifier = Modifier.padding(16.dp)) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
@@ -170,7 +155,7 @@ private fun Component(
 @Composable
 private fun PreviewLight() {
     PlaygroundTheme {
-        ErrorDemo(navigateUp = NOOP)
+        ErrorDemo()
     }
 }
 

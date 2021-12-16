@@ -17,30 +17,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import core.playground.ui.alias.NavigateUp
-import core.playground.ui.components.DrawerAppBar
+import com.google.accompanist.insets.statusBarsPadding
 import core.playground.ui.rememberFlowWithLifecycle
 
 @Composable
-internal fun Counter(navigateUp: NavigateUp) {
-    Counter(
-        viewModel = hiltViewModel(),
-        navigateUp = navigateUp,
-    )
+internal fun Counter() {
+    Counter(viewModel = hiltViewModel())
 }
 
 @Composable
-private fun Counter(viewModel: CounterViewModel, navigateUp: NavigateUp) {
+private fun Counter(viewModel: CounterViewModel) {
     val uiState by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(CounterUiState(0))
 
-    Scaffold(
-        topBar = {
-            DrawerAppBar(
-                titleRes = core.playground.ui.R.string.menu_counter,
-                navigationUp = navigateUp,
-            )
-        },
-    ) {
+    Scaffold(modifier = Modifier.statusBarsPadding()) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = "${uiState.count}", modifier = Modifier.padding(8.dp))
