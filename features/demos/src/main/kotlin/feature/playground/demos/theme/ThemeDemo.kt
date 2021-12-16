@@ -64,7 +64,7 @@ internal fun ThemeDemo() {
                         modifier = Modifier
                             .size(96.dp)
                             .clickable { },
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.secondary,
                         shape = MaterialTheme.shapes.small,
                     ) {
                         Box(contentAlignment = Alignment.Center) {
@@ -78,7 +78,7 @@ internal fun ThemeDemo() {
                         modifier = Modifier
                             .size(96.dp)
                             .clickable { },
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.secondary,
                         shape = MaterialTheme.shapes.medium,
                     ) {
                         Box(contentAlignment = Alignment.Center) {
@@ -90,7 +90,7 @@ internal fun ThemeDemo() {
                         modifier = Modifier
                             .size(96.dp)
                             .clickable { },
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.secondary,
                         shape = MaterialTheme.shapes.large,
                     ) {
                         Box(contentAlignment = Alignment.Center) {

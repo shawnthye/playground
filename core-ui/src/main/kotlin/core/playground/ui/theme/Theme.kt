@@ -5,6 +5,7 @@ import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -53,8 +54,19 @@ private object PlaygroundRippleTheme : RippleTheme {
     }
 
     @Composable
-    override fun rippleAlpha() = RippleTheme.defaultRippleAlpha(
-        contentColor = LocalContentColor.current,
-        lightTheme = MaterialTheme.colors.isLight,
-    )
+    override fun rippleAlpha(): RippleAlpha {
+        if (!MaterialTheme.colors.isLight) {
+            return RippleAlpha(
+                pressedAlpha = 0.24f,
+                focusedAlpha = 0.20f,
+                draggedAlpha = 0.16f,
+                hoveredAlpha = 0.08f,
+            )
+        }
+
+        return RippleTheme.defaultRippleAlpha(
+            contentColor = LocalContentColor.current,
+            lightTheme = MaterialTheme.colors.isLight,
+        )
+    }
 }
