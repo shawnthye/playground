@@ -26,6 +26,5 @@ val Context.selectableItemBackground: Drawable
             return ContextCompat.getDrawable(this, value.resourceId)!!
         }
 
-
         throw IllegalAccessException("Couldn't find selectableItemBackground from your theme")
     }

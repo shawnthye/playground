@@ -15,9 +15,11 @@ fun Collections() {
     Scaffold(
         topBar = { TopAppBar(titleRes = R.string.menu_collections) },
     ) { innerPadding ->
-        Surface(modifier = Modifier
-            .padding(innerPadding)
-            .contentPadding()) {
+        Surface(
+            modifier = Modifier
+                .padding(innerPadding)
+                .contentPadding(),
+        ) {
             Text(text = "Collections")
         }
     }

@@ -26,7 +26,6 @@ fun DebugLayout(
     val model: DebugViewModel = viewModel()
     val coilModel: DebugCoilViewModel = viewModel()
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-
     val drawerState = rememberDrawerState(
         initialValue = DrawerValue.Closed,
         confirmStateChange = {
@@ -39,6 +38,7 @@ fun DebugLayout(
             true
         },
     )
+
     DebugTheme {
         DebugDrawer(
             drawerState = drawerState,
@@ -63,7 +63,6 @@ fun DebugLayout(
                 delay(400)
                 drawerState.open()
             }
-
         }
     }
 

@@ -16,9 +16,11 @@ fun Topics(openPost: (postId: String) -> Unit) {
     Scaffold(
         topBar = { TopAppBar(titleRes = R.string.menu_topics) },
     ) { innerPadding ->
-        Surface(modifier = Modifier
-            .padding(innerPadding)
-            .contentPadding()) {
+        Surface(
+            modifier = Modifier
+                .padding(innerPadding)
+                .contentPadding(),
+        ) {
             Button(onClick = { openPost("postid from topics") }) {
                 Text(text = "Topics")
             }
