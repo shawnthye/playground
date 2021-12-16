@@ -39,7 +39,7 @@ internal fun BottomSheetMenu(
     onMenuSelected: (DemoScreen) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    
+
     ModalBottomSheetLayout(
         modifier = modifier,
         content = content,
@@ -60,7 +60,7 @@ internal fun BottomSheetMenu(
             ) {
                 LazyColumn {
                     item { Spacer(modifier = Modifier.height(12.dp)) }
-                    items(DemoScreen.values() + DemoScreen.values() + DemoScreen.values() + DemoScreen.values() + DemoScreen.values()) { screen ->
+                    items(DemoScreen.values()) { screen ->
                         NavigationItem(
                             icon = screen.icon,
                             label = screen.title,

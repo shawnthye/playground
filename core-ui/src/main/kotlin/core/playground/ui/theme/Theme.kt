@@ -42,7 +42,7 @@ private object PlaygroundRippleTheme : RippleTheme {
         /**
          * Our night mode is using white color, so we have to specific handle here
          */
-        if (luminance == 0.0f && !isLight) {
+        if (luminance < 0.5f && !isLight) {
             return MaterialTheme.colors.surface
         }
 
