@@ -2,13 +2,14 @@ package feature.playground.demos
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -56,8 +57,9 @@ internal fun BottomSheetMenu(
                     bottomEnd = CornerSize(0.dp),
                 ),
             ) {
-                Column {
-                    DemoScreen.values().map { screen ->
+                LazyColumn {
+                    item { Spacer(modifier = Modifier.height(12.dp)) }
+                    items(DemoScreen.values()) { screen ->
                         NavigationItem(
                             icon = screen.icon,
                             label = screen.title,
@@ -67,6 +69,7 @@ internal fun BottomSheetMenu(
                             },
                         )
                     }
+                    item { Spacer(modifier = Modifier.height(12.dp)) }
                 }
             }
         },
@@ -117,17 +120,12 @@ private fun NavigationItem(
                     tintColor = textIconColor,
                 )
                 Spacer(Modifier.width(16.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = label,
-                        style = MaterialTheme.typography.body2,
-                        color = textIconColor,
-                        modifier = Modifier.weight(1F),
-                    )
-                }
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.body2,
+                    color = textIconColor,
+                    modifier = Modifier.weight(1F),
+                )
             }
         }
     }

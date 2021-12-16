@@ -31,12 +31,12 @@ internal fun DemoApp() {
     val scope = rememberCoroutineScope()
     val navController = rememberAnimatedNavController()
     val currentScreen by navController.currentScreenAsState()
-
     Scaffold(
         bottomBar = {
             DemoAppBar(
                 expanded = menuState.isVisible,
                 navigateUp = { scope.launch { menuState.navigateUp() } },
+                selected = currentScreen,
             )
         },
     ) { innerPadding ->
@@ -93,7 +93,7 @@ private fun NavController.navigateTo(screen: DemoScreen) {
 @Stable
 @Composable
 private fun NavController.currentScreenAsState(): State<DemoScreen> {
-    val selectedItem = remember { mutableStateOf<DemoScreen>(DemoScreen.Start) }
+    val selectedItem = remember { mutableStateOf(DemoScreen.Start) }
 
     DisposableEffect(this) {
         val listener = NavController.OnDestinationChangedListener { _, destination, _ ->

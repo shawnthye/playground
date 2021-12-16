@@ -1,6 +1,12 @@
 package feature.playground.demos
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -34,6 +40,7 @@ import core.playground.ui.theme.Icons
 @Composable
 internal fun DemoAppBar(
     navigateUp: NavigateUp,
+    selected: DemoScreen,
     expanded: Boolean,
 ) {
     CompositionLocalProvider(LocalElevationOverlay provides null) {
@@ -46,7 +53,7 @@ internal fun DemoAppBar(
                 elevation = 0.dp,
                 backgroundColor = Color.Transparent,
             ) {
-                MenuButton(navigateUp = navigateUp, expanded = expanded)
+                MenuButton(navigateUp = navigateUp, expanded = expanded, selected = selected)
             }
             if (!MaterialTheme.colors.isLight) {
                 Divider(thickness = 0.6.dp)
@@ -56,7 +63,7 @@ internal fun DemoAppBar(
 }
 
 @Composable
-private fun MenuButton(navigateUp: NavigateUp, expanded: Boolean) {
+private fun MenuButton(navigateUp: NavigateUp, expanded: Boolean, selected: DemoScreen) {
     val degrees by animateFloatAsState(targetValue = if (!expanded) 180f else 360f)
 
     Spacer(modifier = Modifier.width(4.dp))
@@ -75,8 +82,17 @@ private fun MenuButton(navigateUp: NavigateUp, expanded: Boolean) {
                 contentDescription = "Open Menu",
                 tint = colorResource(id = R.color.brandProductHunt),
             )
-            Spacer(modifier = Modifier.width(6.dp))
-            Text(text = "Demos")
+
+            AnimatedVisibility(
+                visible = !expanded,
+                enter = fadeIn(tween(120)) + expandHorizontally(tween(120)),
+                exit = fadeOut(tween(120)) + shrinkHorizontally(tween(120)),
+            ) {
+                Row {
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(text = selected.title)
+                }
+            }
         }
     }
 }
