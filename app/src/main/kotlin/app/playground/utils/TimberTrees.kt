@@ -1,6 +1,7 @@
 package app.playground.utils
 
 import android.os.Build
+import android.util.Log
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
@@ -8,8 +9,10 @@ import timber.log.Timber
 internal object CrashlyticsTree : Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        if (priority != 1) {
-            Firebase.crashlytics.log("$tag: $message")
+        when (priority) {
+            Log.WARN,
+            Log.ERROR,
+            -> Firebase.crashlytics.log(message)
         }
 
         val throwable = t ?: return
