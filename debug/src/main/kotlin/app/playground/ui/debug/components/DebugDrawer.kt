@@ -38,6 +38,7 @@ fun DebugDrawer(
     val scope = rememberCoroutineScope()
     CompositionLocalProvider(LocalElevationOverlay provides null) {
         ModalBottomSheetLayout(
+            scrimColor = MaterialTheme.colors.primary.copy(alpha = 0.56f),
             sheetState = bottomSheetState,
             sheetShape = MaterialTheme.shapes.large.copy(
                 bottomStart = CornerSize(0.dp),
@@ -49,7 +50,7 @@ fun DebugDrawer(
         ) {
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                 ModalDrawer(
-                    // drawerBackgroundColor = MaterialTheme.colors.surface,
+                    scrimColor = MaterialTheme.colors.primary.copy(alpha = 0.56f),
                     drawerState = drawerState,
                     drawerContent = {
                         CompositionLocalProvider(
