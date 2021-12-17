@@ -79,7 +79,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
     }
 
     packagingOptions {
@@ -135,6 +135,7 @@ dependencies {
     implementation(Libs.Dagger.hilt)
     kapt(Libs.Dagger.hiltCompiler)
 
+    implementation(Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)

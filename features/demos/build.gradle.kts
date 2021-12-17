@@ -31,7 +31,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
     }
 }
 
@@ -64,6 +64,7 @@ dependencies {
     implementation(Libs.AndroidX.Lifecycle.viewModel)
     implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
 
+    implementation(Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)

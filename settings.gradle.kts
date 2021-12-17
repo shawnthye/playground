@@ -17,7 +17,7 @@ pluginManagement {
     }
 
     plugins {
-        id("com.google.devtools.ksp") version "1.6.0-1.0.1"
+        id("com.google.devtools.ksp") version "1.6.10-1.0.2"
 
         id("de.mannodermaus.android-junit5") version "1.8.0.0"
 

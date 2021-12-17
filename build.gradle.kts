@@ -32,7 +32,7 @@ plugins {
     id("com.diffplug.spotless")
     id("com.github.ben-manes.versions")
     @Suppress("SpellCheckingInspection")
-    id("com.osacky.doctor")
+    // id("com.osacky.doctor")
     jacoco
 }
 

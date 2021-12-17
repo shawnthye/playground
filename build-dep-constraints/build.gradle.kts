@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     constraints {
+        api("${Libs.AndroidX.Compose.compiler}:${Versions.COMPOSE_COMPILER}")
         api("${Libs.AndroidX.Compose.materialIconsExtended}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTestJunit4}:${Versions.COMPOSE}")
@@ -73,6 +74,7 @@ dependencies {
         api("${Libs.Google.Accompanist.insets}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.navigationAnimation}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.swipeRefresh}:${Versions.ACCOMPANIST}")
+        api("${Libs.Google.material}:${Versions.MATERIAL}")
         api("${Libs.JetBrains.reflect}:${Versions.KOTLIN}")
         api("${Libs.JetBrains.xJson}:${Versions.KOTLINX_JSON}")
         api("${Libs.Junit5.androidCore}:${Versions.JUNIT5_ANDROID_TEST}")
@@ -87,7 +89,6 @@ dependencies {
         api("${Libs.Test.hamcrestLibrary}:${Versions.HAMCREST}")
         api("${Libs.Test.junit}:${Versions.JUNIT}")
         api("${Libs.Test.mockk}:${Versions.MOCKK}")
-        api("${Libs.Google.material}:${Versions.MATERIAL}")
         api("${Libs.okio}:${Versions.OKIO}")
         api("${Libs.timber}:${Versions.TIMBER}")
     }

@@ -15,6 +15,7 @@ object Versions {
     const val APPCOMPAT = "1.4.0"
     const val COIL = "1.4.0"
     const val COMPOSE = "1.1.0-rc01"
+    const val COMPOSE_COMPILER = "1.1.0-rc02"
     const val CONCURRENT = "1.1.0"
     const val CONSTRAINT_LAYOUT = "2.1.2"
     const val CORE = "1.7.0"
@@ -32,7 +33,7 @@ object Versions {
     const val JUNIT = "4.13.2"
     const val JUNIT5_ANDROID_TEST = "1.3.0"
     const val JUPITER = "5.8.2"
-    const val KOTLIN = "1.6.0"
+    const val KOTLIN = "1.6.10"
     const val KOTLINX_JSON = "1.3.1"
     const val KTLINT = "0.43.2"
     const val LIFECYCLE = "2.4.0"
@@ -43,13 +44,13 @@ object Versions {
     const val OK_HTTP = "4.9.3"
     const val PAGING = "3.1.0"
     const val PAGING_COMPOSE = "1.0.0-alpha14"
+    const val PALETTE = "1.0.0"
     const val RECYCLER_VIEW = "1.2.1"
     const val RETROFIT = "2.9.0"
     const val RETROFIT_CONVERTER = "0.8.0"
     const val ROOM = "2.4.0"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
-    const val PALETTE = "1.0.0"
 }
 
 object Libs {
@@ -98,6 +99,7 @@ object Libs {
         const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout"
 
         object Compose {
+            const val compiler = "androidx.compose.compiler:compiler"
             const val material = "androidx.compose.material:material"
             const val materialIconsExtended = "androidx.compose.material:material-icons-extended"
             const val ui = "androidx.compose.ui:ui"

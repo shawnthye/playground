@@ -25,7 +25,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = Versions.COMPOSE_COMPILER
     }
 }
 
@@ -50,6 +50,7 @@ dependencies {
     implementation(Libs.Coroutines.core)
     implementation(Libs.Coroutines.android)
 
+    implementation(Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
