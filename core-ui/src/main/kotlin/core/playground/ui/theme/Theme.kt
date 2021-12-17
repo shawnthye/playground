@@ -10,9 +10,11 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 
+@Suppress("unused")
 typealias ThemeIcons = Icons.Rounded
 
 @Composable
@@ -20,8 +22,9 @@ fun PlaygroundTheme(
     useDarkColors: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
+    val colors = remember { if (useDarkColors) PlaygroundDarkColors else PlaygroundLightColors }
     MaterialTheme(
-        colors = if (useDarkColors) PlaygroundDarkColors else PlaygroundLightColors,
+        colors = colors,
         typography = PlaygroundTypography,
         shapes = PlaygroundShapes,
     ) {
@@ -43,7 +46,7 @@ private object PlaygroundRippleTheme : RippleTheme {
         /**
          * Our night mode is using white color, so we have to specific handle here
          */
-        if (luminance < 0.5f && !isLight) {
+        if (luminance < 0.21f && !isLight) {
             return MaterialTheme.colors.surface
         }
 

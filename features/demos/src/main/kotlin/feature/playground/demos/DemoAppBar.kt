@@ -87,12 +87,13 @@ private fun MenuButton(
                 modifier = Modifier.rotate(degrees),
                 imageVector = ThemeIcons.ArrowDropDown,
                 contentDescription = "Open Menu",
+                tint = MaterialTheme.colors.onSurface,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Icon(
                 imageVector = androidx.compose.material.icons.Icons.Outlined.Category,
                 contentDescription = "Open Menu",
-                tint = colorResource(id = R.color.brandProductHunt),
+                tint = colorResource(id = R.color.brand),
             )
 
             AnimatedVisibility(
@@ -102,7 +103,7 @@ private fun MenuButton(
             ) {
                 Row {
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(text = selected.title)
+                    Text(text = selected.title, color = MaterialTheme.colors.onSurface)
                 }
             }
         }
