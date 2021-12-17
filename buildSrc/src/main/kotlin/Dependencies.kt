@@ -11,7 +11,7 @@ object Versions {
     const val ANDROID_TEST_RULES = "1.4.0"
     const val ANDROID_TEST_RUNNER = "1.4.0"
     const val ANNOTATION = "1.3.0"
-    const val APOLLO = "2.5.11"
+    const val APOLLO = "3.0.0"
     const val APPCOMPAT = "1.4.0"
     const val COIL = "1.4.0"
     const val COMPOSE = "1.1.0-rc01"
@@ -213,10 +213,10 @@ object Libs {
 
     @Suppress("SpellCheckingInspection")
     object Apollo {
-        const val pluginGradle = "com.apollographql.apollo:apollo-gradle-plugin:${Versions.APOLLO}"
+        const val pluginGradle = "com.apollographql.apollo3:apollo-gradle-plugin:${Versions.APOLLO}"
 
-        const val runtime = "com.apollographql.apollo:apollo-runtime"
-        const val coroutines = "com.apollographql.apollo:apollo-coroutines-support"
+        const val api = "com.apollographql.apollo3:apollo-api"
+        const val runtime = "com.apollographql.apollo3:apollo-runtime"
     }
 
     object Test {

@@ -1,25 +1,23 @@
 package api.product.hunt
 
-import com.apollographql.apollo.ApolloCall
-import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo3.ApolloCall
+import com.apollographql.apollo3.api.Operation
 import core.playground.Reason
 import core.playground.data.Response
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
-internal fun <T> ApolloCall<T>.asResponse(): Flow<Response<T>> {
-    return flow {
-        val response = await()
-
+internal fun <T : Operation.Data> ApolloCall<T>.asResponse(): Flow<Response<T>> {
+    return toFlow().map { response ->
         if (!response.hasErrors()) {
             if (response.data != null) {
-                emit(Response.Success(response.data!!))
+                Response.Success(response.dataAssertNoErrors)
             } else {
-                emit(Response.Empty)
+                Response.Empty
             }
         } else {
             val errorMessages = response.errors?.joinToString("\n") ?: "No error message"
-            emit(Response.Error(Reason.HttpError(-1, errorMessages)))
+            Response.Error(Reason.HttpError(-1, errorMessages))
         }
     }
 }

@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("com.apollographql.apollo")
+    id("com.apollographql.apollo3")
     id("com.android.lint")
     // jacoco
 }
@@ -18,13 +18,13 @@ dependencies {
 
     implementation(Libs.Coroutines.core)
 
-    compileOnly(Libs.Apollo.runtime)
-    api(Libs.Apollo.coroutines)
+    implementation(Libs.Apollo.runtime)
+    api(Libs.Apollo.api)
 
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)
 }
 
 apollo {
-    generateKotlinModels.set(true)
+    packageName.set("api.product.hunt")
 }

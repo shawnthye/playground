@@ -52,7 +52,7 @@ dependencies {
         api("${Libs.AndroidX.palette}:${Versions.PALETTE}")
         api("${Libs.AndroidX.recyclerView}:${Versions.RECYCLER_VIEW}")
         api("${Libs.AndroidX.swipeRefresh}:${Versions.SWIPE_REFRESH}")
-        api("${Libs.Apollo.coroutines}:${Versions.APOLLO}")
+        api("${Libs.Apollo.api}:${Versions.APOLLO}")
         api("${Libs.Apollo.runtime}:${Versions.APOLLO}")
         api("${Libs.Coil.coilBase}:${Versions.COIL}")
         api("${Libs.Coil.coilCompose}:${Versions.COIL}")

@@ -1,19 +1,18 @@
 package api.product.hunt
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Mutation
-import com.apollographql.apollo.api.Operation
-import com.apollographql.apollo.api.Query
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.Mutation
+import com.apollographql.apollo3.api.Query
+import com.apollographql.apollo3.network.okHttpClient
 import core.playground.data.Response
 import kotlinx.coroutines.flow.Flow
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val API_PATH = "api.producthunt.com/v2/api/graphql"
 
-private val SERVER_URL = "https://$API_PATH".toHttpUrl()
+private const val SERVER_URL = "https://$API_PATH"
 
 @Singleton
 class ProductHuntGraphQL @Inject constructor(
@@ -25,17 +24,17 @@ class ProductHuntGraphQL @Inject constructor(
             .addInterceptor(AuthorizationInterceptor())
             .build()
 
-        ApolloClient.builder()
+        ApolloClient.Builder()
             .serverUrl(SERVER_URL)
             .okHttpClient(okHttpClient)
             .build()
     }
 
-    fun <D : Operation.Data, T, V : Operation.Variables> query(
-        query: Query<D, T, V>,
-    ): Flow<Response<T>> = graphql.query(query).asResponse()
+    fun <D : Query.Data> query(
+        query: Query<D>,
+    ): Flow<Response<D>> = graphql.query(query).asResponse()
 
-    fun <D : Operation.Data, T, V : Operation.Variables> mutate(
-        mutation: Mutation<D, T, V>,
-    ): Flow<Response<T>> = graphql.mutate(mutation).asResponse()
+    fun <D : Mutation.Data> mutation(
+        mutation: Mutation<D>,
+    ): Flow<Response<D>> = graphql.mutation(mutation).asResponse()
 }

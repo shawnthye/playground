@@ -9,6 +9,6 @@ class PostsQueryToPosts @Inject constructor(
     private val postFieldsToPost: PostFieldsToPost,
 ) : Mapper<PostsQuery.Data, List<Post>>() {
     override suspend fun parse(from: PostsQuery.Data): List<Post> = from.posts.edges.map {
-        postFieldsToPost(it.node.fragments.postFields)
+        postFieldsToPost(it.node.postFields)
     }
 }

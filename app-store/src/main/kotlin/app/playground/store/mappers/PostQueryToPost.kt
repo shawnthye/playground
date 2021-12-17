@@ -9,7 +9,7 @@ class PostQueryToPost @Inject constructor(
     private val postFieldsToPost: PostFieldsToPost,
 ) : Mapper<PostQuery.Data, Post>() {
     override suspend fun parse(from: PostQuery.Data): Post {
-        val fields = from.post!!.fragments.postFields
+        val fields = from.post!!.postFields
         return postFieldsToPost(fields)
     }
 }
