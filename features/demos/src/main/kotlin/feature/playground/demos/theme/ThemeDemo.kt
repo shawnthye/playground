@@ -1,139 +1,83 @@
 package feature.playground.demos.theme
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
 import core.playground.ui.theme.PlaygroundTheme
-import core.playground.ui.theme.ThemeIcons
+import kotlinx.coroutines.launch
 
-private val NOOP: () -> Unit = { /* NOOP */ }
+private sealed class Page(val title: String) {
+    object Color : Page("Color")
+    object Shape : Page("Shape")
+    object Typography : Page("Typography")
+    object Components : Page("Components")
+}
 
+private val TABS = listOf("Color", "Shape", "Typography", "Components")
+
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun ThemeDemo() {
+    Column {
+        val coroutineScope = rememberCoroutineScope()
+        val pagerState = rememberPagerState()
 
-    Scaffold(modifier = Modifier.statusBarsPadding()) {
-        Box(modifier = Modifier.padding(16.dp)) {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                Component("Button") {
-                    Button(onClick = NOOP) { ButtonText() }
-                    TextButton(onClick = NOOP) { ButtonText() }
+        val pages = remember {
+            listOf(Page.Color, Page.Shape, Page.Typography, Page.Components)
+        }
 
-                    OutlinedButton(onClick = NOOP) { ButtonText() }
-                }
-
-                Component("FAB") {
-                    ExtendedFloatingActionButton(
-                        onClick = NOOP,
-                        text = { ButtonText() },
-                        icon = { IconAdd() },
-                    )
-
-                    FloatingActionButton(onClick = NOOP) { IconAdd() }
-
-                    FloatingActionButton(onClick = NOOP, Modifier.size(40.dp)) { IconAdd() }
-                }
-
-                Component("Shapes") {
-                    Surface(
-                        modifier = Modifier
-                            .size(96.dp)
-                            .clickable { },
-                        color = MaterialTheme.colors.secondary,
-                        shape = MaterialTheme.shapes.small,
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Text(
-                                text = "Small",
-                            )
-                        }
-                    }
-
-                    Surface(
-                        modifier = Modifier
-                            .size(96.dp)
-                            .clickable { },
-                        color = MaterialTheme.colors.secondary,
-                        shape = MaterialTheme.shapes.medium,
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Text(text = "Medium")
-                        }
-                    }
-
-                    Surface(
-                        modifier = Modifier
-                            .size(96.dp)
-                            .clickable { },
-                        color = MaterialTheme.colors.secondary,
-                        shape = MaterialTheme.shapes.large,
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Text(text = "Large")
-                        }
-                    }
+        ScrollableTabRow(
+            backgroundColor = MaterialTheme.colors.surface,
+            modifier = Modifier.statusBarsPadding(),
+            edgePadding = 0.dp,
+            selectedTabIndex = pagerState.currentPage,
+            indicator = { position ->
+                TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, position))
+            },
+        ) {
+            pages.forEachIndexed { index, page ->
+                Tab(
+                    selected = pagerState.currentPage == index,
+                    onClick = { coroutineScope.launch { pagerState.animateScrollToPage(index) } },
+                    text = { Text(text = page.title) },
+                )
+            }
+        }
+        HorizontalPager(
+            count = TABS.size,
+            state = pagerState,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+        ) { page ->
+            Box(modifier = Modifier.fillMaxSize()) {
+                when (pages[page]) {
+                    Page.Color -> Color()
+                    Page.Shape -> Shape()
+                    Page.Typography -> Type()
+                    Page.Components -> Components()
                 }
             }
         }
     }
-}
-
-@Composable
-private fun Component(
-    title: String,
-    modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit,
-) {
-
-    Text(
-        text = title.uppercase(),
-        style = MaterialTheme.typography.overline,
-        modifier = Modifier.padding(bottom = 8.dp),
-    )
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        content()
-    }
-}
-
-@Composable
-private fun ButtonText() {
-    Text(text = "Button")
-}
-
-@Composable
-private fun IconAdd() {
-    Icon(imageVector = ThemeIcons.Add, contentDescription = null)
 }
 
 @Preview

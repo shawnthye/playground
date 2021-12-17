@@ -72,11 +72,15 @@ dependencies {
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
 
+    implementation(Libs.Google.Accompanist.insets)
+    implementation(Libs.Google.Accompanist.navigationAnimation)
+    implementation(Libs.Google.Accompanist.pager)
+    implementation(Libs.Google.Accompanist.pagerIndicators)
+
     implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
-    implementation(Libs.Google.Accompanist.insets)
-    implementation(Libs.Google.Accompanist.navigationAnimation)
+
 
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)

@@ -3,6 +3,7 @@ package core.playground.ui.theme
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Colors
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
@@ -44,6 +45,9 @@ internal val PlaygroundDarkColors = darkColors(
     onPrimary = Dark,
     onSecondary = Dark,
 )
+
+val Colors.onSurfaceEmphasisMedium get() = onSurface.copy(alpha = 0.6f)
+val Colors.onSurfaceEmphasisHighType get() = onSurface.copy(alpha = 0.87f)
 
 @Preview
 @Composable

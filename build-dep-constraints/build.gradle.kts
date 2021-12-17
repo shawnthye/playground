@@ -73,6 +73,8 @@ dependencies {
         api("${Libs.Google.Accompanist.insetsUi}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.insets}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.navigationAnimation}:${Versions.ACCOMPANIST}")
+        api("${Libs.Google.Accompanist.pager}:${Versions.ACCOMPANIST}")
+        api("${Libs.Google.Accompanist.pagerIndicators}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.swipeRefresh}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.material}:${Versions.MATERIAL}")
         api("${Libs.JetBrains.reflect}:${Versions.KOTLIN}")

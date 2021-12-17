@@ -32,7 +32,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import core.playground.ui.R
 import core.playground.ui.alias.NavigateUp
 import core.playground.ui.theme.ThemeIcons
@@ -50,7 +50,7 @@ internal fun DemoAppBar(
             elevation = AppBarDefaults.BottomAppBarElevation,
         ) {
             BottomAppBar(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier.navigationBarsWithImePadding(),
                 elevation = 0.dp,
                 backgroundColor = Color.Transparent,
             ) {

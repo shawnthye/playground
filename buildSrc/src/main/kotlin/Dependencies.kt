@@ -75,8 +75,8 @@ object Libs {
             const val insetsUi = "com.google.accompanist:accompanist-insets-ui"
             const val navigationAnimation =
                 "com.google.accompanist:accompanist-navigation-animation"
-
-            @Suppress("SpellCheckingInspection")
+            const val pager = "com.google.accompanist:accompanist-pager"
+            const val pagerIndicators = "com.google.accompanist:accompanist-pager-indicators"
             const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh"
         }
     }
@@ -202,13 +202,12 @@ object Libs {
     }
 
     object Coil {
-        const val coilBase = "io.coil-kt:coil-base"
         const val coil = "io.coil-kt:coil"
-        const val coilSvg = "io.coil-kt:coil-svg"
-        const val coilGif = "io.coil-kt:coil-gif"
-        const val coilVideo = "io.coil-kt:coil-video"
-
+        const val coilBase = "io.coil-kt:coil-base"
         const val coilCompose = "io.coil-kt:coil-compose"
+        const val coilGif = "io.coil-kt:coil-gif"
+        const val coilSvg = "io.coil-kt:coil-svg"
+        const val coilVideo = "io.coil-kt:coil-video"
     }
 
     @Suppress("SpellCheckingInspection")
