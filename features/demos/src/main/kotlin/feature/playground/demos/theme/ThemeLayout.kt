@@ -17,15 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import core.playground.ui.theme.contentHorizontalPadding
 import core.playground.ui.theme.contentPaddingHeight
+import core.playground.ui.theme.onSurfaceEmphasisMedium
 
 @Composable
-internal fun ThemeContent(
+internal fun ThemeLayout(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
         modifier = modifier
-            .contentHorizontalPadding()
             .verticalScroll(rememberScrollState())
             .fillMaxSize(),
     ) {
@@ -38,13 +38,15 @@ internal fun ThemeContent(
 internal fun ColumnScope.ThemeLines(label: String, content: @Composable RowScope.() -> Unit) {
     Row(
         modifier = Modifier
+            .contentHorizontalPadding()
             .padding(bottom = 16.dp)
             .align(Alignment.Start),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.caption,
+            style = MaterialTheme.typography.body1,
+            color = MaterialTheme.colors.onSurfaceEmphasisMedium,
             modifier = Modifier.weight(1f),
         )
         content()

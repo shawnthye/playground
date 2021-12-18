@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.primarySurface
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun Shape() {
-    ThemeContent {
+    ThemeLayout {
         ShapeLines(
             label = "MaterialTheme.shapes.small",
             text = "S",
@@ -42,7 +42,9 @@ private fun ColumnScope.ShapeLines(label: String, text: String, shape: Shape) {
     ThemeLines(label = label) {
         Surface(
             shape = shape,
-            color = MaterialTheme.colors.primarySurface,
+            color = LocalRippleTheme.current.defaultColor().copy(
+                alpha = LocalRippleTheme.current.rippleAlpha().pressedAlpha,
+            ),
             border = BorderStroke(width = 1.dp, color = MaterialTheme.colors.onSurface),
         ) {
             Box(

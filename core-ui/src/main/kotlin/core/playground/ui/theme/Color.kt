@@ -14,12 +14,26 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import core.playground.ui.R
 
 private val Light = Color(0xFFFFFFFF)
 private val Dark = Color(0xFF111827)
 private val SystemIcon = Color(0xFF666666)
+
+private const val EmphasisDisabledAlpha = 0.38f
+private const val EmphasisMediumAlpha = 0.6f
+private const val EmphasisHighTypeAlpha = 0.87f
+
+val Colors.onSurfaceEmphasisDisabled get() = onSurface.copy(alpha = EmphasisDisabledAlpha)
+val Colors.onSurfaceEmphasisMedium get() = onSurface.copy(alpha = EmphasisMediumAlpha)
+val Colors.onSurfaceEmphasisHighType get() = onSurface.copy(alpha = EmphasisHighTypeAlpha)
+
+@Suppress("unused")
+val Colors.brand
+    @Composable get() = colorResource(id = R.color.brand)
 
 internal val PlaygroundLightColors = lightColors(
     primary = Dark,
@@ -45,9 +59,6 @@ internal val PlaygroundDarkColors = darkColors(
     onPrimary = Dark,
     onSecondary = Dark,
 )
-
-val Colors.onSurfaceEmphasisMedium get() = onSurface.copy(alpha = 0.6f)
-val Colors.onSurfaceEmphasisHighType get() = onSurface.copy(alpha = 0.87f)
 
 @Preview
 @Composable

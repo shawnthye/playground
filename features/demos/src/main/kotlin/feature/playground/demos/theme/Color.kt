@@ -17,10 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import core.playground.ui.theme.ThemeIcons
+import core.playground.ui.theme.onSurfaceEmphasisMedium
 
 @Composable
 internal fun Color() {
-    ThemeContent {
+    ThemeLayout {
         Item(
             label = "MaterialTheme.colors.primary",
             color = MaterialTheme.colors.primary,
@@ -83,7 +84,10 @@ private fun ColumnScope.Item(label: String, color: Color) {
             shape = CircleShape,
             color = color,
             modifier = Modifier.size(24.dp),
-            border = BorderStroke(width = 1.dp, color = MaterialTheme.colors.onSurface),
+            border = BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colors.onSurfaceEmphasisMedium,
+            ),
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Icon(

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -37,9 +39,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import core.playground.ui.theme.ThemeIcons
@@ -54,7 +60,7 @@ private val NOOP: () -> Unit = { /* NOOP */ }
 @OptIn(ExperimentalAnimatedInsets::class)
 @Composable
 internal fun Components() {
-    ThemeContent {
+    ThemeLayout {
         Spacer(modifier = Modifier.contentPaddingHeight())
         Buttons()
         FABs()
@@ -126,18 +132,29 @@ private fun Cards() {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun TextFields() {
     Component(title = "Text Field") {
         var value by rememberSaveable { mutableStateOf("") }
         var outlineValue by rememberSaveable { mutableStateOf("") }
+        val manager = LocalSoftwareKeyboardController.current
+        val focusManager = LocalFocusManager.current
+
         Column {
             OutlinedTextField(
                 value = outlineValue,
                 onValueChange = { outlineValue = it },
                 label = { Text("Label") },
                 singleLine = true,
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        manager?.hide()
+                        focusManager.clearFocus()
+                    },
+                ),
                 modifier = Modifier
                     .fillMaxWidth(),
             )
@@ -147,6 +164,14 @@ private fun TextFields() {
                 onValueChange = { value = it },
                 label = { Text("Label") },
                 singleLine = true,
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        manager?.hide()
+                        focusManager.clearFocus()
+                    },
+                ),
                 modifier = Modifier
                     .fillMaxWidth(),
             )

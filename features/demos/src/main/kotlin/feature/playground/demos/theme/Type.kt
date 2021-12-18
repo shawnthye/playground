@@ -5,10 +5,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
+import core.playground.ui.theme.onSurfaceEmphasisHighType
 
 @Composable
 internal fun Type() {
-    ThemeContent {
+    ThemeLayout {
         TypeLines(
             label = "MaterialTheme.typography.h1",
             text = "H1",
@@ -79,5 +80,11 @@ internal fun Type() {
 
 @Composable
 private fun ColumnScope.TypeLines(label: String, text: String, style: TextStyle) {
-    ThemeLines(label = label) { Text(text = text, style = style) }
+    ThemeLines(label = label) {
+        Text(
+            text = text,
+            style = style,
+            color = MaterialTheme.colors.onSurfaceEmphasisHighType,
+        )
+    }
 }
