@@ -43,19 +43,9 @@ import feature.playground.deviant.ui.DeviantArt
 
 @Composable
 internal fun ColumnScope.DebugSettings(
-    buildVersionName: String,
-    buildVersionCode: Int,
-    buildType: String,
     model: DebugViewModel = viewModel(),
     coilModel: DebugCoilViewModel = viewModel(),
 ) {
-
-    val buildStats = mapOf(
-        "Name" to buildVersionName,
-        "Code" to "$buildVersionCode",
-        "Type" to buildType,
-    )
-
     val context = LocalContext.current
 
     Column(
@@ -73,9 +63,9 @@ internal fun ColumnScope.DebugSettings(
 
         DebugCoil(model = coilModel)
 
-        BuildStats(stats = buildStats)
+        BuildStats(model = model)
 
-        DeviceStats(stats = model.deviceStats)
+        DeviceStats(model = model)
 
         ExtraAction(
             label = "Demos",
@@ -146,21 +136,23 @@ private fun ColumnScope.DebugNetwork(model: DebugViewModel) {
 }
 
 @Composable
-fun ColumnScope.BuildStats(stats: Map<String, String>) {
+private fun ColumnScope.BuildStats(model: DebugViewModel) {
+    val stats by model.buildStats.collectAsState()
     SubHeader(title = "Build", icon = VectorIcon(Icons.Filled.Construction)) { padding ->
         StatsTable(modifier = Modifier.padding(padding), stats = stats)
     }
 }
 
 @Composable
-fun ColumnScope.DeviceStats(stats: Map<String, String>) {
+private fun ColumnScope.DeviceStats(model: DebugViewModel) {
+    val stats by model.deviceStats.collectAsState()
     SubHeader(title = "Device", icon = VectorIcon(Icons.Filled.Devices)) { padding ->
         StatsTable(modifier = Modifier.padding(padding), stats = stats)
     }
 }
 
 @Composable
-fun ColumnScope.DeviantArtAction(modifier: Modifier = Modifier) {
+private fun ColumnScope.DeviantArtAction(modifier: Modifier = Modifier) {
 
     val context = LocalContext.current
 

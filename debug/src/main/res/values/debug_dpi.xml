@@ -1,0 +1,4 @@
+<resources>
+  <string name="debug_density_bucket_qualifier">Unknown</string>
+  <item name="debug_density_bucket_scale" format="float" type="integer">0.0</item>
+</resources>

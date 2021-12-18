@@ -3,16 +3,12 @@ package app.playground.ui.debug
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.playground.ui.debug.DebugNavigationAction.ShowFeatureFlags
-import app.playground.ui.debug.DebugUiAction.ResetAllSettings
-import app.playground.ui.debug.DebugUiAction.SeenDrawer
-import app.playground.ui.debug.DebugUiAction.UpdateEnvironment
-import app.playground.ui.debug.DebugUiAction.UpdateHttpLogging
 import app.playground.ui.debug.data.DebugEnvironment
 import app.playground.ui.debug.data.DebugStorage.Defaults
 import app.playground.ui.debug.data.HttpLogging
-import app.playground.ui.debug.data.deviceStats
+import app.playground.ui.debug.domain.GetBuildStatsUseCase
 import app.playground.ui.debug.domain.GetDebugEnvironmentUseCase
+import app.playground.ui.debug.domain.GetDeviceStatsUseCase
 import app.playground.ui.debug.domain.GetHttpLoggingUseCase
 import app.playground.ui.debug.domain.GetSeenDrawerUseCase
 import app.playground.ui.debug.domain.ResetSettingsUseCase
@@ -28,6 +24,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -42,6 +39,8 @@ internal class DebugViewModel @Inject constructor(
     private val getHttpLoggingUseCase: GetHttpLoggingUseCase,
     private val setHttpLoggingUseCase: SeHttpLoggingUseCase,
     private val resetSettingsUseCase: ResetSettingsUseCase,
+    private val getBuildStatsUseCase: GetBuildStatsUseCase,
+    private val getDeviceStatsUseCase: GetDeviceStatsUseCase,
     app: Application,
 ) : ViewModel() {
 
@@ -53,51 +52,50 @@ internal class DebugViewModel @Inject constructor(
     val navigationActions = _navigationActions.receiveAsFlow()
 
     val applicationName = app.applicationInfo.loadLabel(app.packageManager)
-    val deviceStats: Map<String, String> = app.deviceStats
+
+    val deviceStats = loadDataSignal.mapLatest {
+        getDeviceStatsUseCase(Unit).successOr(emptyMap())
+    }.stateIn(viewModelScope, WhileViewSubscribed, emptyMap())
+
+    val buildStats = loadDataSignal.mapLatest {
+        getBuildStatsUseCase(Unit).successOr(emptyMap())
+    }.stateIn(viewModelScope, WhileViewSubscribed, emptyMap())
 
     val seenDrawer: StateFlow<Boolean> = loadDataSignal.flatMapLatest {
-        getSeenDrawerUseCase(Unit)
-    }.map {
-        it.successOr(false)
-    }.stateIn(
-        viewModelScope, WhileViewSubscribed, true,
-    )
+        getSeenDrawerUseCase(Unit).map { it.successOr(false) }
+    }.stateIn(viewModelScope, WhileViewSubscribed, true)
 
     val environment = loadDataSignal.flatMapLatest {
-        getDebugEnvironmentUseCase(Unit)
-    }.map {
-        it.successOr(Defaults.Environment)
-    }.stateIn(
-        viewModelScope, WhileViewSubscribed, Defaults.Environment,
-    )
+        getDebugEnvironmentUseCase(Unit).map { it.successOr(Defaults.Environment) }
+    }.stateIn(viewModelScope, WhileViewSubscribed, Defaults.Environment)
 
     val httpLoggingLevel = loadDataSignal.flatMapLatest {
-        getHttpLoggingUseCase(Unit)
-    }.map {
-        it.successOr(Defaults.OkhttpLoggingLevel)
-    }.stateIn(
-        viewModelScope, WhileViewSubscribed, Defaults.OkhttpLoggingLevel,
-    )
+        getHttpLoggingUseCase(Unit).map { it.successOr(Defaults.OkhttpLoggingLevel) }
+    }.stateIn(viewModelScope, WhileViewSubscribed, Defaults.OkhttpLoggingLevel)
 
-    fun seenDrawer() = actions.trySend(SeenDrawer)
+    fun seenDrawer() = actions.trySend(DebugUiAction.SeenDrawer)
 
     fun updateEnvironment(environment: DebugEnvironment) = actions.trySend(
-        UpdateEnvironment(environment),
+        DebugUiAction.UpdateEnvironment(environment),
     )
 
-    fun updateHttpLoggingLevel(level: HttpLogging) = actions.trySend(UpdateHttpLogging(level))
+    fun updateHttpLoggingLevel(level: HttpLogging) = actions.trySend(
+        DebugUiAction.UpdateHttpLogging(
+            level,
+        ),
+    )
 
-    fun resetDebugSettings() = actions.trySend(ResetAllSettings)
+    fun resetDebugSettings() = actions.trySend(DebugUiAction.ResetAllSettings)
 
-    fun showFeatureFlags() = _navigationActions.trySend(ShowFeatureFlags)
+    fun showFeatureFlags() = _navigationActions.trySend(DebugNavigationAction.ShowFeatureFlags)
 
     init {
         actions.receiveAsFlow().onEach {
             when (it) {
-                is UpdateHttpLogging -> setHttpLoggingUseCase(it.level)
-                is UpdateEnvironment -> setDebugEnvironmentUseCase(it.environment)
-                SeenDrawer -> setSeenDrawerUseCase(Unit)
-                ResetAllSettings -> resetSettingsUseCase(Unit)
+                is DebugUiAction.UpdateHttpLogging -> setHttpLoggingUseCase(it.level)
+                is DebugUiAction.UpdateEnvironment -> setDebugEnvironmentUseCase(it.environment)
+                DebugUiAction.SeenDrawer -> setSeenDrawerUseCase(Unit)
+                DebugUiAction.ResetAllSettings -> resetSettingsUseCase(Unit)
             }
         }.launchIn(viewModelScope)
     }

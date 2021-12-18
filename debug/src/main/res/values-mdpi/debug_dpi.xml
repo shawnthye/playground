@@ -1,0 +1,4 @@
+<resources>
+  <string name="debug_density_bucket_qualifier">mdpi</string>
+  <string name="debug_density_bucket_scale">1x</string>
+</resources>

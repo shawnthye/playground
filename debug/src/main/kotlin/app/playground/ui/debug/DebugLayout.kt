@@ -17,12 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DebugLayout(
-    buildVersionName: String,
-    buildVersionCode: Int,
-    buildType: String,
-    content: @Composable () -> Unit,
-) {
+fun DebugLayout(content: @Composable () -> Unit) {
     val model: DebugViewModel = viewModel()
     val coilModel: DebugCoilViewModel = viewModel()
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -44,9 +39,6 @@ fun DebugLayout(
             drawerState = drawerState,
             drawer = {
                 DebugSettings(
-                    buildVersionName = buildVersionName,
-                    buildVersionCode = buildVersionCode,
-                    buildType = buildType,
                     model = model,
                     coilModel = coilModel,
                 )

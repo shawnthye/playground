@@ -1,0 +1,4 @@
+<resources>
+  <string name="debug_density_bucket_qualifier">hdpi</string>
+  <string name="debug_density_bucket_scale">1.5x</string>
+</resources>
