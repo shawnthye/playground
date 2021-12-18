@@ -19,8 +19,6 @@ pluginManagement {
     plugins {
         id("com.google.devtools.ksp") version "1.6.10-1.0.2"
 
-        id("de.mannodermaus.android-junit5") version "1.8.0.0"
-
         // ktlint
         id("com.diffplug.spotless") version "6.0.4"
 

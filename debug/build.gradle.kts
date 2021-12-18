@@ -65,7 +65,6 @@ dependencies {
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
-    implementation(Libs.AndroidX.Compose.uiTestJunit4)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
 
@@ -76,6 +75,8 @@ dependencies {
     implementation(Libs.OkHttp3.logging)
 
     implementation(Libs.Coil.coil)
+
+    // debugImplementation(Libs.LeakCanary.leakCanaryAndroid)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)

@@ -5,7 +5,6 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
-    id("de.mannodermaus.android-junit5")
     jacoco
 }
 
@@ -20,10 +19,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments += mapOf(
-            "runnerBuilder" to "de.mannodermaus.junit5.AndroidJUnit5Builder",
-            "clearPackageData" to "true",
-        )
 
         vectorDrawables {
             useSupportLibrary = true
@@ -105,9 +100,6 @@ dependencies {
     kapt(platform(project(":build-dep-constraints")))
     testImplementation(platform(project(":build-dep-constraints")))
     testRuntimeOnly(platform(project(":build-dep-constraints")))
-    androidTestImplementation(platform(project(":build-dep-constraints")))
-    androidTestRuntimeOnly(platform(project(":build-dep-constraints")))
-    androidTestUtil(platform(project(":build-dep-constraints")))
 
     implementation(project(":core"))
     implementation(project(":core-ui"))
@@ -139,7 +131,6 @@ dependencies {
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
-    implementation(Libs.AndroidX.Compose.uiTestJunit4)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
@@ -174,16 +165,7 @@ dependencies {
     testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
 
-    androidTestImplementation(platform(Libs.Junit5.bom))
-    androidTestImplementation(Libs.Junit5.jupiterApi)
-    androidTestRuntimeOnly(Libs.Junit5.jupiterEngine)
-    androidTestImplementation(Libs.Junit5.androidCore)
-    androidTestRuntimeOnly(Libs.Junit5.androidRunner)
-    androidTestImplementation(Libs.Test.hamcrestLibrary)
-    androidTestImplementation(Libs.AndroidX.Test.junit)
-    androidTestImplementation(Libs.AndroidX.Test.core)
-    androidTestImplementation(Libs.AndroidX.Test.espresso)
-    androidTestUtil(Libs.AndroidX.Test.orchestrator)
+    debugImplementation(Libs.LeakCanary.leakCanaryAndroid)
 }
 
 apply(plugin = "com.google.gms.google-services")

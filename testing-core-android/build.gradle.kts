@@ -18,6 +18,6 @@ dependencies {
 
     api(platform(project(":build-dep-constraints")))
 
-    androidTestImplementation(Libs.timber)
-    androidTestImplementation(Libs.AndroidX.Test.runner)
+    // androidTestImplementation(Libs.timber)
+    // androidTestImplementation(Libs.AndroidX.Test.runner)
 }

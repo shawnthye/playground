@@ -36,6 +36,7 @@ object Versions {
     const val KOTLIN = "1.6.10"
     const val KOTLINX_JSON = "1.3.1"
     const val KTLINT = "0.43.2"
+    const val LEAK_CANARY = "2.7"
     const val LIFECYCLE = "2.4.0"
     const val MATERIAL = "1.4.0"
     const val MOCKK = "1.12.1"
@@ -54,7 +55,6 @@ object Versions {
 }
 
 object Libs {
-
     const val okio = "com.squareup.okio:okio"
     const val timber = "com.jakewharton.timber:timber"
 
@@ -210,12 +210,15 @@ object Libs {
         const val coilVideo = "io.coil-kt:coil-video"
     }
 
-    @Suppress("SpellCheckingInspection")
     object Apollo {
         const val pluginGradle = "com.apollographql.apollo3:apollo-gradle-plugin:${Versions.APOLLO}"
 
         const val api = "com.apollographql.apollo3:apollo-api"
         const val runtime = "com.apollographql.apollo3:apollo-runtime"
+    }
+
+    object LeakCanary {
+        const val leakCanaryAndroid = "com.squareup.leakcanary:leakcanary-android"
     }
 
     object Test {

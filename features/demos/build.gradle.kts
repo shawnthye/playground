@@ -13,10 +13,7 @@ android {
         targetSdk = BuildOptions.COMPILE_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments += mapOf(
-            "runnerBuilder" to "de.mannodermaus.junit5.AndroidJUnit5Builder",
-            "clearPackageData" to "true",
-        )
+
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -68,7 +65,6 @@ dependencies {
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
-    implementation(Libs.AndroidX.Compose.uiTestJunit4)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
 

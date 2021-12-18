@@ -55,7 +55,6 @@ dependencies {
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
-    implementation(Libs.AndroidX.Compose.uiTestJunit4)
     implementation(Libs.Google.Accompanist.swipeRefresh)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
