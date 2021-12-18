@@ -1,7 +1,7 @@
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val ACCOMPANIST = "0.21.4-beta"
+    const val ACCOMPANIST = "0.21.5-rc"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.4"
     const val ANDROID_TEST_CORE = "1.4.0"
