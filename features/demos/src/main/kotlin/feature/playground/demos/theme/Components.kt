@@ -205,7 +205,7 @@ private fun RadioButtons() {
 private fun Checkboxes() {
     Component(title = "Checkbox") {
         val ids = remember { 0..1 }
-        val checkState = remember { mutableStateMapOf<Int, Boolean>() }
+        val checkState = remember { mutableStateMapOf(ids.last to true) }
         ids.forEach { id ->
             Checkbox(
                 checked = checkState.getOrDefault(id, false),
