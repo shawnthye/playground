@@ -1,5 +1,10 @@
 package app.playground.ui.debug
 
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.LocalOverScrollConfiguration
+import androidx.compose.foundation.gestures.OverScrollConfiguration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,6 +22,7 @@ import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.rounded.Category
 import androidx.compose.material.icons.rounded.Flag
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,6 +45,7 @@ import core.playground.ui.theme.contentHorizontalPadding
 import feature.playground.demos.Demos
 import feature.playground.deviant.ui.DeviantArt
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun DebugSettings(
     model: DebugViewModel = viewModel(),
@@ -46,49 +53,57 @@ internal fun DebugSettings(
 ) {
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .verticalScroll(state = rememberScrollState())
-            .systemBarsPadding()
-            .navigationBarsPadding(),
-    ) {
-        DebugSettingsHeader(applicationName = model.applicationName)
+    val overScrollConfiguration = if (VERSION.SDK_INT >= VERSION_CODES.S) {
+        OverScrollConfiguration()
+    } else {
+        null
+    }
 
-        DebugEnvironment(model = model)
+    CompositionLocalProvider(LocalOverScrollConfiguration provides overScrollConfiguration) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(state = rememberScrollState())
+                .systemBarsPadding()
+                .navigationBarsPadding(),
+        ) {
+            DebugSettingsHeader(applicationName = model.applicationName)
 
-        DebugNetwork(model = model)
+            DebugEnvironment(model = model)
 
-        DebugCoil(model = coilModel)
+            DebugNetwork(model = model)
 
-        BuildStats(model = model)
+            DebugCoil(model = coilModel)
 
-        DeviceStats(model = model)
+            BuildStats(model = model)
 
-        ExtraAction(
-            label = "Demos",
-            icon = VectorIcon(Icons.Rounded.Category),
-            onPress = { Demos.start(context) },
-        )
+            DeviceStats(model = model)
 
-        ExtraAction(
-            label = "Deviant Art",
-            icon = DebugIcon.ResourceIcon(
-                R.drawable.ic_baseline_open_in_new_24,
-                tint = colorResource(
-                    id = core.playground.ui.R.color.brandDeviantArt,
+            ExtraAction(
+                label = "Demos",
+                icon = VectorIcon(Icons.Rounded.Category),
+                onPress = { Demos.start(context) },
+            )
+
+            ExtraAction(
+                label = "Deviant Art",
+                icon = DebugIcon.ResourceIcon(
+                    R.drawable.ic_baseline_open_in_new_24,
+                    tint = colorResource(
+                        id = core.playground.ui.R.color.brandDeviantArt,
+                    ),
                 ),
-            ),
-            onPress = { DeviantArt.start(context) },
-        )
+                onPress = { DeviantArt.start(context) },
+            )
 
-        ExtraAction(
-            label = "Reset",
-            icon = VectorIcon(Icons.Filled.RestartAlt),
-            onPress = {
-                model.resetDebugSettings()
-                coilModel.submitAction(CoilUiAction.Reset)
-            },
-        )
+            ExtraAction(
+                label = "Reset",
+                icon = VectorIcon(Icons.Filled.RestartAlt),
+                onPress = {
+                    model.resetDebugSettings()
+                    coilModel.submitAction(CoilUiAction.Reset)
+                },
+            )
+        }
     }
 }
 
