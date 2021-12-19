@@ -164,8 +164,6 @@ dependencies {
     testRuntimeOnly(Libs.Junit5.jupiterEngine)
     testImplementation(Libs.Test.hamcrestLibrary)
     testImplementation(Libs.Test.mockk)
-
-    debugImplementation(Libs.LeakCanary.leakCanaryAndroid)
 }
 
 apply(plugin = "com.google.gms.google-services")

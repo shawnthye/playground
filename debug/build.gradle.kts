@@ -76,7 +76,7 @@ dependencies {
 
     implementation(Libs.Coil.coil)
 
-    // debugImplementation(Libs.LeakCanary.leakCanaryAndroid)
+    debugImplementation(Libs.LeakCanary.leakCanaryAndroid)
 
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
