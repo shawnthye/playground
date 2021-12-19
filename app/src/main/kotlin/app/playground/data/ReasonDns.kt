@@ -2,27 +2,21 @@ package app.playground.data
 
 import core.playground.Reason
 import okhttp3.CacheControl
-import okhttp3.Interceptor
+import okhttp3.Dns
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import java.io.IOException
+import java.net.InetAddress
 import java.time.Duration
 
-/**
- * TODO: handle okhttp3.internal.http2.StreamResetException: stream was reset: CANCEL
- * see https://github.com/square/okhttp/issues/3955
- */
-class ReasonInterceptor(
+class ReasonDns(
     private val okhttp: OkHttpClient,
-) : Interceptor {
-
-    override fun intercept(chain: Interceptor.Chain): Response {
+) : Dns {
+    override fun lookup(hostname: String): List<InetAddress> {
         return try {
-            chain.proceed(chain.request())
-            // TODO: implement http error
-        } catch (e: Throwable) {
-            throw okhttp.wrapThrowable(e)
+            Dns.SYSTEM.lookup(hostname)
+        } catch (t: Throwable) {
+            throw okhttp.wrapThrowable(t)
         }
     }
 }

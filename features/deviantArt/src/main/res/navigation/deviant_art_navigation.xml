@@ -16,11 +16,11 @@
   <fragment
     android:id="@+id/deviant_track"
     android:name="feature.playground.deviant.ui.track.DeviantTrackFragment"
-    android:label="@string/deviant_art_track_newest"
+    android:label="@string/deviant_art_track_daily"
     tools:layout="@layout/deviant_track">
     <argument
       android:name="track"
-      android:defaultValue="NEWEST"
+      android:defaultValue="DAILY"
       app:argType="app.playground.store.database.entities.Track"
       app:nullable="false" />
   </fragment>

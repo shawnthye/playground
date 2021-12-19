@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
     android:id="@id/deviant_art_navigation"
-    android:contentDescription="@string/deviant_art_track_newest"
+    android:contentDescription="@string/deviant_art_track_daily"
     android:icon="@drawable/ic_baseline_home_24"
-    android:title="@string/deviant_art_track_newest" />
+    android:title="@string/deviant_art_track_daily" />
   <item
     android:id="@id/deviant_art_navigation_popular"
     android:contentDescription="@string/deviant_art_track_hot"

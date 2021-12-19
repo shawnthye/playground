@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.store.database.entities.Deviation
 import core.playground.domain.Result
-import core.playground.domain.Result.Error
 import core.playground.domain.Result.Loading
 import core.playground.domain.data
 import core.playground.domain.mapOnError
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -43,7 +43,10 @@ internal class DeviationDetailViewModel @Inject constructor(
     }
 
     private val result: Flow<Result<Deviation>> = _actionRefresh.receiveAsFlow()
-        .flatMapLatest { loadDeviantUseCase(deviantId) }
+        .flatMapLatest { loadDeviantUseCase(deviantId) }.map {
+            Timber.e("$it")
+            it
+        }
         .stateIn(viewModelScope, WhileViewSubscribed, Loading())
 
     val deviation: StateFlow<Deviation?> = result.mapNotNull { result ->
@@ -58,9 +61,7 @@ internal class DeviationDetailViewModel @Inject constructor(
      * This is just for demo purpose that how we can present an empty state error message
      * Since we are using NetworkBoundResult and the data also backed by the Track Fragment screen
      */
-    val errorMessage = result.filter {
-        it is Error && it.data == null
-    }.mapOnError { error ->
+    val errorMessage = result.mapOnError { error ->
         error.asUiMessage()
     }.stateIn(viewModelScope, WhileViewSubscribed, null)
 

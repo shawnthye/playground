@@ -26,8 +26,10 @@ abstract class UseCase<in P, R>(private val dispatcher: CoroutineDispatcher) {
                 }
             }
         } catch (e: Exception) {
-            Timber.e(e)
-            Result.Error(e)
+            e.catchOrThrow {
+                Timber.tag("UseCase").e(e)
+                Result.Error(e)
+            }
         }
     }
 

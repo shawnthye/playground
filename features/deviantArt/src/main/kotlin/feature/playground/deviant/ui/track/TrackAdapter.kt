@@ -76,7 +76,6 @@ class DeviationViewHolder(
     }
 
     fun bind(deviation: Deviation) {
-        Timber.i("deviation.rippleColor - ${deviation.rippleColor}")
         if (0 != deviation.rippleColor) {
             binding.imageLayout.foreground = deviation.rippleColor.createRipple(false)
         } else {

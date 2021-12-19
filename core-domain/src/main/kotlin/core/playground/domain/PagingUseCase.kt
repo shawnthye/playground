@@ -112,7 +112,7 @@ private class PagedRemoteMediator<Page>(
         }
 
         return try {
-            val endOfPaginationReached = !doWork(
+            val endOfPaginationReached = doWork(
                 when (loadType) {
                     LoadType.REFRESH -> state.config.initialLoadSize
                     else -> state.config.pageSize

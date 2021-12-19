@@ -34,14 +34,11 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
 
     private val model: TrackViewModel by viewModels()
 
-    private lateinit var binding: DeviantTrackBinding
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View = onCreateViewBinding(DeviantTrackBinding.inflate(inflater, container, false)) {
-        binding = this
         viewModel = model
 
         bindState(model.pagingData, model, model)

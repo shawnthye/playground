@@ -38,7 +38,7 @@ internal class DeviationDataSourceImpl @Inject constructor(
         nextPage: String?,
     ): Flow<Response<List<TrackWithDeviation>>> {
         return deviantArtApi.browse(
-            track = track.toString().lowercase(),
+            track = track.path,
             offset = nextPage,
             limit = pageSize,
         ).withMapper(trackDeviationsToEntity)

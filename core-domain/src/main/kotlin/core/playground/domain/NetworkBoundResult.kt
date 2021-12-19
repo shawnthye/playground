@@ -3,6 +3,7 @@ package core.playground.domain
 import core.playground.Generated
 import core.playground.data.Response
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow

@@ -19,7 +19,7 @@ class TrackDeviationsToEntity @Inject constructor(
             TrackWithDeviation(
                 entry = DeviationTrack(
                     deviationId = it.deviationId,
-                    nextPage = from.next_offset.toString(),
+                    nextPage = from.next_offset?.toString(),
                     track = Track.UNKNOWN, // we will set the deviation when insert to database
                 ),
                 relation = it,

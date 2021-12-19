@@ -44,7 +44,6 @@ import kotlinx.coroutines.launch
 class DeviationDetailFragment : DeviantArtNavigationFragment() {
 
     private val model: DeviationDetailViewModel by viewModels()
-    private lateinit var binding: DeviationDetailBinding
     private val animDurationMs by lazy {
         requireContext().resources.getInteger(android.R.integer.config_shortAnimTime)
     }
@@ -56,7 +55,6 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View = onCreateViewBinding(DeviationDetailBinding.inflate(inflater, container, false)) {
-        binding = this
         viewModel = model
 
         val value = TypedValue()
@@ -68,6 +66,18 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
             )
         ) {
             currentToolbarIconColor = value.data
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.deviation.mapNotNull { it?.imageUrl }
+                    /**
+                     * doesn't need to re-load the image if url doesn't change
+                     * we first get from database
+                     */
+                    .distinctUntilChanged()
+                    .collect { url -> bindArt(url) }
+            }
         }
     }
 
@@ -97,25 +107,17 @@ class DeviationDetailFragment : DeviantArtNavigationFragment() {
                 }
             }
         }
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            model.deviation.mapNotNull { it?.imageUrl }
-                /**
-                 * doesn't need to re-load the image if url doesn't change
-                 * we first get from database
-                 */
-                .distinctUntilChanged()
-                .collect { url ->
-                    binding.art.load(url) {
-                        usePaletteTransition(durationMillis = animDurationMs) { palette ->
-                            palette?.createRipple(false)?.run {
-                                binding.artLayout.foreground = this
-                            }
-
-                            binding.applyControlsColor(palette)
-                        }
-                    }
+    private fun DeviationDetailBinding.bindArt(url: String) {
+        art.load(url) {
+            usePaletteTransition(durationMillis = animDurationMs) { palette ->
+                palette?.createRipple(false)?.run {
+                    artLayout.foreground = this
                 }
+
+                applyControlsColor(palette)
+            }
         }
     }
 
