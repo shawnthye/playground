@@ -9,7 +9,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Construction
 import androidx.compose.material.icons.filled.Devices
@@ -22,15 +21,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.playground.ui.debug.components.DebugIcon
 import app.playground.ui.debug.components.DebugIcon.VectorIcon
 import app.playground.ui.debug.components.EnumDropdown
+import app.playground.ui.debug.components.ExtraAction
 import app.playground.ui.debug.components.StatsTable
 import app.playground.ui.debug.components.SubHeader
 import app.playground.ui.debug.data.DebugEnvironment
@@ -42,7 +40,7 @@ import feature.playground.demos.Demos
 import feature.playground.deviant.ui.DeviantArt
 
 @Composable
-internal fun ColumnScope.DebugSettings(
+internal fun DebugSettings(
     model: DebugViewModel = viewModel(),
     coilModel: DebugCoilViewModel = viewModel(),
 ) {
@@ -50,7 +48,6 @@ internal fun ColumnScope.DebugSettings(
 
     Column(
         modifier = Modifier
-            .align(Alignment.End)
             .verticalScroll(state = rememberScrollState())
             .systemBarsPadding()
             .navigationBarsPadding(),
@@ -73,7 +70,16 @@ internal fun ColumnScope.DebugSettings(
             onPress = { Demos.start(context) },
         )
 
-        DeviantArtAction()
+        ExtraAction(
+            label = "Deviant Art",
+            icon = DebugIcon.ResourceIcon(
+                R.drawable.ic_baseline_open_in_new_24,
+                tint = colorResource(
+                    id = core.playground.ui.R.color.brandDeviantArt,
+                ),
+            ),
+            onPress = { DeviantArt.start(context) },
+        )
 
         ExtraAction(
             label = "Reset",
@@ -148,48 +154,5 @@ private fun ColumnScope.DeviceStats(model: DebugViewModel) {
     val stats by model.deviceStats.collectAsState()
     SubHeader(title = "Device", icon = VectorIcon(Icons.Filled.Devices)) { padding ->
         StatsTable(modifier = Modifier.padding(padding), stats = stats)
-    }
-}
-
-@Composable
-private fun ColumnScope.DeviantArtAction(modifier: Modifier = Modifier) {
-
-    val context = LocalContext.current
-
-    TextButton(
-        modifier = modifier
-            .align(Alignment.End)
-            .padding(horizontal = 16.dp),
-        onClick = { DeviantArt.start(context) },
-    ) {
-        Text(text = "Deviant Art")
-        Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_open_in_new_24),
-            contentDescription = null,
-            tint = colorResource(id = core.playground.ui.R.color.brandDeviantArt),
-        )
-    }
-}
-
-@Composable
-private fun ColumnScope.ExtraAction(label: String, onPress: () -> Unit, icon: DebugIcon?) {
-    TextButton(
-        modifier = Modifier
-            .align(Alignment.End)
-            .padding(horizontal = 16.dp),
-        onClick = onPress,
-    ) {
-        Text(text = label)
-        if (null != icon) {
-            val vector = when (icon) {
-                is DebugIcon.ResourceIcon -> ImageVector.vectorResource(id = icon.resId)
-                is VectorIcon -> icon.vector
-            }
-
-            Icon(
-                imageVector = vector,
-                contentDescription = null,
-            )
-        }
     }
 }

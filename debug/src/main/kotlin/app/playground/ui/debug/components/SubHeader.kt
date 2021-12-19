@@ -1,7 +1,6 @@
 package app.playground.ui.debug.components
 
 import android.content.res.Configuration
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -23,17 +22,11 @@ import androidx.compose.material.icons.outlined.Construction
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.playground.ui.debug.R
 import core.playground.ui.theme.PlaygroundTheme
-
-internal sealed class DebugIcon {
-    data class ResourceIcon(@DrawableRes val resId: Int) : DebugIcon()
-    data class VectorIcon(val vector: ImageVector) : DebugIcon()
-}
 
 @Composable
 internal fun ColumnScope.SubHeader(
