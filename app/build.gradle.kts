@@ -129,10 +129,11 @@ dependencies {
 
     implementation(Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
-    implementation(Libs.AndroidX.Compose.uiTooling)
     implementation(Libs.AndroidX.Compose.uiToolingPreview)
     implementation(Libs.AndroidX.Compose.material)
     implementation(Libs.AndroidX.Compose.materialIconsExtended)
+    debugImplementation(Libs.AndroidX.Compose.uiTooling)
+
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
     implementation(Libs.Google.Accompanist.insets)
