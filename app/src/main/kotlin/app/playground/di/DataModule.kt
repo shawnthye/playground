@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import app.playground.BuildConfig
 import app.playground.data.DateAsLongSerializer
-import app.playground.data.ReasonDns
 import app.playground.data.ReasonInterceptor
 import coil.ImageLoader
 import coil.decode.GifDecoder

@@ -4,7 +4,10 @@ plugins {
 
 dependencies {
     constraints {
+        api("${Libs.AndroidX.Compose.animationGraphics}:${Versions.COMPOSE}")
+        api("${Libs.AndroidX.Compose.animation}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.compiler}:${Versions.COMPOSE_COMPILER}")
+        api("${Libs.AndroidX.Compose.foundation}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.materialIconsExtended}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.material}:${Versions.COMPOSE}")
         api("${Libs.AndroidX.Compose.uiTestJunit4}:${Versions.COMPOSE}")
@@ -37,6 +40,8 @@ dependencies {
         api("${Libs.AndroidX.Test.orchestrator}:${Versions.ANDROID_TEST_ORCHESTRATOR}")
         api("${Libs.AndroidX.Test.rules}:${Versions.ANDROID_TEST_RULES}")
         api("${Libs.AndroidX.Test.runner}:${Versions.ANDROID_TEST_RUNNER}")
+        api("${Libs.AndroidX.VectorDrawable.vectorAnimated}:${Versions.VECTOR_DRAWABLE}")
+        api("${Libs.AndroidX.VectorDrawable.vector}:${Versions.VECTOR_DRAWABLE}")
         api("${Libs.AndroidX.activityCompose}:${Versions.ACTIVITY}")
         api("${Libs.AndroidX.activityKtx}:${Versions.ACTIVITY}")
         api("${Libs.AndroidX.activity}:${Versions.ACTIVITY}")

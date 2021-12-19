@@ -51,6 +51,7 @@ dependencies {
     implementation(Libs.timber)
 
     implementation(Libs.AndroidX.Lifecycle.runtime)
+    implementation(Libs.AndroidX.VectorDrawable.vectorAnimated)
 
     implementation(Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
@@ -60,6 +61,8 @@ dependencies {
 
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.insetsUi)
+
+    implementation(Libs.Coil.coilGif)
 
     // data binding
     implementation(Libs.AndroidX.core)

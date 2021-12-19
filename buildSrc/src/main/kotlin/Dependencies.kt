@@ -52,6 +52,7 @@ object Versions {
     const val ROOM = "2.4.0"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
+    const val VECTOR_DRAWABLE = "1.1.0"
 }
 
 object Libs {
@@ -99,7 +100,10 @@ object Libs {
         const val swipeRefresh = "androidx.swiperefreshlayout:swiperefreshlayout"
 
         object Compose {
+            const val animation = "androidx.compose.animation:animation"
+            const val animationGraphics = "androidx.compose.animation:animation-graphics"
             const val compiler = "androidx.compose.compiler:compiler"
+            const val foundation = "androidx.compose.foundation:foundation"
             const val material = "androidx.compose.material:material"
             const val materialIconsExtended = "androidx.compose.material:material-icons-extended"
             const val ui = "androidx.compose.ui:ui"
@@ -148,6 +152,11 @@ object Libs {
         object DataStore {
             const val preferencesCore = "androidx.datastore:datastore-preferences-core"
             const val preferences = "androidx.datastore:datastore-preferences"
+        }
+
+        object VectorDrawable {
+            const val vector = "androidx.vectordrawable:vectordrawable"
+            const val vectorAnimated = "androidx.vectordrawable:vectordrawable-animated"
         }
 
         object Test {
