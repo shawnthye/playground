@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -42,12 +41,9 @@ internal class DeviationDetailViewModel @Inject constructor(
         trySend(Unit) // init loading
     }
 
-    private val result: Flow<Result<Deviation>> = _actionRefresh.receiveAsFlow()
-        .flatMapLatest { loadDeviantUseCase(deviantId) }.map {
-            Timber.e("$it")
-            it
-        }
-        .stateIn(viewModelScope, WhileViewSubscribed, Loading())
+    private val result: Flow<Result<Deviation>> = _actionRefresh.receiveAsFlow().flatMapLatest {
+        loadDeviantUseCase(deviantId)
+    }.stateIn(viewModelScope, WhileViewSubscribed, Loading())
 
     val deviation: StateFlow<Deviation?> = result.mapNotNull { result ->
         result.data
