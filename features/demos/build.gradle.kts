@@ -76,8 +76,6 @@ dependencies {
     implementation(Libs.AndroidX.Navigation.compose)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
-
-
     implementation(platform(Libs.OkHttp3.bom))
     implementation(Libs.OkHttp3.okhttp)
 

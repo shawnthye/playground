@@ -58,7 +58,7 @@ dependencies {
 
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.swipeRefresh)
-    
+
     implementation(Libs.Coil.coilGif)
     implementation(Libs.Coil.coilCompose)
 

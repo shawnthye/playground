@@ -19,7 +19,6 @@ import feature.playground.deviant.databinding.DeviationItemBinding
 import feature.playground.deviant.ui.selectableItemBackground
 import feature.playground.deviant.widget.createRipple
 import feature.playground.deviant.widget.usePaletteTransition
-import timber.log.Timber
 
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener,

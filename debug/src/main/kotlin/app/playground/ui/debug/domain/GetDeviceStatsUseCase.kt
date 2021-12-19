@@ -48,7 +48,7 @@ internal val Application.deviceStats: Map<String, String>
         "Make" to readableMaker,
         "Model" to readableModel,
         "Resolution" to readableResolution,
-        "Density" to "${resources.displayMetrics.densityDpi} (${densityBucket}) (${densityScale})",
+        "Density" to "${resources.displayMetrics.densityDpi} ($densityBucket) ($densityScale)",
         "Release" to Build.VERSION.RELEASE.orEmpty().ifBlank { "UNKNOWN" },
         "API" to "${Build.VERSION.SDK_INT}",
     )
