@@ -19,7 +19,5 @@ internal class PostDataSourceImpl @Inject constructor(
     private val postQueryToPost: PostQueryToPost,
 ) : PostDataSource {
 
-    override fun queryPost(
-        id: PostId,
-    ): Flow<Response<Post>> = graphql.query(PostQuery(id)).withMapper(postQueryToPost)
+    override fun queryPost(id: PostId) = graphql.query(PostQuery(id)).withMapper(postQueryToPost)
 }
