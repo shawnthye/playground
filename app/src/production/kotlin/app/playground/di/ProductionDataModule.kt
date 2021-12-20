@@ -28,8 +28,5 @@ object ProductionDataModule {
 
     @Singleton
     @Provides
-    fun providesCoil(
-        app: Application,
-        okhttp: OkHttpClient,
-    ): ImageLoader = DataModule.createImageLoader(app, okhttp)
+    fun providesCoil(app: Application): ImageLoader = DataModule.createImageLoader(app)
 }

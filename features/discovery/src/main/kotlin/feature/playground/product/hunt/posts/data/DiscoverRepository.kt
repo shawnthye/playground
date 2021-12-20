@@ -25,8 +25,6 @@ internal class DiscoverRepository @Inject constructor(
             postDao.insert(query.map { it.post })
         }
 
-        // return query.lastOrNull()?.entry?.nextPage.isNullOrBlank()
-
-        return true
+        return query.lastOrNull()?.entry?.nextPage.isNullOrBlank()
     }
 }

@@ -60,11 +60,10 @@ object DataModule {
 
     fun createImageLoader(
         context: Context,
-        okhttp: OkHttpClient,
     ): ImageLoader = ImageLoader
         .Builder(context)
         .availableMemoryPercentage(0.50)
-        .callFactory { okhttp.newBuilder().cache(CoilUtils.createDefaultCache(context)).build() }
+        .callFactory { OkHttpClient.Builder().cache(CoilUtils.createDefaultCache(context)).build() }
         .componentRegistry {
             add(SvgDecoder(context))
             add(

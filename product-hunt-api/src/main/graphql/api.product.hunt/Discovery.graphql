@@ -6,24 +6,24 @@ query Discovery($nextPage: String) {
       ...pageFields
     }
   }
-  topics(first: 10, order: NEWEST) {
-    edges {
-      node {
-        ...topicFields
-      }
-    }
-    pageInfo {
-      ...pageFields
-    }
-  }
-  collections(first: 10) {
-    edges{
-      node{
-        coverImage
-      }
-    }
-    pageInfo {
-      ...pageFields
-    }
-  }
+#  topics(first: 10, order: NEWEST) {
+#    edges {
+#      node {
+#        ...topicFields
+#      }
+#    }
+#    pageInfo {
+#      ...pageFields
+#    }
+#  }
+#  collections(first: 10) {
+#    edges{
+#      node{
+#        coverImage
+#      }
+#    }
+#    pageInfo {
+#      ...pageFields
+#    }
+#  }
 }

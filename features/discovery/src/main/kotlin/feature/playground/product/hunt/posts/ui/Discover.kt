@@ -8,13 +8,20 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.GridItemSpan
+import androidx.compose.foundation.lazy.LazyGridScope
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -51,6 +58,7 @@ import core.playground.ui.extension.asGif
 import core.playground.ui.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 
 @Composable
 fun Discover(openPost: (postId: String) -> Unit) {
@@ -108,15 +116,43 @@ private fun Posts(
         state = rememberSwipeRefreshState(isRefreshing = list.refreshing),
         onRefresh = onSwipeRefresh,
     ) {
-        LazyVerticalGrid(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = contentPadding,
-            cells = GridCells.Adaptive(128.dp),
-        ) {
 
-            items(list.itemCount) { position ->
-                PostsItem(post = list[position]!!.post, openPost = openPost)
+        BoxWithConstraints {
+            val nColumns = maxOf((maxWidth / 128.dp).toInt(), 1)
+
+            LazyVerticalGrid(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = contentPadding,
+                cells = GridCells.Fixed(nColumns),
+            ) {
+                items(list.itemCount) { position ->
+                    PostsItem(post = list[position]!!.post, openPost = openPost)
+                }
+
+                loadingBar(nColumns = nColumns, list = list)
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun LazyGridScope.loadingBar(nColumns: Int, list: LazyPagingItems<*>) {
+    if (list.itemCount == 0 || list.loadState.append.endOfPaginationReached) {
+        return
+    }
+
+    items(maxOf(nColumns - (list.itemCount % nColumns), 0)) {
+        // render an empty item to fill the grid span
+        Spacer(modifier = Modifier)
+    }
+
+    item(span = { GridItemSpan(nColumns) }) {
+        Row(horizontalArrangement = Arrangement.Center) {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(8.dp),
+            )
         }
     }
 }

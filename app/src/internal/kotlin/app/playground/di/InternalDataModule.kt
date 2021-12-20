@@ -55,9 +55,8 @@ object InternalDataModule {
     @Provides
     fun providesCoil(
         app: Application,
-        okhttp: OkHttpClient,
         logger: Logger,
-    ): ImageLoader = DataModule.createImageLoader(app, okhttp).newBuilder()
+    ): ImageLoader = DataModule.createImageLoader(app).newBuilder()
         .logger(logger = logger)
         .build()
 }
