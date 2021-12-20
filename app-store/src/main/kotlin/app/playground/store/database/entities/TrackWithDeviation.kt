@@ -6,13 +6,12 @@ import core.playground.data.Pageable
 import java.util.Objects
 
 data class TrackWithDeviation(
-
     @Embedded
     override val entry: DeviationTrack,
 
     @Relation(parentColumn = "deviationId", entityColumn = "deviationId")
-    override val relation: Deviation,
-) : Pageable<DeviationTrack, Deviation> {
+    val relation: Deviation,
+) : Pageable<DeviationTrack> {
 
     override fun equals(other: Any?): Boolean = when {
         other === this -> true

@@ -1,11 +1,7 @@
-query Discovery {
-  posts(first: 20, featured: true) { # max 20 per page
-    edges {
-      cursor
-      node {
-        ...postFields
-      }
-    }
+query Discovery($nextPage: String) {
+
+  posts(first: 20, featured: true, after: $nextPage) { # max 20 per page
+    ...postsFields
     pageInfo {
       ...pageFields
     }

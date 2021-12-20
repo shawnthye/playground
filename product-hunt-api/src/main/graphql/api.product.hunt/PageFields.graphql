@@ -1,5 +1,4 @@
 fragment pageFields on PageInfo {
   hasNextPage
-  endCursor
-  hasPreviousPage
+  nextPage: endCursor
 }

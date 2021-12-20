@@ -1,25 +1,23 @@
 package feature.playground.product.hunt.posts.domain
 
-import app.playground.store.database.entities.Post
+import app.playground.store.database.entities.Discovery
 import core.playground.IoDispatcher
-import core.playground.domain.FlowUseCase
-import core.playground.domain.Result
+import core.playground.domain.ExperimentalPagingUseCase
+import core.playground.domain.PagingUseCase
 import feature.playground.product.hunt.posts.data.DiscoverRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingUseCase::class)
 internal class LoadPostsUseCase
 @Inject constructor(
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
     private val discoverRepository: DiscoverRepository,
-) : FlowUseCase<Unit, List<Post>>(coroutineDispatcher) {
-    override fun execute(
-        params: Unit,
-    ): Flow<Result<List<Post>>> = flow {
-        emit(Result.Loading())
-        emitAll(discoverRepository.queryPosts())
+) : PagingUseCase<Unit, Discovery>(coroutineDispatcher) {
+
+    override fun pagingSource(parameters: Unit) = discoverRepository.pagingSource()
+
+    override suspend fun execute(parameters: Unit, pageSize: Int, nextPage: String?): Boolean {
+        return discoverRepository.queryNext(nextPage)
     }
 }

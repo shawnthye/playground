@@ -4,7 +4,6 @@ interface PageableEntry {
     val nextPage: String?
 }
 
-interface Pageable<Entry : PageableEntry, Relation> {
+interface Pageable<Entry : PageableEntry> {
     val entry: Entry
-    val relation: Relation
 }

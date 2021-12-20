@@ -28,7 +28,7 @@ annotation class ExperimentalPagingUseCase
 @ExperimentalPagingUseCase
 abstract class PagingUseCase<in Param, Page>(
     private val coroutineDispatcher: CoroutineDispatcher,
-) where Page : Pageable<*, *> {
+) where Page : Pageable<*> {
 
     protected open fun pageConfig(): PagingConfig {
         return PagingConfig(
@@ -71,7 +71,7 @@ abstract class PagingUseCase<in Param, Page>(
 private class PagedRemoteMediator<Page>(
     private val shouldRefreshOnLaunch: suspend () -> Boolean,
     private val doWork: suspend (pageSize: Int, nextPage: String?) -> Boolean,
-) : RemoteMediator<Int, Page>() where Page : Pageable<*, *> {
+) : RemoteMediator<Int, Page>() where Page : Pageable<*> {
 
     override suspend fun initialize(): InitializeAction {
         return if (shouldRefreshOnLaunch()) {

@@ -1,0 +1,7 @@
+fragment postsFields on PostConnection {
+  edges {
+    node {
+      ...postFields
+    }
+  }
+}

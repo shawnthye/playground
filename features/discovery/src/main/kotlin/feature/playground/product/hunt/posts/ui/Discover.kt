@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -24,7 +23,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +35,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import app.playground.store.database.entities.Discovery
 import app.playground.store.database.entities.Post
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
@@ -63,34 +65,29 @@ private fun Discover(
     viewModel: DiscoverViewModel,
     openPost: (postId: String) -> Unit,
 ) {
-    val state by rememberFlowWithLifecycle(viewModel.uiState).collectAsState(DiscoveryUiState.EMPTY)
     Discover(
-        state = state,
-        onSwipeRefresh = {
-            viewModel.onRefresh()
-        },
+        list = rememberFlowWithLifecycle(viewModel.pagedList).collectAsLazyPagingItems(),
         openPost = openPost,
     )
 }
 
 @Composable
 private fun Discover(
-    state: DiscoveryUiState,
-    onSwipeRefresh: () -> Unit,
+    list: LazyPagingItems<Discovery>,
     openPost: (postId: String) -> Unit,
 ) {
     Scaffold(
         topBar = { TopAppBar(titleRes = core.playground.ui.R.string.menu_discover) },
     ) { paddingValues ->
-        if (state.refreshing && state.posts.isEmpty()) {
+
+        if (list.refreshing) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(Modifier.padding())
             }
         } else {
             Posts(
-                refreshing = state.refreshing,
-                posts = state.posts,
-                onSwipeRefresh = onSwipeRefresh,
+                list = list,
+                onSwipeRefresh = { list.refresh() },
                 contentPadding = paddingValues,
             ) { postId ->
                 openPost(postId)
@@ -103,13 +100,12 @@ private fun Discover(
 @Composable
 private fun Posts(
     contentPadding: PaddingValues,
-    refreshing: Boolean,
-    posts: List<Post>,
+    list: LazyPagingItems<Discovery>,
     onSwipeRefresh: () -> Unit,
     openPost: (postId: String) -> Unit,
 ) {
     SwipeRefresh(
-        state = rememberSwipeRefreshState(isRefreshing = refreshing),
+        state = rememberSwipeRefreshState(isRefreshing = list.refreshing),
         onRefresh = onSwipeRefresh,
     ) {
         LazyVerticalGrid(
@@ -117,8 +113,9 @@ private fun Posts(
             contentPadding = contentPadding,
             cells = GridCells.Adaptive(128.dp),
         ) {
-            items(posts) { post ->
-                PostsItem(post = post, openPost = openPost)
+
+            items(list.itemCount) { position ->
+                PostsItem(post = list[position]!!.post, openPost = openPost)
             }
         }
     }
@@ -202,3 +199,8 @@ private fun GifBadge(modifier: Modifier = Modifier) {
         )
     }
 }
+
+private val LazyPagingItems<*>.refreshing: Boolean
+    get() {
+        return loadState.refresh == LoadState.Loading && itemCount == 0
+    }

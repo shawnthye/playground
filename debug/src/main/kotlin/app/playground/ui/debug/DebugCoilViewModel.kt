@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import timber.log.Timber
 import javax.inject.Inject
 
 internal sealed class CoilUiAction {
@@ -68,7 +67,6 @@ internal class DebugCoilViewModel @Inject constructor(
         }.launchIn(viewModelScope)
 
         actions.receiveAsFlow().onEach { action ->
-            Timber.i("action: $action")
             when (action) {
                 is CoilUiAction.UpdateDiskPolicy -> {
                     _coilUiStats.update { it.copy(diskCachePolicy = action.policy) }

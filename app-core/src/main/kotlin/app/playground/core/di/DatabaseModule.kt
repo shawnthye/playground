@@ -40,6 +40,10 @@ internal object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideDiscoveryDao(database: AppDatabase) = database.discoveryDao()
+
+    @Singleton
+    @Provides
     fun provideDeviationDao(database: AppDatabase) = database.deviationDao()
 
     @Singleton

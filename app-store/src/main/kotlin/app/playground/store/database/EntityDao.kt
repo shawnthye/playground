@@ -13,10 +13,10 @@ abstract class EntityDao<E : AppEntity> {
     abstract suspend fun insert(entity: E): Long
 
     @Insert
-    abstract suspend fun insert(vararg entity: E)
+    abstract suspend fun insert(vararg entity: E): List<Long>
 
     @Insert
-    abstract suspend fun insert(entities: List<E>)
+    abstract suspend fun insert(entities: List<E>): List<Long>
 
     @Insert(onConflict = IGNORE)
     abstract suspend fun insertIgnore(entity: E): Long
@@ -40,7 +40,13 @@ abstract class EntityDao<E : AppEntity> {
     abstract suspend fun update(entity: E)
 
     @Delete
-    abstract suspend fun deleteEntity(entity: E): Int
+    abstract suspend fun delete(entity: E): Int
+
+    @Delete
+    abstract suspend fun delete(vararg entity: E): Int
+
+    @Delete
+    abstract suspend fun delete(entities: List<E>): Int
 
     @Transaction
     open suspend fun withTransaction(tx: suspend () -> Unit) = tx()
