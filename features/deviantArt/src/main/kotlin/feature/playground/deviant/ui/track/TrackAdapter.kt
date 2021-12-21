@@ -17,12 +17,12 @@ import coil.request.repeatCount
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationItemBinding
 import feature.playground.deviant.ui.selectableItemBackground
+import feature.playground.deviant.widget.PaletteExtensions.findRippleColor
 import feature.playground.deviant.widget.createRipple
 import feature.playground.deviant.widget.usePaletteTransition
 
 class TrackAdapter(
     private val onItemClickListener: OnItemClickListener,
-    private val onPaletteListener: OnPaletteListener,
 ) : PagingDataAdapter<TrackWithDeviation, DeviationViewHolder>(TrackAdapterItemCallback) {
 
     interface OnPaletteListener {
@@ -34,7 +34,7 @@ class TrackAdapter(
     }
 
     override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
-        holder.bind(getItem(position)!!.relation)
+        holder.bind(getItem(position)?.deviation)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -44,7 +44,7 @@ class TrackAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener, onPaletteListener)
+    ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener)
 }
 
 fun TrackAdapter.withFooter(
@@ -63,43 +63,51 @@ fun TrackAdapter.withFooter(
 class DeviationViewHolder(
     parent: ViewGroup,
     onItemClickListener: TrackAdapter.OnItemClickListener,
-    onPaletteListener: TrackAdapter.OnPaletteListener,
     private val binding: DeviationItemBinding = DeviationItemBinding.inflate(
         LayoutInflater.from(parent.context), parent, false,
     ),
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root), TrackAdapter.OnPaletteListener {
 
     init {
         binding.onItemClickListener = onItemClickListener
-        binding.onPaletteListener = onPaletteListener
+        binding.onPaletteListener = this
     }
 
-    fun bind(deviation: Deviation) {
-        if (0 != deviation.rippleColor) {
-            binding.imageLayout.foreground = deviation.rippleColor.createRipple(false)
-        } else {
-            binding.imageLayout.foreground = binding.imageLayout.context.selectableItemBackground
-        }
-
+    fun bind(deviation: Deviation?) {
         binding.deviation = deviation
         binding.executePendingBindings()
+    }
+
+    override fun onPaletteReady(deviation: Deviation, palette: Palette) {
+        val foreground = palette
+            .findRippleColor()
+            ?.createRipple(false)
+            ?: binding.imageLayout.context.selectableItemBackground
+        binding.imageLayout.foreground = foreground
     }
 }
 
 @BindingAdapter("trackImageDeviation", "trackImagePlaceholder", "trackImageOnPaletteListener")
 fun deviationImage(
     image: ImageView,
-    deviation: Deviation,
+    deviation: Deviation?,
     placeholder: Drawable?,
     onPaletteListener: TrackAdapter.OnPaletteListener,
 ) {
-    image.load(uri = deviation.imageUrl) {
-        repeatCount(0)
-        placeholder(drawable = placeholder)
-        if (deviation.rippleColor == 0) {
-            usePaletteTransition { palette ->
-                palette?.also { onPaletteListener.onPaletteReady(deviation, it) }
+    onPaletteListener.let { }
+    if (deviation != null) {
+        image.load(uri = deviation.imageUrl) {
+            repeatCount(0)
+            placeholder(drawable = placeholder)
+            if (deviation.rippleColor == 0) {
+                usePaletteTransition { palette ->
+                    palette?.also { onPaletteListener.onPaletteReady(deviation, it) }
+                }
             }
+        }
+    } else {
+        image.load(drawable = placeholder) {
+            crossfade(false)
         }
     }
 }

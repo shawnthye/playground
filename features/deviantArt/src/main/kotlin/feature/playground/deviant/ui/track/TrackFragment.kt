@@ -41,7 +41,7 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
     ): View = onCreateViewBinding(DeviantTrackBinding.inflate(inflater, container, false)) {
         viewModel = model
 
-        bindState(model.pagingData, model, model)
+        bindState(model.pagingData, model)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -56,13 +56,12 @@ class DeviantTrackFragment : DeviantArtNavigationFragment() {
 private fun DeviantTrackBinding.bindState(
     pagingData: Flow<PagingData<TrackWithDeviation>>,
     onItemClickListener: TrackAdapter.OnItemClickListener,
-    onPaletteListener: TrackAdapter.OnPaletteListener,
 ) {
     val space = deviations.resources.getDimensionPixelSize(R.dimen.grid_spacing)
     deviations.itemAnimator = SlideInItemAnimator()
     deviations.addItemDecoration(SpaceDecoration(space, space, space, space))
 
-    val pagingAdapter = TrackAdapter(onItemClickListener, onPaletteListener)
+    val pagingAdapter = TrackAdapter(onItemClickListener)
 
     deviations.adapter = pagingAdapter.withFooter(
         DeviationTrackLoadStateAdapter {

@@ -30,8 +30,8 @@ class DeviantRepository @Inject constructor(
                 deviationTrackDao.deleteTrack(track = track.toString())
             }
 
+            deviationDao.upsert(body.map { it.deviation })
             deviationTrackDao.replace(body.map { it.entry.copy(track = track) })
-            deviationDao.upsert(body.map { it.relation })
         }
 
         return body.lastOrNull()?.entry?.nextPage.isNullOrBlank()

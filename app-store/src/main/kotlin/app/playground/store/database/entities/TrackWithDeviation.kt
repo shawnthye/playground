@@ -10,16 +10,16 @@ data class TrackWithDeviation(
     override val entry: DeviationTrack,
 
     @Relation(parentColumn = "deviationId", entityColumn = "deviationId")
-    val relation: Deviation,
+    val deviation: Deviation,
 ) : Pageable<DeviationTrack> {
 
     override fun equals(other: Any?): Boolean = when {
         other === this -> true
         other is TrackWithDeviation -> {
-            entry == other.entry && relation == other.relation
+            entry == other.entry && deviation == other.deviation
         }
         else -> false
     }
 
-    override fun hashCode(): Int = Objects.hash(entry, relation)
+    override fun hashCode(): Int = Objects.hash(entry, deviation)
 }
