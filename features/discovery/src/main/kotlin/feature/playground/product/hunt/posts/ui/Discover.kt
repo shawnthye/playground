@@ -283,13 +283,14 @@ private fun BoxScope.Logo(
 @Composable
 private fun GifBadge(modifier: Modifier = Modifier) {
     Surface(
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
+        color = Color.Black.copy(alpha = 0.35f),
         shape = MaterialTheme.shapes.small,
         modifier = modifier.padding(6.dp),
     ) {
         Text(
             text = "GIF",
             style = MaterialTheme.typography.overline,
+            color = Color.White.copy(alpha = 0.58f),
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 6.dp),
         )
