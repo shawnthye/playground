@@ -17,7 +17,7 @@ internal class PostRepository
         return postDataSource.queryPost(id).asNetworkBoundResult(
             query = postDao.observePost(id),
         ) {
-            postDao.replace(it)
+            postDao.upsert(it)
         }
     }
 }

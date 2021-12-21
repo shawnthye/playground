@@ -1,5 +1,6 @@
 package feature.playground.product.hunt.posts.domain
 
+import androidx.paging.PagingConfig
 import app.playground.store.database.entities.Discovery
 import core.playground.IoDispatcher
 import core.playground.domain.ExperimentalPagingUseCase
@@ -14,6 +15,16 @@ internal class LoadPostsUseCase
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
     private val discoverRepository: DiscoverRepository,
 ) : PagingUseCase<Unit, Discovery>(coroutineDispatcher) {
+
+    override fun pageConfig(): PagingConfig {
+
+        val pageSize = super.pageConfig().pageSize
+
+        return PagingConfig(
+            pageSize = pageSize,
+            initialLoadSize = pageSize,
+        )
+    }
 
     override fun pagingSource(parameters: Unit) = discoverRepository.pagingSource()
 

@@ -69,6 +69,7 @@ dependencies {
     kapt(Libs.Dagger.hiltCompiler)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
+    implementation(Libs.AndroidX.Room.runtime)
     implementation(Libs.AndroidX.Paging.compose)
 
     testImplementation(platform(Libs.Junit5.bom))

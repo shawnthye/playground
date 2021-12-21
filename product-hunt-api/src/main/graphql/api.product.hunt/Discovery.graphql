@@ -1,29 +1,29 @@
-query Discovery($nextPage: String) {
+query Discovery($pageSize: Int = 20, $nextPage: String) {
 
-  posts(first: 20, featured: true, after: $nextPage) { # max 20 per page
+  posts(first: $pageSize, featured: true, after: $nextPage) { # max 20 per page
     ...postsFields
     pageInfo {
       ...pageFields
     }
   }
-#  topics(first: 10, order: NEWEST) {
-#    edges {
-#      node {
-#        ...topicFields
-#      }
-#    }
-#    pageInfo {
-#      ...pageFields
-#    }
-#  }
-#  collections(first: 10) {
-#    edges{
-#      node{
-#        coverImage
-#      }
-#    }
-#    pageInfo {
-#      ...pageFields
-#    }
-#  }
+  #  topics(first: 10, order: NEWEST) {
+  #    edges {
+  #      node {
+  #        ...topicFields
+  #      }
+  #    }
+  #    pageInfo {
+  #      ...pageFields
+  #    }
+  #  }
+  #  collections(first: 10) {
+  #    edges{
+  #      node{
+  #        coverImage
+  #      }
+  #    }
+  #    pageInfo {
+  #      ...pageFields
+  #    }
+  #  }
 }

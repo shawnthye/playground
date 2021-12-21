@@ -14,6 +14,7 @@ internal class DiscoverRepository @Inject constructor(
     fun pagingSource() = discoveryDao.pagingSource()
 
     suspend fun queryNext(nextPage: String?): Boolean {
+
         val query = discoverDataSource.query(nextPage).execute() ?: return true
 
         discoveryDao.withTransaction {
@@ -21,8 +22,11 @@ internal class DiscoverRepository @Inject constructor(
                 discoveryDao.deleteAll()
             }
 
-            discoveryDao.insert(query.map { it.entry })
-            postDao.insert(query.map { it.post })
+            val entries = query.map { it.entry }
+            val posts = query.map { it.post }
+            discoveryDao.replace(entries, posts)
+            // postDao.replace(query.map { it.post })
+            // discoveryDao.replace(query.map { it.entry })
         }
 
         return query.lastOrNull()?.entry?.nextPage.isNullOrBlank()

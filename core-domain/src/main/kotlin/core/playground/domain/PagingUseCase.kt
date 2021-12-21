@@ -12,7 +12,6 @@ import core.playground.Generated
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
 
 @RequiresOptIn
@@ -34,7 +33,7 @@ abstract class PagingUseCase<in Param, Page>(
         return PagingConfig(
             pageSize = 20,
             initialLoadSize = 60,
-            enablePlaceholders = false,
+            enablePlaceholders = true,
         )
     }
 
@@ -54,7 +53,7 @@ abstract class PagingUseCase<in Param, Page>(
             },
             pagingSourceFactory = { pagingSource(parameters) },
         ).flow
-            .flowOn(coroutineDispatcher)
+        // .flowOn(coroutineDispatcher)
     }
 
     protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>

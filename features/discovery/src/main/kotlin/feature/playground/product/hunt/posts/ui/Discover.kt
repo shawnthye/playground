@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -38,6 +39,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -58,7 +60,6 @@ import core.playground.ui.extension.asGif
 import core.playground.ui.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
-import timber.log.Timber
 
 @Composable
 fun Discover(openPost: (postId: String) -> Unit) {
@@ -116,17 +117,49 @@ private fun Posts(
         state = rememberSwipeRefreshState(isRefreshing = list.refreshing),
         onRefresh = onSwipeRefresh,
     ) {
-
+        val background = Color.Black.compositeOver(MaterialTheme.colors.onSurface)
+        val placeholders = remember(background) {
+            arrayOf(
+                background.copy(alpha = 0.30f),
+                background.copy(alpha = 0.27f),
+                background.copy(alpha = 0.24f),
+                background.copy(alpha = 0.21f),
+            )
+        }
         BoxWithConstraints {
             val nColumns = maxOf((maxWidth / 128.dp).toInt(), 1)
-
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = contentPadding,
                 cells = GridCells.Fixed(nColumns),
             ) {
                 items(list.itemCount) { position ->
-                    PostsItem(post = list[position]!!.post, openPost = openPost)
+
+                    val placeholder = remember { placeholders[position % placeholders.size] }
+
+                    val post = list[position]?.post
+                    if (post != null) {
+                        Box(
+                            modifier = Modifier
+                                .aspectRatio(1f)
+                                .background(placeholder),
+                        ) {
+                            PostsItem(
+                                post = post,
+                                placeholder = placeholder,
+                                openPost = openPost,
+                            )
+                        }
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .aspectRatio(1f)
+                                .background(placeholder),
+                        ) {
+
+                        }
+                    }
+
                 }
 
                 loadingBar(nColumns = nColumns, list = list)
@@ -151,7 +184,7 @@ fun LazyGridScope.loadingBar(nColumns: Int, list: LazyPagingItems<*>) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .wrapContentSize()
-                    .padding(8.dp),
+                    .padding(16.dp),
             )
         }
     }
@@ -159,20 +192,25 @@ fun LazyGridScope.loadingBar(nColumns: Int, list: LazyPagingItems<*>) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun PostsItem(post: Post, openPost: (postId: String) -> Unit) {
-
-    openPost.let { }
+private fun PostsItem(
+    post: Post,
+    placeholder: Color,
+    openPost: (postId: String) -> Unit,
+) {
 
     val interaction = remember { MutableInteractionSource() }
 
     val pressed by interaction.collectIsPressedAsState()
 
     Box(
-        modifier = Modifier.combinedClickable(
-            interactionSource = interaction,
-            indication = LocalIndication.current,
-            onClick = { openPost(post.postId) },
-        ),
+        modifier = Modifier
+            .combinedClickable(
+                interactionSource = interaction,
+                indication = LocalIndication.current,
+                onClick = { openPost(post.postId) },
+                onDoubleClick = { /* NO-OP */ },
+            )
+            .background(placeholder),
     ) {
         Logo(post = post, pressed = pressed)
     }
@@ -180,7 +218,10 @@ private fun PostsItem(post: Post, openPost: (postId: String) -> Unit) {
 
 @OptIn(ExperimentalCoilApi::class, ExperimentalFoundationApi::class)
 @Composable
-private fun BoxScope.Logo(post: Post, pressed: Boolean = false) {
+private fun BoxScope.Logo(
+    post: Post,
+    pressed: Boolean = false,
+) {
 
     var animatable by remember { mutableStateOf<Animatable?>(null) }
 
