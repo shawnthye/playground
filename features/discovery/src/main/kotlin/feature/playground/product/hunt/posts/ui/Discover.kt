@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -41,6 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -55,9 +59,13 @@ import coil.compose.rememberImagePainter
 import coil.size.Scale
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import core.playground.ui.UiMessage
+import core.playground.ui.asUiMessage
 import core.playground.ui.components.TopAppBar
 import core.playground.ui.extension.asGif
 import core.playground.ui.rememberFlowWithLifecycle
+import core.playground.ui.string
+import core.playground.ui.theme.contentPadding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -89,17 +97,37 @@ private fun Discover(
         topBar = { TopAppBar(titleRes = core.playground.ui.R.string.menu_discover) },
     ) { paddingValues ->
 
-        if (list.refreshing) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(Modifier.padding())
+        when {
+            list.refreshing -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(Modifier.padding())
+                }
             }
-        } else {
-            Posts(
-                list = list,
-                onSwipeRefresh = { list.refresh() },
-                contentPadding = paddingValues,
-            ) { postId ->
-                openPost(postId)
+            list.error != null -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = list.error!!.string(LocalContext.current),
+                            modifier = Modifier.contentPadding(),
+                        )
+                        TextButton(onClick = { list.refresh() }) {
+                            Text(
+                                text = stringResource(
+                                    id = core.playground.ui.R.string.action_retry,
+                                ).uppercase(),
+                            )
+                        }
+                    }
+                }
+            }
+            else -> {
+                Posts(
+                    list = list,
+                    onSwipeRefresh = { list.refresh() },
+                    contentPadding = paddingValues,
+                ) { postId ->
+                    openPost(postId)
+                }
             }
         }
     }
@@ -138,28 +166,20 @@ private fun Posts(
                     val placeholder = remember { placeholders[position % placeholders.size] }
 
                     val post = list[position]?.post
-                    if (post != null) {
-                        Box(
-                            modifier = Modifier
-                                .aspectRatio(1f)
-                                .background(placeholder),
-                        ) {
+
+                    Box(
+                        modifier = Modifier
+                            .aspectRatio(1f)
+                            .background(placeholder),
+                    ) {
+                        if (post != null) {
                             PostsItem(
                                 post = post,
                                 placeholder = placeholder,
                                 openPost = openPost,
                             )
                         }
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .aspectRatio(1f)
-                                .background(placeholder),
-                        ) {
-
-                        }
                     }
-
                 }
 
                 loadingBar(nColumns = nColumns, list = list)
@@ -278,5 +298,13 @@ private fun GifBadge(modifier: Modifier = Modifier) {
 
 private val LazyPagingItems<*>.refreshing: Boolean
     get() {
-        return loadState.refresh == LoadState.Loading && itemCount == 0
+        return itemCount == 0 && loadState.refresh == LoadState.Loading
+    }
+
+private val LazyPagingItems<*>.error: UiMessage?
+    get() {
+        if (itemCount == 0 && loadState.refresh is LoadState.Error) {
+            return (loadState.refresh as LoadState.Error).error.asUiMessage()
+        }
+        return null
     }

@@ -14,7 +14,10 @@ import androidx.compose.ui.Modifier
  * User can also see the full ripple effect because of built-in double tap detector
  */
 @OptIn(ExperimentalFoundationApi::class)
-fun Modifier.tappable(onLongTap: () -> Unit = {}, onTap: () -> Unit) = combinedClickable(
+fun Modifier.tappable(
+    onLongTap: () -> Unit = {},
+    onTap: () -> Unit,
+) = combinedClickable(
     onDoubleClick = { /* NOOP */ },
     onClick = onTap,
     onLongClick = onLongTap,
