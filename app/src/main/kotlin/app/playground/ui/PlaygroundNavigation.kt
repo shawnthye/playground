@@ -26,7 +26,6 @@ import feature.playground.product.hunt.post.ui.Post
 import feature.playground.product.hunt.posts.ui.Discover
 import feature.playground.producthunt.ui.Collections
 import feature.playground.producthunt.ui.Topics
-import timber.log.Timber
 
 /**
  * This match the root drawer route
@@ -119,9 +118,6 @@ private fun NavController.shouldHandleBack(default: Screen): State<Boolean> {
                 tops.any { it == route } -> true
                 else -> false
             }
-
-            Timber.i("defaultAtTopLevel: $defaultAtTopLevel")
-            Timber.i("shouldControl: $shouldControl")
 
             state.value = shouldControl
         }
