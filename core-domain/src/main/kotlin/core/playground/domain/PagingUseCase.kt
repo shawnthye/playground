@@ -12,10 +12,8 @@ import core.playground.Generated
 import core.playground.data.Pageable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import timber.log.Timber
-
-@RequiresOptIn
-annotation class ExperimentalPagingUseCase
 
 /**
  * Executes business logic in its execute method and keep posting updates to the result as
@@ -24,7 +22,6 @@ annotation class ExperimentalPagingUseCase
  *
  */
 @Generated(comments = "temporary skip for experimental")
-@ExperimentalPagingUseCase
 abstract class PagingUseCase<in Param, Page>(
     private val coroutineDispatcher: CoroutineDispatcher,
 ) where Page : Pageable<*> {
@@ -49,11 +46,12 @@ abstract class PagingUseCase<in Param, Page>(
             remoteMediator = PagedRemoteMediator(
                 shouldRefreshOnLaunch = ::shouldRefreshOnLaunch,
             ) { pageSize, nextPage ->
-                execute(parameters, pageSize, nextPage)
+                withContext(coroutineDispatcher) {
+                    execute(parameters, pageSize, nextPage)
+                }
             },
             pagingSourceFactory = { pagingSource(parameters) },
         ).flow
-        // .flowOn(coroutineDispatcher)
     }
 
     protected abstract fun pagingSource(parameters: Param): PagingSource<Int, Page>

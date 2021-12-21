@@ -3,13 +3,11 @@ package feature.playground.product.hunt.posts.domain
 import androidx.paging.PagingConfig
 import app.playground.store.database.entities.Discovery
 import core.playground.IoDispatcher
-import core.playground.domain.ExperimentalPagingUseCase
 import core.playground.domain.PagingUseCase
 import feature.playground.product.hunt.posts.data.DiscoverRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-@OptIn(ExperimentalPagingUseCase::class)
 internal class LoadPostsUseCase
 @Inject constructor(
     @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
