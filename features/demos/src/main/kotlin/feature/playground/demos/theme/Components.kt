@@ -17,10 +17,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Checkbox
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
@@ -70,6 +72,7 @@ internal fun Components() {
         RadioButtons()
         Checkboxes()
         SnackBars()
+        ProgressBars()
     }
 }
 
@@ -230,6 +233,17 @@ private fun SnackBars() {
             },
         ) {
             Text(text = "Marked as favorite")
+        }
+    }
+}
+
+@Composable
+private fun ProgressBars() {
+    Component(title = "Progress Indicator") {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(16.dp))
+            CircularProgressIndicator()
         }
     }
 }

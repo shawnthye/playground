@@ -45,7 +45,7 @@ internal fun ColumnScope.ThemeLines(label: String, content: @Composable RowScope
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.caption,
             color = MaterialTheme.colors.onSurfaceEmphasisMedium,
             modifier = Modifier.weight(1f),
         )

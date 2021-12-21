@@ -60,7 +60,7 @@ import coil.size.Scale
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import core.playground.ui.UiMessage
-import core.playground.ui.asUiMessage
+import core.playground.ui.asUiMessageOr
 import core.playground.ui.components.TopAppBar
 import core.playground.ui.extension.asGif
 import core.playground.ui.rememberFlowWithLifecycle
@@ -148,10 +148,10 @@ private fun Posts(
         val background = Color.Black.compositeOver(MaterialTheme.colors.onSurface)
         val placeholders = remember(background) {
             arrayOf(
+                background.copy(alpha = 0.40f),
                 background.copy(alpha = 0.30f),
-                background.copy(alpha = 0.27f),
-                background.copy(alpha = 0.24f),
-                background.copy(alpha = 0.21f),
+                background.copy(alpha = 0.20f),
+                Color.Transparent,
             )
         }
         BoxWithConstraints {
@@ -170,7 +170,8 @@ private fun Posts(
                     Box(
                         modifier = Modifier
                             .aspectRatio(1f)
-                            .background(placeholder),
+                            .background(placeholder)
+                            .padding(1.dp),
                     ) {
                         if (post != null) {
                             PostsItem(
@@ -305,7 +306,9 @@ private val LazyPagingItems<*>.refreshing: Boolean
 private val LazyPagingItems<*>.error: UiMessage?
     get() {
         if (itemCount == 0 && loadState.refresh is LoadState.Error) {
-            return (loadState.refresh as LoadState.Error).error.asUiMessage()
+            return (loadState.refresh as LoadState.Error).error.asUiMessageOr {
+                UiMessage.String(it.message)
+            }
         }
         return null
     }

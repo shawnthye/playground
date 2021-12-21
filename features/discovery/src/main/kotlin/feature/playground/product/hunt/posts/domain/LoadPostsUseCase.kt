@@ -21,6 +21,11 @@ internal class LoadPostsUseCase
         return PagingConfig(
             pageSize = pageSize,
             initialLoadSize = pageSize,
+            /**
+             * TODO: We should make the first page query in another use case,
+             * then generate to max size for this
+             */
+            maxSize = 100,
         )
     }
 

@@ -1,13 +1,13 @@
 fragment postFields on Post {
   id
-  createdAt
+#  createdAt
   thumbnail {
     type
     url
   }
   name
-  media {
-    type
-    url
-  }
+  #  media {
+  #    type
+  #    url
+  #  }
 }

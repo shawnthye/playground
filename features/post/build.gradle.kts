@@ -64,6 +64,8 @@ dependencies {
     kapt(Libs.Dagger.hiltCompiler)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
+    implementation(Libs.Coil.coilCompose)
+
     testImplementation(platform(Libs.Junit5.bom))
     testImplementation(Libs.Junit5.jupiterApi)
     testRuntimeOnly(Libs.Junit5.jupiterEngine)
