@@ -11,15 +11,17 @@ import coil.Coil
 import coil.imageLoader
 import coil.request.CachePolicy
 import coil.request.DefaultRequestOptions
+import core.playground.ui.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
@@ -41,7 +43,10 @@ internal class DebugCoilViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _coilUiStats = MutableStateFlow(CoilUiStats.from(app))
-    val coilUiStats = _coilUiStats.asStateFlow()
+
+    val coilUiStats = combine(_coilUiStats, storage.coilLogging) { stats, logging ->
+        stats.copy(logLevel = logging)
+    }.stateIn(viewModelScope, WhileViewSubscribed, CoilUiStats.Empty)
 
     private val actions = Channel<CoilUiAction>(capacity = Channel.CONFLATED)
 
@@ -60,10 +65,6 @@ internal class DebugCoilViewModel @Inject constructor(
 
         _coilUiStats.map { it.networkCachePolicy }.distinctUntilChanged().onEach {
             Coil.setImageLoader(app.imageLoader.newBuilder().networkCachePolicy(it).build())
-        }.launchIn(viewModelScope)
-
-        storage.coilLogging.onEach { level ->
-            _coilUiStats.update { it.copy(logLevel = level) }
         }.launchIn(viewModelScope)
 
         actions.receiveAsFlow().onEach { action ->
@@ -106,6 +107,13 @@ internal data class CoilUiStats(
     val logLevel: CoilLogLevel = DebugStorage.Defaults.CoilLoggingLevel,
 ) {
     companion object {
+        val Empty = CoilUiStats(
+            memorySizeBytes = 0,
+            memoryMaxSizeBytes = 0,
+            memoryCachePolicy = CachePolicy.ENABLED,
+            diskCachePolicy = CachePolicy.ENABLED,
+            networkCachePolicy = CachePolicy.ENABLED,
+        )
 
         /**
          * TODO: we might consider below link for memory information

@@ -37,13 +37,14 @@ import app.playground.ui.debug.components.DebugIcon
 import app.playground.ui.debug.components.EnumDropdown
 import app.playground.ui.debug.components.SubHeader
 import app.playground.ui.debug.data.CoilLogLevel
+import core.playground.ui.rememberFlowWithLifecycle
 import java.util.Locale
 
 @Composable
 internal fun ColumnScope.DebugCoil(
     model: DebugCoilViewModel = viewModel(),
 ) {
-    val stats by model.coilUiStats.collectAsState()
+    val stats by rememberFlowWithLifecycle(model.coilUiStats).collectAsState(CoilUiStats.Empty)
     val current = Formatter.formatFileSize(LocalContext.current, stats.memorySizeBytes.toLong())
     val total = Formatter.formatFileSize(LocalContext.current, stats.memoryMaxSizeBytes.toLong())
     val percentage = "%.2f".format(Locale.ENGLISH, stats.memoryPercentage)
