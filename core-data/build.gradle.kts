@@ -1,7 +1,6 @@
 plugins {
-    kotlin("jvm")
-    `java-library`
-    id("com.android.lint")
+    kotlinJvm
+    androidLint
 }
 
 dependencies {

@@ -1,6 +1,5 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    androidLibrary
 }
 
 android {
@@ -8,8 +7,6 @@ android {
     defaultConfig {
         minSdk = BuildOptions.MIN_SDK
         targetSdk = BuildOptions.COMPILE_SDK
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 

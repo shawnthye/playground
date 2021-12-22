@@ -1,14 +1,13 @@
 plugins {
-    kotlin("jvm")
-    `java-library`
-    id("com.android.lint")
+    kotlinJvm
+    androidLint
 }
 
 dependencies {
-    api(platform(project(":build-dep-constraints")))
+    api(platform(project(Libs.Project.dependencyConstraints)))
 
-    testImplementation(platform(Libs.Junit5.bom))
-    testImplementation(Libs.Junit5.jupiterApi)
+    testImplementation(platform(Libs.Test.Junit.bom))
+    testImplementation(Libs.Test.Junit.jupiterApi)
     testImplementation(Libs.Coroutines.core)
     testApi(Libs.Coroutines.test)
 }

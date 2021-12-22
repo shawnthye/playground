@@ -1,9 +1,8 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
+    androidLibrary
+    kapt
+    hilt
+    navigationSafeArgs
     jacoco
 }
 
@@ -77,9 +76,9 @@ dependencies {
     implementation(Libs.Coil.coilGif)
     implementation(Libs.AndroidX.palette)
 
-    testImplementation(platform(Libs.Junit5.bom))
-    testImplementation(Libs.Junit5.jupiterApi)
-    testRuntimeOnly(Libs.Junit5.jupiterEngine)
-    testImplementation(Libs.Test.hamcrestLibrary)
+    testImplementation(platform(Libs.Test.Junit.bom))
+    testImplementation(Libs.Test.Junit.jupiterApi)
+    testRuntimeOnly(Libs.Test.Junit.jupiterEngine)
+    testImplementation(Libs.Test.Hamcrest.library)
     testImplementation(Libs.Test.mockk)
 }

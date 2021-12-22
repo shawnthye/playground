@@ -1,8 +1,7 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
+    androidLibrary
+    kapt
+    hilt
     // jacoco
 }
 
@@ -71,9 +70,9 @@ dependencies {
     kapt(Libs.Dagger.hiltCompiler)
     implementation(Libs.AndroidX.Hilt.navigationCompose)
 
-    testImplementation(platform(Libs.Junit5.bom))
-    testImplementation(Libs.Junit5.jupiterApi)
-    testRuntimeOnly(Libs.Junit5.jupiterEngine)
-    testImplementation(Libs.Test.hamcrestLibrary)
+    testImplementation(platform(Libs.Test.Junit.bom))
+    testImplementation(Libs.Test.Junit.jupiterApi)
+    testRuntimeOnly(Libs.Test.Junit.jupiterEngine)
+    testImplementation(Libs.Test.Hamcrest.library)
     testImplementation(Libs.Test.mockk)
 }

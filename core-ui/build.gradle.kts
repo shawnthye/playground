@@ -1,7 +1,6 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
+    androidLibrary
+    kapt
     jacoco
 }
 
@@ -12,7 +11,6 @@ android {
         minSdk = BuildOptions.MIN_SDK
         targetSdk = BuildOptions.COMPILE_SDK
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
         vectorDrawables {
@@ -68,10 +66,16 @@ dependencies {
     implementation(Libs.AndroidX.core)
     implementation(Libs.AndroidX.constraintLayout)
 
-    testImplementation(Libs.AndroidX.Test.coreKtx)
-    testImplementation(platform(Libs.Junit5.bom))
-    testImplementation(Libs.Junit5.jupiterApi)
-    testRuntimeOnly(Libs.Junit5.jupiterEngine)
-    testImplementation(Libs.Test.hamcrestLibrary)
+    testImplementation(platform(Libs.Test.Junit.bom))
+    testImplementation(Libs.Test.Junit.jupiterApi)
+    testRuntimeOnly(Libs.Test.Junit.jupiterEngine)
+    testRuntimeOnly(Libs.Test.Junit.vintageEngine)
+
+    testImplementation(Libs.Test.Junit.junit4)
+    testImplementation(Libs.Test.robolectric)
+    testImplementation(Libs.AndroidX.Test.core)
+    testImplementation(Libs.AndroidX.Test.junit)
+
+    testImplementation(Libs.Test.Hamcrest.library)
     testImplementation(Libs.Test.mockk)
 }

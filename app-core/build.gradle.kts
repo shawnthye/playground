@@ -1,7 +1,6 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("kapt")
+    androidLibrary
+    kapt
 }
 
 android {
@@ -57,6 +56,6 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.ktx)
     implementation(Libs.AndroidX.Room.paging)
-    annotationProcessor(Libs.AndroidX.Room.compiler)
     kapt(Libs.AndroidX.Room.compiler)
+
 }

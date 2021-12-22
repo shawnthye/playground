@@ -1,18 +1,17 @@
 plugins {
-    kotlin("jvm")
-    id("com.apollographql.apollo3")
-    id("com.android.lint")
-    // jacoco
+    kotlinJvm
+    androidLint
+    apollo
 }
 
 dependencies {
-    api(platform(project(":build-dep-constraints")))
-    compileOnly(platform(project(":build-dep-constraints")))
-    testImplementation(platform(project(":build-dep-constraints")))
-    testRuntimeOnly(platform(project(":build-dep-constraints")))
+    api(platform(project(Libs.Project.dependencyConstraints)))
+    compileOnly(platform(project(Libs.Project.dependencyConstraints)))
+    testImplementation(platform(project(Libs.Project.dependencyConstraints)))
+    testRuntimeOnly(platform(project(Libs.Project.dependencyConstraints)))
 
-    implementation(project(":core"))
-    implementation(project(":core-data"))
+    implementation(project(Libs.Project.core))
+    implementation(project(Libs.Project.coreData))
 
     implementation(Libs.Dagger.javaxInject)
 

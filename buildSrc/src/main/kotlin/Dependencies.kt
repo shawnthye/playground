@@ -7,8 +7,6 @@ object Versions {
     const val ANDROID_TEST_CORE = "1.4.0"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
-    const val ANDROID_TEST_RULES = "1.4.0"
-    const val ANDROID_TEST_RUNNER = "1.4.0"
     const val ANNOTATION = "1.3.0"
     const val APOLLO = "3.0.0"
     const val APPCOMPAT = "1.4.0"
@@ -30,8 +28,7 @@ object Versions {
     const val HAMCREST = "2.2"
     const val HILT_NAVIGATION_COMPOSE = "1.0.0-rc01"
     const val JACOCO = "0.8.7"
-    const val JUNIT = "4.13.2"
-    const val JUNIT5_ANDROID_TEST = "1.3.0"
+    const val JUNIT4 = "4.13.2"
     const val JUPITER = "5.8.2"
     const val KOTLIN = "1.6.10"
     const val KOTLINX_JSON = "1.3.1"
@@ -49,6 +46,7 @@ object Versions {
     const val RECYCLER_VIEW = "1.2.1"
     const val RETROFIT = "2.9.0"
     const val RETROFIT_CONVERTER = "0.8.0"
+    const val ROBOLECTRIC = "4.7.3"
     const val ROOM = "2.4.0"
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
@@ -159,13 +157,11 @@ object Libs {
         }
 
         object Test {
-            const val core = "androidx.test:core"
-            const val coreKtx = "androidx.test:core-ktx"
+            const val coreBase = "androidx.test:core"
+            const val core = "androidx.test:core-ktx"
             const val espresso = "androidx.test.espresso:espresso-core"
-            const val junit = "androidx.test.ext:junit"
-            const val junitKtx = "androidx.test.ext:junit-ktx"
-            const val rules = "androidx.test:rules"
-            const val runner = "androidx.test:runner"
+            const val junitBase = "androidx.test.ext:junit"
+            const val junit = "androidx.test.ext:junit-ktx"
         }
     }
 
@@ -229,19 +225,23 @@ object Libs {
     }
 
     object Test {
-        const val hamcrestCore = "org.hamcrest:hamcrest-core"
-        const val hamcrestLibrary = "org.hamcrest:hamcrest-library"
-        const val junit = "junit:junit"
-        const val mockk = "io.mockk:mockk"
-    }
+        object Junit {
+            const val bom = "org.junit:junit-bom"
+            const val jupiterApi = "org.junit.jupiter:junit-jupiter-api"
+            const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine"
+            const val vintageEngine = "org.junit.vintage:junit-vintage-engine"
+            // const val jupiterParams = "org.junit.jupiter:junit-jupiter-params"
 
-    object Junit5 {
-        const val androidCore = "de.mannodermaus.junit5:android-test-core"
-        const val androidRunner = "de.mannodermaus.junit5:android-test-runner"
-        const val bom = "org.junit:junit-bom"
-        const val jupiterApi = "org.junit.jupiter:junit-jupiter-api"
-        const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine"
-        // const val jupiterParams = "org.junit.jupiter:junit-jupiter-params"
+            const val junit4 = "junit:junit"
+        }
+
+        object Hamcrest {
+            const val core = "org.hamcrest:hamcrest-core"
+            const val library = "org.hamcrest:hamcrest-library"
+        }
+
+        const val robolectric = "org.robolectric:robolectric"
+        const val mockk = "io.mockk:mockk"
     }
 
     object Project {
