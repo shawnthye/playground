@@ -1,8 +1,6 @@
 plugins {
     id("com.android.library")
     kotlin("android")
-    kotlin("kapt")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -27,15 +25,12 @@ android {
 }
 
 dependencies {
-    api(platform(project(":build-dep-constraints")))
-    ksp(platform(project(":build-dep-constraints")))
-    // kapt(platform(project(":build-dep-constraints")))
+    api(platform(project(Libs.Project.dependencyConstraints)))
 
-    implementation(project(":core"))
-    implementation(project(":core-data"))
-    @Suppress("SpellCheckingInspection")
-    implementation(project(":deviantart-api-model"))
-    compileOnly(project(":product-hunt-api"))
+    implementation(project(Libs.Project.core))
+    implementation(project(Libs.Project.coreData))
+    implementation(project(Libs.Project.deviantArtModel))
+    compileOnly(project(Libs.Project.productHuntApi))
 
     implementation(Libs.Coroutines.core)
     implementation(Libs.Dagger.javaxInject)
@@ -45,5 +40,4 @@ dependencies {
     implementation(Libs.AndroidX.Room.common)
     implementation(Libs.AndroidX.Room.runtime)
     implementation(Libs.AndroidX.Room.paging)
-    ksp(Libs.AndroidX.Room.compiler)
 }

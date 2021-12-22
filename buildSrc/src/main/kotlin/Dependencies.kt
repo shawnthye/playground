@@ -243,4 +243,13 @@ object Libs {
         const val jupiterEngine = "org.junit.jupiter:junit-jupiter-engine"
         // const val jupiterParams = "org.junit.jupiter:junit-jupiter-params"
     }
+
+    object Project {
+        const val dependencyConstraints = ":build-dep-constraints"
+
+        const val core = ":core"
+        const val coreData = ":core-data"
+        const val deviantArtModel = ":deviantart-api-model"
+        const val productHuntApi = ":product-hunt-api"
+    }
 }

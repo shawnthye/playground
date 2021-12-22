@@ -1,9 +1,8 @@
 fragment postFields on Post {
   id
-#  createdAt
+  #  createdAt
   thumbnail {
-    type
-    url
+    url(width: 200)
   }
   name
   #  media {
