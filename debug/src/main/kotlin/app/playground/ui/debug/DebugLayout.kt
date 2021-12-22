@@ -12,8 +12,9 @@ import app.playground.ui.debug.components.DebugDrawer
 import app.playground.ui.debug.theme.DebugTheme
 import core.playground.ui.rememberFlowWithLifecycle
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -52,7 +53,7 @@ fun DebugLayout(content: @Composable () -> Unit) {
     LaunchedEffect(Unit) {
         model.seenDrawer.collectLatest { seen ->
             if (!seen && drawerState.isClosed) {
-                delay(400)
+                delay(400.toDuration(DurationUnit.MILLISECONDS))
                 drawerState.open()
             }
         }

@@ -19,7 +19,7 @@ object Versions {
     const val CONCURRENT = "1.1.0"
     const val CONSTRAINT_LAYOUT = "2.1.2"
     const val CORE = "1.7.0"
-    const val COROUTINES = "1.5.2"
+    const val COROUTINES = "1.6.0"
     const val CUSTOM_VIEW = "1.1.0"
     const val DAGGER = "2.40.5"
     const val DAGGER_INJECT = "1"
