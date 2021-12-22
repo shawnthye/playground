@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import java.nio.file.Path
 
@@ -55,6 +56,40 @@ tasks.withType<Test> {
     }
 }
 
+fun CommonExtension<*, *, *, *>.configureAndroid() {
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = BuildOptions.JAVA_VERSION
+        targetCompatibility = BuildOptions.JAVA_VERSION
+    }
+
+    lint {
+        // Disable lintVital. Not needed since lint is run on CI
+        isCheckReleaseBuilds = false
+        // Ignore any tests
+        isIgnoreTestSources = false
+        // Make the build fail on any lint errors
+        isAbortOnError = true
+        // Allow lint to check dependencies
+        isCheckDependencies = true
+        // We don't want any warning
+        isWarningsAsErrors = true
+        xmlReport = false
+    }
+
+    testCoverage {
+        jacocoVersion = Versions.JACOCO
+    }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+}
+
 val modules = subprojects
 
 configure(modules) {
@@ -86,82 +121,11 @@ configure(modules) {
     }
 
     pluginManager.withPlugin("com.android.application") {
-        configure<BaseAppModuleExtension> {
-            compileOptions {
-                isCoreLibraryDesugaringEnabled = true
-                sourceCompatibility = BuildOptions.JAVA_VERSION
-                targetCompatibility = BuildOptions.JAVA_VERSION
-            }
-
-            lint {
-                // Disable lintVital. Not needed since lint is run on CI
-                isCheckReleaseBuilds = false
-                // Ignore any tests
-                isIgnoreTestSources = false
-                // Make the build fail on any lint errors
-                isAbortOnError = true
-                // Allow lint to check dependencies
-                isCheckDependencies = true
-                // We don't want any warning
-                isWarningsAsErrors = true
-                xmlReport = false
-            }
-
-            testCoverage {
-                jacocoVersion = Versions.JACOCO
-            }
-
-            testOptions {
-                animationsDisabled = true
-                // execution = "ANDROID_TEST_ORCHESTRATOR"
-                unitTests {
-                    isIncludeAndroidResources = true
-                    isReturnDefaultValues = true
-                }
-            }
-        }
+        configure<BaseAppModuleExtension> { configureAndroid() }
     }
 
     pluginManager.withPlugin("com.android.library") {
-        configure<com.android.build.gradle.LibraryExtension> {
-            compileOptions {
-                isCoreLibraryDesugaringEnabled = true
-                sourceCompatibility = BuildOptions.JAVA_VERSION
-                targetCompatibility = BuildOptions.JAVA_VERSION
-            }
-
-            lint {
-                // Disable lintVital. Not needed since lint is run on CI
-                isCheckReleaseBuilds = false
-                // Ignore any tests
-                isIgnoreTestSources = false
-                // Make the build fail on any lint errors
-                isAbortOnError = true
-                // Allow lint to check dependencies
-                isCheckDependencies = true
-                // We don't want any warning
-                isWarningsAsErrors = true
-                xmlReport = false
-            }
-
-            testCoverage {
-                jacocoVersion = Versions.JACOCO
-            }
-
-            testOptions {
-                animationsDisabled = true
-                /**
-                 * temporary disable, try what mention by google with to grant permission
-                 * or try later with newer plugin
-                 * see this https://issuetracker.google.com/issues/123987001#comment25
-                 */
-                // execution = "ANDROID_TEST_ORCHESTRATOR"
-                unitTests {
-                    isIncludeAndroidResources = true
-                    isReturnDefaultValues = true
-                }
-            }
-        }
+        configure<com.android.build.gradle.LibraryExtension> { configureAndroid() }
     }
 
     pluginManager.withPlugin("kotlin-kapt") {
@@ -198,6 +162,9 @@ configure(modules) {
 
             jvmTarget = BuildOptions.JAVA_VERSION.toString()
         }
+
+        sourceCompatibility = BuildOptions.JAVA_VERSION.toString()
+        targetCompatibility = BuildOptions.JAVA_VERSION.toString()
     }
 }
 

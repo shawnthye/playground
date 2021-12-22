@@ -1,18 +1,18 @@
 @file:Suppress("SpellCheckingInspection")
 
 object Versions {
-    const val ACCOMPANIST = "0.21.5-rc"
+    const val ACCOMPANIST = "0.22.0-rc"
     const val ACTIVITY = "1.4.0"
     const val ANDROID_PLUGIN = "7.0.4"
     const val ANDROID_TEST_CORE = "1.4.0"
     const val ANDROID_TEST_ESPRESSO = "3.4.0"
     const val ANDROID_TEST_JUNIT = "1.1.3"
-    const val ANDROID_TEST_ORCHESTRATOR = "1.4.0"
     const val ANDROID_TEST_RULES = "1.4.0"
     const val ANDROID_TEST_RUNNER = "1.4.0"
     const val ANNOTATION = "1.3.0"
     const val APOLLO = "3.0.0"
     const val APPCOMPAT = "1.4.0"
+    const val ARCH = "2.1.0"
     const val COIL = "1.4.0"
     const val COMPOSE = "1.1.0-rc01"
     const val COMPOSE_COMPILER = "1.1.0-rc02"
@@ -25,7 +25,7 @@ object Versions {
     const val DAGGER_INJECT = "1"
     const val DATA_STORE = "1.0.0"
     const val DRAWER_LAYOUT = "1.1.1"
-    const val FIREBASE = "29.0.1"
+    const val FIREBASE = "29.0.3"
     const val FRAGMENT = "1.4.0"
     const val HAMCREST = "2.2"
     const val HILT_NAVIGATION_COMPOSE = "1.0.0-rc01"
@@ -83,6 +83,7 @@ object Libs {
     }
 
     object AndroidX {
+        const val archCore = "androidx.arch.core:core-runtime"
         const val activity = "androidx.activity:activity"
         const val activityCompose = "androidx.activity:activity-compose"
         const val activityKtx = "androidx.activity:activity-ktx"
@@ -117,14 +118,12 @@ object Libs {
         }
 
         object Lifecycle {
+            const val livedataFoundation = "androidx.lifecycle:lifecycle-livedata"
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx"
-
-            @Suppress("SpellCheckingInspection")
-            const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate"
-
-            @Suppress("SpellCheckingInspection")
+            const val runtimeFoundation = "androidx.lifecycle:lifecycle-runtime"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx"
             const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose"
+            const val viewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate"
         }
 
         object Navigation {
@@ -165,7 +164,6 @@ object Libs {
             const val espresso = "androidx.test.espresso:espresso-core"
             const val junit = "androidx.test.ext:junit"
             const val junitKtx = "androidx.test.ext:junit-ktx"
-            const val orchestrator = "androidx.test:orchestrator"
             const val rules = "androidx.test:rules"
             const val runner = "androidx.test:runner"
         }
