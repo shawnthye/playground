@@ -9,7 +9,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    compileOnly(platform(project(":build-dep-constraints")))
+    compileOnly(platformDepConstraints)
 
     compileOnly(Libs.JetBrains.xJson)
 }

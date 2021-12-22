@@ -36,7 +36,7 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 
-    api(platform(project(":build-dep-constraints")))
+    api(platformDepConstraints)
     annotationProcessor(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
 

@@ -1,5 +1,7 @@
+import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.`java-library`
 import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.project
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
@@ -44,3 +46,6 @@ inline val PluginDependenciesSpec.kotlinxSerialization: PluginDependencySpec
 
 inline val PluginDependenciesSpec.apollo: PluginDependencySpec
     get() = id("com.apollographql.apollo3")
+
+inline val DependencyHandler.platformDepConstraints: Any
+    get() = platform(project(":build-dep-constraints"))

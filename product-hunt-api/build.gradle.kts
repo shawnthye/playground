@@ -5,10 +5,10 @@ plugins {
 }
 
 dependencies {
-    api(platform(project(Libs.Project.dependencyConstraints)))
-    compileOnly(platform(project(Libs.Project.dependencyConstraints)))
-    testImplementation(platform(project(Libs.Project.dependencyConstraints)))
-    testRuntimeOnly(platform(project(Libs.Project.dependencyConstraints)))
+    api(platformDepConstraints)
+    compileOnly(platformDepConstraints)
+    testImplementation(platformDepConstraints)
+    testRuntimeOnly(platformDepConstraints)
 
     implementation(project(Libs.Project.core))
     implementation(project(Libs.Project.coreData))

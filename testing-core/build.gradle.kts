@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    api(platform(project(Libs.Project.dependencyConstraints)))
+    api(platformDepConstraints)
 
     testImplementation(platform(Libs.Test.Junit.bom))
     testImplementation(Libs.Test.Junit.jupiterApi)

@@ -245,8 +245,6 @@ object Libs {
     }
 
     object Project {
-        const val dependencyConstraints = ":build-dep-constraints"
-
         const val core = ":core"
         const val coreData = ":core-data"
         const val deviantArtModel = ":deviantart-api-model"

@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    api(platform(project(Libs.Project.dependencyConstraints)))
+    api(platformDepConstraints)
 
     implementation(project(Libs.Project.core))
     implementation(project(Libs.Project.coreData))
