@@ -22,6 +22,8 @@
     <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
 
     <item name="colorStatusBar">@color/brand_night</item>
+    <item name="surface">@color/brand_night</item>
+    <item name="onSurface">@color/brand_light</item>
 
     <!--<item name="dividerVertical">@color/deviant_art_list_divider_night</item>-->
   </style>

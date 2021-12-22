@@ -3,12 +3,9 @@
   <style name="Playground" parent="Base.Playground" />
 
   <style name="Playground.Launch">
-    <item name="android:colorBackground">@color/brand_night</item>
+    <item name="android:colorBackground">?surface</item>
     <item name="android:windowBackground">@drawable/preview_window</item>
     <item name="colorStatusBar">?android:attr/colorBackground</item>
-
-    <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-    <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
 
     <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">
       ?android:attr/colorBackground
@@ -37,6 +34,8 @@
 
   <style name="Platform.Theme.Playground" parent="android:Theme.Material.Light.NoActionBar">
     <item name="colorStatusBar">@color/brand_light</item>
+    <item name="surface">@color/brand_light</item>
+    <item name="onSurface">@color/brand_night</item>
     <!--
     This is the status bar color for API below 23, usually the theme primary color,
     Note: the status bar icons will be always white

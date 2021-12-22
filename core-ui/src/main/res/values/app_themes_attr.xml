@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <attr name="colorStatusBar" format="color" />
+  <attr name="surface" format="color" />
+  <attr name="onSurface" format="color" />
 </resources>
