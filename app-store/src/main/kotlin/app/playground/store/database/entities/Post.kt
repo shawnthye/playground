@@ -18,4 +18,12 @@ data class Post(
     val postId: PostId,
     val name: String,
     val thumbnailUrl: String?,
-) : AppEntity
+) : AppEntity {
+    override fun equals(other: Any?): Boolean {
+        return (other as? Post)?.postId == postId
+    }
+
+    override fun hashCode(): Int {
+        return postId.hashCode()
+    }
+}

@@ -24,8 +24,9 @@ internal class LoadPostsUseCase
             /**
              * TODO: We should make the first page query in another use case,
              * then generate to max size for this
+             * so we doesn't need the loading progress
              */
-            maxSize = 100,
+            // maxSize = 100,
         )
     }
 

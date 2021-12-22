@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.GridCells
@@ -33,6 +34,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,7 +68,6 @@ import core.playground.ui.extension.asGif
 import core.playground.ui.rememberFlowWithLifecycle
 import core.playground.ui.string
 import core.playground.ui.theme.contentPadding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
@@ -154,13 +155,17 @@ private fun Posts(
                 Color.Transparent,
             )
         }
+
         BoxWithConstraints {
             val nColumns = maxOf((maxWidth / 128.dp).toInt(), 1)
             LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = contentPadding,
                 cells = GridCells.Fixed(nColumns),
+                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                verticalArrangement = Arrangement.spacedBy(3.dp),
             ) {
+
                 items(list.itemCount) { position ->
 
                     val placeholder = remember { placeholders[position % placeholders.size] }
@@ -170,12 +175,12 @@ private fun Posts(
                     Box(
                         modifier = Modifier
                             .aspectRatio(1f)
-                            .background(placeholder)
-                            .padding(1.dp),
+                            .background(placeholder),
                     ) {
                         if (post != null) {
+                            val state = remember(post.postId) { post }
                             PostsItem(
-                                post = post,
+                                post = state,
                                 placeholder = placeholder,
                                 openPost = openPost,
                             )
@@ -197,11 +202,19 @@ fun LazyGridScope.loadingBar(nColumns: Int, list: LazyPagingItems<*>) {
 
     items(maxOf(nColumns - (list.itemCount % nColumns), 0)) {
         // render an empty item to fill the grid span
-        Spacer(modifier = Modifier)
+        Spacer(
+            modifier = Modifier
+                .aspectRatio(1f)
+                .fillMaxWidth(),
+        )
     }
 
     item(span = { GridItemSpan(nColumns) }) {
-        Row(horizontalArrangement = Arrangement.Center) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize(),
+        ) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .wrapContentSize()
