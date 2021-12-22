@@ -1,8 +1,7 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
-    `java-library`
-    id("com.android.lint")
+    kotlinJvm
+    androidLint
+    kotlinxSerialization
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
