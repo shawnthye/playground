@@ -67,6 +67,7 @@ internal fun ThemeDemo() {
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
+            itemSpacing = 16.dp,
         ) { page ->
             Box(modifier = Modifier.fillMaxSize()) {
                 when (pages[page]) {
