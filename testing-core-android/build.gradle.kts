@@ -18,3 +18,7 @@ dependencies {
     // androidTestImplementation(Libs.timber)
     // androidTestImplementation(Libs.AndroidX.Test.runner)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions { freeCompilerArgs = emptyList() }
+}

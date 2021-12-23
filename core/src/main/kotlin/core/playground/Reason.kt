@@ -3,8 +3,8 @@ package core.playground
 import java.io.IOException
 
 sealed class Reason(
-    override val message: String,
-    override val cause: Throwable?,
+    message: String,
+    cause: Throwable?,
 ) : IOException(message, cause) {
 
     class Connection(cause: Throwable) : Reason("Connection", cause)
@@ -44,4 +44,6 @@ sealed class Reason(
             }
         }
     }
+
+    override val message: String get() = super.message!!
 }

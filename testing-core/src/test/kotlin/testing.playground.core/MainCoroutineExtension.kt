@@ -2,10 +2,11 @@ package testing.playground.core
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
@@ -22,10 +23,10 @@ import org.junit.jupiter.api.extension.RegisterExtension
  * // val coroutineExtension = MainCoroutineExtension()
  */
 class MainCoroutineExtension(
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher(),
+    val testDispatcher: TestDispatcher = StandardTestDispatcher(),
+    val testScope: TestScope = TestScope(StandardTestDispatcher()),
 ) : BeforeEachCallback,
-    AfterEachCallback,
-    TestCoroutineScope by TestCoroutineScope(testDispatcher) {
+    AfterEachCallback {
 
     override fun beforeEach(context: ExtensionContext?) {
         Dispatchers.setMain(testDispatcher)
@@ -33,13 +34,12 @@ class MainCoroutineExtension(
 
     override fun afterEach(context: ExtensionContext?) {
         Dispatchers.resetMain()
-        cleanupTestCoroutines()
     }
 }
 
-fun MainCoroutineExtension.runBlockingTest(
-    block: suspend TestCoroutineScope.() -> Unit,
-) = this.testDispatcher.runBlockingTest {
+fun MainCoroutineExtension.runTest(
+    block: suspend TestScope.() -> Unit,
+) = this.testScope.runTest {
     block()
 }
 
@@ -47,4 +47,4 @@ fun MainCoroutineExtension.runBlockingTest(
  * Creates a new [CoroutineScope] with the rule's testDispatcher
  */
 @Suppress("unused", "TestFunctionName")
-fun MainCoroutineExtension.CoroutineScope(): CoroutineScope = CoroutineScope(testDispatcher)
+fun MainCoroutineExtension.CoroutineScope(): CoroutineScope = testScope
