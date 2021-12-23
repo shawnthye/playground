@@ -161,8 +161,8 @@ private fun Posts(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = contentPadding,
                 cells = GridCells.Fixed(nColumns),
-                horizontalArrangement = Arrangement.spacedBy(3.dp),
-                verticalArrangement = Arrangement.spacedBy(3.dp),
+                // horizontalArrangement = Arrangement.spacedBy(3.dp),
+                // verticalArrangement = Arrangement.spacedBy(3.dp),
             ) {
 
                 items(list.itemCount) { position ->
@@ -174,7 +174,8 @@ private fun Posts(
                     Box(
                         modifier = Modifier
                             .aspectRatio(1f)
-                            .background(placeholder),
+                            .background(placeholder)
+                            .padding(1.dp),
                     ) {
                         if (post != null) {
                             val state = remember(post.postId) { post }
@@ -319,7 +320,10 @@ private val LazyPagingItems<*>.error: UiMessage?
     get() {
         if (itemCount == 0 && loadState.refresh is LoadState.Error) {
             return (loadState.refresh as LoadState.Error).error.asUiMessageOr {
-                UiMessage.String(it.message)
+                when (it.code) {
+                    429 -> UiMessage.String("Rate limit reached, Please try again later")
+                    else -> UiMessage.String(it.message)
+                }
             }
         }
         return null
