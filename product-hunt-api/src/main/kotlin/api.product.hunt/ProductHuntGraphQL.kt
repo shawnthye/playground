@@ -3,7 +3,8 @@ package api.product.hunt
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Mutation
 import com.apollographql.apollo3.api.Query
-import com.apollographql.apollo3.network.okHttpClient
+import com.apollographql.apollo3.network.okHttpCallFactory
+import core.playground.data.CallFactory
 import core.playground.data.Response
 import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
@@ -17,6 +18,7 @@ private const val SERVER_URL = "https://$API_PATH"
 @Singleton
 class ProductHuntGraphQL @Inject constructor(
     client: OkHttpClient,
+    callFactory: CallFactory,
 ) {
 
     private val graphql: ApolloClient by lazy {
@@ -26,7 +28,7 @@ class ProductHuntGraphQL @Inject constructor(
 
         ApolloClient.Builder()
             .serverUrl(SERVER_URL)
-            .okHttpClient(okHttpClient)
+            .okHttpCallFactory(callFactory(okHttpClient))
             .build()
     }
 

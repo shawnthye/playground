@@ -101,6 +101,7 @@ dependencies {
     testRuntimeOnly(platformDepConstraints)
 
     implementation(project(":core"))
+    implementation(project(":core-data"))
     implementation(project(":core-ui"))
     implementation(project(":app-core"))
     implementation(project(":discovery"))
@@ -164,6 +165,12 @@ dependencies {
     testRuntimeOnly(Libs.Test.Junit.jupiterEngine)
     testImplementation(Libs.Test.Hamcrest.library)
     testImplementation(Libs.Test.mockk)
+
+    // implementation("org.chromium.net:cronet-common:95.4638.50")
+    // implementation("org.chromium.net:cronet-api:95.4638.50")
+    // implementation("org.chromium.net:cronet-api:95.4638.50")
+    implementation("org.chromium.net:cronet-fallback:95.4638.50")
+    implementation("com.google.android.gms:play-services-cronet:18.0.0")
 }
 
 apply(plugin = "com.google.gms.google-services")

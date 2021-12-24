@@ -9,7 +9,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_COIL_LOGGING
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_ENVIRONMENT
-import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_OKHTTP_LOGGING
+import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_NETWORK_HTTP_ENGINE
+import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_NETWORK_OKHTTP_LOGGING
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_SEEN_DRAWER
 import coil.Coil
 import coil.imageLoader
@@ -44,17 +45,19 @@ class DebugStorage @Inject constructor(
     private object PreferencesKeys {
         val PREF_SEEN_DRAWER = booleanPreferencesKey("pref_seen_drawer")
         val PREF_ENVIRONMENT = stringPreferencesKey("pref_environment")
-        val PREF_OKHTTP_LOGGING = stringPreferencesKey("pref_okhttp_logging")
+        val PREF_NETWORK_HTTP_ENGINE = stringPreferencesKey("pref_network_http_engine")
+        val PREF_NETWORK_OKHTTP_LOGGING = stringPreferencesKey("pref_network_okhttp_logging")
         val PREF_COIL_LOGGING = stringPreferencesKey("pref_coil_logging")
     }
 
-    object Defaults {
+    internal object Defaults {
         val Environment = DebugEnvironment.PRODUCTION
+        val NetworkHttpEngine = HttpEngine.OKHTTP
         val OkhttpLoggingLevel = HttpLogging.NONE
         val CoilLoggingLevel = CoilLogLevel.NONE
     }
 
-    suspend fun clear() {
+    internal suspend fun clear() {
         store.edit { it.clear() }
     }
 
@@ -62,7 +65,7 @@ class DebugStorage @Inject constructor(
         it[PREF_SEEN_DRAWER] ?: false
     }.distinctUntilChanged()
 
-    suspend fun seenDrawer() {
+    internal suspend fun seenDrawer() {
         store.edit { it[PREF_SEEN_DRAWER] = true }
     }
 
@@ -74,20 +77,32 @@ class DebugStorage @Inject constructor(
             } ?: Defaults.Environment
     }.distinctUntilChanged()
 
-    suspend fun environment(environment: DebugEnvironment) {
+    internal suspend fun environment(environment: DebugEnvironment) {
         store.edit { it[PREF_ENVIRONMENT] = environment.name }
+    }
+
+    val networkHttpEngine: Flow<HttpEngine> = store.data.map {
+        HttpEngine
+            .values()
+            .find { env ->
+                env.name == it[PREF_NETWORK_HTTP_ENGINE]
+            } ?: Defaults.NetworkHttpEngine
+    }.distinctUntilChanged()
+
+    internal suspend fun networkHttpEngine(engine: HttpEngine) {
+        store.edit { it[PREF_NETWORK_HTTP_ENGINE] = engine.name }
     }
 
     val httpLoggingLevel: Flow<HttpLogging> = store.data.map {
         HttpLogging
             .values()
             .find { level ->
-                level.name == it[PREF_OKHTTP_LOGGING]
+                level.name == it[PREF_NETWORK_OKHTTP_LOGGING]
             } ?: Defaults.OkhttpLoggingLevel
     }.distinctUntilChanged()
 
-    suspend fun httpLoggingLevel(level: HttpLogging) {
-        store.edit { it[PREF_OKHTTP_LOGGING] = level.name }
+    internal suspend fun httpLoggingLevel(level: HttpLogging) {
+        store.edit { it[PREF_NETWORK_OKHTTP_LOGGING] = level.name }
     }
 
     val coilLogging: Flow<CoilLogLevel> = store.data.map {
@@ -98,7 +113,7 @@ class DebugStorage @Inject constructor(
             } ?: Defaults.CoilLoggingLevel
     }.distinctUntilChanged()
 
-    suspend fun coilLogging(level: CoilLogLevel) {
+    internal suspend fun coilLogging(level: CoilLogLevel) {
         store.edit { it[PREF_COIL_LOGGING] = level.name }
     }
 

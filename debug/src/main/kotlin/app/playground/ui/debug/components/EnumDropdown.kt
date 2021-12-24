@@ -31,7 +31,7 @@ import app.playground.ui.debug.data.HttpLogging
 
 private typealias OnValueChange<T> = (T) -> Unit
 
-private val Enum<*>.readableName get() = name.replace("_", " ")
+private val Enum<*>.readableName get() = toString().replace("_", " ")
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

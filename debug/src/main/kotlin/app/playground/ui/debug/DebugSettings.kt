@@ -38,6 +38,7 @@ import app.playground.ui.debug.components.ExtraAction
 import app.playground.ui.debug.components.StatsTable
 import app.playground.ui.debug.components.SubHeader
 import app.playground.ui.debug.data.DebugEnvironment
+import app.playground.ui.debug.data.HttpEngine
 import app.playground.ui.debug.data.HttpLogging
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
@@ -142,9 +143,20 @@ private fun ColumnScope.DebugEnvironment(model: DebugViewModel) {
 @Composable
 private fun ColumnScope.DebugNetwork(model: DebugViewModel) {
 
+    val engine by model.httpEngine.collectAsState()
     val level by model.httpLoggingLevel.collectAsState()
 
     SubHeader(title = "Network", icon = VectorIcon(Icons.Outlined.Cloud)) { padding ->
+
+        EnumDropdown(
+            modifier = Modifier.padding(padding),
+            label = "Engine",
+            options = HttpEngine.values().asList(),
+            selected = engine,
+        ) {
+            model.updateHttpEngine(it)
+        }
+
         EnumDropdown(
             modifier = Modifier.padding(padding),
             label = "Logging",

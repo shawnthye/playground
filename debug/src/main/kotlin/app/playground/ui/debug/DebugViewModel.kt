@@ -5,15 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.playground.ui.debug.data.DebugEnvironment
 import app.playground.ui.debug.data.DebugStorage.Defaults
+import app.playground.ui.debug.data.HttpEngine
 import app.playground.ui.debug.data.HttpLogging
 import app.playground.ui.debug.domain.GetBuildStatsUseCase
 import app.playground.ui.debug.domain.GetDebugEnvironmentUseCase
 import app.playground.ui.debug.domain.GetDeviceStatsUseCase
+import app.playground.ui.debug.domain.GetHttpEngineUseCase
 import app.playground.ui.debug.domain.GetHttpLoggingUseCase
 import app.playground.ui.debug.domain.GetSeenDrawerUseCase
 import app.playground.ui.debug.domain.ResetSettingsUseCase
 import app.playground.ui.debug.domain.SeHttpLoggingUseCase
 import app.playground.ui.debug.domain.SetDebugEnvironmentUseCase
+import app.playground.ui.debug.domain.SetHttpEngineUseCase
 import app.playground.ui.debug.domain.SetSeenDrawerUseCase
 import core.playground.domain.successOr
 import core.playground.ui.WhileViewSubscribed
@@ -36,6 +39,8 @@ internal class DebugViewModel @Inject constructor(
     private val setSeenDrawerUseCase: SetSeenDrawerUseCase,
     private val getDebugEnvironmentUseCase: GetDebugEnvironmentUseCase,
     private val setDebugEnvironmentUseCase: SetDebugEnvironmentUseCase,
+    private val getHttpEngineUseCase: GetHttpEngineUseCase,
+    private val setHttpEngineUseCase: SetHttpEngineUseCase,
     private val getHttpLoggingUseCase: GetHttpLoggingUseCase,
     private val setHttpLoggingUseCase: SeHttpLoggingUseCase,
     private val resetSettingsUseCase: ResetSettingsUseCase,
@@ -69,6 +74,10 @@ internal class DebugViewModel @Inject constructor(
         getDebugEnvironmentUseCase(Unit).map { it.successOr(Defaults.Environment) }
     }.stateIn(viewModelScope, WhileViewSubscribed, Defaults.Environment)
 
+    val httpEngine = loadDataSignal.flatMapLatest {
+        getHttpEngineUseCase(Unit).map { it.successOr(Defaults.NetworkHttpEngine) }
+    }.stateIn(viewModelScope, WhileViewSubscribed, Defaults.NetworkHttpEngine)
+
     val httpLoggingLevel = loadDataSignal.flatMapLatest {
         getHttpLoggingUseCase(Unit).map { it.successOr(Defaults.OkhttpLoggingLevel) }
     }.stateIn(viewModelScope, WhileViewSubscribed, Defaults.OkhttpLoggingLevel)
@@ -79,10 +88,12 @@ internal class DebugViewModel @Inject constructor(
         DebugUiAction.UpdateEnvironment(environment),
     )
 
+    fun updateHttpEngine(engine: HttpEngine) = actions.trySend(
+        DebugUiAction.UpdateHttpEngine(engine),
+    )
+
     fun updateHttpLoggingLevel(level: HttpLogging) = actions.trySend(
-        DebugUiAction.UpdateHttpLogging(
-            level,
-        ),
+        DebugUiAction.UpdateHttpLogging(level),
     )
 
     fun resetDebugSettings() = actions.trySend(DebugUiAction.ResetAllSettings)
@@ -92,8 +103,9 @@ internal class DebugViewModel @Inject constructor(
     init {
         actions.receiveAsFlow().onEach {
             when (it) {
-                is DebugUiAction.UpdateHttpLogging -> setHttpLoggingUseCase(it.level)
                 is DebugUiAction.UpdateEnvironment -> setDebugEnvironmentUseCase(it.environment)
+                is DebugUiAction.UpdateHttpEngine -> setHttpEngineUseCase(it.engine)
+                is DebugUiAction.UpdateHttpLogging -> setHttpLoggingUseCase(it.level)
                 DebugUiAction.SeenDrawer -> setSeenDrawerUseCase(Unit)
                 DebugUiAction.ResetAllSettings -> resetSettingsUseCase(Unit)
             }
@@ -104,6 +116,7 @@ internal class DebugViewModel @Inject constructor(
 internal sealed class DebugUiAction {
     object SeenDrawer : DebugUiAction()
     data class UpdateEnvironment(val environment: DebugEnvironment) : DebugUiAction()
+    data class UpdateHttpEngine(val engine: HttpEngine) : DebugUiAction()
     data class UpdateHttpLogging(val level: HttpLogging) : DebugUiAction()
     object ResetAllSettings : DebugUiAction()
 }
