@@ -1,5 +1,6 @@
 package api.art.deviant
 
+import core.playground.data.CallFactory
 import core.playground.data.FlowCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Converter
@@ -10,6 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class DeviantArt @Inject constructor(
     private val client: OkHttpClient,
+    private val callFactory: CallFactory,
     private val authenticator: DeviantArtAuthenticator,
     private val converterFactory: Converter.Factory,
 ) {
@@ -23,7 +25,7 @@ class DeviantArt @Inject constructor(
 
         Retrofit.Builder()
             .baseUrl("https://www.deviantart.com/api/v1/oauth2/")
-            .client(artClient)
+            .callFactory(callFactory { artClient })
             .addCallAdapterFactory(FlowCallAdapterFactory())
             .addConverterFactory(converterFactory)
             .build()
