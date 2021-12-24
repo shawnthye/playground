@@ -81,6 +81,8 @@ dependencies {
         api("${Libs.Google.Accompanist.pagerIndicators}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.pager}:${Versions.ACCOMPANIST}")
         api("${Libs.Google.Accompanist.swipeRefresh}:${Versions.ACCOMPANIST}")
+        api("${Libs.Google.Cronet.cronet}:${Versions.CRONET}")
+        api("${Libs.Google.Cronet.cronetFallback}:${Versions.CRONET_FALLBACK}")
         api("${Libs.Google.material}:${Versions.MATERIAL}")
         api("${Libs.JetBrains.reflect}:${Versions.KOTLIN}")
         api("${Libs.JetBrains.xJson}:${Versions.KOTLINX_JSON}")

@@ -51,6 +51,8 @@ object Versions {
     const val SWIPE_REFRESH = "1.1.0"
     const val TIMBER = "5.0.1"
     const val VECTOR_DRAWABLE = "1.1.0"
+    const val CRONET = "18.0.0"
+    const val CRONET_FALLBACK = "95.4638.50"
 }
 
 object Libs {
@@ -68,6 +70,11 @@ object Libs {
 
     object Google {
         const val material = "com.google.android.material:material"
+
+        object Cronet {
+            const val cronet = "com.google.android.gms:play-services-cronet:18.0.0"
+            const val cronetFallback = "org.chromium.net:cronet-fallback:95.4638.50"
+        }
 
         object Accompanist {
             const val insets = "com.google.accompanist:accompanist-insets"
