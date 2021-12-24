@@ -9,5 +9,5 @@ import okhttp3.OkHttpClient
  * also because we want to try out different HttpEngine
  */
 abstract class CallFactory {
-    abstract operator fun invoke(okhttp: OkHttpClient): Call.Factory
+    abstract operator fun invoke(block: () -> OkHttpClient): Call.Factory
 }

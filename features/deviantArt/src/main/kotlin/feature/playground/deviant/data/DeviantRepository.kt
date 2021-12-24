@@ -1,5 +1,6 @@
 package feature.playground.deviant.data
 
+import app.playground.store.DatabaseTransactionRunner
 import app.playground.store.database.daos.DeviationDao
 import app.playground.store.database.daos.DeviationTrackDao
 import app.playground.store.database.entities.Deviation
@@ -15,6 +16,7 @@ class DeviantRepository @Inject constructor(
     private val deviationDao: DeviationDao,
     private val deviationTrackDao: DeviationTrackDao,
     private val deviationDataSource: DeviationDataSource,
+    private val transactionRunner: DatabaseTransactionRunner,
 ) {
 
     fun trackPagingSource(track: Track) = deviationTrackDao.pagingSource(track.toString())
@@ -24,7 +26,7 @@ class DeviantRepository @Inject constructor(
 
         val body = request.execute() ?: return true
 
-        deviationTrackDao.withTransaction {
+        transactionRunner {
             if (nextPage.isNullOrBlank()) {
                 Timber.i("Delete track")
                 deviationTrackDao.deleteTrack(track = track.toString())

@@ -1,14 +1,14 @@
 package feature.playground.product.hunt.posts.data
 
+import app.playground.store.DatabaseTransactionRunner
 import app.playground.store.database.daos.DiscoveryDao
-import app.playground.store.database.daos.PostDao
 import core.playground.data.execute
 import javax.inject.Inject
 
 internal class DiscoverRepository @Inject constructor(
     private val discoveryDao: DiscoveryDao,
-    private val postDao: PostDao,
     private val discoverDataSource: DiscoverDataSource,
+    private val transactionRunner: DatabaseTransactionRunner,
 ) {
 
     fun pagingSource() = discoveryDao.pagingSource()
@@ -17,7 +17,7 @@ internal class DiscoverRepository @Inject constructor(
 
         val query = discoverDataSource.query(nextPage).execute() ?: return true
 
-        discoveryDao.withTransaction {
+        transactionRunner {
             if (nextPage.isNullOrBlank()) {
                 discoveryDao.deleteAll()
             }
@@ -25,8 +25,6 @@ internal class DiscoverRepository @Inject constructor(
             val entries = query.map { it.entry }
             val posts = query.map { it.post }
             discoveryDao.replace(entries, posts)
-            // postDao.replace(query.map { it.post })
-            // discoveryDao.replace(query.map { it.entry })
         }
 
         return query.lastOrNull()?.entry?.nextPage.isNullOrBlank()

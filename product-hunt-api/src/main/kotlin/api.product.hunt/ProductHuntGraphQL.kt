@@ -28,7 +28,7 @@ class ProductHuntGraphQL @Inject constructor(
 
         ApolloClient.Builder()
             .serverUrl(SERVER_URL)
-            .okHttpCallFactory(callFactory(okHttpClient))
+            .okHttpCallFactory(callFactory { okHttpClient })
             .build()
     }
 

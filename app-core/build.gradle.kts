@@ -1,5 +1,6 @@
 plugins {
     androidLibrary
+    ksp
     kapt
 }
 
@@ -38,6 +39,7 @@ dependencies {
 
     api(platformDepConstraints)
     annotationProcessor(platform(project(":build-dep-constraints")))
+    ksp(platform(project(":build-dep-constraints")))
     kapt(platform(project(":build-dep-constraints")))
 
     implementation(project(":core-data"))
@@ -56,6 +58,7 @@ dependencies {
 
     implementation(Libs.AndroidX.Room.ktx)
     implementation(Libs.AndroidX.Room.paging)
+    annotationProcessor(Libs.AndroidX.Room.compiler)
     kapt(Libs.AndroidX.Room.compiler)
 
 }

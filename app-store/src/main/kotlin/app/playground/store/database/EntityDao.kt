@@ -49,9 +49,6 @@ abstract class EntityDao<E : AppEntity> {
     abstract suspend fun delete(entities: List<E>): Int
 
     @Transaction
-    open suspend fun withTransaction(tx: suspend () -> Unit) = tx()
-
-    @Transaction
     open suspend fun upsert(entity: E): Long {
         val id = insertIgnore(entity)
         return if (id == -1L) {

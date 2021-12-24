@@ -3,6 +3,9 @@ package app.playground.core.di
 import android.content.Context
 import androidx.room.Room
 import app.playground.core.data.AppDatabase
+import app.playground.core.data.RoomTransactionRunner
+import app.playground.store.DatabaseTransactionRunner
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,4 +52,15 @@ internal object DatabaseModule {
     @Singleton
     @Provides
     fun provideDeviationTrackDao(database: AppDatabase) = database.deviationTrackDao()
+}
+
+@InstallIn(SingletonComponent::class)
+@Module
+internal abstract class DatabaseModuleBinds {
+
+    @Singleton
+    @Binds
+    abstract fun provideDatabaseTransactionRunner(
+        runner: RoomTransactionRunner,
+    ): DatabaseTransactionRunner
 }

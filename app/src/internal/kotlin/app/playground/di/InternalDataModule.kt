@@ -72,21 +72,23 @@ object InternalDataModule {
         @ApplicationContext context: Context,
         @IoDispatcher dispatcher: CoroutineDispatcher,
     ): CallFactory = object : CallFactory() {
+        override fun invoke(block: () -> OkHttpClient): Call.Factory {
+            val okhttp = block()
+            return when (httpEngine) {
+                HttpEngine.OKHTTP -> okhttp
+                HttpEngine.CRONET -> {
+                    val engine = CronetEngine.Builder(context).apply {
+                        enableHttp2(true)
+                        enableQuic(true)
+                        enableBrotli(true)
+                        okhttp.cache?.also { cache ->
+                            setStoragePath(cache.directory.path)
+                            enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK, cache.maxSize())
+                        }
+                    }.build()
 
-        override fun invoke(okhttp: OkHttpClient): Call.Factory = when (httpEngine) {
-            HttpEngine.OKHTTP -> okhttp
-            HttpEngine.CRONET -> {
-                val engine = CronetEngine.Builder(context).apply {
-                    enableHttp2(true)
-                    enableQuic(true)
-                    enableBrotli(true)
-                    okhttp.cache?.also { cache ->
-                        setStoragePath(cache.directory.path)
-                        enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK, cache.maxSize())
-                    }
-                }.build()
-
-                CronetFactory(okhttp = okhttp, engine = engine, dispatcher = dispatcher)
+                    CronetFactory(okhttp = okhttp, engine = engine, dispatcher = dispatcher)
+                }
             }
         }
     }
