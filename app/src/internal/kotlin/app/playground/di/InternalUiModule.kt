@@ -12,7 +12,7 @@ import dagger.hilt.android.components.ActivityComponent
 internal object InternalUiModule {
 
     @Provides
-    fun providesAppContainer(): AppContainer {
+    fun provideAppContainer(): AppContainer {
         return DebugAppContainer
     }
 }

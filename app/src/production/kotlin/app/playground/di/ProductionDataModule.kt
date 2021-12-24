@@ -2,10 +2,12 @@ package app.playground.di
 
 import android.app.Application
 import coil.ImageLoader
+import core.playground.data.CallFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
@@ -28,5 +30,11 @@ object ProductionDataModule {
 
     @Singleton
     @Provides
-    fun providesCoil(app: Application): ImageLoader = DataModule.createImageLoader(app)
+    fun provideCallFactory(): CallFactory = object : CallFactory() {
+        override fun invoke(okhttp: OkHttpClient): Call.Factory = okhttp
+    }
+
+    @Singleton
+    @Provides
+    fun provideCoil(app: Application): ImageLoader = DataModule.createImageLoader(app)
 }

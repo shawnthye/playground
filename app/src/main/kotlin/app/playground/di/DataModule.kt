@@ -31,7 +31,7 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun providesJson(): Json = Json {
+    fun provideJson(): Json = Json {
         prettyPrint = BuildConfig.DEBUG
         ignoreUnknownKeys = true
         // explicitNulls = false
@@ -43,7 +43,7 @@ object DataModule {
     @OptIn(ExperimentalSerializationApi::class)
     @Singleton
     @Provides
-    fun providesRetrofitConverterFactory(json: Json): Converter.Factory = json.asConverterFactory(
+    fun provideRetrofitConverterFactory(json: Json): Converter.Factory = json.asConverterFactory(
         "application/json".toMediaType(),
     )
 

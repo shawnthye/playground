@@ -63,11 +63,9 @@ object InternalDataModule {
     @Singleton
     @Provides
     fun provideCallFactory(httpEngine: HttpEngine): CallFactory = object : CallFactory() {
-        override fun invoke(okhttp: OkHttpClient): Call.Factory {
-            return when (httpEngine) {
-                HttpEngine.OKHTTP -> okhttp
-                HttpEngine.CRONET -> CronetFactory(okhttp)
-            }
+        override fun invoke(okhttp: OkHttpClient): Call.Factory = when (httpEngine) {
+            HttpEngine.OKHTTP -> okhttp
+            HttpEngine.CRONET -> CronetFactory(okhttp)
         }
     }
 
