@@ -38,7 +38,8 @@ class CronetInterceptor(
             if (!url.isHttps) {
                 if (!Platform.get().isCleartextTrafficPermitted(url.host)) {
                     throw ProtocolException(
-                        "CLEARTEXT communication to ${url.host} not permitted by network security policy",
+                        """CLEARTEXT communication to ${url.host} not permitted
+                            | by network security policy""".trimMargin(),
                     )
                 }
             }
@@ -93,7 +94,6 @@ class CronetInterceptor(
                         // else {
                         //     networkResponse(build())
                         // }
-
                     }.build()
 
                     listener.callEnd(call)

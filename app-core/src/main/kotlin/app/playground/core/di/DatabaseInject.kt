@@ -60,7 +60,7 @@ internal abstract class DatabaseModuleBinds {
 
     @Singleton
     @Binds
-    abstract fun provideDatabaseTransactionRunner(
+    abstract fun bindDatabaseTransactionRunner(
         runner: RoomTransactionRunner,
     ): DatabaseTransactionRunner
 }

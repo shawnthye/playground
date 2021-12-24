@@ -56,9 +56,9 @@ dependencies {
 
     implementation(Libs.AndroidX.Paging.common)
 
+    implementation(Libs.AndroidX.Room.runtime)
+    annotationProcessor(Libs.AndroidX.Room.compiler)
     implementation(Libs.AndroidX.Room.ktx)
     implementation(Libs.AndroidX.Room.paging)
-    annotationProcessor(Libs.AndroidX.Room.compiler)
     kapt(Libs.AndroidX.Room.compiler)
-
 }

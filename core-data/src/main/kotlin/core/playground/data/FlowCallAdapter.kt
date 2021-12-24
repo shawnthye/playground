@@ -43,8 +43,7 @@ class FlowCallAdapter<R>(
                         },
                     )
 
-                    continuation.invokeOnCancellation { call.cancel()
-                    }
+                    continuation.invokeOnCancellation { call.cancel() }
                 },
             )
         }
