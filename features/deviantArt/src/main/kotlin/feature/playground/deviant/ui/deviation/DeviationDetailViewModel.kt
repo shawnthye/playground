@@ -57,7 +57,9 @@ internal class DeviationDetailViewModel @Inject constructor(
      * This is just for demo purpose that how we can present an empty state error message
      * Since we are using NetworkBoundResult and the data also backed by the Track Fragment screen
      */
-    val errorMessage = result.mapOnError { error ->
+    val errorMessage = result.filter {
+        it.data == null
+    }.mapOnError { error ->
         error.asUiMessage()
     }.stateIn(viewModelScope, WhileViewSubscribed, null)
 
