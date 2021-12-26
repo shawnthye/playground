@@ -26,9 +26,14 @@ fun Throwable.asUiMessage() = asUiMessageOr { UNKNOWN }
 fun Throwable.asUiMessageOr(
     transformHttpError: (Reason.HttpError) -> UiMessage?,
 ): UiMessage {
-    return when (this) {
+    var maybe: Throwable? = this
+    while (maybe != null && maybe !is Reason) {
+        maybe = maybe.cause
+    }
+
+    return when (maybe ?: this) {
         is Reason.Connection -> CONNECTION
-        is Reason.HttpError -> transformHttpError(this) ?: UNKNOWN
+        is Reason.HttpError -> transformHttpError(this as Reason.HttpError) ?: UNKNOWN
         else -> UNKNOWN
     }
 }

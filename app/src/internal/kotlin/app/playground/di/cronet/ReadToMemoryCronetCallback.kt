@@ -8,6 +8,7 @@ import org.chromium.net.UrlResponseInfo
 import java.io.IOException
 import java.nio.ByteBuffer
 
+// TODO: should replace with null parameter for error only or all?
 internal abstract class ReadToMemoryCronetCallback : UrlRequest.Callback() {
 
     private val buffer = Buffer()
@@ -42,7 +43,7 @@ internal abstract class ReadToMemoryCronetCallback : UrlRequest.Callback() {
             buffer.write(byteBuffer)
             // receiveChannel.write(byteBuffer)
         } catch (e: IOException) {
-            onFailed(urlRequest, info, e)
+            onFailure(urlRequest, info, e)
         }
         // Reset the buffer to prepare it for the next read
         byteBuffer.clear()
@@ -72,11 +73,11 @@ internal abstract class ReadToMemoryCronetCallback : UrlRequest.Callback() {
 
     final override fun onFailed(
         urlRequest: UrlRequest,
-        info: UrlResponseInfo,
+        info: UrlResponseInfo?,
         error: CronetException,
-    ): Unit = onFailed(urlRequest = urlRequest, info = info, error = error)
+    ) = onFailure(urlRequest = urlRequest, info = info, error = error)
 
-    abstract fun onFailed(urlRequest: UrlRequest, info: UrlResponseInfo, error: IOException)
+    abstract fun onFailure(urlRequest: UrlRequest, info: UrlResponseInfo?, error: IOException)
 
     final override fun onCanceled(urlRequest: UrlRequest, info: UrlResponseInfo) {
         super.onCanceled(urlRequest, info)

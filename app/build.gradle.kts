@@ -51,6 +51,7 @@ android {
 
     buildTypes {
         debug {
+            signingConfig = null
             isMinifyEnabled = false
             isTestCoverageEnabled = true
             configure<com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension> {
@@ -59,6 +60,7 @@ android {
             }
         }
         release {
+            signingConfig = null
             isMinifyEnabled = true
             isCrunchPngs = false
             proguardFiles(

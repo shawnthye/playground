@@ -76,33 +76,38 @@ class CronetInterceptor(
                 ) {
                     listener.responseBodyEnd(call, info.receivedByteCount)
 
-                    val mimeType = info
-                        .allHeadersAsList
-                        .first { it.key.lowercase() == "content-type" }
-                        .value
-                        .toMediaTypeOrNull()
+                    try {
+                        val mimeType = info
+                            .allHeadersAsList
+                            .first { it.key.lowercase() == "content-type" }
+                            .value
+                            .toMediaTypeOrNull()
 
-                    val response = Response.Builder().apply {
-                        request(request.newBuilder().url(info.url.toHttpUrl()).build())
-                        parse(info)
-                        body(bodyBytes.toResponseBody(mimeType))
+                        val response = Response.Builder().apply {
+                            request(request.newBuilder().url(info.url.toHttpUrl()).build())
+                            parse(info)
+                            body(bodyBytes.toResponseBody(mimeType))
 
-                        if (info.wasCached()) {
-                            cacheResponse(build())
-                        }
-                        // TODO: we haven't verify if the cached is working really working
-                        // else {
-                        //     networkResponse(build())
-                        // }
-                    }.build()
+                            if (info.wasCached()) {
+                                cacheResponse(build())
+                            }
+                            // TODO: we haven't verify if the cached is working really working
+                            // else {
+                            //     networkResponse(build())
+                            // }
+                        }.build()
 
-                    listener.callEnd(call)
-                    continuation.resume(response)
+                        listener.callEnd(call)
+                        continuation.resume(response)
+                    } catch (t: Throwable) {
+                        listener.callEnd(call)
+                        continuation.resumeWithException(t)
+                    }
                 }
 
-                override fun onFailed(
+                override fun onFailure(
                     urlRequest: UrlRequest,
-                    info: UrlResponseInfo,
+                    info: UrlResponseInfo?,
                     error: IOException,
                 ) {
                     listener.callFailed(call, error)
@@ -118,10 +123,9 @@ class CronetInterceptor(
                 request.url.toString(),
                 callback,
                 dispatcher.asExecutor(),
-            ).applyRequest(
-                request,
-                dispatcher,
-            ).build().also { it.start() }
+            ).applyRequest(request, dispatcher).build().also {
+                it.start()
+            }
 
             continuation.invokeOnCancellation {
                 urlRequest.cancel()

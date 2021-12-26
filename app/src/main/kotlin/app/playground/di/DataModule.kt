@@ -53,7 +53,6 @@ object DataModule {
         }.build()
 
         return client.newBuilder()
-            // .dns(ReasonDns(client))
             .addInterceptor(ReasonInterceptor(client))
             .build()
     }
