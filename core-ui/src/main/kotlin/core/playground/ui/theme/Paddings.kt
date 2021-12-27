@@ -4,15 +4,20 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-private val padding = 16.dp
+val Dp.Companion.contentPadding get() = 16.dp
 
-fun Modifier.contentPaddingHeight() = then(height(padding))
+fun Modifier.contentPaddingHeight() = then(height(Dp.contentPadding))
 
-fun Modifier.contentHorizontalPadding() = then(padding(PaddingValues(horizontal = padding)))
+fun Modifier.contentHorizontalPadding() = then(
+    padding(PaddingValues(horizontal = Dp.contentPadding)),
+)
 
-fun Modifier.contentVerticalPadding() = then(padding(PaddingValues(vertical = padding)))
+fun Modifier.contentVerticalPadding() = then(
+    padding(PaddingValues(vertical = Dp.contentPadding)),
+)
 
 fun Modifier.contentPadding() = this
     .then(contentHorizontalPadding())
