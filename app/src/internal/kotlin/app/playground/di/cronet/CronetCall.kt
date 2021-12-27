@@ -57,12 +57,14 @@ class CronetCall(
             okhttp = okhttp,
             request = request,
             engine = engine,
-            dispatcher = dispatcher
+            dispatcher = dispatcher,
         )
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
     override fun enqueue(responseCallback: Callback) {
+        //TODO: better way to handle cancel like, we can't just call execute() like this
+        // also check if cronet is cancel
         job = CoroutineScope(dispatcher).launch {
             try {
                 val response = execute()
@@ -93,7 +95,6 @@ class CronetCall(
             okhttp.readTimeoutMillis,
             okhttp.writeTimeoutMillis,
         )
-
         return chain.proceed(request)
     }
 

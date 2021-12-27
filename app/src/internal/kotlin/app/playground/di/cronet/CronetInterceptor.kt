@@ -129,6 +129,7 @@ class CronetInterceptor(
 
             continuation.invokeOnCancellation {
                 urlRequest.cancel()
+                call.cancel()
             }
         }
     }
