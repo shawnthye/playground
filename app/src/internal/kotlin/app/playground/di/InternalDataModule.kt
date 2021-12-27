@@ -86,7 +86,6 @@ object InternalDataModule {
                             enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK, cache.maxSize())
                         }
                     }.build()
-
                     CronetFactory(okhttp = okhttp, engine = engine, dispatcher = dispatcher)
                 }
             }
@@ -102,7 +101,9 @@ object InternalDataModule {
     fun provideCoil(
         app: Application,
         logger: Logger,
+        callFactory: CallFactory,
     ): ImageLoader = DataModule.createImageLoader(app).newBuilder()
+        .callFactory { callFactory { OkHttpClient.Builder().build() } }
         .logger(logger = logger)
         .build()
 }

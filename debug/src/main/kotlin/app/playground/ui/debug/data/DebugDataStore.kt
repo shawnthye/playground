@@ -12,19 +12,10 @@ import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_ENVIRONMEN
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_NETWORK_HTTP_ENGINE
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_NETWORK_OKHTTP_LOGGING
 import app.playground.ui.debug.data.DebugStorage.PreferencesKeys.PREF_SEEN_DRAWER
-import coil.Coil
-import coil.imageLoader
-import coil.util.Logger
-import core.playground.ApplicationScope
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,12 +24,7 @@ internal val Context.debugDataStore: DataStore<Preferences> by preferencesDataSt
 )
 
 @Singleton
-class DebugStorage @Inject constructor(
-    httpLoggingInterceptor: HttpLoggingInterceptor,
-    coilLogger: Logger?,
-    @ApplicationContext context: Context,
-    @ApplicationScope applicationScope: CoroutineScope,
-) {
+class DebugStorage @Inject constructor(@ApplicationContext context: Context) {
 
     private val store = context.debugDataStore
 
@@ -61,7 +47,7 @@ class DebugStorage @Inject constructor(
         store.edit { it.clear() }
     }
 
-    val seenDrawer: Flow<Boolean> = store.data.map {
+    internal val seenDrawer: Flow<Boolean> = store.data.map {
         it[PREF_SEEN_DRAWER] ?: false
     }.distinctUntilChanged()
 
@@ -115,26 +101,5 @@ class DebugStorage @Inject constructor(
 
     internal suspend fun coilLogging(level: CoilLogLevel) {
         store.edit { it[PREF_COIL_LOGGING] = level.name }
-    }
-
-    init {
-        environment.onEach {
-            Timber.i("debug environment = $it")
-        }.launchIn(applicationScope)
-
-        httpLoggingLevel.onEach {
-            Timber.i("httpLoggingInterceptor.level = $it")
-            httpLoggingInterceptor.level = it
-        }.launchIn(applicationScope)
-
-        coilLogging.onEach {
-            Timber.i("coilLogger.level = $it")
-            if (it == CoilLogLevel.NONE) {
-                Coil.setImageLoader(context.imageLoader.newBuilder().logger(null).build())
-            } else {
-                coilLogger!!.level = it.level
-                Coil.setImageLoader(context.imageLoader.newBuilder().logger(coilLogger).build())
-            }
-        }.launchIn(applicationScope)
     }
 }

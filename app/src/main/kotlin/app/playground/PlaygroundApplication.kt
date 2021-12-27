@@ -3,14 +3,12 @@ package app.playground
 import android.app.Application
 import app.playground.utils.CrashlyticsTree
 import app.playground.utils.DebugTree
-import coil.ImageLoader
-import coil.ImageLoaderFactory
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class PlaygroundApplication : Application(), ImageLoaderFactory {
+class PlaygroundApplication : Application() {
 
     init {
         // we need Timber as soon as possible
@@ -22,12 +20,11 @@ class PlaygroundApplication : Application(), ImageLoaderFactory {
     }
 
     @Inject
-    lateinit var imageLoader: ImageLoader
+    lateinit var initializers: AppInitializers
 
     override fun onCreate() {
-        Timber.i("onCreate()")
+        Timber.i("before onCreate()")
         super.onCreate()
+        initializers.init(this)
     }
-
-    override fun newImageLoader(): ImageLoader = imageLoader
 }

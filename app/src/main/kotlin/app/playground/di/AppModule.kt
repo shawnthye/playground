@@ -1,11 +1,15 @@
 package app.playground.di
 
+import app.playground.CoilInitializer
+import app.playground.core.AppInitializer
 import core.playground.ApplicationScope
 import core.playground.DefaultDispatcher
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -24,4 +28,12 @@ object AppModule {
     fun provideApplicationScope(
         @DefaultDispatcher defaultDispatcher: CoroutineDispatcher,
     ): CoroutineScope = CoroutineScope(SupervisorJob() + defaultDispatcher)
+}
+
+@InstallIn(SingletonComponent::class)
+@Module
+abstract class AppModuleBinds {
+    @Binds
+    @IntoSet
+    abstract fun bindCoilInitializer(bind: CoilInitializer): AppInitializer
 }

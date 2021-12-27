@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core-domain"))
     implementation(project(":core-ui"))
+    implementation(project(":app-core"))
     implementation(project(":demos"))
     implementation(project(":deviantArt"))
 

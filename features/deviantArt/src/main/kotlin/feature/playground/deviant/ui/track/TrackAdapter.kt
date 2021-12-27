@@ -14,6 +14,7 @@ import app.playground.store.database.entities.Deviation
 import app.playground.store.database.entities.TrackWithDeviation
 import coil.load
 import coil.request.repeatCount
+import coil.util.CoilUtils
 import feature.playground.deviant.R
 import feature.playground.deviant.databinding.DeviationItemBinding
 import feature.playground.deviant.ui.selectableItemBackground
@@ -33,10 +34,6 @@ class TrackAdapter(
         fun onItemClicked(id: String)
     }
 
-    override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
-        holder.bind(getItem(position)?.deviation)
-    }
-
     override fun getItemViewType(position: Int): Int {
         return R.layout.deviation_item
     }
@@ -45,6 +42,14 @@ class TrackAdapter(
         parent: ViewGroup,
         viewType: Int,
     ): DeviationViewHolder = DeviationViewHolder(parent, onItemClickListener)
+
+    override fun onBindViewHolder(holder: DeviationViewHolder, position: Int) {
+        holder.bind(getItem(position)?.deviation)
+    }
+
+    override fun onViewRecycled(holder: DeviationViewHolder) {
+        holder.recycler()
+    }
 }
 
 fun TrackAdapter.withFooter(
@@ -76,6 +81,10 @@ class DeviationViewHolder(
     fun bind(deviation: Deviation?) {
         binding.deviation = deviation
         binding.executePendingBindings()
+    }
+
+    fun recycler() {
+        CoilUtils.clear(binding.image)
     }
 
     override fun onPaletteReady(deviation: Deviation, palette: Palette) {

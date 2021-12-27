@@ -3,7 +3,7 @@ package app.playground.ui.debug.data
 import android.util.Log
 
 enum class CoilLogLevel(val level: Int) {
-    NONE(Log.VERBOSE),
+    NONE(Log.ERROR),
     VERBOSE(Log.VERBOSE),
     DEBUG(Log.DEBUG),
     INFO(Log.INFO),
