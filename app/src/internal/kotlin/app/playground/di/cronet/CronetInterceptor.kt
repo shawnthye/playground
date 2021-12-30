@@ -48,11 +48,22 @@ class CronetInterceptor(
         }
     }
 
+    private var urlRequest: UrlRequest? = null
+
+    internal fun cancel() {
+        urlRequest?.cancel()
+        urlRequest = null
+    }
+
     private suspend fun CronetEngine.proceed(chain: Interceptor.Chain): Response {
         val sentRequestMillis = System.currentTimeMillis()
         return suspendCancellableCoroutine { continuation ->
             val request = chain.request()
             val call = chain.call()
+
+            if (call.isCanceled()) {
+                continuation.cancel(IOException("Canceled"))
+            }
 
             val callback = object : ReadToMemoryCronetCallback() {
 
@@ -116,10 +127,11 @@ class CronetInterceptor(
 
                 override fun onCanceled() {
                     listener.canceled(call)
+                    continuation.cancel(IOException("Canceled"))
                 }
             }
 
-            val urlRequest = newUrlRequestBuilder(
+            urlRequest = newUrlRequestBuilder(
                 request.url.toString(),
                 callback,
                 dispatcher.asExecutor(),
@@ -128,7 +140,7 @@ class CronetInterceptor(
             }
 
             continuation.invokeOnCancellation {
-                urlRequest.cancel()
+                urlRequest?.cancel()
                 call.cancel()
             }
         }

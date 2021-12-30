@@ -79,7 +79,7 @@ internal abstract class ReadToMemoryCronetCallback : UrlRequest.Callback() {
 
     abstract fun onFailure(urlRequest: UrlRequest, info: UrlResponseInfo?, error: IOException)
 
-    final override fun onCanceled(urlRequest: UrlRequest, info: UrlResponseInfo) {
+    final override fun onCanceled(urlRequest: UrlRequest, info: UrlResponseInfo?) {
         super.onCanceled(urlRequest, info)
         onCanceled()
     }
