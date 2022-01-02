@@ -10,14 +10,12 @@ import coil.ImageLoader
 import coil.util.DebugLogger
 import coil.util.Logger
 import core.playground.ApplicationScope
-import core.playground.IoDispatcher
 import core.playground.data.CallFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -70,7 +68,6 @@ object InternalDataModule {
     fun provideCallFactory(
         httpEngine: HttpEngine,
         @ApplicationContext context: Context,
-        @IoDispatcher dispatcher: CoroutineDispatcher,
     ): CallFactory = object : CallFactory() {
         override fun invoke(block: () -> OkHttpClient): Call.Factory {
             val okhttp = block()
@@ -86,7 +83,7 @@ object InternalDataModule {
                             enableHttpCache(CronetEngine.Builder.HTTP_CACHE_DISK, cache.maxSize())
                         }
                     }.build()
-                    CronetFactory(okhttp = okhttp, engine = engine, dispatcher = dispatcher)
+                    CronetFactory(okhttp = okhttp, engine = engine)
                 }
             }
         }

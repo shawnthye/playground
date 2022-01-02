@@ -9,10 +9,9 @@ import org.chromium.net.CronetEngine
 class CronetFactory(
     private val okhttp: OkHttpClient,
     private val engine: CronetEngine,
-    private val dispatcher: CoroutineDispatcher,
 ) : Call.Factory {
 
     override fun newCall(request: Request): Call {
-        return CronetCall(engine, dispatcher, okhttp, request)
+        return CronetCall(engine, okhttp, request)
     }
 }
