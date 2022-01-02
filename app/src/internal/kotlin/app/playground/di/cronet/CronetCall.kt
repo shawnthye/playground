@@ -271,29 +271,6 @@ private fun Request.toUrlRequest(
     }
     .build()
 
-private fun CronetEngine.buildFromRequest(
-    request: Request,
-    callback: UrlRequest.Callback,
-    dispatcher: CoroutineDispatcher,
-): UrlRequest {
-    return newUrlRequestBuilder(request.url.toString(), callback, dispatcher.asExecutor())
-        .setHttpMethod(request.method)
-        .apply {
-            request.headers.forEach { (header, value) -> addHeader(header, value) }
-        }
-        .apply {
-            request.body?.let { body ->
-                addHeader("Content-Type", body.contentType().toString())
-                val buffer = Buffer()
-                body.writeTo(buffer)
-                UploadDataProviders.create(buffer.readByteArray())
-            }?.also { provider ->
-                setUploadDataProvider(provider, dispatcher.asExecutor())
-            }
-        }
-        .build()
-}
-
 private fun Response.Builder.parse(info: UrlResponseInfo) = apply {
     receivedResponseAtMillis(System.currentTimeMillis())
     protocol(info.protocol)
