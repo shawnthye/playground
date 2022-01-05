@@ -31,7 +31,7 @@ object ProductionDataModule {
     @Singleton
     @Provides
     fun provideCallFactory(): CallFactory = object : CallFactory() {
-        override fun invoke(okhttp: OkHttpClient): Call.Factory = okhttp
+        override fun invoke(block: () -> OkHttpClient): Call.Factory = block()
     }
 
     @Singleton
