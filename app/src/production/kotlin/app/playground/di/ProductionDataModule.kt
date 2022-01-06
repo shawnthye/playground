@@ -20,12 +20,6 @@ object ProductionDataModule {
 
     @Singleton
     @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
-    @Singleton
-    @Provides
     fun provideOkHttpClient(): OkHttpClient = DataModule.createOkHttp()
 
     @Singleton

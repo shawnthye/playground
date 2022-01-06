@@ -23,7 +23,7 @@ pluginManagement {
         id("com.diffplug.spotless") version "6.1.0"
 
         // check outdated dependency
-        id("com.github.ben-manes.versions") version "0.39.0"
+        id("com.github.ben-manes.versions") version "0.41.0"
 
         // grable build performance
         id("com.osacky.doctor") version "0.7.3"
