@@ -8,12 +8,16 @@ import core.playground.domain.asNetworkBoundResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-internal class PostRepository
+internal interface PostRepository {
+    fun observePost(id: PostId): Flow<Result<Post>>
+}
+
+internal class PostRepositoryImpl
 @Inject constructor(
     private val postDao: PostDao,
     private val postDataSource: PostDataSource,
-) {
-    fun observePost(id: PostId): Flow<Result<Post>> {
+) : PostRepository {
+    override fun observePost(id: PostId): Flow<Result<Post>> {
         return postDataSource.queryPost(id).asNetworkBoundResult(
             query = postDao.observePost(id),
         ) {
