@@ -84,7 +84,7 @@ internal class ResultTest : CoroutineTest() {
     }
 
     @Test
-    fun `Result mapLatestError`() = runBlockingTest {
+    fun `Result mapLatestError`() = runTest {
 
         val successFlow = flow<Result<*>> {
             emit(Result.Success(Any()))

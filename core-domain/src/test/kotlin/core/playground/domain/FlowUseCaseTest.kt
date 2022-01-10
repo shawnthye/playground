@@ -14,7 +14,7 @@ import testing.playground.core.CoroutineTest
 internal class FlowUseCaseTest : CoroutineTest() {
 
     @Test
-    fun `exception emits Result#Error`() = runBlockingTest {
+    fun `exception emits Result#Error`() = runTest {
         val useCase = ExceptionUseCase(testDispatcher)
         val result = useCase(Unit)
         assertThat(result.last(), `is`(instanceOf(Result.Error::class.java)))

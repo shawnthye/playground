@@ -24,7 +24,7 @@ import org.junit.jupiter.api.extension.RegisterExtension
  */
 class MainCoroutineExtension(
     val testDispatcher: TestDispatcher = StandardTestDispatcher(),
-    val testScope: TestScope = TestScope(StandardTestDispatcher()),
+    val testScope: TestScope = TestScope(testDispatcher),
 ) : BeforeEachCallback,
     AfterEachCallback {
 

@@ -11,7 +11,7 @@ import testing.playground.core.CoroutineTest
 internal class UseCaseTest : CoroutineTest() {
 
     @Test
-    fun `result return Result#Success`() = runBlockingTest {
+    fun `result return Result#Success`() = runTest {
         val useCase = object : UseCase<Unit, Unit>(testDispatcher) {
             override suspend fun execute(params: Unit) {
             }
@@ -21,7 +21,7 @@ internal class UseCaseTest : CoroutineTest() {
     }
 
     @Test
-    fun `exception return Result#Error`() = runBlockingTest {
+    fun `exception return Result#Error`() = runTest {
         val useCase = ExceptionUseCase(testDispatcher)
         val result = useCase(Unit)
         assertThat(result, `is`(instanceOf(Result.Error::class.java)))

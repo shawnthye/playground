@@ -6,8 +6,8 @@ plugins {
 dependencies {
     api(platformDepConstraints)
 
-    testImplementation(platform(Libs.Test.Junit.bom))
-    testImplementation(Libs.Test.Junit.jupiterApi)
-    testImplementation(Libs.Coroutines.core)
-    testApi(Libs.Coroutines.test)
+    implementation(platform(Libs.Test.Junit.bom))
+    implementation(Libs.Test.Junit.jupiterApi)
+    implementation(Libs.Coroutines.core)
+    api(Libs.Coroutines.test)
 }

@@ -12,7 +12,7 @@ open class CoroutineTest : CoroutineScope {
 
     protected val testDispatcher = coroutineExtension.testDispatcher
 
-    protected fun runBlockingTest(block: suspend () -> Unit) = coroutineExtension.runTest {
+    protected fun runTest(block: suspend () -> Unit) = coroutineExtension.runTest {
         block()
     }
 

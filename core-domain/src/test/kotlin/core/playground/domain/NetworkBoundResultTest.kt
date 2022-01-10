@@ -32,7 +32,7 @@ internal class NetworkBoundResultTest : CoroutineTest() {
     }
 
     @Test
-    fun `success with cache`() = runBlockingTest {
+    fun `success with cache`() = runTest {
 
         cache = Any()
 
@@ -49,7 +49,7 @@ internal class NetworkBoundResultTest : CoroutineTest() {
     }
 
     @Test
-    fun `fetch without cache`() = runBlockingTest {
+    fun `fetch without cache`() = runTest {
 
         val networkBoundResult = response.asNetworkBoundResult(
             query = query,
@@ -63,7 +63,7 @@ internal class NetworkBoundResultTest : CoroutineTest() {
     }
 
     @Test
-    fun `should not fetch`() = runBlockingTest {
+    fun `should not fetch`() = runTest {
 
         cache = Any()
 
