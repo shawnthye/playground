@@ -70,4 +70,5 @@ dependencies {
     testRuntimeOnly(Libs.Test.Junit.jupiterEngine)
     testImplementation(Libs.Test.Hamcrest.library)
     testImplementation(Libs.Test.mockk)
+    testImplementation(project(":testing-core"))
 }

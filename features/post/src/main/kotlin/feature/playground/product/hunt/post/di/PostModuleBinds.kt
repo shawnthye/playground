@@ -14,4 +14,5 @@ internal abstract class PostModuleBinds {
     @Suppress("unused")
     @Binds
     internal abstract fun bindPostDataSource(impl: PostDataSourceImpl): PostDataSource
+
 }
