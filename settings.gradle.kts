@@ -20,7 +20,7 @@ pluginManagement {
         id("com.google.devtools.ksp") version "1.6.10-1.0.2"
 
         // ktlint
-        id("com.diffplug.spotless") version "6.1.0"
+        id("com.diffplug.spotless") version "6.2.0"
 
         // check outdated dependency
         id("com.github.ben-manes.versions") version "0.41.0"
